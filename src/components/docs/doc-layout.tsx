@@ -1,0 +1,169 @@
+import { ReactNode, useState, useEffect } from 'react'
+import { Link } from '@tanstack/react-router'
+import { DocSidebar } from './doc-sidebar'
+import { DocBreadcrumb } from './doc-breadcrumb'
+import { ThemeSwitch } from '@/components/theme-switch'
+import { ChevronUp, Menu, X, Github } from 'lucide-react'
+import { cn } from '@/lib/utils'
+
+interface DocLayoutProps {
+  children: ReactNode
+  title?: string
+  description?: string
+  showTableOfContents?: boolean
+  tableOfContents?: { id: string; label: string; level: number }[]
+}
+
+export function DocLayout({
+  children,
+  title,
+  description,
+  showTableOfContents = false,
+  tableOfContents = [],
+}: DocLayoutProps) {
+  const [showBackToTop, setShowBackToTop] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <div className='min-h-screen bg-background'>
+      {/* Header */}
+      <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+        <div className='flex h-14 items-center px-4 lg:px-6'>
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className='mr-4 lg:hidden'
+            aria-label='Toggle sidebar'
+          >
+            {sidebarOpen ? <X className='size-5' /> : <Menu className='size-5' />}
+          </button>
+
+          {/* Logo */}
+          <Link to='/docs' className='flex items-center gap-2 font-semibold'>
+            <img src='/images/logo.webp' alt='妙妙屋' className='size-8' />
+            <span>妙妙屋文档</span>
+          </Link>
+
+          {/* Spacer */}
+          <div className='flex-1' />
+
+          {/* Right side actions */}
+          <div className='flex items-center gap-2'>
+            <a
+              href='https://github.com/Jimleerx/miaomiaowu'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors'
+            >
+              <Github className='size-4' />
+              <span className='hidden sm:inline'>GitHub</span>
+            </a>
+            <ThemeSwitch />
+          </div>
+        </div>
+      </header>
+
+      <div className='flex'>
+        {/* Sidebar - Desktop */}
+        <aside className='hidden lg:block w-64 border-r bg-background/30 backdrop-blur h-[calc(100vh-3.5rem)] sticky top-14 overflow-y-auto'>
+          <div className='p-4'>
+            <DocSidebar />
+          </div>
+        </aside>
+
+        {/* Sidebar - Mobile */}
+        {sidebarOpen && (
+          <div className='fixed inset-0 z-40 lg:hidden'>
+            <div
+              className='fixed inset-0 bg-background/80 backdrop-blur-sm'
+              onClick={() => setSidebarOpen(false)}
+            />
+            <aside className='fixed left-0 top-14 h-[calc(100vh-3.5rem)] w-64 border-r bg-background overflow-y-auto'>
+              <div className='p-4'>
+                <DocSidebar />
+              </div>
+            </aside>
+          </div>
+        )}
+
+        {/* Main content */}
+        <main className='flex-1 min-w-0'>
+          <div className='max-w-4xl mx-auto px-4 py-6 lg:px-8 lg:py-8'>
+            {/* Breadcrumb */}
+            <DocBreadcrumb className='mb-6' />
+
+            {/* Page header */}
+            {title && (
+              <div className='mb-8'>
+                <h1 className='text-3xl font-bold tracking-tight mb-2'>{title}</h1>
+                {description && (
+                  <p className='text-lg text-muted-foreground'>{description}</p>
+                )}
+              </div>
+            )}
+
+            {/* Content */}
+            <div className='prose prose-neutral dark:prose-invert max-w-none'>
+              {children}
+            </div>
+          </div>
+        </main>
+
+        {/* Table of Contents - Desktop */}
+        {showTableOfContents && tableOfContents.length > 0 && (
+          <aside className='hidden xl:block w-56 border-l bg-background/30 backdrop-blur h-[calc(100vh-3.5rem)] sticky top-14 overflow-y-auto'>
+            <div className='p-4'>
+              <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>
+                本页内容
+              </h3>
+              <nav className='space-y-1 text-sm'>
+                {tableOfContents.map((item) => (
+                  <button
+                    key={item.id}
+                    onClick={() => scrollToSection(item.id)}
+                    className={cn(
+                      'block w-full text-left px-2 py-1 rounded hover:bg-accent/50 text-muted-foreground hover:text-foreground transition-colors',
+                      item.level === 2 && 'pl-4 text-xs'
+                    )}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </nav>
+            </div>
+          </aside>
+        )}
+      </div>
+
+      {/* Back to top button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className='fixed bottom-8 right-8 p-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all z-40'
+          aria-label='返回顶部'
+        >
+          <ChevronUp className='size-5' />
+        </button>
+      )}
+    </div>
+  )
+}
