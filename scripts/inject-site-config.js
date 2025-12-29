@@ -13,7 +13,7 @@ const siteConfig = JSON.parse(fs.readFileSync(siteConfigPath, 'utf-8'))
 const siteUrl = siteConfig.url && siteConfig.url !== 'auto' ? siteConfig.url : ''
 
 // 读取 index.html（构建输出在 ./dist）
-const indexPath = path.resolve(__dirname, './dist/index.html')
+const indexPath = path.resolve(__dirname, '../dist/index.html')
 let html = fs.readFileSync(indexPath, 'utf-8')
 
 // 替换配置
