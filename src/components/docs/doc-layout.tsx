@@ -1,28 +1,104 @@
-import { ReactNode, useState, useEffect } from 'react'
+import { ReactNode, useState, useEffect, useRef } from 'react'
 import { Link } from '@tanstack/react-router'
 import { DocSidebar } from './doc-sidebar'
 import { DocBreadcrumb } from './doc-breadcrumb'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { ChevronUp, Menu, X, Github } from 'lucide-react'
+import { ChevronUp, Menu, X, Github, List } from 'lucide-react'
 import { cn } from '@/lib/utils'
+
+interface TocItem {
+  id: string
+  label: string
+  level: number
+}
 
 interface DocLayoutProps {
   children: ReactNode
   title?: string
   description?: string
-  showTableOfContents?: boolean
-  tableOfContents?: { id: string; label: string; level: number }[]
 }
 
 export function DocLayout({
   children,
   title,
   description,
-  showTableOfContents = false,
-  tableOfContents = [],
 }: DocLayoutProps) {
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [tocOpen, setTocOpen] = useState(false)
+  const [tableOfContents, setTableOfContents] = useState<TocItem[]>([])
+  const [activeId, setActiveId] = useState<string>('')
+  const contentRef = useRef<HTMLDivElement>(null)
+
+  // 提取页面中的标题
+  useEffect(() => {
+    if (!contentRef.current) return
+
+    const headings = contentRef.current.querySelectorAll('h2, h3')
+    const items: TocItem[] = []
+
+    headings.forEach((heading, index) => {
+      // 获取纯文本标题（排除图标等子元素）
+      let label = ''
+      heading.childNodes.forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          label += node.textContent
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          const el = node as Element
+          // 只获取 span 或其他文本元素的内容，排除 svg 图标
+          if (el.tagName !== 'svg' && !el.classList.contains('lucide')) {
+            label += el.textContent
+          }
+        }
+      })
+      label = label.trim()
+
+      // 如果没有找到文本，使用完整的 textContent
+      if (!label) {
+        label = heading.textContent?.trim() || ''
+      }
+
+      // 生成 id：使用标题文本转换为 kebab-case
+      const id = heading.id || `section-${label.replace(/\s+/g, '-').replace(/[^\w\u4e00-\u9fa5-]/g, '').toLowerCase() || index}`
+      heading.id = id
+
+      items.push({
+        id,
+        label,
+        level: heading.tagName === 'H2' ? 1 : 2,
+      })
+    })
+
+    setTableOfContents(items)
+  }, [children])
+
+  // 监听滚动，高亮当前标题
+  useEffect(() => {
+    if (tableOfContents.length === 0) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.id)
+          }
+        })
+      },
+      {
+        rootMargin: '-80px 0px -80% 0px',
+        threshold: 0,
+      }
+    )
+
+    tableOfContents.forEach((item) => {
+      const element = document.getElementById(item.id)
+      if (element) {
+        observer.observe(element)
+      }
+    })
+
+    return () => observer.disconnect()
+  }, [tableOfContents])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,8 +115,16 @@ export function DocLayout({
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const headerOffset = 80
+      const elementPosition = element.getBoundingClientRect().top
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
     }
+    setTocOpen(false)
   }
 
   return (
@@ -68,6 +152,16 @@ export function DocLayout({
 
           {/* Right side actions */}
           <div className='flex items-center gap-2'>
+            {/* Mobile TOC button */}
+            {tableOfContents.length > 0 && (
+              <button
+                onClick={() => setTocOpen(!tocOpen)}
+                className='xl:hidden p-2 text-muted-foreground hover:text-foreground transition-colors'
+                aria-label='目录'
+              >
+                <List className='size-5' />
+              </button>
+            )}
             <a
               href='https://github.com/Jimleerx/miaomiaowu'
               target='_blank'
@@ -122,14 +216,14 @@ export function DocLayout({
             )}
 
             {/* Content */}
-            <div className='prose prose-neutral dark:prose-invert max-w-none'>
+            <div ref={contentRef} className='prose prose-neutral dark:prose-invert max-w-none'>
               {children}
             </div>
           </div>
         </main>
 
         {/* Table of Contents - Desktop */}
-        {showTableOfContents && tableOfContents.length > 0 && (
+        {tableOfContents.length > 0 && (
           <aside className='hidden xl:block w-56 border-l bg-background/30 backdrop-blur h-[calc(100vh-3.5rem)] sticky top-14 overflow-y-auto'>
             <div className='p-4'>
               <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>
@@ -141,8 +235,11 @@ export function DocLayout({
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
                     className={cn(
-                      'block w-full text-left px-2 py-1 rounded hover:bg-accent/50 text-muted-foreground hover:text-foreground transition-colors',
-                      item.level === 2 && 'pl-4 text-xs'
+                      'block w-full text-left px-2 py-1.5 rounded transition-colors text-sm',
+                      item.level === 2 && 'pl-4 text-xs',
+                      activeId === item.id
+                        ? 'bg-primary/10 text-primary font-medium'
+                        : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
                     )}
                   >
                     {item.label}
@@ -151,6 +248,40 @@ export function DocLayout({
               </nav>
             </div>
           </aside>
+        )}
+
+        {/* Table of Contents - Mobile */}
+        {tocOpen && tableOfContents.length > 0 && (
+          <div className='fixed inset-0 z-40 xl:hidden'>
+            <div
+              className='fixed inset-0 bg-background/80 backdrop-blur-sm'
+              onClick={() => setTocOpen(false)}
+            />
+            <aside className='fixed right-0 top-14 h-[calc(100vh-3.5rem)] w-64 border-l bg-background overflow-y-auto'>
+              <div className='p-4'>
+                <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>
+                  本页内容
+                </h3>
+                <nav className='space-y-1 text-sm'>
+                  {tableOfContents.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => scrollToSection(item.id)}
+                      className={cn(
+                        'block w-full text-left px-2 py-1.5 rounded transition-colors text-sm',
+                        item.level === 2 && 'pl-4 text-xs',
+                        activeId === item.id
+                          ? 'bg-primary/10 text-primary font-medium'
+                          : 'text-muted-foreground hover:bg-accent/50 hover:text-foreground'
+                      )}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </nav>
+              </div>
+            </aside>
+          </div>
         )}
       </div>
 

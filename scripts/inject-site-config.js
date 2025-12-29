@@ -12,8 +12,8 @@ const siteConfig = JSON.parse(fs.readFileSync(siteConfigPath, 'utf-8'))
 // 如果 url 为空或为 "auto"，使用空字符串（让浏览器使用当前 URL）
 const siteUrl = siteConfig.url && siteConfig.url !== 'auto' ? siteConfig.url : ''
 
-// 读取 index.html（构建输出在 ../internal/web/dist）
-const indexPath = path.resolve(__dirname, '../../internal/web/dist/index.html')
+// 读取 index.html（构建输出在 ./dist）
+const indexPath = path.resolve(__dirname, './dist/index.html')
 let html = fs.readFileSync(indexPath, 'utf-8')
 
 // 替换配置
