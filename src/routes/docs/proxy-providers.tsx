@@ -114,6 +114,12 @@ function ProxyProvidersPage() {
                   <li>优点：支持 filter/exclude_filter 筛选，支持 GeoIP 地域标识</li>
                   <li>缺点：需要服务器处理，如果节点集合过多，显著增加获取订阅的耗时，节点更新依赖妙妙屋同步</li>
                 </ul>
+                <div className='mt-3 p-2 bg-purple-500/10 rounded border border-purple-500/20'>
+                  <p className='text-xs text-purple-600 dark:text-purple-400'>
+                    <strong>💡 预览功能：</strong>使用妙妙屋模式创建的代理集合会显示「预览」按钮，
+                    点击可以查看当前代理集合包含的所有节点列表，方便确认筛选规则是否正确。
+                  </p>
+                </div>
               </div>
             </div>
           </CardContent>
