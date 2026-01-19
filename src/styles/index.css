@@ -157,6 +157,18 @@
     transform: translateY(-1px);
   }
 
+  .dark .pixel-border {
+    box-shadow:
+      4px 4px 0 rgba(0, 0, 0, 0.45),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .dark .pixel-border:hover {
+    box-shadow:
+      6px 6px 0 rgba(0, 0, 0, 0.55),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  }
+
   .pixel-card {
     position: relative;
     border-width: 2px;
@@ -184,6 +196,7 @@
     opacity: 0;
     transition: opacity 0.2s ease;
     pointer-events: none;
+    z-index: 0;
   }
 
   .pixel-card:hover {
@@ -201,6 +214,18 @@
   .pixel-card > * {
     position: relative;
     z-index: 1;
+  }
+
+  .dark .pixel-card {
+    box-shadow:
+      4px 4px 0 rgba(0, 0, 0, 0.65),
+      0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  .dark .pixel-card:hover {
+    box-shadow:
+      6px 6px 0 rgba(0, 0, 0, 0.75),
+      0 0 0 1px rgba(255, 255, 255, 0.06);
   }
 
   .pixel-pill {
@@ -230,14 +255,20 @@
   }
 
   .dark .pixel-pill {
-    border-color: rgba(241, 140, 110, 0.5);
+    border-color: rgba(241, 140, 110, 0.55);
     background: rgba(241, 140, 110, 0.08);
+    box-shadow:
+      3px 3px 0 rgba(0, 0, 0, 0.45),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06);
   }
 
   .dark .pixel-pill:hover,
   .dark .pixel-pill[aria-current='page'] {
-    background: rgba(241, 140, 110, 0.24);
+    background: rgba(241, 140, 110, 0.22);
     border-color: rgba(241, 140, 110, 0.75);
+    box-shadow:
+      4px 4px 0 rgba(0, 0, 0, 0.55),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   }
 
   .grid-pattern {
@@ -258,6 +289,13 @@
     z-index: -1;
   }
 
+  .dark .grid-pattern::after {
+    background-image:
+      linear-gradient(to right, rgba(241, 140, 110, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(241, 140, 110, 0.08) 1px, transparent 1px);
+    opacity: 0.4;
+  }
+
   .scanlines {
     background-image: repeating-linear-gradient(
       -45deg,
@@ -269,12 +307,28 @@
     pointer-events: none;
   }
 
+  .dark .scanlines {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.03) 0,
+      rgba(255, 255, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 6px
+    );
+  }
+
   .pixel-text {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-shadow:
       2px 2px 0 rgba(0, 0, 0, 0.25),
       -1px -1px 0 rgba(255, 241, 232, 0.18);
+  }
+
+  .dark .pixel-text {
+    text-shadow:
+      2px 2px 0 rgba(0, 0, 0, 0.55),
+      -1px -1px 0 rgba(255, 241, 232, 0.08);
   }
 
   .pixel-badge {
@@ -290,6 +344,7 @@
     text-transform: uppercase;
     font-size: 0.75rem;
     letter-spacing: 0.08em;
+    font-weight: 600;
   }
 
   .pixel-button {
@@ -302,8 +357,34 @@
     transition:
       transform 0.18s ease,
       box-shadow 0.18s ease,
-      background-color 0.18s ease,
-      border-color 0.18s ease;
+      background-color 0.18s ease;
+  }
+
+  .pixel-button::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: rgba(217, 119, 87, 0.9);
+    z-index: -1;
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0);
+    transition: clip-path 0.35s ease-out;
+    pointer-events: none;
+  }
+
+  .pixel-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: inherit;
+    background-color: inherit;
+    z-index: -1;
+  }
+
+  .pixel-button:hover::before {
+    clip-path: polygon(
+      0 0, 100% 0, 100% 100%, 0 100%, 0 0,
+      2px 2px, 2px calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 2px, 2px 2px
+    );
   }
 
   .pixel-button:hover {
@@ -318,6 +399,10 @@
 
   .dark .pixel-button {
     box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.45);
+  }
+
+  .dark .pixel-button::before {
+    background: rgba(251, 191, 36, 0.95);
   }
 
   .dark .pixel-button:hover {

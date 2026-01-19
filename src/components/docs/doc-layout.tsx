@@ -142,7 +142,7 @@ export function DocLayout({
           </button>
 
           {/* Logo */}
-          <Link to='/docs' className='flex items-center gap-2 font-semibold'>
+          <Link to='/' className='flex items-center gap-2 font-semibold'>
             <img src='/images/logo.webp' alt='妙妙屋' className='size-8' />
             <span>妙妙屋文档</span>
           </Link>

@@ -11,22 +11,22 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   Plus,
   Upload,
-  Trash2,
   Search,
   Play,
   GripVertical,
-  Eye,
-  Pencil,
   RotateCcw,
+  Check,
+  Copy,
+  Link2,
 } from 'lucide-react'
-import { mockNodes, type MockNode } from '@/data/mock/nodes'
+import { mockNodes, getProtocolColor, type MockNode } from '@/data/mock/nodes'
 import { TutorialGuide } from '@/components/docs/tutorial-guide'
 import { useTutorial } from '@/hooks/use-tutorial'
 import type { TutorialStep } from '@/hooks/use-tutorial'
+import { Twemoji } from '@/components/twemoji'
 
 // 节点管理演示教程步骤
 const nodesDemoTutorial: TutorialStep[] = [
@@ -60,13 +60,6 @@ const nodesDemoTutorial: TutorialStep[] = [
     position: 'bottom',
   },
   {
-    id: 'select',
-    target: '.select-all-checkbox',
-    title: '批量选择',
-    description: '勾选复选框可以选择多个节点进行批量操作。',
-    position: 'right',
-  },
-  {
     id: 'drag',
     target: '.drag-handle',
     title: '拖拽排序',
@@ -91,58 +84,19 @@ const nodesDemoTutorial: TutorialStep[] = [
 
 export function NodesDemo() {
   const [nodes, setNodes] = useState<MockNode[]>(mockNodes)
-  const [selectedNodes, setSelectedNodes] = useState<number[]>([])
   const [searchQuery, setSearchQuery] = useState('')
   const [showAddDialog, setShowAddDialog] = useState(false)
   const tutorial = useTutorial({ steps: nodesDemoTutorial })
 
   const filteredNodes = nodes.filter(node =>
     node.node_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    node.protocol.toLowerCase().includes(searchQuery.toLowerCase())
+    node.protocol.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    node.server.toLowerCase().includes(searchQuery.toLowerCase())
   )
-
-  const handleSelectAll = (checked: boolean) => {
-    if (checked) {
-      setSelectedNodes(filteredNodes.map(n => n.id))
-    } else {
-      setSelectedNodes([])
-    }
-  }
-
-  const handleSelectNode = (id: number, checked: boolean) => {
-    if (checked) {
-      setSelectedNodes([...selectedNodes, id])
-    } else {
-      setSelectedNodes(selectedNodes.filter(nid => nid !== id))
-    }
-  }
-
-  const handleDeleteSelected = () => {
-    setNodes(nodes.filter(n => !selectedNodes.includes(n.id)))
-    setSelectedNodes([])
-  }
-
-  const handleToggleEnabled = (id: number) => {
-    setNodes(nodes.map(n =>
-      n.id === id ? { ...n, enabled: !n.enabled } : n
-    ))
-  }
 
   const handleReset = () => {
     setNodes(mockNodes)
-    setSelectedNodes([])
     setSearchQuery('')
-  }
-
-  const getProtocolColor = (protocol: string) => {
-    const colors: Record<string, string> = {
-      vmess: 'bg-blue-500/10 text-blue-500',
-      vless: 'bg-purple-500/10 text-purple-500',
-      trojan: 'bg-green-500/10 text-green-500',
-      ss: 'bg-orange-500/10 text-orange-500',
-      hysteria2: 'bg-pink-500/10 text-pink-500',
-    }
-    return colors[protocol] || 'bg-gray-500/10 text-gray-500'
   }
 
   return (
@@ -192,17 +146,6 @@ export function NodesDemo() {
               <Upload className="size-3" />
               导入订阅
             </Button>
-            {selectedNodes.length > 0 && (
-              <Button
-                size="sm"
-                variant="destructive"
-                className="gap-1"
-                onClick={handleDeleteSelected}
-              >
-                <Trash2 className="size-3" />
-                删除选中 ({selectedNodes.length})
-              </Button>
-            )}
             <div className="flex-1" />
             <div className="relative">
               <Search className="absolute left-2 top-1/2 -translate-y-1/2 size-3 text-muted-foreground" />
@@ -217,86 +160,110 @@ export function NodesDemo() {
         </CardContent>
       </Card>
 
-      {/* 节点表格 */}
+      {/* 节点表格 - 与实际项目一致的布局 */}
       <Card>
         <CardContent className="p-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-10">
-                  <Checkbox
-                    className="select-all-checkbox"
-                    checked={selectedNodes.length === filteredNodes.length && filteredNodes.length > 0}
-                    onCheckedChange={handleSelectAll}
-                  />
-                </TableHead>
-                <TableHead className="w-10"></TableHead>
-                <TableHead>节点名称</TableHead>
-                <TableHead className="w-24">协议</TableHead>
-                <TableHead className="w-20">状态</TableHead>
-                <TableHead className="w-24">标签</TableHead>
-                <TableHead className="w-28 text-right">操作</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredNodes.map((node, index) => (
-                <TableRow key={node.id} className={!node.enabled ? 'opacity-50' : ''}>
-                  <TableCell>
-                    <Checkbox
-                      checked={selectedNodes.includes(node.id)}
-                      onCheckedChange={(checked) => handleSelectNode(node.id, checked as boolean)}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <div className={`drag-handle cursor-grab ${index === 0 ? '' : ''}`}>
-                      <GripVertical className="size-4 text-muted-foreground" />
-                    </div>
-                  </TableCell>
-                  <TableCell className="font-medium">{node.node_name}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary" className={getProtocolColor(node.protocol)}>
-                      {node.protocol}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      variant={node.enabled ? 'default' : 'secondary'}
-                      className={node.enabled ? 'bg-green-500/10 text-green-500' : ''}
-                      onClick={() => handleToggleEnabled(node.id)}
-                      style={{ cursor: 'pointer' }}
-                    >
-                      {node.enabled ? '启用' : '禁用'}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {node.tag && (
-                      <Badge variant="outline" className="text-xs">
-                        {node.tag}
+          <div className="rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead style={{ width: '36px' }}></TableHead>
+                  <TableHead style={{ width: '90px' }}>协议</TableHead>
+                  <TableHead>节点名称</TableHead>
+                  <TableHead style={{ width: '100px' }}>标签</TableHead>
+                  <TableHead style={{ width: '200px' }}>服务器地址</TableHead>
+                  <TableHead style={{ width: '80px' }} className="text-center">配置</TableHead>
+                  <TableHead style={{ width: '60px' }} className="text-center">操作</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredNodes.map((node, index) => (
+                  <TableRow key={node.id}>
+                    {/* 拖拽手柄 */}
+                    <TableCell className="px-2">
+                      <div className={`drag-handle cursor-grab p-1 ${index === 0 ? '' : ''}`}>
+                        <GripVertical className="size-4 text-muted-foreground" />
+                      </div>
+                    </TableCell>
+
+                    {/* 协议 */}
+                    <TableCell>
+                      <Badge
+                        variant="secondary"
+                        className={`${getProtocolColor(node.protocol)} uppercase font-medium`}
+                      >
+                        {node.protocol.toUpperCase()}
                       </Badge>
-                    )}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="node-actions flex justify-end gap-1">
-                      <Button variant="ghost" size="icon" className="size-7">
-                        <Eye className="size-3" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="size-7">
-                        <Pencil className="size-3" />
-                      </Button>
+                    </TableCell>
+
+                    {/* 节点名称 */}
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium truncate">
+                          <Twemoji>{node.node_name}</Twemoji>
+                        </span>
+                        <Check className="size-4 text-green-600 shrink-0" />
+                      </div>
+                    </TableCell>
+
+                    {/* 标签 */}
+                    <TableCell>
+                      {node.tag ? (
+                        <Badge variant="outline" className="text-xs">
+                          <Twemoji>{node.tag}</Twemoji>
+                        </Badge>
+                      ) : (
+                        <span className="text-muted-foreground flex items-center gap-1">
+                          <svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M4 4l7.07 17 2.51-7.39L21 11.07z" />
+                          </svg>
+                        </span>
+                      )}
+                    </TableCell>
+
+                    {/* 服务器地址 */}
+                    <TableCell>
+                      <span className="font-mono text-sm text-muted-foreground truncate block max-w-[180px]">
+                        {node.server}:{node.port}
+                      </span>
+                    </TableCell>
+
+                    {/* 配置 */}
+                    <TableCell>
+                      <div className="node-actions flex justify-center gap-1">
+                        <Button variant="ghost" size="icon" className="size-7" title="IP 解析">
+                          <span className="text-xs font-mono text-primary">IP</span>
+                        </Button>
+                        <Button variant="ghost" size="icon" className="size-7" title="探针测速">
+                          <svg className="size-4 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                          </svg>
+                        </Button>
+                        <Button variant="ghost" size="icon" className="size-7" title="复制配置">
+                          <Copy className="size-3.5" />
+                        </Button>
+                        <Button variant="ghost" size="icon" className="size-7" title="链式代理">
+                          <Link2 className="size-3.5" />
+                        </Button>
+                      </div>
+                    </TableCell>
+
+                    {/* 操作 */}
+                    <TableCell className="text-center">
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="size-7 text-destructive"
+                        size="sm"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10 h-7 px-2"
                         onClick={() => setNodes(nodes.filter(n => n.id !== node.id))}
                       >
-                        <Trash2 className="size-3" />
+                        删除
                       </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 

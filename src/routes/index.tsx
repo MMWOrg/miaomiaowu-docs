@@ -1,9 +1,22 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
+import { Hero } from '@/components/landing/hero'
+import { Features } from '@/components/landing/features'
+import { Clients } from '@/components/landing/clients'
+import { DemoPreview } from '@/components/landing/demo-preview'
+import { Footer } from '@/components/landing/footer'
 
-// 文档项目首页 - 直接重定向到文档
 export const Route = createFileRoute('/')({
-  beforeLoad: () => {
-    throw redirect({ to: '/docs' })
-  },
-  component: () => null,
+  component: HomePage,
 })
+
+function HomePage() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Hero />
+      <Features />
+      <DemoPreview />
+      <Clients />
+      <Footer />
+    </div>
+  )
+}

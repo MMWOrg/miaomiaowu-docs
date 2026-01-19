@@ -1,33 +1,26 @@
 import { useEffect } from 'react'
-import { Moon, Sun, SunMoon } from 'lucide-react'
+import { Moon, Sun } from 'lucide-react'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
 
 export function ThemeSwitch() {
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
 
   /* Update theme-color meta tag
    * when theme is updated */
   useEffect(() => {
-    const themeColor = theme === 'dark' ? '#020817' : '#fff'
+    const themeColor = resolvedTheme === 'dark' ? '#020817' : '#fff'
     const metaThemeColor = document.querySelector("meta[name='theme-color']")
     if (metaThemeColor) metaThemeColor.setAttribute('content', themeColor)
-  }, [theme])
+  }, [resolvedTheme])
 
-  // 循环切换: light -> dark -> system -> light
-  const cycleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark')
-    } else if (theme === 'dark') {
-      setTheme('system')
-    } else {
-      setTheme('light')
-    }
+  // 切换: light <-> dark
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === 'light' ? 'dark' : 'light')
   }
 
-  // 根据当前主题选择图标
-  const Icon = theme === 'light' ? Sun : theme === 'dark' ? Moon : SunMoon
-  const label = theme === 'light' ? '浅色模式' : theme === 'dark' ? '深色模式' : '跟随系统'
+  const Icon = resolvedTheme === 'light' ? Sun : Moon
+  const label = resolvedTheme === 'light' ? '浅色模式' : '深色模式'
 
   return (
     <Button
@@ -36,7 +29,7 @@ export function ThemeSwitch() {
       aria-label={label}
       title={label}
       className='h-9 w-9'
-      onClick={cycleTheme}
+      onClick={toggleTheme}
     >
       <Icon className='size-[18px]' />
       <span className='sr-only'>{label}</span>
