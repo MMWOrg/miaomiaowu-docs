@@ -6,8 +6,6 @@ import { useState } from 'react'
 import {
   Plus,
   Pencil,
-  Trash2,
-  Eye,
   Sparkles,
   Shield,
   FileCode,
