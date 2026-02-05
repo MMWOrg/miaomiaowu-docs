@@ -35,6 +35,7 @@ import { Route as SubscribeFilesCustomRouteImport } from './routes/subscribe-fil
 import { Route as DocsUsersRouteImport } from './routes/docs/users'
 import { Route as DocsUpdateRouteImport } from './routes/docs/update'
 import { Route as DocsTrafficInfoRouteImport } from './routes/docs/traffic-info'
+import { Route as DocsTemplatesV3RouteImport } from './routes/docs/templatesV3'
 import { Route as DocsTemplatesRouteImport } from './routes/docs/templates'
 import { Route as DocsSystemSettingsRouteImport } from './routes/docs/system-settings'
 import { Route as DocsSystemRequirementsRouteImport } from './routes/docs/system-requirements'
@@ -188,6 +189,11 @@ const DocsUpdateRoute = DocsUpdateRouteImport.update({
 const DocsTrafficInfoRoute = DocsTrafficInfoRouteImport.update({
   id: '/traffic-info',
   path: '/traffic-info',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsTemplatesV3Route = DocsTemplatesV3RouteImport.update({
+  id: '/templatesV3',
+  path: '/templatesV3',
   getParentRoute: () => DocsRoute,
 } as any)
 const DocsTemplatesRoute = DocsTemplatesRouteImport.update({
@@ -354,6 +360,7 @@ export interface FileRoutesByFullPath {
   '/docs/system-requirements': typeof DocsSystemRequirementsRoute
   '/docs/system-settings': typeof DocsSystemSettingsRoute
   '/docs/templates': typeof DocsTemplatesRoute
+  '/docs/templatesV3': typeof DocsTemplatesV3Route
   '/docs/traffic-info': typeof DocsTrafficInfoRoute
   '/docs/update': typeof DocsUpdateRoute
   '/docs/users': typeof DocsUsersRoute
@@ -400,6 +407,7 @@ export interface FileRoutesByTo {
   '/docs/system-requirements': typeof DocsSystemRequirementsRoute
   '/docs/system-settings': typeof DocsSystemSettingsRoute
   '/docs/templates': typeof DocsTemplatesRoute
+  '/docs/templatesV3': typeof DocsTemplatesV3Route
   '/docs/traffic-info': typeof DocsTrafficInfoRoute
   '/docs/update': typeof DocsUpdateRoute
   '/docs/users': typeof DocsUsersRoute
@@ -453,6 +461,7 @@ export interface FileRoutesById {
   '/docs/system-requirements': typeof DocsSystemRequirementsRoute
   '/docs/system-settings': typeof DocsSystemSettingsRoute
   '/docs/templates': typeof DocsTemplatesRoute
+  '/docs/templatesV3': typeof DocsTemplatesV3Route
   '/docs/traffic-info': typeof DocsTrafficInfoRoute
   '/docs/update': typeof DocsUpdateRoute
   '/docs/users': typeof DocsUsersRoute
@@ -507,6 +516,7 @@ export interface FileRouteTypes {
     | '/docs/system-requirements'
     | '/docs/system-settings'
     | '/docs/templates'
+    | '/docs/templatesV3'
     | '/docs/traffic-info'
     | '/docs/update'
     | '/docs/users'
@@ -553,6 +563,7 @@ export interface FileRouteTypes {
     | '/docs/system-requirements'
     | '/docs/system-settings'
     | '/docs/templates'
+    | '/docs/templatesV3'
     | '/docs/traffic-info'
     | '/docs/update'
     | '/docs/users'
@@ -605,6 +616,7 @@ export interface FileRouteTypes {
     | '/docs/system-requirements'
     | '/docs/system-settings'
     | '/docs/templates'
+    | '/docs/templatesV3'
     | '/docs/traffic-info'
     | '/docs/update'
     | '/docs/users'
@@ -820,6 +832,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsTrafficInfoRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/docs/templatesV3': {
+      id: '/docs/templatesV3'
+      path: '/templatesV3'
+      fullPath: '/docs/templatesV3'
+      preLoaderRoute: typeof DocsTemplatesV3RouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/docs/templates': {
       id: '/docs/templates'
       path: '/templates'
@@ -1028,6 +1047,7 @@ interface DocsRouteChildren {
   DocsSystemRequirementsRoute: typeof DocsSystemRequirementsRoute
   DocsSystemSettingsRoute: typeof DocsSystemSettingsRoute
   DocsTemplatesRoute: typeof DocsTemplatesRoute
+  DocsTemplatesV3Route: typeof DocsTemplatesV3Route
   DocsTrafficInfoRoute: typeof DocsTrafficInfoRoute
   DocsUpdateRoute: typeof DocsUpdateRoute
   DocsUsersRoute: typeof DocsUsersRoute
@@ -1059,6 +1079,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsSystemRequirementsRoute: DocsSystemRequirementsRoute,
   DocsSystemSettingsRoute: DocsSystemSettingsRoute,
   DocsTemplatesRoute: DocsTemplatesRoute,
+  DocsTemplatesV3Route: DocsTemplatesV3Route,
   DocsTrafficInfoRoute: DocsTrafficInfoRoute,
   DocsUpdateRoute: DocsUpdateRoute,
   DocsUsersRoute: DocsUsersRoute,

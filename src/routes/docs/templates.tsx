@@ -264,11 +264,11 @@ function TemplatesDocPage() {
         </Card>
       </section>
 
-      {/* 新模板（数据库模板） */}
+      {/* 模板V2 新模板（数据库模板） */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Database className='size-5 text-primary' />
-          新模板（数据库模板）
+          新模板（数据库模板）模板V2
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -310,11 +310,11 @@ function TemplatesDocPage() {
         </Card>
       </section>
 
-      {/* 旧模板（文件模板） */}
+      {/* 模板V1 旧模板（文件模板） */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FolderOpen className='size-5 text-primary' />
-          旧模板（文件模板）
+          旧模板（文件模板）- 模板V1
         </h2>
         <Card>
           <CardContent className='pt-6'>

@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
+import ExchangeIcon from '@/assets/icons/exchange.svg'
 import {
   Network,
   Sparkles,
@@ -170,6 +171,26 @@ function ChainProxyPage() {
             </div>
             <p className='text-xs text-muted-foreground mt-4'>
               这种分组方式适合有多个落地节点和多个中转节点的用户，可以灵活组合不同的链路。
+            </p>
+          </CardContent>
+        </Card>
+      </section>
+      
+      {/* 节点管理配置 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <Network className='size-5 text-primary' />
+          单节点配置
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              在节点管理页面，点击
+              <img src={ExchangeIcon} alt='链式代理' className='h-4 w-4 inline [filter:invert(63%)_sepia(45%)_saturate(1068%)_hue-rotate(327deg)_brightness(95%)_contrast(88%)]' />
+              按钮支持给落地节点单独指定中转节点，指定后会在节点表创建一个新的链式代理节点。
+            </p>
+            <p className='text-xs text-muted-foreground mt-4'>
+              这种方式适合需要不同代理组使用不同的落地节点的用户。
             </p>
           </CardContent>
         </Card>

@@ -102,6 +102,14 @@ function SystemSettingsPage() {
                   • <strong>⚠️ 警告</strong>：设置为 0 会影响获取订阅接口的响应速度
                 </p>
               </div>
+              <div className='bg-muted/30 rounded-lg p-4'>
+                <h4 className='font-semibold text-sm mb-2'>默认排除外部订阅节点</h4>
+                <p className='text-xs text-muted-foreground'>
+                  • <strong>作用</strong>：同步外部订阅时，自动排除节点名称匹配指定关键词的节点<br/>
+                  • <strong>默认值</strong>：<code className='bg-muted px-1 rounded'>剩余|流量|到期|订阅|时间|重置</code><br/>
+                  • <strong>格式</strong>：使用 <code className='bg-muted px-1 rounded'>|</code> 分隔多个关键词，支持正则表达式
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>

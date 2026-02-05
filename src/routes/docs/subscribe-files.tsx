@@ -7,6 +7,8 @@ import {
   Network,
   Shield,
   ArrowRight,
+  Tags,
+  Zap,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/docs/subscribe-files')({
@@ -79,6 +81,14 @@ function SubscribeFilesPage() {
                     </Link>
                   </span>
                 </li>
+                <li className='flex items-start gap-2'>
+                  <span className='text-primary mt-1'>•</span>
+                  <span><strong>绑定 V3 模板</strong>：将订阅绑定到 V3 模板，订阅配置将完全基于模板生成，新增节点时自动添加到订阅</span>
+                </li>
+                <li className='flex items-start gap-2'>
+                  <span className='text-primary mt-1'>•</span>
+                  <span><strong>标签筛选</strong>：绑定模板后可根据节点标签筛选节点，只有匹配标签的节点才会添加到订阅</span>
+                </li>
               </ul>
             </div>
           </CardContent>
@@ -138,6 +148,69 @@ function SubscribeFilesPage() {
                 <h4 className='font-semibold text-sm mb-2'>版本回退 (TODO)</h4>
                 <p className='text-xs text-muted-foreground'>
                   如果新版本出现问题，可以回退到之前的稳定版本。此功能正在开发中。
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 绑定 V3 模板 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <Zap className='size-5 text-primary' />
+          绑定 V3 模板
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              订阅可以绑定 V3 模板，绑定后订阅配置将完全基于模板生成，实现节点自动管理。
+            </p>
+            <div className='space-y-3'>
+              <div className='bg-muted/30 rounded-lg p-4'>
+                <h4 className='font-semibold text-sm mb-2'>绑定方式</h4>
+                <p className='text-xs text-muted-foreground'>
+                  在订阅列表中点击「绑定模板」按钮，选择要绑定的 V3 模板即可。
+                </p>
+              </div>
+              <div className='bg-muted/30 rounded-lg p-4'>
+                <h4 className='font-semibold text-sm mb-2'>绑定后的效果</h4>
+                <ul className='space-y-1 text-xs text-muted-foreground'>
+                  <li>• 订阅配置完全基于模板生成，原有的规则配置将被忽略</li>
+                  <li>• 新增节点时，如果匹配模板中的 filter 规则，会自动添加到订阅</li>
+                  <li>• 删除节点时，会自动从订阅中移除</li>
+                  <li>• 修改模板后，绑定该模板的订阅会自动重新生成</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 标签筛选 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <Tags className='size-5 text-primary' />
+          标签筛选
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              绑定 V3 模板后，可以根据节点标签进一步筛选节点，只有匹配标签的节点才会添加到订阅。
+            </p>
+            <div className='space-y-3'>
+              <div className='bg-muted/30 rounded-lg p-4'>
+                <h4 className='font-semibold text-sm mb-2'>使用方式</h4>
+                <ul className='space-y-1 text-xs text-muted-foreground'>
+                  <li>• 在订阅详情中选择要筛选的标签</li>
+                  <li>• 支持选择多个标签，节点只需匹配其中一个标签即可</li>
+                  <li>• 不选择标签时，使用模板中的所有节点</li>
+                </ul>
+              </div>
+              <div className='bg-muted/30 rounded-lg p-4'>
+                <h4 className='font-semibold text-sm mb-2'>典型场景</h4>
+                <p className='text-xs text-muted-foreground'>
+                  为不同用户分配不同标签的节点，例如：VIP 用户使用「高速」标签的节点，普通用户使用「标准」标签的节点。
                 </p>
               </div>
             </div>
