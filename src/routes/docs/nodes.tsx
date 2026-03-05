@@ -438,7 +438,8 @@ function NodesDocPage() {
                   <p className='font-medium'>输入节点信息</p>
                   <p className='text-muted-foreground'>
                     手动输入：类似 vless:// 的链接，一行一个<br/>
-                    订阅导入：输入机场提供的订阅链接
+                    订阅导入：输入机场提供的订阅链接<br/>
+                    标签输入框上方会显示已有标签，点击可快速选中；若当前节点列表已按标签筛选，添加弹窗会自动填入对应标签
                   </p>
                 </div>
               </li>

@@ -10,6 +10,7 @@ import {
   ArrowRight,
   Sparkles,
   FileText,
+  Bug,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/docs/update')({
@@ -46,6 +47,61 @@ function UpdatePage() {
                     进入 <strong>「个人设置」</strong> 菜单 → 点击 <strong>「检查更新」</strong> 按钮 → 确认更新
                   </p>
                 </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 更新日志展示 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <FileText className='size-5 text-primary' />
+          更新日志展示
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              检查更新时，更新弹窗会以富文本格式展示 GitHub Release Notes，支持以下格式渲染：
+            </p>
+            <ul className='space-y-2 text-sm text-muted-foreground'>
+              <li className='flex items-start gap-2'>
+                <span className='text-primary mt-1'>•</span>
+                <span><strong>标题</strong>：Markdown 标题（# / ## / ###）</span>
+              </li>
+              <li className='flex items-start gap-2'>
+                <span className='text-primary mt-1'>•</span>
+                <span><strong>列表</strong>：无序列表项（- / *）</span>
+              </li>
+              <li className='flex items-start gap-2'>
+                <span className='text-primary mt-1'>•</span>
+                <span><strong>链接与代码</strong>：超链接、行内代码高亮</span>
+              </li>
+            </ul>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* Debug 日志功能 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <Bug className='size-5 text-primary' />
+          Debug 日志
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              管理员可在个人设置中开启 Debug 日志，开启后页面右侧会出现浮动图标，点击可展开实时日志查看器：
+            </p>
+            <div className='space-y-4'>
+              <div className='bg-muted/30 rounded-lg p-4'>
+                <h4 className='font-semibold text-sm mb-2'>功能特性</h4>
+                <ul className='text-xs text-muted-foreground space-y-1'>
+                  <li>• 页面右侧浮动图标实时显示运行时长</li>
+                  <li>• 侧边栏查看器实时滚动显示最近 200 行日志</li>
+                  <li>• 5 分钟后自动关闭，避免遗忘导致日志文件过大</li>
+                  <li>• 关闭时自动下载日志文件</li>
+                </ul>
               </div>
             </div>
           </CardContent>

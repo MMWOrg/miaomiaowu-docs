@@ -895,7 +895,7 @@ function EditNodesDocPage() {
                       </div>
                     </td>
                     <td className='p-3 font-medium'>点击设置图标</td>
-                    <td className='p-3 text-muted-foreground'>切换代理组类型（select/url-test/fallback/load-balance）</td>
+                    <td className='p-3 text-muted-foreground'>切换代理组类型（select/url-test/fallback/load-balance），并可设置中转代理组</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>

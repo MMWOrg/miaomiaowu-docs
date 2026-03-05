@@ -11,6 +11,7 @@ import {
   Link2,
   FileCode,
   Layers,
+  Info,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/docs/system-settings')({
@@ -214,6 +215,42 @@ function SystemSettingsPage() {
                   <p className='mt-2 text-primary'>
                     <strong>💡 提示：</strong>节点集合（Proxy Provider）允许从外部订阅动态加载节点，适合管理多个机场的场景
                   </p>
+                </div>
+              </div>
+              {/* 订阅信息节点 */}
+              <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-cyan-500'>
+                <div className='flex items-center gap-2 mb-2'>
+                  <Info className='size-4 text-cyan-500' />
+                  <h4 className='font-semibold text-sm'>订阅信息节点</h4>
+                </div>
+                <div className='space-y-2 text-xs text-muted-foreground'>
+                  <p><strong>开启后：</strong></p>
+                  <ul className='ml-4 space-y-1'>
+                    <li>• 订阅输出时在节点列表顶部添加过期时间和剩余流量信息节点</li>
+                    <li>• 客户端节点列表中可直接看到订阅状态信息</li>
+                    <li>• 可自定义过期时间前缀（默认 <code className='bg-muted px-1 rounded'>📅过期时间</code>）和剩余流量前缀（默认 <code className='bg-muted px-1 rounded'>⌛剩余流量</code>）</li>
+                  </ul>
+                  <p className='mt-2'><strong>关闭后：</strong></p>
+                  <ul className='ml-4 space-y-1'>
+                    <li>• 订阅输出不包含信息节点</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* 自定义订阅连接 */}
+              <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-pink-500'>
+                <div className='flex items-center gap-2 mb-2'>
+                  <Link2 className='size-4 text-pink-500' />
+                  <h4 className='font-semibold text-sm'>自定义订阅连接 <span className='text-xs text-muted-foreground'>(Beta)</span></h4>
+                </div>
+                <div className='space-y-2 text-xs text-muted-foreground'>
+                  <p>管理员可在「订阅文件管理」和「用户管理」页面为订阅和用户设置自定义短码：</p>
+                  <ul className='ml-4 space-y-1'>
+                    <li>• <strong>订阅自定义短码</strong>：替代自动生成的订阅文件短码，仅支持字母和数字</li>
+                    <li>• <strong>用户自定义短码</strong>：替代自动生成的用户短码</li>
+                    <li>• 自定义短码会用于短链接的生成，使订阅链接更易记忆</li>
+                    <li>• 短链接格式：<code className='bg-muted px-1 rounded'>https://域名/订阅短码+用户短码</code></li>
+                  </ul>
                 </div>
               </div>
             </div>

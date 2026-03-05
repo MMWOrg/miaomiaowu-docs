@@ -77,6 +77,7 @@ proxy-groups:
     type: select
     include-all: true
     filter: LD|落地|Bage|bage|jinx|ctc|Jinx|JINX|CTC|Luodi|luodi|LUODI|zouter|legend|Alice|alice
+    dialer-proxy-group: 🌠 中转节点
     proxies:
       - __PROXY_PROVIDERS__
       - __PROXY_NODES__
@@ -396,6 +397,36 @@ function TemplatesV3DocPage() {
                 </div>
               </div>
 
+              {/* 中转代理组 */}
+              <div>
+                <h4 className='font-semibold mb-3'>中转代理组属性</h4>
+                <div className='overflow-x-auto'>
+                  <table className='w-full text-sm'>
+                    <thead>
+                      <tr className='border-b'>
+                        <th className='text-left py-2 pr-4'>属性</th>
+                        <th className='text-left py-2 pr-4'>类型</th>
+                        <th className='text-left py-2'>说明</th>
+                      </tr>
+                    </thead>
+                    <tbody className='text-muted-foreground'>
+                      <tr className='border-b'>
+                        <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>dialer-proxy-group</code></td>
+                        <td className='py-2 pr-4'>string</td>
+                        <td className='py-2'>指定中转代理组名称，流量经该组转发后再到达目标（链式代理）</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className='bg-muted/30 rounded-lg p-4 mt-3'>
+                  <p className='text-xs text-muted-foreground'>
+                    设置中转代理组后，该代理组中的节点流量会先经过中转代理组选中的节点转发，实现
+                    <code className='bg-muted px-1 rounded mx-1'>客户端 → 中转节点 → 落地节点 → 目标</code>
+                    的链式代理效果。可在可视化编辑器中通过代理组右侧的链接图标快速设置。
+                  </p>
+                </div>
+              </div>
+
               {/* 测速属性 */}
               <div>
                 <h4 className='font-semibold mb-3'>测速相关属性（url-test/fallback/load-balance）</h4>
@@ -599,6 +630,7 @@ function TemplatesV3DocPage() {
                   <li>• <strong>节点类型选择</strong>：弹出气泡多选需要引入/排除的节点类型</li>
                   <li>• <strong>引入选项</strong>：一键开启 include-all、include-all-proxies 等选项</li>
                   <li>• <strong>代理组引用</strong>：选择并拖动排序其他代理组</li>
+                  <li>• <strong>中转代理组</strong>：点击链接图标设置中转代理组，实现链式代理</li>
                   <li>• <strong>实时预览</strong>：右侧实时显示生成的 YAML 配置</li>
                 </ul>
               </div>

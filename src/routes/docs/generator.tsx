@@ -64,7 +64,7 @@ function GeneratorPage() {
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>支持配置链式代理分组：</strong>添加🌄 落地节点和🌠 中转节点代理组</span>
+                  <span><strong>支持配置链式代理分组：</strong>代理组可设置中转代理组（dialer-proxy-group），实现链式代理</span>
                 </li>
               </ul>
             </div>

@@ -89,6 +89,10 @@ function SubscribeFilesPage() {
                   <span className='text-primary mt-1'>•</span>
                   <span><strong>标签筛选</strong>：绑定模板后可根据节点标签筛选节点，只有匹配标签的节点才会添加到订阅</span>
                 </li>
+                <li className='flex items-start gap-2'>
+                  <span className='text-primary mt-1'>•</span>
+                  <span><strong>自定义连接 (Beta)</strong>：为订阅设置自定义短码，替代自动生成的短链接码，使订阅链接更易记忆</span>
+                </li>
               </ul>
             </div>
           </CardContent>

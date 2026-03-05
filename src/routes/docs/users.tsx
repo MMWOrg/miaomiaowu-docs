@@ -72,6 +72,10 @@ function UsersPage() {
                   <span className='text-primary mt-1'>•</span>
                   <span><strong>备注管理</strong>：为用户添加备注信息，便于识别和管理</span>
                 </li>
+                <li className='flex items-start gap-2'>
+                  <span className='text-primary mt-1'>•</span>
+                  <span><strong>自定义短链接 (Beta)</strong>：为用户设置自定义短码，替代自动生成的用户短码，使订阅链接更易记忆</span>
+                </li>
               </ul>
             </div>
           </CardContent>
