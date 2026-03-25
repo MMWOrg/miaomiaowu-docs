@@ -16,7 +16,6 @@ import {
   RefreshCw,
   Smile,
   Tag,
-  Link2,
   Copy,
   Clock,
   RotateCcw,
