@@ -22,6 +22,7 @@ import {
   RotateCcw,
   Filter,
   MousePointerClick,
+  ArrowUpDown,
 } from 'lucide-react'
 import IpIcon from '@/assets/icons/ip.svg'
 import ExchangeIcon from '@/assets/icons/exchange.svg'
@@ -112,11 +113,11 @@ function NodesDocPage() {
           <Card>
             <CardContent className='pt-4'>
               <div className='flex items-start gap-3'>
-                <Activity className='size-5 text-primary mt-0.5' />
+                <ArrowUpDown className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>绑定探针服务器</h4>
+                  <h4 className='font-semibold'>节点排序</h4>
                   <p className='text-sm text-muted-foreground'>
-                    节点绑定探针，精确统计流量信息
+                    支持拖拽排序与快速排序模式，自由调整节点顺序
                   </p>
                 </div>
               </div>
@@ -129,7 +130,7 @@ function NodesDocPage() {
                 <div>
                   <h4 className='font-semibold'>查看配置</h4>
                   <p className='text-sm text-muted-foreground'>
-                    显示节点的详细 Clash 配置信息
+                    显示节点的详细配置信息，支持 YAML 格式展示
                   </p>
                 </div>
               </div>
@@ -167,32 +168,42 @@ function NodesDocPage() {
             <CardContent className='pt-4'>
               <h4 className='font-semibold mb-2'>按标签筛选</h4>
               <p className='text-sm text-muted-foreground mb-3'>
-                点击标签可以筛选显示指定来源的节点。
+                节点支持自定义标签管理，点击标签可以筛选显示指定分类的节点。
               </p>
               <div className='flex flex-wrap gap-2'>
                 <Badge variant='outline'>全部</Badge>
                 <Badge variant='outline'>手动输入</Badge>
                 <Badge variant='outline'>外部订阅</Badge>
                 <Badge variant='outline'>链式代理</Badge>
+                <Badge variant='outline' className='border-primary/50 text-primary'>自定义标签</Badge>
               </div>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* 批量操作 */}
+      {/* 排序与批量操作 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <MousePointerClick className='size-5 text-primary' />
-          批量操作
+          排序与批量操作
         </h2>
         <p className='text-muted-foreground mb-4'>
-          选中多个节点后，可以使用以下批量操作功能：
+          开启<strong>排序模式</strong>或选中多个节点后，可以使用以下批量操作功能：
         </p>
         <div className='grid gap-3'>
           <Card>
             <CardContent className='pt-4'>
               <div className='grid gap-4 md:grid-cols-2'>
+                <div className='flex items-start gap-3'>
+                  <ArrowUpDown className='size-5 text-primary mt-0.5' />
+                  <div>
+                    <h4 className='font-semibold'>快速排序</h4>
+                    <p className='text-sm text-muted-foreground'>
+                      在排序模式下勾选节点，底部悬浮栏支持一键<strong>置顶、置底、上移、下移</strong>
+                    </p>
+                  </div>
+                </div>
                 <div className='flex items-start gap-3'>
                   <RefreshCw className='size-5 text-primary mt-0.5' />
                   <div>
@@ -226,15 +237,6 @@ function NodesDocPage() {
                     <h4 className='font-semibold'>修改标签</h4>
                     <p className='text-sm text-muted-foreground'>
                       批量修改选中节点的标签分类
-                    </p>
-                  </div>
-                </div>
-                <div className='flex items-start gap-3'>
-                  <Link2 className='size-5 text-primary mt-0.5' />
-                  <div>
-                    <h4 className='font-semibold'>生成临时订阅</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      将选中节点生成临时订阅链接，方便分享
                     </p>
                   </div>
                 </div>

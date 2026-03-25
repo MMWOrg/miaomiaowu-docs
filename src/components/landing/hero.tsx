@@ -68,7 +68,7 @@ export function Hero() {
               <span className="hidden sm:inline">文档</span>
             </Link>
             <a
-              href="https://github.com/Jimleerx/miaomiaowu"
+              href="https://github.com/iluobei/miaomiaowu"
               target="_blank"
               rel="noopener noreferrer"
               className="pixel-button inline-flex items-center gap-2 px-3 py-2 h-9 text-sm font-semibold uppercase tracking-widest bg-background/75 text-foreground border-[color:rgba(137,110,96,0.45)] hover:bg-accent/35 hover:text-accent-foreground transition-all"
@@ -163,7 +163,7 @@ export function Hero() {
               </Button>
             </a>
             <a
-              href="https://github.com/Jimleerx/miaomiaowu"
+              href="https://github.com/iluobei/miaomiaowu"
               target="_blank"
               rel="noopener noreferrer"
             >

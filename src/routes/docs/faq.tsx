@@ -101,7 +101,7 @@ function FaqPage() {
                   提交问题或功能请求
                 </p>
                 <a
-                  href='https://github.com/Jimleerx/miaomiaowu/issues'
+                  href='https://github.com/iluobei/miaomiaowu/issues'
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-sm text-primary hover:underline'
@@ -118,7 +118,7 @@ function FaqPage() {
                   发现问题？请提交详细的错误报告
                 </p>
                 <a
-                  href='https://github.com/Jimleerx/miaomiaowu/issues/new'
+                  href='https://github.com/iluobei/miaomiaowu/issues/new'
                   target='_blank'
                   rel='noopener noreferrer'
                   className='text-sm text-primary hover:underline'

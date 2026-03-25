@@ -21,7 +21,7 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-3">
               <a
-                href="https://github.com/Jimleerx/miaomiaowu"
+                href="https://github.com/iluobei/miaomiaowu"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="pixel-button inline-flex items-center justify-center h-9 w-9 px-2 py-2 bg-background/75 text-foreground border-[color:rgba(137,110,96,0.45)] hover:bg-accent/35 transition-all"
@@ -102,7 +102,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com/Jimleerx/miaomiaowu/issues"
+                  href="https://github.com/iluobei/miaomiaowu/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
@@ -119,12 +119,12 @@ export function Footer() {
           <p className="text-center text-sm text-muted-foreground flex items-center justify-center gap-1">
             Made with <Heart className="size-3 text-primary fill-primary" /> by
             <a
-              href="https://github.com/Jimleerx"
+              href="https://github.com/iluobei"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"
             >
-              Jimleerx
+              iluobei
             </a>
             · MIT License
           </p>

@@ -41,14 +41,14 @@ function QuickStartPage() {
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 拉取镜像
-docker pull Jimleerx/miaomiaowu:latest
+docker pull iluobei/miaomiaowu:latest
 
 # 运行容器
 docker run -d \\
   --name miaomiaowu \\
   -p 8080:8080 \\
   -v ./data:/app/data \\
-  Jimleerx/miaomiaowu:latest`}</pre>
+  iluobei/miaomiaowu:latest`}</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
               更多安装方式请参考{' '}

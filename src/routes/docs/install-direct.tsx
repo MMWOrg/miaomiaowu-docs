@@ -35,7 +35,7 @@ function InstallDirectPage() {
 
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 下载并运行安装脚本
-curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/install.sh | bash`}</pre>
+curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/install.sh | bash`}</pre>
             </div>
 
             <p className='text-sm text-muted-foreground mb-4'>
@@ -64,7 +64,7 @@ curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/install.sh |
               <div className='bg-muted/50 rounded-lg p-4'>
                 <h4 className='font-semibold text-sm mb-2'>更新到最新版本</h4>
                 <div className='bg-muted rounded-lg p-3 font-mono text-xs overflow-x-auto'>
-                  <pre>curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/install.sh | sudo bash -s update</pre>
+                  <pre>curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/install.sh | sudo bash -s update</pre>
                 </div>
                 <p className='text-xs text-muted-foreground mt-2'>
                   更多更新方式请参考
@@ -78,7 +78,7 @@ curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/install.sh |
                 <h4 className='font-semibold text-sm mb-2'>卸载服务</h4>
                 <div className='bg-muted rounded-lg p-3 font-mono text-xs overflow-x-auto'>
                   <pre>{`# 卸载 systemd 服务（保留数据）
-curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/install.sh | sudo bash -s uninstall
+curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/install.sh | sudo bash -s uninstall
 
 # 完全清除数据
 sudo rm -rf /etc/mmw`}</pre>
@@ -103,7 +103,7 @@ sudo rm -rf /etc/mmw`}</pre>
 
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 下载并运行简易安装脚本
-curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/quick-install.sh | bash
+curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/quick-install.sh | bash
 
 # 运行程序
 ./mmw`}</pre>
@@ -177,7 +177,7 @@ curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/quick-instal
             <h4 className='font-semibold mb-2'>1. 下载最新版本</h4>
             <div className='bg-muted rounded-lg p-4 mb-4'>
               <a
-                href='https://github.com/Jimleerx/miaomiaowu/releases'
+                href='https://github.com/iluobei/miaomiaowu/releases'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-flex items-center gap-2 text-primary hover:underline'
@@ -216,7 +216,7 @@ chmod +x miaomiaowu
           <CardContent className='pt-6'>
             <h4 className='font-semibold mb-2'>1. 克隆仓库</h4>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
-              <pre>{`git clone https://github.com/Jimleerx/miaomiaowu.git
+              <pre>{`git clone https://github.com/iluobei/miaomiaowu.git
 cd miaomiaowu`}</pre>
             </div>
 
@@ -260,7 +260,7 @@ sudo mkdir -p /etc/mmw
 
 # 下载最新版本（以 linux-amd64 为例）
 cd /etc/mmw
-sudo curl -LO https://github.com/Jimleerx/miaomiaowu/releases/latest/download/mmw-linux-amd64
+sudo curl -LO https://github.com/iluobei/miaomiaowu/releases/latest/download/mmw-linux-amd64
 sudo chmod +x mmw-linux-amd64
 sudo mv mmw-linux-amd64 mmw`}</pre>
             </div>
@@ -340,7 +340,7 @@ sudo systemctl start mmw`}</pre>
                   <div>
                     <strong>下载文件</strong>
                     <p className='text-muted-foreground mt-1'>
-                      从 <a href='https://github.com/Jimleerx/miaomiaowu/releases' target='_blank' rel='noopener noreferrer' className='text-primary hover:underline'>GitHub Releases</a> 下载 <code className='bg-muted px-1 rounded'>mmw-windows-amd64.exe</code>
+                      从 <a href='https://github.com/iluobei/miaomiaowu/releases' target='_blank' rel='noopener noreferrer' className='text-primary hover:underline'>GitHub Releases</a> 下载 <code className='bg-muted px-1 rounded'>mmw-windows-amd64.exe</code>
                     </p>
                   </div>
                 </div>

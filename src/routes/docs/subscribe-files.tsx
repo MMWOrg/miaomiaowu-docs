@@ -9,6 +9,7 @@ import {
   ArrowRight,
   Tags,
   Zap,
+  ArrowUpDown,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/docs/subscribe-files')({
@@ -53,6 +54,10 @@ function SubscribeFilesPage() {
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
+                  <span><strong>排序订阅</strong>：支持拖拽排序，调整订阅列表的显示顺序</span>
+                </li>
+                <li className='flex items-start gap-2'>
+                  <span className='text-primary mt-1'>•</span>
                   <span><strong>导入订阅</strong>：直接导入外部订阅，可以编辑外部订阅的规则</span>
                 </li>
                 <li className='flex items-start gap-2'>
@@ -94,6 +99,27 @@ function SubscribeFilesPage() {
                   <span><strong>自定义连接 (Beta)</strong>：为订阅设置自定义短码，替代自动生成的短链接码，使订阅链接更易记忆</span>
                 </li>
               </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 排序与批量操作 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <ArrowUpDown className='size-5 text-primary' />
+          订阅排序
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              订阅列表支持拖拽排序，调整订阅列表的显示顺序：
+            </p>
+            <div className='bg-muted/30 rounded-lg p-4'>
+              <h4 className='font-semibold text-sm mb-2'>操作方法</h4>
+              <p className='text-xs text-muted-foreground'>
+                点击列表每行左侧的拖拽图标（<ArrowUpDown className='size-3 inline align-middle mx-1' />），按住并拖动即可改变订阅的顺序。排序结果会自动保存。
+              </p>
             </div>
           </CardContent>
         </Card>

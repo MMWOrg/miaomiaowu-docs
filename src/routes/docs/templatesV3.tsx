@@ -314,11 +314,20 @@ function TemplatesV3DocPage() {
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>proxies</code></td>
                         <td className='py-2 pr-4'>array</td>
-                        <td className='py-2'>静态代理列表（其他代理组名称或 DIRECT/REJECT）</td>
+                        <td className='py-2'>静态代理列表（其他代理组名称或 DIRECT/REJECT 或 __PROXY_NODES__ 等占位符）</td>
                       </tr>
-                    </tbody>
-                  </table>
-                </div>
+                      <tr className='border-b'>
+                        <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>icon</code></td>
+                        <td className='py-2 pr-4'>string</td>
+                        <td className='py-2'>代理组图标，可以是图片 URL 或 emoji</td>
+                      </tr>
+                      <tr className='border-b'>
+                        <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>hidden</code></td>
+                        <td className='py-2 pr-4'>boolean</td>
+                        <td className='py-2'>是否在客户端中隐藏此代理组（默认 false）</td>
+                      </tr>
+                      </tbody>
+                      </table>                </div>
               </div>
 
               {/* 引入属性 */}
@@ -457,6 +466,39 @@ function TemplatesV3DocPage() {
                       </tr>
                     </tbody>
                   </table>
+                </div>
+              </div>
+
+              {/* YAML 变量 */}
+              <div>
+                <h4 className='font-semibold mb-3'>YAML 变量</h4>
+                <div className='bg-muted/30 rounded-lg p-4'>
+                  <p className='text-xs text-muted-foreground mb-3'>
+                    V3 模板支持在顶层定义自定义变量，避免在多个代理组中重复编写复杂的正则表达式：
+                  </p>
+                  <ul className='text-xs text-muted-foreground space-y-1 mb-3'>
+                    <li>• 在 YAML 顶层定义非 Clash 标准字段的字符串即可作为变量</li>
+                    <li>• 代理组的 <code className='bg-muted px-1 rounded'>filter</code> 和 <code className='bg-muted px-1 rounded'>exclude-filter</code> 可以直接引用变量名</li>
+                    <li>• 最终生成的配置中会自动移除这些自定义变量</li>
+                  </ul>
+                  <CollapsibleCode
+                    title='点击查看 YAML 变量示例'
+                    code={`# 定义变量（顶层）
+FILTER_US: "美|US|United States|🇺🇸"
+FILTER_HK: "港|HK|Hong Kong|🇭🇰"
+
+proxy-groups:
+  - name: 🇺🇸 美国节点
+    type: select
+    include-all-proxies: true
+    filter: FILTER_US        # 引用上面定义的变量
+
+  - name: 🇭🇰 香港节点
+    type: select
+    include-all-proxies: true
+    filter: FILTER_HK        # 引用上面定义的变量`}
+                    language='yaml'
+                  />
                 </div>
               </div>
 
@@ -629,6 +671,7 @@ function TemplatesV3DocPage() {
                   <li>• <strong>排除关键词</strong>：输入关键词自动生成 exclude-filter 正则表达式</li>
                   <li>• <strong>节点类型选择</strong>：弹出气泡多选需要引入/排除的节点类型</li>
                   <li>• <strong>引入选项</strong>：一键开启 include-all、include-all-proxies 等选项</li>
+                  <li>• <strong>图标与隐藏</strong>：可以配置代理组的图标以及设置隐藏该代理组</li>
                   <li>• <strong>代理组引用</strong>：选择并拖动排序其他代理组</li>
                   <li>• <strong>中转代理组</strong>：点击链接图标设置中转代理组，实现链式代理</li>
                   <li>• <strong>实时预览</strong>：右侧实时显示生成的 YAML 配置</li>

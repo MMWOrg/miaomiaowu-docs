@@ -163,7 +163,7 @@ export function DocLayout({
               </button>
             )}
             <a
-              href='https://github.com/Jimleerx/miaomiaowu'
+              href='https://github.com/iluobei/miaomiaowu'
               target='_blank'
               rel='noopener noreferrer'
               className='inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors'

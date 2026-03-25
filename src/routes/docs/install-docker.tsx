@@ -68,7 +68,7 @@ function InstallDockerPage() {
 
 services:
   miaomiaowu:
-    image: ghcr.io/jimleerx/miaomiaowu:latest
+    image: ghcr.io/iluobei/miaomiaowu:latest
     container_name: miaomiaowu
     restart: unless-stopped
     user: root
@@ -122,7 +122,7 @@ services:
 
             <h4 className='font-semibold mb-2'>1. 拉取镜像</h4>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
-              <pre>docker pull ghcr.io/jimleerx/miaomiaowu:latest</pre>
+              <pre>docker pull ghcr.io/iluobei/miaomiaowu:latest</pre>
             </div>
 
             <h4 className='font-semibold mb-2'>2. 运行容器</h4>
@@ -134,7 +134,7 @@ services:
   -v $(pwd)/mmw-data:/app/data \\
   -v $(pwd)/subscribes:/app/subscribes \\
   -v $(pwd)/rule_templates:/app/rule_templates \\
-  ghcr.io/jimleerx/miaomiaowu:latest`}</pre>
+  ghcr.io/iluobei/miaomiaowu:latest`}</pre>
             </div>
 
             <h4 className='font-semibold mb-2'>参数说明</h4>
@@ -298,7 +298,7 @@ services:
               <div>
                 <h4 className='font-semibold mb-2'>更新镜像</h4>
                 <div className='bg-muted rounded-lg p-3 font-mono text-sm overflow-x-auto'>
-                  <pre>{`docker pull ghcr.io/jimleerx/miaomiaowu:latest
+                  <pre>{`docker pull ghcr.io/iluobei/miaomiaowu:latest
 docker stop miaomiaowu && docker rm miaomiaowu
 # 然后重新运行上面的启动命令`}</pre>
                 </div>

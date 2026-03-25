@@ -97,7 +97,7 @@ function ChangelogPage() {
         setLoading(true)
         setError(null)
         const response = await fetch(
-          'https://api.github.com/repos/Jimleerx/miaomiaowu/releases'
+          'https://api.github.com/repos/iluobei/miaomiaowu/releases'
         )
         if (!response.ok) {
           throw new Error('Failed to fetch releases')
@@ -139,7 +139,7 @@ function ChangelogPage() {
               <span className="hidden sm:inline">文档</span>
             </Link>
             <a
-              href="https://github.com/Jimleerx/miaomiaowu"
+              href="https://github.com/iluobei/miaomiaowu"
               target="_blank"
               rel="noopener noreferrer"
               className="pixel-button inline-flex items-center gap-2 px-3 py-2 h-9 text-sm font-semibold uppercase tracking-widest bg-background/75 text-foreground border-[color:rgba(137,110,96,0.45)] hover:bg-accent/35 hover:text-accent-foreground transition-all"
@@ -166,7 +166,7 @@ function ChangelogPage() {
             记录妙妙屋的每一次成长与进步
           </p>
           <a
-            href="https://github.com/Jimleerx/miaomiaowu/releases"
+            href="https://github.com/iluobei/miaomiaowu/releases"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -367,7 +367,7 @@ function ChangelogPage() {
           <p>
             妙妙屋 - 简单高效的代理订阅管理平台 ·{' '}
             <a
-              href="https://github.com/Jimleerx/miaomiaowu"
+              href="https://github.com/iluobei/miaomiaowu"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-primary transition-colors"

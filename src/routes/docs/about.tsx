@@ -199,7 +199,7 @@ function AboutPage() {
             </p>
             <div className='flex gap-4'>
               <a
-                href='https://github.com/Jimleerx/miaomiaowu'
+                href='https://github.com/iluobei/miaomiaowu'
                 target='_blank'
                 rel='noopener noreferrer'
                 className='inline-flex items-center gap-2 text-primary hover:underline'

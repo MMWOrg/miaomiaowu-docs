@@ -186,7 +186,7 @@ docker-compose pull && docker-compose up -d`}</pre>
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 拉取最新镜像
-docker pull ghcr.io/jimleerx/miaomiaowu:latest
+docker pull ghcr.io/iluobei/miaomiaowu:latest
 
 # 停止并删除旧容器
 docker stop miaomiaowu && docker rm miaomiaowu
@@ -199,7 +199,7 @@ docker run -d \\
   -v $(pwd)/mmw-data:/app/data \\
   -v $(pwd)/subscribes:/app/subscribes \\
   -v $(pwd)/rule_templates:/app/rule_templates \\
-  ghcr.io/jimleerx/miaomiaowu:latest`}</pre>
+  ghcr.io/iluobei/miaomiaowu:latest`}</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
               请确保使用与初次安装时相同的卷挂载路径，以保留数据。
@@ -220,7 +220,7 @@ docker run -d \\
               使用一键安装脚本安装的用户，可以使用以下命令更新：
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
-              <pre>curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/install.sh | sudo bash -s update</pre>
+              <pre>curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/install.sh | sudo bash -s update</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
               脚本会自动下载最新版本并重启服务。
@@ -241,7 +241,7 @@ docker run -d \\
               使用简易安装的用户，可以使用以下命令更新：
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
-              <pre>curl -sL https://raw.githubusercontent.com/Jimleerx/miaomiaowu/main/quick-install.sh | bash -s update</pre>
+              <pre>curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/quick-install.sh | bash -s update</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
               更新后需要手动重新启动程序。

@@ -38,7 +38,7 @@ function DocsIndexPage() {
             </Button>
           </Link>
           <a
-            href='https://github.com/Jimleerx/miaomiaowu'
+            href='https://github.com/iluobei/miaomiaowu'
             target='_blank'
             rel='noopener noreferrer'
           >
