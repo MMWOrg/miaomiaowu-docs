@@ -35,6 +35,7 @@ import {
   Shield,
   ArrowRight,
   RotateCcw,
+  LayoutGrid,
 } from 'lucide-react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
@@ -799,6 +800,26 @@ function EditNodesDocPage() {
               此功能用于编辑订阅文件的代理组配置。您可以通过拖拽方式将节点分配到不同的代理组，
               也可以调整代理组的顺序、修改代理组名称和类型。
             </p>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 近期更新 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <LayoutGrid className='size-5 text-primary' />
+          近期更新
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-primary'>
+              <h4 className='font-semibold text-sm mb-2'>编辑代理组支持选择分列数量（2026-04-07）</h4>
+              <ul className='space-y-1 text-xs text-muted-foreground'>
+                <li>• 编辑弹窗顶部新增列数按钮，可在 2-6 列之间切换代理组展示密度。</li>
+                <li>• 切换列数后会立即重排代理组卡片，便于大屏或小屏分别查看。</li>
+                <li>• 选择结果会保存在浏览器本地，下次打开仍会沿用上次设置。</li>
+              </ul>
+            </div>
           </CardContent>
         </Card>
       </section>

@@ -7,6 +7,7 @@ import {
   Network,
   Shield,
   Activity,
+  Search,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/docs/probe')({
@@ -61,6 +62,26 @@ function ProbePage() {
                   <span className='text-primary mt-1'>•</span>
                   <span><strong>节点绑定管理</strong>：为节点分配特定的探针服务器，实现精准流量统计</span>
                 </li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* 近期更新 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <Search className='size-5 text-primary' />
+          近期更新
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-primary'>
+              <h4 className='font-semibold text-sm mb-2'>绑定探针支持搜索与滚动（2026-04-07）</h4>
+              <ul className='space-y-1 text-xs text-muted-foreground'>
+                <li>• 绑定探针弹窗新增搜索框，可按服务器名称或服务器 ID 快速筛选。</li>
+                <li>• 服务器列表增加滚动区域，服务器较多时无需撑满整个弹窗。</li>
+                <li>• 关闭弹窗时会自动清空搜索词，避免下次进入时残留筛选条件。</li>
               </ul>
             </div>
           </CardContent>

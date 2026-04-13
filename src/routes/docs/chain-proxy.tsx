@@ -1,6 +1,14 @@
+import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import ExchangeIcon from '@/assets/icons/exchange.svg'
 import {
   Network,
@@ -8,13 +16,33 @@ import {
   FileCode,
   Shield,
   ArrowRight,
+  Settings2,
+  ChevronDown,
+  X,
 } from 'lucide-react'
 
 export const Route = createFileRoute('/docs/chain-proxy')({
   component: ChainProxyPage,
 })
 
+const groupTypes = [
+  { value: 'select', label: '手动选择' },
+  { value: 'url-test', label: '自动选择' },
+  { value: 'fallback', label: '自动回退' },
+  { value: 'load-balance', label: '负载均衡' },
+]
+
+const relayGroupOptions = [
+  '🌠 中转节点',
+  '🇭🇰 香港中转',
+  '🇯🇵 日本中转',
+  '🇸🇬 新加坡中转',
+]
+
 function ChainProxyPage() {
+  const [selectedType, setSelectedType] = useState('select')
+  const [selectedRelayGroup, setSelectedRelayGroup] = useState('🌠 中转节点')
+
   return (
     <DocLayout
       title='链式代理'
@@ -189,8 +217,79 @@ function ChainProxyPage() {
               <img src={ExchangeIcon} alt='链式代理' className='h-4 w-4 inline [filter:invert(63%)_sepia(45%)_saturate(1068%)_hue-rotate(327deg)_brightness(95%)_contrast(88%)]' />
               按钮支持给落地节点单独指定中转节点，指定后会在节点表创建一个新的链式代理节点。
             </p>
+            <div className='rounded-xl border border-[#6d5954] bg-[linear-gradient(135deg,#0a1226,#111f38)] p-4 shadow-lg'>
+              <div className='mb-4 flex items-start justify-between gap-3'>
+                <div>
+                  <p className='text-xl font-semibold text-white'>🌄 落地节点</p>
+                  <p className='text-sm text-slate-300'>
+                    {groupTypes.find(item => item.value === selectedType)?.label} (6 个节点)
+                  </p>
+                </div>
+                <div className='flex items-center gap-2'>
+                  <button
+                    type='button'
+                    className='inline-flex size-8 items-center justify-center rounded-md border border-[#6d5954] bg-black/25 text-slate-200'
+                    aria-label='切换代理组类型'
+                  >
+                    <Settings2 className='size-4' />
+                  </button>
+                  <button
+                    type='button'
+                    className='inline-flex size-8 items-center justify-center rounded-md border border-[#6d5954] bg-black/25 text-slate-200'
+                    aria-label='关闭'
+                  >
+                    <X className='size-4' />
+                  </button>
+                </div>
+              </div>
+
+              <div className='rounded-lg border border-[#273047] bg-[#050b1d]/95 p-3'>
+                <div className='space-y-1'>
+                  {groupTypes.map(item => (
+                    <button
+                      key={item.value}
+                      type='button'
+                      onClick={() => setSelectedType(item.value)}
+                      className={`w-full rounded-md px-3 py-2 text-left text-sm transition-colors ${
+                        selectedType === item.value
+                          ? 'bg-[#e88d70] font-semibold text-black'
+                          : 'text-slate-100 hover:bg-slate-700/40'
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className='mt-3 border-t border-[#273047] pt-3'>
+                  <p className='mb-2 text-xs text-slate-400'>中转代理组</p>
+                  <div className='rounded-md border border-[#2f3a53] bg-[#10192e] p-2'>
+                    <Select value={selectedRelayGroup} onValueChange={setSelectedRelayGroup}>
+                      <SelectTrigger className='h-9 border-[#3b4867] bg-[#18243f] text-slate-100'>
+                        <SelectValue placeholder='选择中转代理组' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {relayGroupOptions.map(group => (
+                          <SelectItem key={group} value={group}>
+                            {group}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <p className='mt-2 flex items-center gap-1 text-xs text-slate-400'>
+                    当前绑定
+                    <ChevronDown className='size-3 rotate-[-90deg]' />
+                    <span className='text-slate-200'>{selectedRelayGroup}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
             <p className='text-xs text-muted-foreground mt-4'>
-              这种方式适合需要不同代理组使用不同的落地节点的用户。
+              上方为页面内模拟数据演示，展示“代理组类型切换按钮”中的“中转代理组”下拉菜单（非图片）。
+              实际使用时，该配置会写入
+              <code className='bg-muted px-1.5 py-0.5 rounded ml-1'>dialer-proxy-group</code>
+              字段。
             </p>
           </CardContent>
         </Card>

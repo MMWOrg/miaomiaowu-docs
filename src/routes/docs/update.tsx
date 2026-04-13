@@ -53,6 +53,55 @@ function UpdatePage() {
         </Card>
       </section>
 
+      {/* 近期文档同步 */}
+      <section className='mb-8'>
+        <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
+          <Sparkles className='size-5 text-primary' />
+          近期文档同步（2026-04-14）
+        </h2>
+        <Card>
+          <CardContent className='pt-6'>
+            <p className='text-muted-foreground mb-4'>
+              本页已根据 `../miaomiaowu` 近期提交同步以下变更：
+            </p>
+            <div className='space-y-3 text-sm'>
+              <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
+                <p className='font-medium'>代理组支持绑定中转代理组</p>
+                <p className='text-xs text-muted-foreground mt-1'>
+                  代理组类型菜单新增“中转代理组”下拉配置，对应链式代理的
+                  <code className='bg-muted px-1 rounded mx-1'>dialer-proxy-group</code>
+                  字段。详见
+                  <Link to='/docs/chain-proxy' className='text-primary hover:underline ml-1'>链式代理</Link>
+                  。
+                </p>
+              </div>
+              <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
+                <p className='font-medium'>编辑代理组支持分列数量</p>
+                <p className='text-xs text-muted-foreground mt-1'>
+                  编辑节点弹窗新增 2-6 列切换，并记忆上次列数。详见
+                  <Link to='/docs/edit-nodes' className='text-primary hover:underline ml-1'>节点与代理组编辑</Link>
+                  。
+                </p>
+              </div>
+              <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
+                <p className='font-medium'>绑定探针支持搜索与滚动</p>
+                <p className='text-xs text-muted-foreground mt-1'>
+                  节点绑定探针弹窗新增搜索输入框和滚动列表。详见
+                  <Link to='/docs/probe' className='text-primary hover:underline ml-1'>探针管理</Link>
+                  。
+                </p>
+              </div>
+              <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
+                <p className='font-medium'>默认 DNS 模板改为 DoH，Trojan URI 默认 security=none</p>
+                <p className='text-xs text-muted-foreground mt-1'>
+                  对应模板与订阅转换行为已在后端更新，生成配置时会体现为更符合当前实现的默认值。
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* 更新日志展示 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
