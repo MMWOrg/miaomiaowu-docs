@@ -1,7 +1,6 @@
-import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
-import { Github, Zap, BookOpen, Send, ExternalLink, Download, Sparkles, FileText, ChevronDown } from 'lucide-react'
+import { Github, Zap, BookOpen, Send, ExternalLink, Download, FileText, ChevronDown } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
@@ -9,14 +8,9 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { ThemeSwitch } from '@/components/theme-switch'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { AnimatedX } from '@/components/animated-x'
 
 export function Hero() {
-  const [xPopoverOpen, setXPopoverOpen] = useState(false)
 
   return (
     <section className="relative min-h-[85vh] flex flex-col">
@@ -86,36 +80,23 @@ export function Hero() {
               <Send className="size-4" />
             </a>
             {/* 妙妙屋X Button with animated border */}
-            <Popover open={xPopoverOpen} onOpenChange={setXPopoverOpen}>
-              <PopoverTrigger asChild>
-                <button
-                  className="relative h-9 px-3 text-sm group bg-background hover:bg-accent/35 transition-all animate-border-glow"
-                  style={{
-                    border: '2px solid transparent',
-                    backgroundImage: 'linear-gradient(var(--background), var(--background)), linear-gradient(90deg, #f97316, var(--primary), #f59e0b, var(--primary), #f97316)',
-                    backgroundOrigin: 'border-box',
-                    backgroundClip: 'padding-box, border-box',
-                    backgroundSize: '100% 100%, 200% 100%',
-                    animation: 'gradient-border 3s linear infinite',
-                  }}
-                >
-                  <span className="flex items-center gap-1.5 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-primary to-amber-500 font-semibold">
-                    <Sparkles className="size-4 text-primary animate-pulse" />
-                    <span className="hidden sm:inline">妙妙屋 X</span>
-                  </span>
-                </button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-4 text-center" align="center">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-lg font-bold">妙妙屋</span>
-                  <span className="text-lg font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-primary to-amber-500">【 X 】</span>
-                </div>
-                <p className="text-sm text-muted-foreground">即将发布，敬请期待</p>
-                <div className="mt-3 flex justify-center">
-                  <Sparkles className="size-5 text-primary animate-bounce" />
-                </div>
-              </PopoverContent>
-            </Popover>
+            <Link
+              to="/x"
+              className="relative h-9 px-3 text-sm inline-flex items-center bg-background hover:bg-accent/35 transition-all"
+              style={{
+                border: '2px solid transparent',
+                backgroundImage: 'linear-gradient(var(--background), var(--background)), linear-gradient(90deg, #f97316, var(--primary), #f59e0b, var(--primary), #f97316)',
+                backgroundOrigin: 'border-box',
+                backgroundClip: 'padding-box, border-box',
+                backgroundSize: '100% 100%, 200% 100%',
+                animation: 'gradient-border 3s linear infinite',
+              }}
+            >
+              <span className="flex items-center gap-1.5 font-semibold">
+                <span className="hidden sm:inline text-primary">妙妙屋</span>
+                <AnimatedX size="sm" />
+              </span>
+            </Link>
             <ThemeSwitch />
           </nav>
         </div>

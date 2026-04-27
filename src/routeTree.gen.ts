@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as XRouteImport } from './routes/x'
 import { Route as UsersRouteImport } from './routes/users'
 import { Route as TemplatesRouteImport } from './routes/templates'
 import { Route as SystemSettingsRouteImport } from './routes/system-settings'
@@ -25,12 +26,14 @@ import { Route as CustomRulesRouteImport } from './routes/custom-rules'
 import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as ChangePasswordRouteImport } from './routes/change-password'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as XIndexRouteImport } from './routes/x/index'
 import { Route as TemplatesIndexRouteImport } from './routes/templates.index'
 import { Route as SubscriptionIndexRouteImport } from './routes/subscription.index'
 import { Route as SubscribeFilesIndexRouteImport } from './routes/subscribe-files.index'
 import { Route as NodesIndexRouteImport } from './routes/nodes.index'
 import { Route as DocsIndexRouteImport } from './routes/docs/index'
 import { Route as CustomRulesIndexRouteImport } from './routes/custom-rules.index'
+import { Route as XDocsRouteImport } from './routes/x/docs'
 import { Route as SubscribeFilesCustomRouteImport } from './routes/subscribe-files.custom'
 import { Route as DocsUsersRouteImport } from './routes/docs/users'
 import { Route as DocsUpdateRouteImport } from './routes/docs/update'
@@ -60,7 +63,44 @@ import { Route as DocsCustomRulesRouteImport } from './routes/docs/custom-rules'
 import { Route as DocsClientSetupRouteImport } from './routes/docs/client-setup'
 import { Route as DocsChainProxyRouteImport } from './routes/docs/chain-proxy'
 import { Route as DocsAboutRouteImport } from './routes/docs/about'
+import { Route as XDocsIndexRouteImport } from './routes/x/docs/index'
+import { Route as XDocsXraySystemConfigRouteImport } from './routes/x/docs/xray-system-config'
+import { Route as XDocsXrayServiceRouteImport } from './routes/x/docs/xray-service'
+import { Route as XDocsXrayRoutingRouteImport } from './routes/x/docs/xray-routing'
+import { Route as XDocsXrayOutboundsRouteImport } from './routes/x/docs/xray-outbounds'
+import { Route as XDocsXrayInboundsRouteImport } from './routes/x/docs/xray-inbounds'
+import { Route as XDocsUsersRouteImport } from './routes/x/docs/users'
+import { Route as XDocsUpdateRouteImport } from './routes/x/docs/update'
+import { Route as XDocsTemplatesRouteImport } from './routes/x/docs/templates'
+import { Route as XDocsSystemSettingsRouteImport } from './routes/x/docs/system-settings'
+import { Route as XDocsSystemRequirementsRouteImport } from './routes/x/docs/system-requirements'
+import { Route as XDocsSubscribeFilesRouteImport } from './routes/x/docs/subscribe-files'
+import { Route as XDocsRemoteServersRouteImport } from './routes/x/docs/remote-servers'
+import { Route as XDocsQuickStartRouteImport } from './routes/x/docs/quick-start'
+import { Route as XDocsProtocolVmessRouteImport } from './routes/x/docs/protocol-vmess'
+import { Route as XDocsProtocolVlessRouteImport } from './routes/x/docs/protocol-vless'
+import { Route as XDocsProtocolTrojanRouteImport } from './routes/x/docs/protocol-trojan'
+import { Route as XDocsProtocolShadowsocksRouteImport } from './routes/x/docs/protocol-shadowsocks'
+import { Route as XDocsProtocolMatrixRouteImport } from './routes/x/docs/protocol-matrix'
+import { Route as XDocsProtocolHysteria2RouteImport } from './routes/x/docs/protocol-hysteria2'
+import { Route as XDocsPackagesRouteImport } from './routes/x/docs/packages'
+import { Route as XDocsNodesRouteImport } from './routes/x/docs/nodes'
+import { Route as XDocsInstallDockerRouteImport } from './routes/x/docs/install-docker'
+import { Route as XDocsInstallDirectRouteImport } from './routes/x/docs/install-direct'
+import { Route as XDocsInstallAgentRouteImport } from './routes/x/docs/install-agent'
+import { Route as XDocsGeneratorRouteImport } from './routes/x/docs/generator'
+import { Route as XDocsFeaturesRouteImport } from './routes/x/docs/features'
+import { Route as XDocsFaqRouteImport } from './routes/x/docs/faq'
+import { Route as XDocsCustomRulesRouteImport } from './routes/x/docs/custom-rules'
+import { Route as XDocsChangelogRouteImport } from './routes/x/docs/changelog'
+import { Route as XDocsCertificatesRouteImport } from './routes/x/docs/certificates'
+import { Route as XDocsAboutRouteImport } from './routes/x/docs/about'
 
+const XRoute = XRouteImport.update({
+  id: '/x',
+  path: '/x',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UsersRoute = UsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -141,6 +181,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const XIndexRoute = XIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => XRoute,
+} as any)
 const TemplatesIndexRoute = TemplatesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -170,6 +215,11 @@ const CustomRulesIndexRoute = CustomRulesIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => CustomRulesRoute,
+} as any)
+const XDocsRoute = XDocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => XRoute,
 } as any)
 const SubscribeFilesCustomRoute = SubscribeFilesCustomRouteImport.update({
   id: '/custom',
@@ -318,6 +368,167 @@ const DocsAboutRoute = DocsAboutRouteImport.update({
   path: '/about',
   getParentRoute: () => DocsRoute,
 } as any)
+const XDocsIndexRoute = XDocsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsXraySystemConfigRoute = XDocsXraySystemConfigRouteImport.update({
+  id: '/xray-system-config',
+  path: '/xray-system-config',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsXrayServiceRoute = XDocsXrayServiceRouteImport.update({
+  id: '/xray-service',
+  path: '/xray-service',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsXrayRoutingRoute = XDocsXrayRoutingRouteImport.update({
+  id: '/xray-routing',
+  path: '/xray-routing',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsXrayOutboundsRoute = XDocsXrayOutboundsRouteImport.update({
+  id: '/xray-outbounds',
+  path: '/xray-outbounds',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsXrayInboundsRoute = XDocsXrayInboundsRouteImport.update({
+  id: '/xray-inbounds',
+  path: '/xray-inbounds',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsUsersRoute = XDocsUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsUpdateRoute = XDocsUpdateRouteImport.update({
+  id: '/update',
+  path: '/update',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsTemplatesRoute = XDocsTemplatesRouteImport.update({
+  id: '/templates',
+  path: '/templates',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsSystemSettingsRoute = XDocsSystemSettingsRouteImport.update({
+  id: '/system-settings',
+  path: '/system-settings',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsSystemRequirementsRoute = XDocsSystemRequirementsRouteImport.update({
+  id: '/system-requirements',
+  path: '/system-requirements',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsSubscribeFilesRoute = XDocsSubscribeFilesRouteImport.update({
+  id: '/subscribe-files',
+  path: '/subscribe-files',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsRemoteServersRoute = XDocsRemoteServersRouteImport.update({
+  id: '/remote-servers',
+  path: '/remote-servers',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsQuickStartRoute = XDocsQuickStartRouteImport.update({
+  id: '/quick-start',
+  path: '/quick-start',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsProtocolVmessRoute = XDocsProtocolVmessRouteImport.update({
+  id: '/protocol-vmess',
+  path: '/protocol-vmess',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsProtocolVlessRoute = XDocsProtocolVlessRouteImport.update({
+  id: '/protocol-vless',
+  path: '/protocol-vless',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsProtocolTrojanRoute = XDocsProtocolTrojanRouteImport.update({
+  id: '/protocol-trojan',
+  path: '/protocol-trojan',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsProtocolShadowsocksRoute =
+  XDocsProtocolShadowsocksRouteImport.update({
+    id: '/protocol-shadowsocks',
+    path: '/protocol-shadowsocks',
+    getParentRoute: () => XDocsRoute,
+  } as any)
+const XDocsProtocolMatrixRoute = XDocsProtocolMatrixRouteImport.update({
+  id: '/protocol-matrix',
+  path: '/protocol-matrix',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsProtocolHysteria2Route = XDocsProtocolHysteria2RouteImport.update({
+  id: '/protocol-hysteria2',
+  path: '/protocol-hysteria2',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsPackagesRoute = XDocsPackagesRouteImport.update({
+  id: '/packages',
+  path: '/packages',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsNodesRoute = XDocsNodesRouteImport.update({
+  id: '/nodes',
+  path: '/nodes',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsInstallDockerRoute = XDocsInstallDockerRouteImport.update({
+  id: '/install-docker',
+  path: '/install-docker',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsInstallDirectRoute = XDocsInstallDirectRouteImport.update({
+  id: '/install-direct',
+  path: '/install-direct',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsInstallAgentRoute = XDocsInstallAgentRouteImport.update({
+  id: '/install-agent',
+  path: '/install-agent',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsGeneratorRoute = XDocsGeneratorRouteImport.update({
+  id: '/generator',
+  path: '/generator',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsFeaturesRoute = XDocsFeaturesRouteImport.update({
+  id: '/features',
+  path: '/features',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsFaqRoute = XDocsFaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsCustomRulesRoute = XDocsCustomRulesRouteImport.update({
+  id: '/custom-rules',
+  path: '/custom-rules',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsChangelogRoute = XDocsChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsCertificatesRoute = XDocsCertificatesRouteImport.update({
+  id: '/certificates',
+  path: '/certificates',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsAboutRoute = XDocsAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => XDocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -336,6 +547,7 @@ export interface FileRoutesByFullPath {
   '/system-settings': typeof SystemSettingsRoute
   '/templates': typeof TemplatesRouteWithChildren
   '/users': typeof UsersRoute
+  '/x': typeof XRouteWithChildren
   '/docs/about': typeof DocsAboutRoute
   '/docs/chain-proxy': typeof DocsChainProxyRoute
   '/docs/client-setup': typeof DocsClientSetupRoute
@@ -365,12 +577,46 @@ export interface FileRoutesByFullPath {
   '/docs/update': typeof DocsUpdateRoute
   '/docs/users': typeof DocsUsersRoute
   '/subscribe-files/custom': typeof SubscribeFilesCustomRoute
+  '/x/docs': typeof XDocsRouteWithChildren
   '/custom-rules/': typeof CustomRulesIndexRoute
   '/docs/': typeof DocsIndexRoute
   '/nodes/': typeof NodesIndexRoute
   '/subscribe-files/': typeof SubscribeFilesIndexRoute
   '/subscription/': typeof SubscriptionIndexRoute
   '/templates/': typeof TemplatesIndexRoute
+  '/x/': typeof XIndexRoute
+  '/x/docs/about': typeof XDocsAboutRoute
+  '/x/docs/certificates': typeof XDocsCertificatesRoute
+  '/x/docs/changelog': typeof XDocsChangelogRoute
+  '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
+  '/x/docs/faq': typeof XDocsFaqRoute
+  '/x/docs/features': typeof XDocsFeaturesRoute
+  '/x/docs/generator': typeof XDocsGeneratorRoute
+  '/x/docs/install-agent': typeof XDocsInstallAgentRoute
+  '/x/docs/install-direct': typeof XDocsInstallDirectRoute
+  '/x/docs/install-docker': typeof XDocsInstallDockerRoute
+  '/x/docs/nodes': typeof XDocsNodesRoute
+  '/x/docs/packages': typeof XDocsPackagesRoute
+  '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
+  '/x/docs/protocol-matrix': typeof XDocsProtocolMatrixRoute
+  '/x/docs/protocol-shadowsocks': typeof XDocsProtocolShadowsocksRoute
+  '/x/docs/protocol-trojan': typeof XDocsProtocolTrojanRoute
+  '/x/docs/protocol-vless': typeof XDocsProtocolVlessRoute
+  '/x/docs/protocol-vmess': typeof XDocsProtocolVmessRoute
+  '/x/docs/quick-start': typeof XDocsQuickStartRoute
+  '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
+  '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
+  '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
+  '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
+  '/x/docs/templates': typeof XDocsTemplatesRoute
+  '/x/docs/update': typeof XDocsUpdateRoute
+  '/x/docs/users': typeof XDocsUsersRoute
+  '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
+  '/x/docs/xray-outbounds': typeof XDocsXrayOutboundsRoute
+  '/x/docs/xray-routing': typeof XDocsXrayRoutingRoute
+  '/x/docs/xray-service': typeof XDocsXrayServiceRoute
+  '/x/docs/xray-system-config': typeof XDocsXraySystemConfigRoute
+  '/x/docs/': typeof XDocsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -418,6 +664,39 @@ export interface FileRoutesByTo {
   '/subscribe-files': typeof SubscribeFilesIndexRoute
   '/subscription': typeof SubscriptionIndexRoute
   '/templates': typeof TemplatesIndexRoute
+  '/x': typeof XIndexRoute
+  '/x/docs/about': typeof XDocsAboutRoute
+  '/x/docs/certificates': typeof XDocsCertificatesRoute
+  '/x/docs/changelog': typeof XDocsChangelogRoute
+  '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
+  '/x/docs/faq': typeof XDocsFaqRoute
+  '/x/docs/features': typeof XDocsFeaturesRoute
+  '/x/docs/generator': typeof XDocsGeneratorRoute
+  '/x/docs/install-agent': typeof XDocsInstallAgentRoute
+  '/x/docs/install-direct': typeof XDocsInstallDirectRoute
+  '/x/docs/install-docker': typeof XDocsInstallDockerRoute
+  '/x/docs/nodes': typeof XDocsNodesRoute
+  '/x/docs/packages': typeof XDocsPackagesRoute
+  '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
+  '/x/docs/protocol-matrix': typeof XDocsProtocolMatrixRoute
+  '/x/docs/protocol-shadowsocks': typeof XDocsProtocolShadowsocksRoute
+  '/x/docs/protocol-trojan': typeof XDocsProtocolTrojanRoute
+  '/x/docs/protocol-vless': typeof XDocsProtocolVlessRoute
+  '/x/docs/protocol-vmess': typeof XDocsProtocolVmessRoute
+  '/x/docs/quick-start': typeof XDocsQuickStartRoute
+  '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
+  '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
+  '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
+  '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
+  '/x/docs/templates': typeof XDocsTemplatesRoute
+  '/x/docs/update': typeof XDocsUpdateRoute
+  '/x/docs/users': typeof XDocsUsersRoute
+  '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
+  '/x/docs/xray-outbounds': typeof XDocsXrayOutboundsRoute
+  '/x/docs/xray-routing': typeof XDocsXrayRoutingRoute
+  '/x/docs/xray-service': typeof XDocsXrayServiceRoute
+  '/x/docs/xray-system-config': typeof XDocsXraySystemConfigRoute
+  '/x/docs': typeof XDocsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -437,6 +716,7 @@ export interface FileRoutesById {
   '/system-settings': typeof SystemSettingsRoute
   '/templates': typeof TemplatesRouteWithChildren
   '/users': typeof UsersRoute
+  '/x': typeof XRouteWithChildren
   '/docs/about': typeof DocsAboutRoute
   '/docs/chain-proxy': typeof DocsChainProxyRoute
   '/docs/client-setup': typeof DocsClientSetupRoute
@@ -466,12 +746,46 @@ export interface FileRoutesById {
   '/docs/update': typeof DocsUpdateRoute
   '/docs/users': typeof DocsUsersRoute
   '/subscribe-files/custom': typeof SubscribeFilesCustomRoute
+  '/x/docs': typeof XDocsRouteWithChildren
   '/custom-rules/': typeof CustomRulesIndexRoute
   '/docs/': typeof DocsIndexRoute
   '/nodes/': typeof NodesIndexRoute
   '/subscribe-files/': typeof SubscribeFilesIndexRoute
   '/subscription/': typeof SubscriptionIndexRoute
   '/templates/': typeof TemplatesIndexRoute
+  '/x/': typeof XIndexRoute
+  '/x/docs/about': typeof XDocsAboutRoute
+  '/x/docs/certificates': typeof XDocsCertificatesRoute
+  '/x/docs/changelog': typeof XDocsChangelogRoute
+  '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
+  '/x/docs/faq': typeof XDocsFaqRoute
+  '/x/docs/features': typeof XDocsFeaturesRoute
+  '/x/docs/generator': typeof XDocsGeneratorRoute
+  '/x/docs/install-agent': typeof XDocsInstallAgentRoute
+  '/x/docs/install-direct': typeof XDocsInstallDirectRoute
+  '/x/docs/install-docker': typeof XDocsInstallDockerRoute
+  '/x/docs/nodes': typeof XDocsNodesRoute
+  '/x/docs/packages': typeof XDocsPackagesRoute
+  '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
+  '/x/docs/protocol-matrix': typeof XDocsProtocolMatrixRoute
+  '/x/docs/protocol-shadowsocks': typeof XDocsProtocolShadowsocksRoute
+  '/x/docs/protocol-trojan': typeof XDocsProtocolTrojanRoute
+  '/x/docs/protocol-vless': typeof XDocsProtocolVlessRoute
+  '/x/docs/protocol-vmess': typeof XDocsProtocolVmessRoute
+  '/x/docs/quick-start': typeof XDocsQuickStartRoute
+  '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
+  '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
+  '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
+  '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
+  '/x/docs/templates': typeof XDocsTemplatesRoute
+  '/x/docs/update': typeof XDocsUpdateRoute
+  '/x/docs/users': typeof XDocsUsersRoute
+  '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
+  '/x/docs/xray-outbounds': typeof XDocsXrayOutboundsRoute
+  '/x/docs/xray-routing': typeof XDocsXrayRoutingRoute
+  '/x/docs/xray-service': typeof XDocsXrayServiceRoute
+  '/x/docs/xray-system-config': typeof XDocsXraySystemConfigRoute
+  '/x/docs/': typeof XDocsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -492,6 +806,7 @@ export interface FileRouteTypes {
     | '/system-settings'
     | '/templates'
     | '/users'
+    | '/x'
     | '/docs/about'
     | '/docs/chain-proxy'
     | '/docs/client-setup'
@@ -521,12 +836,46 @@ export interface FileRouteTypes {
     | '/docs/update'
     | '/docs/users'
     | '/subscribe-files/custom'
+    | '/x/docs'
     | '/custom-rules/'
     | '/docs/'
     | '/nodes/'
     | '/subscribe-files/'
     | '/subscription/'
     | '/templates/'
+    | '/x/'
+    | '/x/docs/about'
+    | '/x/docs/certificates'
+    | '/x/docs/changelog'
+    | '/x/docs/custom-rules'
+    | '/x/docs/faq'
+    | '/x/docs/features'
+    | '/x/docs/generator'
+    | '/x/docs/install-agent'
+    | '/x/docs/install-direct'
+    | '/x/docs/install-docker'
+    | '/x/docs/nodes'
+    | '/x/docs/packages'
+    | '/x/docs/protocol-hysteria2'
+    | '/x/docs/protocol-matrix'
+    | '/x/docs/protocol-shadowsocks'
+    | '/x/docs/protocol-trojan'
+    | '/x/docs/protocol-vless'
+    | '/x/docs/protocol-vmess'
+    | '/x/docs/quick-start'
+    | '/x/docs/remote-servers'
+    | '/x/docs/subscribe-files'
+    | '/x/docs/system-requirements'
+    | '/x/docs/system-settings'
+    | '/x/docs/templates'
+    | '/x/docs/update'
+    | '/x/docs/users'
+    | '/x/docs/xray-inbounds'
+    | '/x/docs/xray-outbounds'
+    | '/x/docs/xray-routing'
+    | '/x/docs/xray-service'
+    | '/x/docs/xray-system-config'
+    | '/x/docs/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -574,6 +923,39 @@ export interface FileRouteTypes {
     | '/subscribe-files'
     | '/subscription'
     | '/templates'
+    | '/x'
+    | '/x/docs/about'
+    | '/x/docs/certificates'
+    | '/x/docs/changelog'
+    | '/x/docs/custom-rules'
+    | '/x/docs/faq'
+    | '/x/docs/features'
+    | '/x/docs/generator'
+    | '/x/docs/install-agent'
+    | '/x/docs/install-direct'
+    | '/x/docs/install-docker'
+    | '/x/docs/nodes'
+    | '/x/docs/packages'
+    | '/x/docs/protocol-hysteria2'
+    | '/x/docs/protocol-matrix'
+    | '/x/docs/protocol-shadowsocks'
+    | '/x/docs/protocol-trojan'
+    | '/x/docs/protocol-vless'
+    | '/x/docs/protocol-vmess'
+    | '/x/docs/quick-start'
+    | '/x/docs/remote-servers'
+    | '/x/docs/subscribe-files'
+    | '/x/docs/system-requirements'
+    | '/x/docs/system-settings'
+    | '/x/docs/templates'
+    | '/x/docs/update'
+    | '/x/docs/users'
+    | '/x/docs/xray-inbounds'
+    | '/x/docs/xray-outbounds'
+    | '/x/docs/xray-routing'
+    | '/x/docs/xray-service'
+    | '/x/docs/xray-system-config'
+    | '/x/docs'
   id:
     | '__root__'
     | '/'
@@ -592,6 +974,7 @@ export interface FileRouteTypes {
     | '/system-settings'
     | '/templates'
     | '/users'
+    | '/x'
     | '/docs/about'
     | '/docs/chain-proxy'
     | '/docs/client-setup'
@@ -621,12 +1004,46 @@ export interface FileRouteTypes {
     | '/docs/update'
     | '/docs/users'
     | '/subscribe-files/custom'
+    | '/x/docs'
     | '/custom-rules/'
     | '/docs/'
     | '/nodes/'
     | '/subscribe-files/'
     | '/subscription/'
     | '/templates/'
+    | '/x/'
+    | '/x/docs/about'
+    | '/x/docs/certificates'
+    | '/x/docs/changelog'
+    | '/x/docs/custom-rules'
+    | '/x/docs/faq'
+    | '/x/docs/features'
+    | '/x/docs/generator'
+    | '/x/docs/install-agent'
+    | '/x/docs/install-direct'
+    | '/x/docs/install-docker'
+    | '/x/docs/nodes'
+    | '/x/docs/packages'
+    | '/x/docs/protocol-hysteria2'
+    | '/x/docs/protocol-matrix'
+    | '/x/docs/protocol-shadowsocks'
+    | '/x/docs/protocol-trojan'
+    | '/x/docs/protocol-vless'
+    | '/x/docs/protocol-vmess'
+    | '/x/docs/quick-start'
+    | '/x/docs/remote-servers'
+    | '/x/docs/subscribe-files'
+    | '/x/docs/system-requirements'
+    | '/x/docs/system-settings'
+    | '/x/docs/templates'
+    | '/x/docs/update'
+    | '/x/docs/users'
+    | '/x/docs/xray-inbounds'
+    | '/x/docs/xray-outbounds'
+    | '/x/docs/xray-routing'
+    | '/x/docs/xray-service'
+    | '/x/docs/xray-system-config'
+    | '/x/docs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -646,10 +1063,18 @@ export interface RootRouteChildren {
   SystemSettingsRoute: typeof SystemSettingsRoute
   TemplatesRoute: typeof TemplatesRouteWithChildren
   UsersRoute: typeof UsersRoute
+  XRoute: typeof XRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/x': {
+      id: '/x'
+      path: '/x'
+      fullPath: '/x'
+      preLoaderRoute: typeof XRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/users': {
       id: '/users'
       path: '/users'
@@ -762,6 +1187,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/x/': {
+      id: '/x/'
+      path: '/'
+      fullPath: '/x/'
+      preLoaderRoute: typeof XIndexRouteImport
+      parentRoute: typeof XRoute
+    }
     '/templates/': {
       id: '/templates/'
       path: '/'
@@ -803,6 +1235,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/custom-rules/'
       preLoaderRoute: typeof CustomRulesIndexRouteImport
       parentRoute: typeof CustomRulesRoute
+    }
+    '/x/docs': {
+      id: '/x/docs'
+      path: '/docs'
+      fullPath: '/x/docs'
+      preLoaderRoute: typeof XDocsRouteImport
+      parentRoute: typeof XRoute
     }
     '/subscribe-files/custom': {
       id: '/subscribe-files/custom'
@@ -1007,6 +1446,230 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsAboutRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/x/docs/': {
+      id: '/x/docs/'
+      path: '/'
+      fullPath: '/x/docs/'
+      preLoaderRoute: typeof XDocsIndexRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/xray-system-config': {
+      id: '/x/docs/xray-system-config'
+      path: '/xray-system-config'
+      fullPath: '/x/docs/xray-system-config'
+      preLoaderRoute: typeof XDocsXraySystemConfigRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/xray-service': {
+      id: '/x/docs/xray-service'
+      path: '/xray-service'
+      fullPath: '/x/docs/xray-service'
+      preLoaderRoute: typeof XDocsXrayServiceRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/xray-routing': {
+      id: '/x/docs/xray-routing'
+      path: '/xray-routing'
+      fullPath: '/x/docs/xray-routing'
+      preLoaderRoute: typeof XDocsXrayRoutingRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/xray-outbounds': {
+      id: '/x/docs/xray-outbounds'
+      path: '/xray-outbounds'
+      fullPath: '/x/docs/xray-outbounds'
+      preLoaderRoute: typeof XDocsXrayOutboundsRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/xray-inbounds': {
+      id: '/x/docs/xray-inbounds'
+      path: '/xray-inbounds'
+      fullPath: '/x/docs/xray-inbounds'
+      preLoaderRoute: typeof XDocsXrayInboundsRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/users': {
+      id: '/x/docs/users'
+      path: '/users'
+      fullPath: '/x/docs/users'
+      preLoaderRoute: typeof XDocsUsersRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/update': {
+      id: '/x/docs/update'
+      path: '/update'
+      fullPath: '/x/docs/update'
+      preLoaderRoute: typeof XDocsUpdateRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/templates': {
+      id: '/x/docs/templates'
+      path: '/templates'
+      fullPath: '/x/docs/templates'
+      preLoaderRoute: typeof XDocsTemplatesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/system-settings': {
+      id: '/x/docs/system-settings'
+      path: '/system-settings'
+      fullPath: '/x/docs/system-settings'
+      preLoaderRoute: typeof XDocsSystemSettingsRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/system-requirements': {
+      id: '/x/docs/system-requirements'
+      path: '/system-requirements'
+      fullPath: '/x/docs/system-requirements'
+      preLoaderRoute: typeof XDocsSystemRequirementsRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/subscribe-files': {
+      id: '/x/docs/subscribe-files'
+      path: '/subscribe-files'
+      fullPath: '/x/docs/subscribe-files'
+      preLoaderRoute: typeof XDocsSubscribeFilesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/remote-servers': {
+      id: '/x/docs/remote-servers'
+      path: '/remote-servers'
+      fullPath: '/x/docs/remote-servers'
+      preLoaderRoute: typeof XDocsRemoteServersRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/quick-start': {
+      id: '/x/docs/quick-start'
+      path: '/quick-start'
+      fullPath: '/x/docs/quick-start'
+      preLoaderRoute: typeof XDocsQuickStartRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/protocol-vmess': {
+      id: '/x/docs/protocol-vmess'
+      path: '/protocol-vmess'
+      fullPath: '/x/docs/protocol-vmess'
+      preLoaderRoute: typeof XDocsProtocolVmessRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/protocol-vless': {
+      id: '/x/docs/protocol-vless'
+      path: '/protocol-vless'
+      fullPath: '/x/docs/protocol-vless'
+      preLoaderRoute: typeof XDocsProtocolVlessRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/protocol-trojan': {
+      id: '/x/docs/protocol-trojan'
+      path: '/protocol-trojan'
+      fullPath: '/x/docs/protocol-trojan'
+      preLoaderRoute: typeof XDocsProtocolTrojanRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/protocol-shadowsocks': {
+      id: '/x/docs/protocol-shadowsocks'
+      path: '/protocol-shadowsocks'
+      fullPath: '/x/docs/protocol-shadowsocks'
+      preLoaderRoute: typeof XDocsProtocolShadowsocksRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/protocol-matrix': {
+      id: '/x/docs/protocol-matrix'
+      path: '/protocol-matrix'
+      fullPath: '/x/docs/protocol-matrix'
+      preLoaderRoute: typeof XDocsProtocolMatrixRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/protocol-hysteria2': {
+      id: '/x/docs/protocol-hysteria2'
+      path: '/protocol-hysteria2'
+      fullPath: '/x/docs/protocol-hysteria2'
+      preLoaderRoute: typeof XDocsProtocolHysteria2RouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/packages': {
+      id: '/x/docs/packages'
+      path: '/packages'
+      fullPath: '/x/docs/packages'
+      preLoaderRoute: typeof XDocsPackagesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/nodes': {
+      id: '/x/docs/nodes'
+      path: '/nodes'
+      fullPath: '/x/docs/nodes'
+      preLoaderRoute: typeof XDocsNodesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/install-docker': {
+      id: '/x/docs/install-docker'
+      path: '/install-docker'
+      fullPath: '/x/docs/install-docker'
+      preLoaderRoute: typeof XDocsInstallDockerRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/install-direct': {
+      id: '/x/docs/install-direct'
+      path: '/install-direct'
+      fullPath: '/x/docs/install-direct'
+      preLoaderRoute: typeof XDocsInstallDirectRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/install-agent': {
+      id: '/x/docs/install-agent'
+      path: '/install-agent'
+      fullPath: '/x/docs/install-agent'
+      preLoaderRoute: typeof XDocsInstallAgentRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/generator': {
+      id: '/x/docs/generator'
+      path: '/generator'
+      fullPath: '/x/docs/generator'
+      preLoaderRoute: typeof XDocsGeneratorRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/features': {
+      id: '/x/docs/features'
+      path: '/features'
+      fullPath: '/x/docs/features'
+      preLoaderRoute: typeof XDocsFeaturesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/faq': {
+      id: '/x/docs/faq'
+      path: '/faq'
+      fullPath: '/x/docs/faq'
+      preLoaderRoute: typeof XDocsFaqRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/custom-rules': {
+      id: '/x/docs/custom-rules'
+      path: '/custom-rules'
+      fullPath: '/x/docs/custom-rules'
+      preLoaderRoute: typeof XDocsCustomRulesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/changelog': {
+      id: '/x/docs/changelog'
+      path: '/changelog'
+      fullPath: '/x/docs/changelog'
+      preLoaderRoute: typeof XDocsChangelogRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/certificates': {
+      id: '/x/docs/certificates'
+      path: '/certificates'
+      fullPath: '/x/docs/certificates'
+      preLoaderRoute: typeof XDocsCertificatesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/about': {
+      id: '/x/docs/about'
+      path: '/about'
+      fullPath: '/x/docs/about'
+      preLoaderRoute: typeof XDocsAboutRouteImport
+      parentRoute: typeof XDocsRoute
+    }
   }
 }
 
@@ -1136,6 +1799,90 @@ const TemplatesRouteWithChildren = TemplatesRoute._addFileChildren(
   TemplatesRouteChildren,
 )
 
+interface XDocsRouteChildren {
+  XDocsAboutRoute: typeof XDocsAboutRoute
+  XDocsCertificatesRoute: typeof XDocsCertificatesRoute
+  XDocsChangelogRoute: typeof XDocsChangelogRoute
+  XDocsCustomRulesRoute: typeof XDocsCustomRulesRoute
+  XDocsFaqRoute: typeof XDocsFaqRoute
+  XDocsFeaturesRoute: typeof XDocsFeaturesRoute
+  XDocsGeneratorRoute: typeof XDocsGeneratorRoute
+  XDocsInstallAgentRoute: typeof XDocsInstallAgentRoute
+  XDocsInstallDirectRoute: typeof XDocsInstallDirectRoute
+  XDocsInstallDockerRoute: typeof XDocsInstallDockerRoute
+  XDocsNodesRoute: typeof XDocsNodesRoute
+  XDocsPackagesRoute: typeof XDocsPackagesRoute
+  XDocsProtocolHysteria2Route: typeof XDocsProtocolHysteria2Route
+  XDocsProtocolMatrixRoute: typeof XDocsProtocolMatrixRoute
+  XDocsProtocolShadowsocksRoute: typeof XDocsProtocolShadowsocksRoute
+  XDocsProtocolTrojanRoute: typeof XDocsProtocolTrojanRoute
+  XDocsProtocolVlessRoute: typeof XDocsProtocolVlessRoute
+  XDocsProtocolVmessRoute: typeof XDocsProtocolVmessRoute
+  XDocsQuickStartRoute: typeof XDocsQuickStartRoute
+  XDocsRemoteServersRoute: typeof XDocsRemoteServersRoute
+  XDocsSubscribeFilesRoute: typeof XDocsSubscribeFilesRoute
+  XDocsSystemRequirementsRoute: typeof XDocsSystemRequirementsRoute
+  XDocsSystemSettingsRoute: typeof XDocsSystemSettingsRoute
+  XDocsTemplatesRoute: typeof XDocsTemplatesRoute
+  XDocsUpdateRoute: typeof XDocsUpdateRoute
+  XDocsUsersRoute: typeof XDocsUsersRoute
+  XDocsXrayInboundsRoute: typeof XDocsXrayInboundsRoute
+  XDocsXrayOutboundsRoute: typeof XDocsXrayOutboundsRoute
+  XDocsXrayRoutingRoute: typeof XDocsXrayRoutingRoute
+  XDocsXrayServiceRoute: typeof XDocsXrayServiceRoute
+  XDocsXraySystemConfigRoute: typeof XDocsXraySystemConfigRoute
+  XDocsIndexRoute: typeof XDocsIndexRoute
+}
+
+const XDocsRouteChildren: XDocsRouteChildren = {
+  XDocsAboutRoute: XDocsAboutRoute,
+  XDocsCertificatesRoute: XDocsCertificatesRoute,
+  XDocsChangelogRoute: XDocsChangelogRoute,
+  XDocsCustomRulesRoute: XDocsCustomRulesRoute,
+  XDocsFaqRoute: XDocsFaqRoute,
+  XDocsFeaturesRoute: XDocsFeaturesRoute,
+  XDocsGeneratorRoute: XDocsGeneratorRoute,
+  XDocsInstallAgentRoute: XDocsInstallAgentRoute,
+  XDocsInstallDirectRoute: XDocsInstallDirectRoute,
+  XDocsInstallDockerRoute: XDocsInstallDockerRoute,
+  XDocsNodesRoute: XDocsNodesRoute,
+  XDocsPackagesRoute: XDocsPackagesRoute,
+  XDocsProtocolHysteria2Route: XDocsProtocolHysteria2Route,
+  XDocsProtocolMatrixRoute: XDocsProtocolMatrixRoute,
+  XDocsProtocolShadowsocksRoute: XDocsProtocolShadowsocksRoute,
+  XDocsProtocolTrojanRoute: XDocsProtocolTrojanRoute,
+  XDocsProtocolVlessRoute: XDocsProtocolVlessRoute,
+  XDocsProtocolVmessRoute: XDocsProtocolVmessRoute,
+  XDocsQuickStartRoute: XDocsQuickStartRoute,
+  XDocsRemoteServersRoute: XDocsRemoteServersRoute,
+  XDocsSubscribeFilesRoute: XDocsSubscribeFilesRoute,
+  XDocsSystemRequirementsRoute: XDocsSystemRequirementsRoute,
+  XDocsSystemSettingsRoute: XDocsSystemSettingsRoute,
+  XDocsTemplatesRoute: XDocsTemplatesRoute,
+  XDocsUpdateRoute: XDocsUpdateRoute,
+  XDocsUsersRoute: XDocsUsersRoute,
+  XDocsXrayInboundsRoute: XDocsXrayInboundsRoute,
+  XDocsXrayOutboundsRoute: XDocsXrayOutboundsRoute,
+  XDocsXrayRoutingRoute: XDocsXrayRoutingRoute,
+  XDocsXrayServiceRoute: XDocsXrayServiceRoute,
+  XDocsXraySystemConfigRoute: XDocsXraySystemConfigRoute,
+  XDocsIndexRoute: XDocsIndexRoute,
+}
+
+const XDocsRouteWithChildren = XDocsRoute._addFileChildren(XDocsRouteChildren)
+
+interface XRouteChildren {
+  XDocsRoute: typeof XDocsRouteWithChildren
+  XIndexRoute: typeof XIndexRoute
+}
+
+const XRouteChildren: XRouteChildren = {
+  XDocsRoute: XDocsRouteWithChildren,
+  XIndexRoute: XIndexRoute,
+}
+
+const XRouteWithChildren = XRoute._addFileChildren(XRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ChangePasswordRoute: ChangePasswordRoute,
@@ -1153,6 +1900,7 @@ const rootRouteChildren: RootRouteChildren = {
   SystemSettingsRoute: SystemSettingsRoute,
   TemplatesRoute: TemplatesRouteWithChildren,
   UsersRoute: UsersRoute,
+  XRoute: XRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
