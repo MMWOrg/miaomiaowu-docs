@@ -71,6 +71,7 @@ import { Route as XDocsXrayOutboundsRouteImport } from './routes/x/docs/xray-out
 import { Route as XDocsXrayInboundsRouteImport } from './routes/x/docs/xray-inbounds'
 import { Route as XDocsUsersRouteImport } from './routes/x/docs/users'
 import { Route as XDocsUpdateRouteImport } from './routes/x/docs/update'
+import { Route as XDocsTutorialRouteImport } from './routes/x/docs/tutorial'
 import { Route as XDocsTemplatesRouteImport } from './routes/x/docs/templates'
 import { Route as XDocsSystemSettingsRouteImport } from './routes/x/docs/system-settings'
 import { Route as XDocsSystemRequirementsRouteImport } from './routes/x/docs/system-requirements'
@@ -408,6 +409,11 @@ const XDocsUpdateRoute = XDocsUpdateRouteImport.update({
   path: '/update',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsTutorialRoute = XDocsTutorialRouteImport.update({
+  id: '/tutorial',
+  path: '/tutorial',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsTemplatesRoute = XDocsTemplatesRouteImport.update({
   id: '/templates',
   path: '/templates',
@@ -609,6 +615,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
   '/x/docs/templates': typeof XDocsTemplatesRoute
+  '/x/docs/tutorial': typeof XDocsTutorialRoute
   '/x/docs/update': typeof XDocsUpdateRoute
   '/x/docs/users': typeof XDocsUsersRoute
   '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
@@ -689,6 +696,7 @@ export interface FileRoutesByTo {
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
   '/x/docs/templates': typeof XDocsTemplatesRoute
+  '/x/docs/tutorial': typeof XDocsTutorialRoute
   '/x/docs/update': typeof XDocsUpdateRoute
   '/x/docs/users': typeof XDocsUsersRoute
   '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
@@ -778,6 +786,7 @@ export interface FileRoutesById {
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
   '/x/docs/templates': typeof XDocsTemplatesRoute
+  '/x/docs/tutorial': typeof XDocsTutorialRoute
   '/x/docs/update': typeof XDocsUpdateRoute
   '/x/docs/users': typeof XDocsUsersRoute
   '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
@@ -868,6 +877,7 @@ export interface FileRouteTypes {
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
     | '/x/docs/templates'
+    | '/x/docs/tutorial'
     | '/x/docs/update'
     | '/x/docs/users'
     | '/x/docs/xray-inbounds'
@@ -948,6 +958,7 @@ export interface FileRouteTypes {
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
     | '/x/docs/templates'
+    | '/x/docs/tutorial'
     | '/x/docs/update'
     | '/x/docs/users'
     | '/x/docs/xray-inbounds'
@@ -1036,6 +1047,7 @@ export interface FileRouteTypes {
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
     | '/x/docs/templates'
+    | '/x/docs/tutorial'
     | '/x/docs/update'
     | '/x/docs/users'
     | '/x/docs/xray-inbounds'
@@ -1502,6 +1514,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsUpdateRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/tutorial': {
+      id: '/x/docs/tutorial'
+      path: '/tutorial'
+      fullPath: '/x/docs/tutorial'
+      preLoaderRoute: typeof XDocsTutorialRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/templates': {
       id: '/x/docs/templates'
       path: '/templates'
@@ -1824,6 +1843,7 @@ interface XDocsRouteChildren {
   XDocsSystemRequirementsRoute: typeof XDocsSystemRequirementsRoute
   XDocsSystemSettingsRoute: typeof XDocsSystemSettingsRoute
   XDocsTemplatesRoute: typeof XDocsTemplatesRoute
+  XDocsTutorialRoute: typeof XDocsTutorialRoute
   XDocsUpdateRoute: typeof XDocsUpdateRoute
   XDocsUsersRoute: typeof XDocsUsersRoute
   XDocsXrayInboundsRoute: typeof XDocsXrayInboundsRoute
@@ -1859,6 +1879,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsSystemRequirementsRoute: XDocsSystemRequirementsRoute,
   XDocsSystemSettingsRoute: XDocsSystemSettingsRoute,
   XDocsTemplatesRoute: XDocsTemplatesRoute,
+  XDocsTutorialRoute: XDocsTutorialRoute,
   XDocsUpdateRoute: XDocsUpdateRoute,
   XDocsUsersRoute: XDocsUsersRoute,
   XDocsXrayInboundsRoute: XDocsXrayInboundsRoute,
