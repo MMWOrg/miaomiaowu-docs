@@ -25,6 +25,7 @@ import {
   Layers,
   Lock,
   Route,
+  GraduationCap,
 } from 'lucide-react'
 
 export type XNavItem = {
@@ -45,6 +46,7 @@ export const xNavItems: XNavItem[] = [
       { id: 'about', label: '关于妙妙屋X', href: '/x/docs/about', icon: BookOpen },
       { id: 'features', label: '核心特性', href: '/x/docs/features', icon: Sparkles },
       { id: 'quick-start', label: '快速开始', href: '/x/docs/quick-start', icon: Zap },
+      { id: 'tutorial', label: '使用教程', href: '/x/docs/tutorial', icon: GraduationCap },
     ],
   },
   {
