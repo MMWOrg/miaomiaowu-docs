@@ -88,6 +88,44 @@ function RemoteServersPage() {
           </table>
         </div>
       </section>
+
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>批量升级 Agent</h2>
+        <p className='text-muted-foreground'>
+          主控发布新版本后,可在远程服务器管理里对多台服务器<strong>批量升级 Agent</strong>,无需逐台 SSH 重新执行安装命令。升级过程以流式日志展示进度。
+        </p>
+      </section>
+
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>分享服务器给其他妙妙屋X</h2>
+        <p className='text-muted-foreground mb-4'>
+          你可以把自己的一台服务器<strong>分享</strong>给别人的妙妙屋X 主控,让对方也能在其面板里管理该服务器(创建入站、出节点等),而无需把 Agent 令牌直接交出去。
+        </p>
+        <div className='space-y-4'>
+          <Card>
+            <CardContent className='pt-6'>
+              <h3 className='font-semibold mb-2'>分享方(拥有者)</h3>
+              <p className='text-sm text-muted-foreground'>
+                在服务器管理里为该服务器生成一个<strong>分享令牌</strong>(可带前缀),交给对方。对方的操作会经你的主控代理转发到该服务器。
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className='pt-6'>
+              <h3 className='font-semibold mb-2'>接收方</h3>
+              <p className='text-sm text-muted-foreground'>
+                在「添加服务器」里选择「接入分享的服务器」,填入对方给的分享令牌即可。接入后该服务器会作为一台<strong>联邦(federated)服务器</strong>出现在你的列表里,
+                状态随拥有方上报刷新;入站 / 节点 / Tunnel 管理等均可用。
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className='pt-6 text-sm text-muted-foreground'>
+              主控与 Agent、以及主控之间的联邦通信均走加密通道(密钥协商 + 会话缓存),令牌轮换不影响在线管理。
+            </CardContent>
+          </Card>
+        </div>
+      </section>
     </XDocLayout>
   )
 }

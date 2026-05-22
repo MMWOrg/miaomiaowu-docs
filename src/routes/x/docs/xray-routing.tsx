@@ -145,6 +145,44 @@ function XrayRoutingPage() {
       </section>
 
       <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>出站负载均衡</h2>
+        <p className='text-muted-foreground mb-4'>
+          可以创建一个<strong>负载均衡器(balancer)</strong>,把命中某条路由规则的流量分摊到一组出站上,实现多落地分流 / 故障转移。
+          创建入口在「服务管理」的路由配置,以及「节点管理」的路由配置弹窗都提供。
+        </p>
+        <div className='space-y-4'>
+          <Card>
+            <CardContent className='pt-6'>
+              <h3 className='font-semibold mb-3'>创建步骤</h3>
+              <div className='text-sm text-muted-foreground space-y-2'>
+                <p>1. 在路由配置里点「创建负载均衡器」。</p>
+                <p>2. 用<strong>出站前缀</strong>(selector)选中要参与均衡的一组出站(按 tag 前缀匹配)。</p>
+                <p>3. 选择<strong>分流策略</strong>(见下表)。</p>
+                <p>4. 添加一条路由规则,把 <code className='bg-muted px-1 py-0.5 rounded'>balancerTag</code> 指向该均衡器(而不是单个 outboundTag)。</p>
+                <p>5. 从节点管理路由弹窗创建时,默认规则的 <code className='bg-muted px-1 py-0.5 rounded'>inboundTag</code> = 节点的 TAG,可改为对所有节点生效。</p>
+              </div>
+            </CardContent>
+          </Card>
+          <div className='overflow-x-auto'>
+            <table className='w-full text-sm'>
+              <thead><tr className='border-b'><th className='text-left py-3 px-4'>策略</th><th className='text-left py-3 px-4'>说明</th></tr></thead>
+              <tbody>
+                <tr className='border-b'><td className='py-3 px-4 font-mono text-xs'>random</td><td className='py-3 px-4'>随机挑选一个出站</td></tr>
+                <tr className='border-b'><td className='py-3 px-4 font-mono text-xs'>roundRobin</td><td className='py-3 px-4'>轮询依次使用各出站</td></tr>
+                <tr className='border-b'><td className='py-3 px-4 font-mono text-xs'>leastPing</td><td className='py-3 px-4'>选延迟最低的出站(需观测,自动启用 observatory)</td></tr>
+                <tr><td className='py-3 px-4 font-mono text-xs'>leastLoad</td><td className='py-3 px-4'>选负载最低的出站(需观测)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <Card>
+            <CardContent className='pt-6 text-sm text-muted-foreground'>
+              选择 <code className='bg-muted px-1 py-0.5 rounded'>leastPing</code> / <code className='bg-muted px-1 py-0.5 rounded'>leastLoad</code> 时系统会自动配置 observatory / burstObservatory 对候选出站做探测;random / roundRobin 无需探测。
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>自定义规则</h2>
         <p className='text-muted-foreground mb-4'>
           自定义规则支持 Xray 路由的所有字段，空字段不会提交。多个值用逗号分隔。

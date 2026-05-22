@@ -86,6 +86,8 @@ import { Route as XDocsProtocolMatrixRouteImport } from './routes/x/docs/protoco
 import { Route as XDocsProtocolHysteria2RouteImport } from './routes/x/docs/protocol-hysteria2'
 import { Route as XDocsPackagesRouteImport } from './routes/x/docs/packages'
 import { Route as XDocsNodesRouteImport } from './routes/x/docs/nodes'
+import { Route as XDocsNodeSpeedtestRouteImport } from './routes/x/docs/node-speedtest'
+import { Route as XDocsMcpRouteImport } from './routes/x/docs/mcp'
 import { Route as XDocsInstallDockerRouteImport } from './routes/x/docs/install-docker'
 import { Route as XDocsInstallDirectRouteImport } from './routes/x/docs/install-direct'
 import { Route as XDocsInstallAgentRouteImport } from './routes/x/docs/install-agent'
@@ -485,6 +487,16 @@ const XDocsNodesRoute = XDocsNodesRouteImport.update({
   path: '/nodes',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsNodeSpeedtestRoute = XDocsNodeSpeedtestRouteImport.update({
+  id: '/node-speedtest',
+  path: '/node-speedtest',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsMcpRoute = XDocsMcpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsInstallDockerRoute = XDocsInstallDockerRouteImport.update({
   id: '/install-docker',
   path: '/install-docker',
@@ -601,6 +613,8 @@ export interface FileRoutesByFullPath {
   '/x/docs/install-agent': typeof XDocsInstallAgentRoute
   '/x/docs/install-direct': typeof XDocsInstallDirectRoute
   '/x/docs/install-docker': typeof XDocsInstallDockerRoute
+  '/x/docs/mcp': typeof XDocsMcpRoute
+  '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
   '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
@@ -682,6 +696,8 @@ export interface FileRoutesByTo {
   '/x/docs/install-agent': typeof XDocsInstallAgentRoute
   '/x/docs/install-direct': typeof XDocsInstallDirectRoute
   '/x/docs/install-docker': typeof XDocsInstallDockerRoute
+  '/x/docs/mcp': typeof XDocsMcpRoute
+  '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
   '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
@@ -772,6 +788,8 @@ export interface FileRoutesById {
   '/x/docs/install-agent': typeof XDocsInstallAgentRoute
   '/x/docs/install-direct': typeof XDocsInstallDirectRoute
   '/x/docs/install-docker': typeof XDocsInstallDockerRoute
+  '/x/docs/mcp': typeof XDocsMcpRoute
+  '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
   '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
@@ -863,6 +881,8 @@ export interface FileRouteTypes {
     | '/x/docs/install-agent'
     | '/x/docs/install-direct'
     | '/x/docs/install-docker'
+    | '/x/docs/mcp'
+    | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
     | '/x/docs/protocol-hysteria2'
@@ -944,6 +964,8 @@ export interface FileRouteTypes {
     | '/x/docs/install-agent'
     | '/x/docs/install-direct'
     | '/x/docs/install-docker'
+    | '/x/docs/mcp'
+    | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
     | '/x/docs/protocol-hysteria2'
@@ -1033,6 +1055,8 @@ export interface FileRouteTypes {
     | '/x/docs/install-agent'
     | '/x/docs/install-direct'
     | '/x/docs/install-docker'
+    | '/x/docs/mcp'
+    | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
     | '/x/docs/protocol-hysteria2'
@@ -1619,6 +1643,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsNodesRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/node-speedtest': {
+      id: '/x/docs/node-speedtest'
+      path: '/node-speedtest'
+      fullPath: '/x/docs/node-speedtest'
+      preLoaderRoute: typeof XDocsNodeSpeedtestRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/mcp': {
+      id: '/x/docs/mcp'
+      path: '/mcp'
+      fullPath: '/x/docs/mcp'
+      preLoaderRoute: typeof XDocsMcpRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/install-docker': {
       id: '/x/docs/install-docker'
       path: '/install-docker'
@@ -1829,6 +1867,8 @@ interface XDocsRouteChildren {
   XDocsInstallAgentRoute: typeof XDocsInstallAgentRoute
   XDocsInstallDirectRoute: typeof XDocsInstallDirectRoute
   XDocsInstallDockerRoute: typeof XDocsInstallDockerRoute
+  XDocsMcpRoute: typeof XDocsMcpRoute
+  XDocsNodeSpeedtestRoute: typeof XDocsNodeSpeedtestRoute
   XDocsNodesRoute: typeof XDocsNodesRoute
   XDocsPackagesRoute: typeof XDocsPackagesRoute
   XDocsProtocolHysteria2Route: typeof XDocsProtocolHysteria2Route
@@ -1865,6 +1905,8 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsInstallAgentRoute: XDocsInstallAgentRoute,
   XDocsInstallDirectRoute: XDocsInstallDirectRoute,
   XDocsInstallDockerRoute: XDocsInstallDockerRoute,
+  XDocsMcpRoute: XDocsMcpRoute,
+  XDocsNodeSpeedtestRoute: XDocsNodeSpeedtestRoute,
   XDocsNodesRoute: XDocsNodesRoute,
   XDocsPackagesRoute: XDocsPackagesRoute,
   XDocsProtocolHysteria2Route: XDocsProtocolHysteria2Route,

@@ -26,6 +26,7 @@ import {
   Lock,
   Route,
   GraduationCap,
+  Bot,
 } from 'lucide-react'
 
 export type XNavItem = {
@@ -94,6 +95,7 @@ export const xNavItems: XNavItem[] = [
     icon: Network,
     children: [
       { id: 'nodes', label: '节点管理', href: '/x/docs/nodes', icon: Network },
+      { id: 'node-speedtest', label: '节点测速', href: '/x/docs/node-speedtest', icon: Zap, badge: 'PRO' },
       { id: 'generator', label: '生成订阅', href: '/x/docs/generator', icon: Zap },
       { id: 'subscribe-files', label: '订阅文件', href: '/x/docs/subscribe-files', icon: Database },
       { id: 'templates', label: '模板管理', href: '/x/docs/templates', icon: LayoutTemplate },
@@ -123,6 +125,14 @@ export const xNavItems: XNavItem[] = [
     children: [
       { id: 'system-settings', label: '系统设置', href: '/x/docs/system-settings', icon: Settings },
       { id: 'custom-rules', label: '自定义规则', href: '/x/docs/custom-rules', icon: FileCode },
+    ],
+  },
+  {
+    id: 'ai',
+    label: 'AI 集成',
+    icon: Bot,
+    children: [
+      { id: 'mcp', label: '接入 AI Agent(MCP)', href: '/x/docs/mcp', icon: Bot, badge: '新' },
     ],
   },
   {

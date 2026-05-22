@@ -45,16 +45,47 @@ function PackagesPage() {
         </Card>
       </section>
 
-      <section>
-        <h2 className='text-2xl font-bold mb-4'>流量统计</h2>
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>限速与设备数</h2>
         <p className='text-muted-foreground mb-4'>
-          系统通过 Xray 流量采集器实时统计每个用户的流量使用情况。当用户流量超出套餐配额时，订阅将自动停止返回节点。
+          套餐可设置<strong>限速(Mbps)</strong>与<strong>设备数上限</strong>;也可在用户管理里对单个用户单独设置(用户级覆盖套餐级)。
         </p>
-        <ul className='space-y-2 text-sm text-muted-foreground'>
-          <li>- 流量按自然月重置</li>
-          <li>- 上行和下行流量分别统计</li>
-          <li>- 管理员可手动重置用户流量</li>
+        <div className='space-y-4'>
+          <Card>
+            <CardContent className='pt-6'>
+              <h3 className='font-semibold mb-2'>限速</h3>
+              <p className='text-sm text-muted-foreground'>
+                以 Mbps 为单位设置上限,0 表示不限。设置后由 Agent 侧的限速层对该用户连接生效;界面会给出单位换算提示。
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className='pt-6'>
+              <h3 className='font-semibold mb-2'>自动限速 / 解除</h3>
+              <p className='text-sm text-muted-foreground'>
+                可开启<strong>超额自动限速</strong>:用户流量超额时自动降速(而非直接断订阅),次月流量重置或额度恢复后自动解除限速。
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section>
+        <h2 className='text-2xl font-bold mb-4'>流量统计与计费倍率</h2>
+        <p className='text-muted-foreground mb-4'>
+          系统通过 Xray 流量采集器实时统计每个用户的流量。当用户<strong>计费流量</strong>超出套餐配额时,订阅将自动停止返回节点(或按上面的自动限速降速)。
+        </p>
+        <ul className='space-y-2 text-sm text-muted-foreground mb-4'>
+          <li>- 底层 user_traffic 表保存的是裸流量(上行 + 下行),按节点 / 用户分别统计</li>
+          <li>- 套餐可选<strong>计费方向</strong>:单向(oneway,×1)或双向(twoway,×2)</li>
+          <li>- <strong>计费流量 = 裸流量(上行+下行) × 倍率</strong>;是否超额按计费流量判断</li>
+          <li>- 流量按自然月重置;管理员可手动重置用户流量</li>
         </ul>
+        <Card>
+          <CardContent className='pt-6 text-sm text-muted-foreground'>
+            首页与用户列表展示的"已用流量"对管理员是各服务器计费口径(不限流量服务器单独标注),对用户是按其套餐倍率换算后的计费流量。
+          </CardContent>
+        </Card>
       </section>
     </XDocLayout>
   )
