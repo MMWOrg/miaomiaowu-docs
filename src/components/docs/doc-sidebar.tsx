@@ -80,6 +80,7 @@ export const navItems: NavItem[] = [
       { id: 'generator', label: '生成订阅', href: '/docs/generator', icon: Zap },
       { id: 'edit-nodes', label: '节点与代理组编辑', href: '/docs/edit-nodes', icon: GripVertical, badge: '新' },
       { id: 'nodes', label: '节点管理', href: '/docs/nodes', icon: Network },
+      { id: 'node-speedtest', label: '节点测速', href: '/docs/node-speedtest', icon: Zap, badge: '新' },
       { id: 'probe', label: '探针管理', href: '/docs/probe', icon: Radar },
       { id: 'subscribe-files', label: '订阅文件', href: '/docs/subscribe-files', icon: Database },
       { id: 'external-subscriptions', label: '外部订阅', href: '/docs/external-subscriptions', icon: ExternalLink, badge: '新' },

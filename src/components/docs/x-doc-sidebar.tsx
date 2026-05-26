@@ -27,6 +27,8 @@ import {
   Route,
   GraduationCap,
   Bot,
+  Workflow,
+  ArrowRightLeft,
 } from 'lucide-react'
 
 export type XNavItem = {
@@ -58,6 +60,7 @@ export const xNavItems: XNavItem[] = [
       { id: 'install-direct', label: '直接安装', href: '/x/docs/install-direct', icon: Download },
       { id: 'install-docker', label: 'Docker 安装', href: '/x/docs/install-docker', icon: Download },
       { id: 'install-agent', label: 'Agent 部署', href: '/x/docs/install-agent', icon: Radio, badge: '新' },
+      { id: 'upgrade-from-mmw', label: '从妙妙屋迁移', href: '/x/docs/upgrade-from-mmw', icon: ArrowRightLeft, badge: '新' },
       { id: 'system-requirements', label: '系统要求', href: '/x/docs/system-requirements', icon: Settings },
       { id: 'update', label: '版本更新', href: '/x/docs/update', icon: RefreshCw },
     ],
@@ -95,10 +98,18 @@ export const xNavItems: XNavItem[] = [
     icon: Network,
     children: [
       { id: 'nodes', label: '节点管理', href: '/x/docs/nodes', icon: Network },
-      { id: 'node-speedtest', label: '节点测速', href: '/x/docs/node-speedtest', icon: Zap, badge: 'PRO' },
+      { id: 'node-speedtest', label: '节点测速', href: '/x/docs/node-speedtest', icon: Zap },
       { id: 'generator', label: '生成订阅', href: '/x/docs/generator', icon: Zap },
       { id: 'subscribe-files', label: '订阅文件', href: '/x/docs/subscribe-files', icon: Database },
       { id: 'templates', label: '模板管理', href: '/x/docs/templates', icon: LayoutTemplate },
+    ],
+  },
+  {
+    id: 'feature-guide',
+    label: '功能说明',
+    icon: Workflow,
+    children: [
+      { id: 'routed-outbound', label: '路由出站', href: '/x/docs/routed-outbound', icon: Route, badge: '新' },
     ],
   },
   {

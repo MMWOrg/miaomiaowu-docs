@@ -50,6 +50,7 @@ import { Route as DocsProxyProvidersAdvancedRouteImport } from './routes/docs/pr
 import { Route as DocsProxyProvidersRouteImport } from './routes/docs/proxy-providers'
 import { Route as DocsProbeRouteImport } from './routes/docs/probe'
 import { Route as DocsNodesRouteImport } from './routes/docs/nodes'
+import { Route as DocsNodeSpeedtestRouteImport } from './routes/docs/node-speedtest'
 import { Route as DocsLoginRouteImport } from './routes/docs/login'
 import { Route as DocsInstallDockerRouteImport } from './routes/docs/install-docker'
 import { Route as DocsInstallDirectRouteImport } from './routes/docs/install-direct'
@@ -70,12 +71,14 @@ import { Route as XDocsXrayRoutingRouteImport } from './routes/x/docs/xray-routi
 import { Route as XDocsXrayOutboundsRouteImport } from './routes/x/docs/xray-outbounds'
 import { Route as XDocsXrayInboundsRouteImport } from './routes/x/docs/xray-inbounds'
 import { Route as XDocsUsersRouteImport } from './routes/x/docs/users'
+import { Route as XDocsUpgradeFromMmwRouteImport } from './routes/x/docs/upgrade-from-mmw'
 import { Route as XDocsUpdateRouteImport } from './routes/x/docs/update'
 import { Route as XDocsTutorialRouteImport } from './routes/x/docs/tutorial'
 import { Route as XDocsTemplatesRouteImport } from './routes/x/docs/templates'
 import { Route as XDocsSystemSettingsRouteImport } from './routes/x/docs/system-settings'
 import { Route as XDocsSystemRequirementsRouteImport } from './routes/x/docs/system-requirements'
 import { Route as XDocsSubscribeFilesRouteImport } from './routes/x/docs/subscribe-files'
+import { Route as XDocsRoutedOutboundRouteImport } from './routes/x/docs/routed-outbound'
 import { Route as XDocsRemoteServersRouteImport } from './routes/x/docs/remote-servers'
 import { Route as XDocsQuickStartRouteImport } from './routes/x/docs/quick-start'
 import { Route as XDocsProtocolVmessRouteImport } from './routes/x/docs/protocol-vmess'
@@ -305,6 +308,11 @@ const DocsNodesRoute = DocsNodesRouteImport.update({
   path: '/nodes',
   getParentRoute: () => DocsRoute,
 } as any)
+const DocsNodeSpeedtestRoute = DocsNodeSpeedtestRouteImport.update({
+  id: '/node-speedtest',
+  path: '/node-speedtest',
+  getParentRoute: () => DocsRoute,
+} as any)
 const DocsLoginRoute = DocsLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -406,6 +414,11 @@ const XDocsUsersRoute = XDocsUsersRouteImport.update({
   path: '/users',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsUpgradeFromMmwRoute = XDocsUpgradeFromMmwRouteImport.update({
+  id: '/upgrade-from-mmw',
+  path: '/upgrade-from-mmw',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsUpdateRoute = XDocsUpdateRouteImport.update({
   id: '/update',
   path: '/update',
@@ -434,6 +447,11 @@ const XDocsSystemRequirementsRoute = XDocsSystemRequirementsRouteImport.update({
 const XDocsSubscribeFilesRoute = XDocsSubscribeFilesRouteImport.update({
   id: '/subscribe-files',
   path: '/subscribe-files',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsRoutedOutboundRoute = XDocsRoutedOutboundRouteImport.update({
+  id: '/routed-outbound',
+  path: '/routed-outbound',
   getParentRoute: () => XDocsRoute,
 } as any)
 const XDocsRemoteServersRoute = XDocsRemoteServersRouteImport.update({
@@ -579,6 +597,7 @@ export interface FileRoutesByFullPath {
   '/docs/install-direct': typeof DocsInstallDirectRoute
   '/docs/install-docker': typeof DocsInstallDockerRoute
   '/docs/login': typeof DocsLoginRoute
+  '/docs/node-speedtest': typeof DocsNodeSpeedtestRoute
   '/docs/nodes': typeof DocsNodesRoute
   '/docs/probe': typeof DocsProbeRoute
   '/docs/proxy-providers': typeof DocsProxyProvidersRoute
@@ -625,12 +644,14 @@ export interface FileRoutesByFullPath {
   '/x/docs/protocol-vmess': typeof XDocsProtocolVmessRoute
   '/x/docs/quick-start': typeof XDocsQuickStartRoute
   '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
+  '/x/docs/routed-outbound': typeof XDocsRoutedOutboundRoute
   '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
   '/x/docs/templates': typeof XDocsTemplatesRoute
   '/x/docs/tutorial': typeof XDocsTutorialRoute
   '/x/docs/update': typeof XDocsUpdateRoute
+  '/x/docs/upgrade-from-mmw': typeof XDocsUpgradeFromMmwRoute
   '/x/docs/users': typeof XDocsUsersRoute
   '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
   '/x/docs/xray-outbounds': typeof XDocsXrayOutboundsRoute
@@ -663,6 +684,7 @@ export interface FileRoutesByTo {
   '/docs/install-direct': typeof DocsInstallDirectRoute
   '/docs/install-docker': typeof DocsInstallDockerRoute
   '/docs/login': typeof DocsLoginRoute
+  '/docs/node-speedtest': typeof DocsNodeSpeedtestRoute
   '/docs/nodes': typeof DocsNodesRoute
   '/docs/probe': typeof DocsProbeRoute
   '/docs/proxy-providers': typeof DocsProxyProvidersRoute
@@ -708,12 +730,14 @@ export interface FileRoutesByTo {
   '/x/docs/protocol-vmess': typeof XDocsProtocolVmessRoute
   '/x/docs/quick-start': typeof XDocsQuickStartRoute
   '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
+  '/x/docs/routed-outbound': typeof XDocsRoutedOutboundRoute
   '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
   '/x/docs/templates': typeof XDocsTemplatesRoute
   '/x/docs/tutorial': typeof XDocsTutorialRoute
   '/x/docs/update': typeof XDocsUpdateRoute
+  '/x/docs/upgrade-from-mmw': typeof XDocsUpgradeFromMmwRoute
   '/x/docs/users': typeof XDocsUsersRoute
   '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
   '/x/docs/xray-outbounds': typeof XDocsXrayOutboundsRoute
@@ -754,6 +778,7 @@ export interface FileRoutesById {
   '/docs/install-direct': typeof DocsInstallDirectRoute
   '/docs/install-docker': typeof DocsInstallDockerRoute
   '/docs/login': typeof DocsLoginRoute
+  '/docs/node-speedtest': typeof DocsNodeSpeedtestRoute
   '/docs/nodes': typeof DocsNodesRoute
   '/docs/probe': typeof DocsProbeRoute
   '/docs/proxy-providers': typeof DocsProxyProvidersRoute
@@ -800,12 +825,14 @@ export interface FileRoutesById {
   '/x/docs/protocol-vmess': typeof XDocsProtocolVmessRoute
   '/x/docs/quick-start': typeof XDocsQuickStartRoute
   '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
+  '/x/docs/routed-outbound': typeof XDocsRoutedOutboundRoute
   '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
   '/x/docs/templates': typeof XDocsTemplatesRoute
   '/x/docs/tutorial': typeof XDocsTutorialRoute
   '/x/docs/update': typeof XDocsUpdateRoute
+  '/x/docs/upgrade-from-mmw': typeof XDocsUpgradeFromMmwRoute
   '/x/docs/users': typeof XDocsUsersRoute
   '/x/docs/xray-inbounds': typeof XDocsXrayInboundsRoute
   '/x/docs/xray-outbounds': typeof XDocsXrayOutboundsRoute
@@ -847,6 +874,7 @@ export interface FileRouteTypes {
     | '/docs/install-direct'
     | '/docs/install-docker'
     | '/docs/login'
+    | '/docs/node-speedtest'
     | '/docs/nodes'
     | '/docs/probe'
     | '/docs/proxy-providers'
@@ -893,12 +921,14 @@ export interface FileRouteTypes {
     | '/x/docs/protocol-vmess'
     | '/x/docs/quick-start'
     | '/x/docs/remote-servers'
+    | '/x/docs/routed-outbound'
     | '/x/docs/subscribe-files'
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
     | '/x/docs/templates'
     | '/x/docs/tutorial'
     | '/x/docs/update'
+    | '/x/docs/upgrade-from-mmw'
     | '/x/docs/users'
     | '/x/docs/xray-inbounds'
     | '/x/docs/xray-outbounds'
@@ -931,6 +961,7 @@ export interface FileRouteTypes {
     | '/docs/install-direct'
     | '/docs/install-docker'
     | '/docs/login'
+    | '/docs/node-speedtest'
     | '/docs/nodes'
     | '/docs/probe'
     | '/docs/proxy-providers'
@@ -976,12 +1007,14 @@ export interface FileRouteTypes {
     | '/x/docs/protocol-vmess'
     | '/x/docs/quick-start'
     | '/x/docs/remote-servers'
+    | '/x/docs/routed-outbound'
     | '/x/docs/subscribe-files'
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
     | '/x/docs/templates'
     | '/x/docs/tutorial'
     | '/x/docs/update'
+    | '/x/docs/upgrade-from-mmw'
     | '/x/docs/users'
     | '/x/docs/xray-inbounds'
     | '/x/docs/xray-outbounds'
@@ -1021,6 +1054,7 @@ export interface FileRouteTypes {
     | '/docs/install-direct'
     | '/docs/install-docker'
     | '/docs/login'
+    | '/docs/node-speedtest'
     | '/docs/nodes'
     | '/docs/probe'
     | '/docs/proxy-providers'
@@ -1067,12 +1101,14 @@ export interface FileRouteTypes {
     | '/x/docs/protocol-vmess'
     | '/x/docs/quick-start'
     | '/x/docs/remote-servers'
+    | '/x/docs/routed-outbound'
     | '/x/docs/subscribe-files'
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
     | '/x/docs/templates'
     | '/x/docs/tutorial'
     | '/x/docs/update'
+    | '/x/docs/upgrade-from-mmw'
     | '/x/docs/users'
     | '/x/docs/xray-inbounds'
     | '/x/docs/xray-outbounds'
@@ -1391,6 +1427,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DocsNodesRouteImport
       parentRoute: typeof DocsRoute
     }
+    '/docs/node-speedtest': {
+      id: '/docs/node-speedtest'
+      path: '/node-speedtest'
+      fullPath: '/docs/node-speedtest'
+      preLoaderRoute: typeof DocsNodeSpeedtestRouteImport
+      parentRoute: typeof DocsRoute
+    }
     '/docs/login': {
       id: '/docs/login'
       path: '/login'
@@ -1531,6 +1574,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsUsersRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/upgrade-from-mmw': {
+      id: '/x/docs/upgrade-from-mmw'
+      path: '/upgrade-from-mmw'
+      fullPath: '/x/docs/upgrade-from-mmw'
+      preLoaderRoute: typeof XDocsUpgradeFromMmwRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/update': {
       id: '/x/docs/update'
       path: '/update'
@@ -1571,6 +1621,13 @@ declare module '@tanstack/react-router' {
       path: '/subscribe-files'
       fullPath: '/x/docs/subscribe-files'
       preLoaderRoute: typeof XDocsSubscribeFilesRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/routed-outbound': {
+      id: '/x/docs/routed-outbound'
+      path: '/routed-outbound'
+      fullPath: '/x/docs/routed-outbound'
+      preLoaderRoute: typeof XDocsRoutedOutboundRouteImport
       parentRoute: typeof XDocsRoute
     }
     '/x/docs/remote-servers': {
@@ -1756,6 +1813,7 @@ interface DocsRouteChildren {
   DocsInstallDirectRoute: typeof DocsInstallDirectRoute
   DocsInstallDockerRoute: typeof DocsInstallDockerRoute
   DocsLoginRoute: typeof DocsLoginRoute
+  DocsNodeSpeedtestRoute: typeof DocsNodeSpeedtestRoute
   DocsNodesRoute: typeof DocsNodesRoute
   DocsProbeRoute: typeof DocsProbeRoute
   DocsProxyProvidersRoute: typeof DocsProxyProvidersRoute
@@ -1788,6 +1846,7 @@ const DocsRouteChildren: DocsRouteChildren = {
   DocsInstallDirectRoute: DocsInstallDirectRoute,
   DocsInstallDockerRoute: DocsInstallDockerRoute,
   DocsLoginRoute: DocsLoginRoute,
+  DocsNodeSpeedtestRoute: DocsNodeSpeedtestRoute,
   DocsNodesRoute: DocsNodesRoute,
   DocsProbeRoute: DocsProbeRoute,
   DocsProxyProvidersRoute: DocsProxyProvidersRoute,
@@ -1879,12 +1938,14 @@ interface XDocsRouteChildren {
   XDocsProtocolVmessRoute: typeof XDocsProtocolVmessRoute
   XDocsQuickStartRoute: typeof XDocsQuickStartRoute
   XDocsRemoteServersRoute: typeof XDocsRemoteServersRoute
+  XDocsRoutedOutboundRoute: typeof XDocsRoutedOutboundRoute
   XDocsSubscribeFilesRoute: typeof XDocsSubscribeFilesRoute
   XDocsSystemRequirementsRoute: typeof XDocsSystemRequirementsRoute
   XDocsSystemSettingsRoute: typeof XDocsSystemSettingsRoute
   XDocsTemplatesRoute: typeof XDocsTemplatesRoute
   XDocsTutorialRoute: typeof XDocsTutorialRoute
   XDocsUpdateRoute: typeof XDocsUpdateRoute
+  XDocsUpgradeFromMmwRoute: typeof XDocsUpgradeFromMmwRoute
   XDocsUsersRoute: typeof XDocsUsersRoute
   XDocsXrayInboundsRoute: typeof XDocsXrayInboundsRoute
   XDocsXrayOutboundsRoute: typeof XDocsXrayOutboundsRoute
@@ -1917,12 +1978,14 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsProtocolVmessRoute: XDocsProtocolVmessRoute,
   XDocsQuickStartRoute: XDocsQuickStartRoute,
   XDocsRemoteServersRoute: XDocsRemoteServersRoute,
+  XDocsRoutedOutboundRoute: XDocsRoutedOutboundRoute,
   XDocsSubscribeFilesRoute: XDocsSubscribeFilesRoute,
   XDocsSystemRequirementsRoute: XDocsSystemRequirementsRoute,
   XDocsSystemSettingsRoute: XDocsSystemSettingsRoute,
   XDocsTemplatesRoute: XDocsTemplatesRoute,
   XDocsTutorialRoute: XDocsTutorialRoute,
   XDocsUpdateRoute: XDocsUpdateRoute,
+  XDocsUpgradeFromMmwRoute: XDocsUpgradeFromMmwRoute,
   XDocsUsersRoute: XDocsUsersRoute,
   XDocsXrayInboundsRoute: XDocsXrayInboundsRoute,
   XDocsXrayOutboundsRoute: XDocsXrayOutboundsRoute,
