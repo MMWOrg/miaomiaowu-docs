@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
-import { Server, Network, Shield, Users, Package, Layers, LayoutTemplate, Zap, Globe, FileCode, MonitorCog, ArrowUpFromLine, Activity, Wifi } from 'lucide-react'
+import { Server, Network, Shield, Users, Package, Layers, LayoutTemplate, Zap, Globe, FileCode, MonitorCog, ArrowUpFromLine, Activity, Wifi, Settings } from 'lucide-react'
 
 export const Route = createFileRoute('/x/docs/features')({
   component: FeaturesPage,
@@ -22,6 +22,7 @@ function FeaturesPage() {
     { icon: ArrowUpFromLine, title: 'Agent 升级管理', desc: 'Agent 远程在线升级和卸载，SSE 流式进度展示，无需手动登录服务器。' },
     { icon: Activity, title: '系统监控', desc: '远程服务器系统信息（CPU、内存、磁盘），实时网速监控，流量统计与上报。' },
     { icon: Wifi, title: '域名延迟探测', desc: '批量 TCP 延迟探测（最多 200 域名），16 并发检测，用于节点质量评估。' },
+    { icon: Settings, title: '系统设置', desc: '外部订阅同步、功能开关（静默模式/短链接/覆写脚本/代理集合等）、Telegram 通知推送、代理组配置同步，所有设置即时生效。' },
   ]
 
   return (

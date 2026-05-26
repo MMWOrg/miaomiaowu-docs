@@ -29,6 +29,11 @@ import {
   Bot,
   Workflow,
   ArrowRightLeft,
+  Crown,
+  Gauge,
+  Ban,
+  Box,
+  Share2,
 } from 'lucide-react'
 
 export type XNavItem = {
@@ -98,7 +103,6 @@ export const xNavItems: XNavItem[] = [
     icon: Network,
     children: [
       { id: 'nodes', label: '节点管理', href: '/x/docs/nodes', icon: Network },
-      { id: 'node-speedtest', label: '节点测速', href: '/x/docs/node-speedtest', icon: Zap },
       { id: 'generator', label: '生成订阅', href: '/x/docs/generator', icon: Zap },
       { id: 'subscribe-files', label: '订阅文件', href: '/x/docs/subscribe-files', icon: Database },
       { id: 'templates', label: '模板管理', href: '/x/docs/templates', icon: LayoutTemplate },
@@ -110,6 +114,19 @@ export const xNavItems: XNavItem[] = [
     icon: Workflow,
     children: [
       { id: 'routed-outbound', label: '路由出站', href: '/x/docs/routed-outbound', icon: Route, badge: '新' },
+      { id: 'system-settings-guide', label: '系统设置', href: '/x/docs/system-settings', icon: Settings },
+    ],
+  },
+  {
+    id: 'pro-features',
+    label: 'PRO 功能',
+    icon: Crown,
+    badge: 'PRO',
+    children: [
+      { id: 'node-speedtest', label: '节点测速', href: '/x/docs/node-speedtest', icon: Gauge, badge: 'PRO' },
+      { id: 'node-ratelimit', label: '节点限速', href: '/x/docs/node-ratelimit', icon: Ban, badge: 'PRO' },
+      { id: 'share-server', label: '分享服务器', href: '/x/docs/share-server', icon: Share2, badge: 'PRO' },
+      { id: 'embedded-xray', label: '内嵌 Xray', href: '/x/docs/embedded-xray', icon: Box, badge: 'PRO' },
     ],
   },
   {
@@ -134,7 +151,6 @@ export const xNavItems: XNavItem[] = [
     label: '系统配置',
     icon: Wrench,
     children: [
-      { id: 'system-settings', label: '系统设置', href: '/x/docs/system-settings', icon: Settings },
       { id: 'custom-rules', label: '自定义规则', href: '/x/docs/custom-rules', icon: FileCode },
     ],
   },
@@ -201,9 +217,16 @@ export function XDocSidebar({ className }: XDocSidebarProps) {
               <item.icon className='size-4' />
               {item.label}
               {item.badge && (
-                <span className='rounded-full bg-destructive/10 px-2 py-0.5 text-xs text-destructive'>
-                  {item.badge}
-                </span>
+                item.badge === 'PRO' ? (
+                  <span className='inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 px-2 py-0.5 text-[10px] font-bold text-amber-900 shadow-sm'>
+                    <svg className='size-2.5' viewBox='0 0 24 24' fill='currentColor'><path d='M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z' /></svg>
+                    Pro
+                  </span>
+                ) : (
+                  <span className='rounded-full bg-destructive/10 px-2 py-0.5 text-xs text-destructive'>
+                    {item.badge}
+                  </span>
+                )
               )}
             </span>
             {expandedItems.includes(item.id) ? (
@@ -228,9 +251,16 @@ export function XDocSidebar({ className }: XDocSidebarProps) {
                   <child.icon className='size-4' />
                   {child.label}
                   {child.badge && (
-                    <span className='rounded-full bg-primary/10 px-1.5 py-0.5 text-xs text-primary'>
-                      {child.badge}
-                    </span>
+                    child.badge === 'PRO' ? (
+                      <span className='inline-flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 px-1.5 py-0.5 text-[10px] font-bold text-amber-900 shadow-sm'>
+                        <svg className='size-2.5' viewBox='0 0 24 24' fill='currentColor'><path d='M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z' /></svg>
+                        Pro
+                      </span>
+                    ) : (
+                      <span className='rounded-full bg-primary/10 px-1.5 py-0.5 text-xs text-primary'>
+                        {child.badge}
+                      </span>
+                    )
                   )}
                 </Link>
               ))}

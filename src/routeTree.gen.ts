@@ -78,6 +78,7 @@ import { Route as XDocsTemplatesRouteImport } from './routes/x/docs/templates'
 import { Route as XDocsSystemSettingsRouteImport } from './routes/x/docs/system-settings'
 import { Route as XDocsSystemRequirementsRouteImport } from './routes/x/docs/system-requirements'
 import { Route as XDocsSubscribeFilesRouteImport } from './routes/x/docs/subscribe-files'
+import { Route as XDocsShareServerRouteImport } from './routes/x/docs/share-server'
 import { Route as XDocsRoutedOutboundRouteImport } from './routes/x/docs/routed-outbound'
 import { Route as XDocsRemoteServersRouteImport } from './routes/x/docs/remote-servers'
 import { Route as XDocsQuickStartRouteImport } from './routes/x/docs/quick-start'
@@ -90,6 +91,7 @@ import { Route as XDocsProtocolHysteria2RouteImport } from './routes/x/docs/prot
 import { Route as XDocsPackagesRouteImport } from './routes/x/docs/packages'
 import { Route as XDocsNodesRouteImport } from './routes/x/docs/nodes'
 import { Route as XDocsNodeSpeedtestRouteImport } from './routes/x/docs/node-speedtest'
+import { Route as XDocsNodeRatelimitRouteImport } from './routes/x/docs/node-ratelimit'
 import { Route as XDocsMcpRouteImport } from './routes/x/docs/mcp'
 import { Route as XDocsInstallDockerRouteImport } from './routes/x/docs/install-docker'
 import { Route as XDocsInstallDirectRouteImport } from './routes/x/docs/install-direct'
@@ -97,6 +99,7 @@ import { Route as XDocsInstallAgentRouteImport } from './routes/x/docs/install-a
 import { Route as XDocsGeneratorRouteImport } from './routes/x/docs/generator'
 import { Route as XDocsFeaturesRouteImport } from './routes/x/docs/features'
 import { Route as XDocsFaqRouteImport } from './routes/x/docs/faq'
+import { Route as XDocsEmbeddedXrayRouteImport } from './routes/x/docs/embedded-xray'
 import { Route as XDocsCustomRulesRouteImport } from './routes/x/docs/custom-rules'
 import { Route as XDocsChangelogRouteImport } from './routes/x/docs/changelog'
 import { Route as XDocsCertificatesRouteImport } from './routes/x/docs/certificates'
@@ -449,6 +452,11 @@ const XDocsSubscribeFilesRoute = XDocsSubscribeFilesRouteImport.update({
   path: '/subscribe-files',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsShareServerRoute = XDocsShareServerRouteImport.update({
+  id: '/share-server',
+  path: '/share-server',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsRoutedOutboundRoute = XDocsRoutedOutboundRouteImport.update({
   id: '/routed-outbound',
   path: '/routed-outbound',
@@ -510,6 +518,11 @@ const XDocsNodeSpeedtestRoute = XDocsNodeSpeedtestRouteImport.update({
   path: '/node-speedtest',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsNodeRatelimitRoute = XDocsNodeRatelimitRouteImport.update({
+  id: '/node-ratelimit',
+  path: '/node-ratelimit',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsMcpRoute = XDocsMcpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
@@ -543,6 +556,11 @@ const XDocsFeaturesRoute = XDocsFeaturesRouteImport.update({
 const XDocsFaqRoute = XDocsFaqRouteImport.update({
   id: '/faq',
   path: '/faq',
+  getParentRoute: () => XDocsRoute,
+} as any)
+const XDocsEmbeddedXrayRoute = XDocsEmbeddedXrayRouteImport.update({
+  id: '/embedded-xray',
+  path: '/embedded-xray',
   getParentRoute: () => XDocsRoute,
 } as any)
 const XDocsCustomRulesRoute = XDocsCustomRulesRouteImport.update({
@@ -626,6 +644,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/certificates': typeof XDocsCertificatesRoute
   '/x/docs/changelog': typeof XDocsChangelogRoute
   '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
+  '/x/docs/embedded-xray': typeof XDocsEmbeddedXrayRoute
   '/x/docs/faq': typeof XDocsFaqRoute
   '/x/docs/features': typeof XDocsFeaturesRoute
   '/x/docs/generator': typeof XDocsGeneratorRoute
@@ -633,6 +652,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/install-direct': typeof XDocsInstallDirectRoute
   '/x/docs/install-docker': typeof XDocsInstallDockerRoute
   '/x/docs/mcp': typeof XDocsMcpRoute
+  '/x/docs/node-ratelimit': typeof XDocsNodeRatelimitRoute
   '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
@@ -645,6 +665,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/quick-start': typeof XDocsQuickStartRoute
   '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
   '/x/docs/routed-outbound': typeof XDocsRoutedOutboundRoute
+  '/x/docs/share-server': typeof XDocsShareServerRoute
   '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
@@ -712,6 +733,7 @@ export interface FileRoutesByTo {
   '/x/docs/certificates': typeof XDocsCertificatesRoute
   '/x/docs/changelog': typeof XDocsChangelogRoute
   '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
+  '/x/docs/embedded-xray': typeof XDocsEmbeddedXrayRoute
   '/x/docs/faq': typeof XDocsFaqRoute
   '/x/docs/features': typeof XDocsFeaturesRoute
   '/x/docs/generator': typeof XDocsGeneratorRoute
@@ -719,6 +741,7 @@ export interface FileRoutesByTo {
   '/x/docs/install-direct': typeof XDocsInstallDirectRoute
   '/x/docs/install-docker': typeof XDocsInstallDockerRoute
   '/x/docs/mcp': typeof XDocsMcpRoute
+  '/x/docs/node-ratelimit': typeof XDocsNodeRatelimitRoute
   '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
@@ -731,6 +754,7 @@ export interface FileRoutesByTo {
   '/x/docs/quick-start': typeof XDocsQuickStartRoute
   '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
   '/x/docs/routed-outbound': typeof XDocsRoutedOutboundRoute
+  '/x/docs/share-server': typeof XDocsShareServerRoute
   '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
@@ -807,6 +831,7 @@ export interface FileRoutesById {
   '/x/docs/certificates': typeof XDocsCertificatesRoute
   '/x/docs/changelog': typeof XDocsChangelogRoute
   '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
+  '/x/docs/embedded-xray': typeof XDocsEmbeddedXrayRoute
   '/x/docs/faq': typeof XDocsFaqRoute
   '/x/docs/features': typeof XDocsFeaturesRoute
   '/x/docs/generator': typeof XDocsGeneratorRoute
@@ -814,6 +839,7 @@ export interface FileRoutesById {
   '/x/docs/install-direct': typeof XDocsInstallDirectRoute
   '/x/docs/install-docker': typeof XDocsInstallDockerRoute
   '/x/docs/mcp': typeof XDocsMcpRoute
+  '/x/docs/node-ratelimit': typeof XDocsNodeRatelimitRoute
   '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
@@ -826,6 +852,7 @@ export interface FileRoutesById {
   '/x/docs/quick-start': typeof XDocsQuickStartRoute
   '/x/docs/remote-servers': typeof XDocsRemoteServersRoute
   '/x/docs/routed-outbound': typeof XDocsRoutedOutboundRoute
+  '/x/docs/share-server': typeof XDocsShareServerRoute
   '/x/docs/subscribe-files': typeof XDocsSubscribeFilesRoute
   '/x/docs/system-requirements': typeof XDocsSystemRequirementsRoute
   '/x/docs/system-settings': typeof XDocsSystemSettingsRoute
@@ -903,6 +930,7 @@ export interface FileRouteTypes {
     | '/x/docs/certificates'
     | '/x/docs/changelog'
     | '/x/docs/custom-rules'
+    | '/x/docs/embedded-xray'
     | '/x/docs/faq'
     | '/x/docs/features'
     | '/x/docs/generator'
@@ -910,6 +938,7 @@ export interface FileRouteTypes {
     | '/x/docs/install-direct'
     | '/x/docs/install-docker'
     | '/x/docs/mcp'
+    | '/x/docs/node-ratelimit'
     | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
@@ -922,6 +951,7 @@ export interface FileRouteTypes {
     | '/x/docs/quick-start'
     | '/x/docs/remote-servers'
     | '/x/docs/routed-outbound'
+    | '/x/docs/share-server'
     | '/x/docs/subscribe-files'
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
@@ -989,6 +1019,7 @@ export interface FileRouteTypes {
     | '/x/docs/certificates'
     | '/x/docs/changelog'
     | '/x/docs/custom-rules'
+    | '/x/docs/embedded-xray'
     | '/x/docs/faq'
     | '/x/docs/features'
     | '/x/docs/generator'
@@ -996,6 +1027,7 @@ export interface FileRouteTypes {
     | '/x/docs/install-direct'
     | '/x/docs/install-docker'
     | '/x/docs/mcp'
+    | '/x/docs/node-ratelimit'
     | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
@@ -1008,6 +1040,7 @@ export interface FileRouteTypes {
     | '/x/docs/quick-start'
     | '/x/docs/remote-servers'
     | '/x/docs/routed-outbound'
+    | '/x/docs/share-server'
     | '/x/docs/subscribe-files'
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
@@ -1083,6 +1116,7 @@ export interface FileRouteTypes {
     | '/x/docs/certificates'
     | '/x/docs/changelog'
     | '/x/docs/custom-rules'
+    | '/x/docs/embedded-xray'
     | '/x/docs/faq'
     | '/x/docs/features'
     | '/x/docs/generator'
@@ -1090,6 +1124,7 @@ export interface FileRouteTypes {
     | '/x/docs/install-direct'
     | '/x/docs/install-docker'
     | '/x/docs/mcp'
+    | '/x/docs/node-ratelimit'
     | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
@@ -1102,6 +1137,7 @@ export interface FileRouteTypes {
     | '/x/docs/quick-start'
     | '/x/docs/remote-servers'
     | '/x/docs/routed-outbound'
+    | '/x/docs/share-server'
     | '/x/docs/subscribe-files'
     | '/x/docs/system-requirements'
     | '/x/docs/system-settings'
@@ -1623,6 +1659,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsSubscribeFilesRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/share-server': {
+      id: '/x/docs/share-server'
+      path: '/share-server'
+      fullPath: '/x/docs/share-server'
+      preLoaderRoute: typeof XDocsShareServerRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/routed-outbound': {
       id: '/x/docs/routed-outbound'
       path: '/routed-outbound'
@@ -1707,6 +1750,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsNodeSpeedtestRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/node-ratelimit': {
+      id: '/x/docs/node-ratelimit'
+      path: '/node-ratelimit'
+      fullPath: '/x/docs/node-ratelimit'
+      preLoaderRoute: typeof XDocsNodeRatelimitRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/mcp': {
       id: '/x/docs/mcp'
       path: '/mcp'
@@ -1754,6 +1804,13 @@ declare module '@tanstack/react-router' {
       path: '/faq'
       fullPath: '/x/docs/faq'
       preLoaderRoute: typeof XDocsFaqRouteImport
+      parentRoute: typeof XDocsRoute
+    }
+    '/x/docs/embedded-xray': {
+      id: '/x/docs/embedded-xray'
+      path: '/embedded-xray'
+      fullPath: '/x/docs/embedded-xray'
+      preLoaderRoute: typeof XDocsEmbeddedXrayRouteImport
       parentRoute: typeof XDocsRoute
     }
     '/x/docs/custom-rules': {
@@ -1920,6 +1977,7 @@ interface XDocsRouteChildren {
   XDocsCertificatesRoute: typeof XDocsCertificatesRoute
   XDocsChangelogRoute: typeof XDocsChangelogRoute
   XDocsCustomRulesRoute: typeof XDocsCustomRulesRoute
+  XDocsEmbeddedXrayRoute: typeof XDocsEmbeddedXrayRoute
   XDocsFaqRoute: typeof XDocsFaqRoute
   XDocsFeaturesRoute: typeof XDocsFeaturesRoute
   XDocsGeneratorRoute: typeof XDocsGeneratorRoute
@@ -1927,6 +1985,7 @@ interface XDocsRouteChildren {
   XDocsInstallDirectRoute: typeof XDocsInstallDirectRoute
   XDocsInstallDockerRoute: typeof XDocsInstallDockerRoute
   XDocsMcpRoute: typeof XDocsMcpRoute
+  XDocsNodeRatelimitRoute: typeof XDocsNodeRatelimitRoute
   XDocsNodeSpeedtestRoute: typeof XDocsNodeSpeedtestRoute
   XDocsNodesRoute: typeof XDocsNodesRoute
   XDocsPackagesRoute: typeof XDocsPackagesRoute
@@ -1939,6 +1998,7 @@ interface XDocsRouteChildren {
   XDocsQuickStartRoute: typeof XDocsQuickStartRoute
   XDocsRemoteServersRoute: typeof XDocsRemoteServersRoute
   XDocsRoutedOutboundRoute: typeof XDocsRoutedOutboundRoute
+  XDocsShareServerRoute: typeof XDocsShareServerRoute
   XDocsSubscribeFilesRoute: typeof XDocsSubscribeFilesRoute
   XDocsSystemRequirementsRoute: typeof XDocsSystemRequirementsRoute
   XDocsSystemSettingsRoute: typeof XDocsSystemSettingsRoute
@@ -1960,6 +2020,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsCertificatesRoute: XDocsCertificatesRoute,
   XDocsChangelogRoute: XDocsChangelogRoute,
   XDocsCustomRulesRoute: XDocsCustomRulesRoute,
+  XDocsEmbeddedXrayRoute: XDocsEmbeddedXrayRoute,
   XDocsFaqRoute: XDocsFaqRoute,
   XDocsFeaturesRoute: XDocsFeaturesRoute,
   XDocsGeneratorRoute: XDocsGeneratorRoute,
@@ -1967,6 +2028,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsInstallDirectRoute: XDocsInstallDirectRoute,
   XDocsInstallDockerRoute: XDocsInstallDockerRoute,
   XDocsMcpRoute: XDocsMcpRoute,
+  XDocsNodeRatelimitRoute: XDocsNodeRatelimitRoute,
   XDocsNodeSpeedtestRoute: XDocsNodeSpeedtestRoute,
   XDocsNodesRoute: XDocsNodesRoute,
   XDocsPackagesRoute: XDocsPackagesRoute,
@@ -1979,6 +2041,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsQuickStartRoute: XDocsQuickStartRoute,
   XDocsRemoteServersRoute: XDocsRemoteServersRoute,
   XDocsRoutedOutboundRoute: XDocsRoutedOutboundRoute,
+  XDocsShareServerRoute: XDocsShareServerRoute,
   XDocsSubscribeFilesRoute: XDocsSubscribeFilesRoute,
   XDocsSystemRequirementsRoute: XDocsSystemRequirementsRoute,
   XDocsSystemSettingsRoute: XDocsSystemSettingsRoute,

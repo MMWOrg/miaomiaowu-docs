@@ -11,7 +11,10 @@
       "Bash(node --input-type=module -e ' *)",
       "Bash(npm run *)",
       "Bash(curl -s http://localhost:5173)",
-      "Bash(pkill -f \"vite\")"
+      "Bash(pkill -f \"vite\")",
+      "Bash(xargs ls -la)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
+      "Bash(grep -E \"\\\\.\\(go|tsx|ts\\)$\")"
     ]
   }
 }
