@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -70,6 +71,8 @@ interface ActiveDragItem {
 }
 
 function EditNodesDocPage() {
+  const { t } = useTranslation('docs')
+
   // 状态
   const [proxyGroups, setProxyGroups] = useState<MockProxyGroup[]>(mockProxyGroups)
   const [availableNodes, setAvailableNodes] = useState<string[]>([...mockAvailableNodes, ...mockProxyProviders])
@@ -491,9 +494,9 @@ function EditNodesDocPage() {
       >
         <GripVertical className='h-4 w-4 text-muted-foreground flex-shrink-0' />
         <div>
-          <CardTitle className='text-base'>可用节点</CardTitle>
+          <CardTitle className='text-base'>{t('editNodes.availableNodes')}</CardTitle>
           <CardDescription className='text-xs'>
-            {filteredNodes.length} / {totalNodes} 个节点
+            {filteredNodes.length} / {totalNodes} {t('editNodes.nodesCount')}
           </CardDescription>
         </div>
       </div>
@@ -515,7 +518,7 @@ function EditNodesDocPage() {
         }`}
       >
         <span className={isOver ? 'text-primary font-medium' : 'text-muted-foreground'}>
-          添加到所有代理组
+          {t('editNodes.addToAllGroups')}
         </span>
       </div>
     )
@@ -536,7 +539,7 @@ function EditNodesDocPage() {
         }`}
       >
         <span className={isOver ? 'text-destructive font-medium' : 'text-muted-foreground'}>
-          从所有代理组移除
+          {t('editNodes.removeFromAllGroups')}
         </span>
       </div>
     )
@@ -590,7 +593,7 @@ function EditNodesDocPage() {
                 else if (e.key === 'Escape') { setEditingGroupName(null); setEditingGroupValue('') }
               }}
               className='h-6 text-base flex-1 min-w-0'
-              placeholder='输入新名称...'
+              placeholder={t('editNodes.enterNewName')}
               autoFocus
             />
             <Button size='sm' className='h-6 w-6 p-0' onClick={() => handleRenameGroup(groupName, editingGroupValue)} variant='ghost'>
@@ -601,7 +604,7 @@ function EditNodesDocPage() {
           <CardTitle
             className='text-base truncate cursor-text hover:text-foreground/80 flex-1 min-w-0'
             onClick={() => { setEditingGroupName(groupName); setEditingGroupValue(groupName) }}
-            title='点击编辑名称'
+            title={t('editNodes.clickToEditName')}
           >
             <Twemoji>{groupName}</Twemoji>
           </CardTitle>
@@ -667,10 +670,10 @@ function EditNodesDocPage() {
   // 代理组类型选择器
   const ProxyTypeSelector = ({ group, onChange }: { group: MockProxyGroup; onChange: (type: MockProxyGroup['type']) => void }) => {
     const types = [
-      { value: 'select', label: '手动选择' },
-      { value: 'url-test', label: '自动选择' },
-      { value: 'fallback', label: '自动回退' },
-      { value: 'load-balance', label: '负载均衡' },
+      { value: 'select', label: t('editNodes.proxyTypes.select') },
+      { value: 'url-test', label: t('editNodes.proxyTypes.urlTest') },
+      { value: 'fallback', label: t('editNodes.proxyTypes.fallback') },
+      { value: 'load-balance', label: t('editNodes.proxyTypes.loadBalance') },
     ] as const
 
     return (
@@ -740,14 +743,14 @@ function EditNodesDocPage() {
             <div className='flex-1 min-w-0'>
               <DraggableGroupTitle groupName={group.name} />
               <CardDescription className='text-xs'>
-                {group.type} ({group.proxies.length} 个节点)
+                {group.type} ({group.proxies.length} {t('editNodes.nodesCount')})
               </CardDescription>
             </div>
             {!isEditing && (
               <div className='flex items-center gap-1'>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant='ghost' size='sm' className='h-8 w-8 p-0 flex-shrink-0' title='切换代理组类型'>
+                    <Button variant='ghost' size='sm' className='h-8 w-8 p-0 flex-shrink-0' title={t('editNodes.switchGroupType')}>
                       <Settings2 className='h-4 w-4 text-muted-foreground hover:text-foreground' />
                     </Button>
                   </PopoverTrigger>
@@ -776,7 +779,7 @@ function EditNodesDocPage() {
 
           {group.proxies.length === 0 && (
             <div className={`text-sm text-center py-8 transition-colors ${isOver ? 'text-primary font-medium' : 'text-muted-foreground'}`}>
-              将节点拖拽到这里
+              {t('editNodes.dragNodesHere')}
             </div>
           )}
         </CardContent>
@@ -786,19 +789,18 @@ function EditNodesDocPage() {
 
   return (
     <DocLayout
-      title='节点与代理组编辑'
-      description='通过拖拽方式为代理组分配节点，自定义每个组的节点列表'
+      title={t('editNodes.title')}
+      description={t('editNodes.description')}
     >
       {/* 功能说明 */}
       <section className='mb-8'>
         <div className='flex items-center gap-2 mb-4'>
-          <Badge variant='destructive'>管理员功能</Badge>
+          <Badge variant='destructive'>{t('editNodes.adminFeature')}</Badge>
         </div>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              此功能用于编辑订阅文件的代理组配置。您可以通过拖拽方式将节点分配到不同的代理组，
-              也可以调整代理组的顺序、修改代理组名称和类型。
+              {t('editNodes.intro')}
             </p>
           </CardContent>
         </Card>
@@ -808,16 +810,16 @@ function EditNodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <LayoutGrid className='size-5 text-primary' />
-          近期更新
+          {t('editNodes.recentUpdates.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-primary'>
-              <h4 className='font-semibold text-sm mb-2'>编辑代理组支持选择分列数量（2026-04-07）</h4>
+              <h4 className='font-semibold text-sm mb-2'>{t('editNodes.recentUpdates.columnTitle')}</h4>
               <ul className='space-y-1 text-xs text-muted-foreground'>
-                <li>• 编辑弹窗顶部新增列数按钮，可在 2-6 列之间切换代理组展示密度。</li>
-                <li>• 切换列数后会立即重排代理组卡片，便于大屏或小屏分别查看。</li>
-                <li>• 选择结果会保存在浏览器本地，下次打开仍会沿用上次设置。</li>
+                <li>• {t('editNodes.recentUpdates.column1')}</li>
+                <li>• {t('editNodes.recentUpdates.column2')}</li>
+                <li>• {t('editNodes.recentUpdates.column3')}</li>
               </ul>
             </div>
           </CardContent>
@@ -828,18 +830,18 @@ function EditNodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <ArrowRight className='size-5 text-primary' />
-          使用场景
+          {t('editNodes.scenarios.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='space-y-3 text-sm'>
               <div className='flex items-center gap-2'>
                 <span className='text-primary'>1.</span>
-                <span><Link to='/docs/generator' className='text-primary hover:underline'>生成订阅</Link> → 点击「手动分组」按钮</span>
+                <span><Link to='/docs/generator' className='text-primary hover:underline'>{t('editNodes.scenarios.generatorLink')}</Link> → {t('editNodes.scenarios.generatorDesc')}</span>
               </div>
               <div className='flex items-center gap-2'>
                 <span className='text-primary'>2.</span>
-                <span><Link to='/docs/subscribe-files' className='text-primary hover:underline'>订阅管理</Link> → 编辑订阅 → 点击「编辑节点」按钮</span>
+                <span><Link to='/docs/subscribe-files' className='text-primary hover:underline'>{t('editNodes.scenarios.subscribeLink')}</Link> → {t('editNodes.scenarios.subscribeDesc')}</span>
               </div>
             </div>
           </CardContent>
@@ -850,7 +852,7 @@ function EditNodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          拖动操作说明
+          {t('editNodes.dragOps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -858,9 +860,9 @@ function EditNodesDocPage() {
               <table className='w-full text-sm'>
                 <thead>
                   <tr className='border-b'>
-                    <th className='p-3 text-left w-16'>图标</th>
-                    <th className='p-3 text-left w-40'>操作</th>
-                    <th className='p-3 text-left'>说明</th>
+                    <th className='p-3 text-left w-16'>{t('editNodes.dragOps.iconCol')}</th>
+                    <th className='p-3 text-left w-40'>{t('editNodes.dragOps.actionCol')}</th>
+                    <th className='p-3 text-left'>{t('editNodes.dragOps.descCol')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -870,8 +872,8 @@ function EditNodesDocPage() {
                         <GripVertical className='size-4 text-muted-foreground' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>拖动代理组卡片</td>
-                    <td className='p-3 text-muted-foreground'>拖动卡片顶部的图标，调整代理组的显示顺序</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.dragCard')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.dragCardDesc')}</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>
@@ -879,8 +881,8 @@ function EditNodesDocPage() {
                         <GripVertical className='size-3 text-muted-foreground' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>拖动代理组标题</td>
-                    <td className='p-3 text-muted-foreground'>拖动标题左侧图标，将代理组作为节点添加到其他代理组</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.dragTitle')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.dragTitleDesc')}</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>
@@ -888,8 +890,8 @@ function EditNodesDocPage() {
                         <GripVertical className='size-4 text-muted-foreground' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>拖动可用节点</td>
-                    <td className='p-3 text-muted-foreground'>将节点从可用节点列表拖动到目标代理组</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.dragNode')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.dragNodeDesc')}</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>
@@ -897,8 +899,8 @@ function EditNodesDocPage() {
                         <GripVertical className='size-4 text-muted-foreground' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>拖动「可用节点」标题</td>
-                    <td className='p-3 text-muted-foreground'>批量添加所有筛选后的可用节点到目标代理组</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.dragAvailTitle')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.dragAvailTitleDesc')}</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>
@@ -906,8 +908,8 @@ function EditNodesDocPage() {
                         <span className='text-muted-foreground'>-</span>
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>点击代理组标题</td>
-                    <td className='p-3 text-muted-foreground'>编辑代理组名称</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.clickTitle')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.clickTitleDesc')}</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>
@@ -915,8 +917,8 @@ function EditNodesDocPage() {
                         <Settings2 className='size-4 text-muted-foreground' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>点击设置图标</td>
-                    <td className='p-3 text-muted-foreground'>切换代理组类型（select/url-test/fallback/load-balance），并可设置中转代理组</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.clickSettings')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.clickSettingsDesc')}</td>
                   </tr>
                   <tr className='border-b'>
                     <td className='p-3'>
@@ -924,8 +926,8 @@ function EditNodesDocPage() {
                         <Plus className='size-4 text-primary' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>拖到「添加到所有代理组」</td>
-                    <td className='p-3 text-muted-foreground'>将节点添加到所有代理组</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.dragToAdd')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.dragToAddDesc')}</td>
                   </tr>
                   <tr>
                     <td className='p-3'>
@@ -933,8 +935,8 @@ function EditNodesDocPage() {
                         <X className='size-4 text-destructive' />
                       </div>
                     </td>
-                    <td className='p-3 font-medium'>拖到「从所有代理组移除」</td>
-                    <td className='p-3 text-muted-foreground'>从所有代理组中移除该节点</td>
+                    <td className='p-3 font-medium'>{t('editNodes.dragOps.dragToRemove')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('editNodes.dragOps.dragToRemoveDesc')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -947,7 +949,7 @@ function EditNodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          交互式演示
+          {t('editNodes.demo.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -961,8 +963,8 @@ function EditNodesDocPage() {
               <div className='flex items-start justify-between gap-4 mb-4 flex-wrap'>
                 <div className='flex-1'>
                   <p className='text-sm text-primary flex flex-wrap items-center gap-1'>
-                    <GripVertical className='h-4 w-4 inline' /> 为可拖动元素，
-                    <Settings2 className='h-4 w-4 inline' /> 切换代理组类型、点击代理组标题编辑名称
+                    <GripVertical className='h-4 w-4 inline' /> {t('editNodes.demo.dragHint')}
+                    <Settings2 className='h-4 w-4 inline' /> {t('editNodes.demo.settingsHint')}
                   </p>
                   <div className='flex gap-2 mt-2'>
                     <Button
@@ -972,7 +974,7 @@ function EditNodesDocPage() {
                       className='gap-1'
                     >
                       <Plus className='size-3' />
-                      添加代理组
+                      {t('editNodes.demo.addGroup')}
                     </Button>
                     <Button
                       variant='outline'
@@ -981,7 +983,7 @@ function EditNodesDocPage() {
                       className='gap-1'
                     >
                       <RotateCcw className='size-3' />
-                      重置数据
+                      {t('editNodes.demo.resetData')}
                     </Button>
                   </div>
                 </div>
@@ -1014,7 +1016,7 @@ function EditNodesDocPage() {
                     <div className='relative'>
                       <Search className='absolute left-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground' />
                       <Input
-                        placeholder='按名称筛选...'
+                        placeholder={t('editNodes.demo.filterPlaceholder')}
                         value={nodeNameFilter}
                         onChange={(e) => setNodeNameFilter(e.target.value)}
                         className='pl-8 h-9 text-sm'
@@ -1033,7 +1035,7 @@ function EditNodesDocPage() {
                       ))}
                       {filteredAvailableNodes.length === 0 && (
                         <div className='text-sm text-center py-4 text-muted-foreground'>
-                          暂无可用节点
+                          {t('editNodes.demo.noNodes')}
                         </div>
                       )}
                     </CardContent>
@@ -1063,7 +1065,7 @@ function EditNodesDocPage() {
                   {activeDragItem?.data.type === 'available-header' && (
                     <div className='flex items-center gap-2 p-2 rounded border bg-background shadow-2xl pointer-events-none'>
                       <GripVertical className='h-4 w-4 text-muted-foreground flex-shrink-0' />
-                      <span className='text-sm'>批量添加 {activeDragItem.data.nodeNames?.length || 0} 个节点</span>
+                      <span className='text-sm'>{t('editNodes.demo.batchAdd', { count: activeDragItem.data.nodeNames?.length || 0 })}</span>
                     </div>
                   )}
                   {activeDragItem?.data.type === 'group-node' && (
@@ -1092,7 +1094,7 @@ function EditNodesDocPage() {
                             <div className='flex-1 min-w-0'>
                               <CardTitle className='text-base truncate'><Twemoji>{activeDragItem.data.groupName}</Twemoji></CardTitle>
                               <CardDescription className='text-xs'>
-                                {group?.type || 'select'} ({group?.proxies.length || 0} 个节点)
+                                {group?.type || 'select'} ({t('editNodes.nodeCount', { count: group?.proxies.length || 0 })})
                               </CardDescription>
                             </div>
                           </div>
@@ -1106,7 +1108,7 @@ function EditNodesDocPage() {
                           ))}
                           {(group?.proxies.length || 0) > 5 && (
                             <div className='text-xs text-center text-muted-foreground py-1'>
-                              还有 {(group?.proxies.length || 0) - 5} 个节点...
+                              {t('editNodes.demo.moreNodes', { count: (group?.proxies.length || 0) - 5 })}
                             </div>
                           )}
                         </CardContent>
@@ -1125,26 +1127,26 @@ function EditNodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-orange-500' />
-          注意事项
+          {t('editNodes.notes.heading')}
         </h2>
         <Card className='border-orange-500/20'>
           <CardContent className='pt-6'>
             <ul className='space-y-2 text-sm text-muted-foreground'>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>代理组自引用：</strong>代理组不能添加到自己内部，系统会自动阻止此操作</span>
+                <span><strong>{t('editNodes.notes.selfRefTitle')}</strong>{t('editNodes.notes.selfRefDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>精确插入位置：</strong>将节点拖动到代理组内的特定节点上方时，会插入到该位置</span>
+                <span><strong>{t('editNodes.notes.insertTitle')}</strong>{t('editNodes.notes.insertDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>节点集合支持：</strong>支持将节点集合（proxy-providers）拖动到代理组，实际使用时会显示为紫色标签</span>
+                <span><strong>{t('editNodes.notes.providerTitle')}</strong>{t('editNodes.notes.providerDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>保存操作：</strong>完成编辑后请点击「应用并保存」按钮保存更改</span>
+                <span><strong>{t('editNodes.notes.saveTitle')}</strong>{t('editNodes.notes.saveDesc')}</span>
               </li>
             </ul>
           </CardContent>
@@ -1155,16 +1157,16 @@ function EditNodesDocPage() {
       <Dialog open={addGroupDialogOpen} onOpenChange={setAddGroupDialogOpen}>
         <DialogContent className='max-w-2xl'>
           <DialogHeader>
-            <DialogTitle>添加代理组</DialogTitle>
+            <DialogTitle>{t('editNodes.dialog.title')}</DialogTitle>
             <DialogDescription>
-              输入自定义名称或从预定义选项中快速选择
+              {t('editNodes.dialog.description')}
             </DialogDescription>
           </DialogHeader>
 
           <div className='space-y-4'>
             <div>
               <Input
-                placeholder='输入代理组名称...'
+                placeholder={t('editNodes.dialog.namePlaceholder')}
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
                 onKeyDown={(e) => {
@@ -1174,7 +1176,7 @@ function EditNodesDocPage() {
             </div>
 
             <div>
-              <p className='text-sm text-muted-foreground mb-2'>快速选择：</p>
+              <p className='text-sm text-muted-foreground mb-2'>{t('editNodes.dialog.quickSelect')}</p>
               <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2'>
                 {Object.entries(OUTBOUND_NAMES).map(([key, value]) => (
                   <Button
@@ -1193,10 +1195,10 @@ function EditNodesDocPage() {
 
           <DialogFooter>
             <Button variant='outline' onClick={() => setAddGroupDialogOpen(false)}>
-              取消
+              {t('editNodes.dialog.cancel')}
             </Button>
             <Button onClick={handleAddGroup} disabled={!newGroupName.trim()}>
-              保存
+              {t('editNodes.dialog.save')}
             </Button>
           </DialogFooter>
         </DialogContent>

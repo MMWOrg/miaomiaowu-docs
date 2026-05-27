@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -7,122 +8,109 @@ export const Route = createFileRoute('/x/docs/remote-servers')({
 })
 
 function RemoteServersPage() {
+  const { t } = useTranslation('xdocs')
+
   return (
-    <XDocLayout title='远程服务器' description='添加和管理远程服务器，Master-Agent 架构说明'>
+    <XDocLayout title={t('remoteServers.title')} description={t('remoteServers.description')}>
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>概述</h2>
-        <p className='text-muted-foreground mb-4'>
-          妙妙屋X 采用 Master-Agent 架构。主控端通过网络与远程服务器上的 Agent 通信，实现 Xray/Nginx 的远程安装、配置和管理。
-        </p>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.overview')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('remoteServers.overviewText')}</p>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>添加服务器</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.addServerHeading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <ol className='space-y-3 text-sm'>
-              <li>1. 进入「服务管理」页面，点击「添加服务器」</li>
-              <li>2. 填写服务器名称（用于标识）</li>
-              <li>3. 填写服务器 IP 地址</li>
-              <li>4. 填写域名（可选，用于 TLS 证书和 Nginx 伪装）</li>
-              <li>5. 选择偷取模式（tunnel/steal，影响节点端口生成）</li>
-              <li>6. 系统自动生成 Server Token 和 Agent Token</li>
-              <li>7. 使用 Token 在远程服务器上部署 Agent</li>
+              <li>{t('remoteServers.addStep1')}</li>
+              <li>{t('remoteServers.addStep2')}</li>
+              <li>{t('remoteServers.addStep3')}</li>
+              <li>{t('remoteServers.addStep4')}</li>
+              <li>{t('remoteServers.addStep5')}</li>
+              <li>{t('remoteServers.addStep6')}</li>
+              <li>{t('remoteServers.addStep7')}</li>
             </ol>
           </CardContent>
         </Card>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>连接模式</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.connectionModeHeading')}</h2>
         <div className='grid gap-4 md:grid-cols-2'>
           <Card>
             <CardContent className='pt-6'>
-              <h3 className='font-semibold mb-2'>WebSocket（推荐）</h3>
-              <p className='text-sm text-muted-foreground'>Agent 主动连接主控端，保持长连接。实时双向通信，支持扫描结果推送。</p>
+              <h3 className='font-semibold mb-2'>{t('remoteServers.wsRecommended')}</h3>
+              <p className='text-sm text-muted-foreground'>{t('remoteServers.wsDesc')}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className='pt-6'>
               <h3 className='font-semibold mb-2'>HTTP</h3>
-              <p className='text-sm text-muted-foreground'>主控端直接调用 Agent HTTP API。需要 Agent 端口（默认 23889）对主控端可达。</p>
+              <p className='text-sm text-muted-foreground'>{t('remoteServers.httpDesc')}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className='pt-6'>
               <h3 className='font-semibold mb-2'>Pull</h3>
-              <p className='text-sm text-muted-foreground'>Agent 定期从主控端拉取指令。适合 NAT 或防火墙受限环境。</p>
+              <p className='text-sm text-muted-foreground'>{t('remoteServers.pullDesc')}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className='pt-6'>
               <h3 className='font-semibold mb-2'>Auto</h3>
-              <p className='text-sm text-muted-foreground'>自动尝试 WebSocket → HTTP → Pull 回退链，选择最优连接方式。</p>
+              <p className='text-sm text-muted-foreground'>{t('remoteServers.autoDesc')}</p>
             </CardContent>
           </Card>
         </div>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>Token 管理</h2>
-        <p className='text-muted-foreground mb-4'>每台服务器有两个 Token：</p>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.tokenHeading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('remoteServers.tokenText')}</p>
         <ul className='space-y-2 text-sm text-muted-foreground'>
-          <li>- Server Token：Agent 用于连接主控端的凭证</li>
-          <li>- Agent Token：主控端用于调用 Agent API 的凭证</li>
+          <li>- {t('remoteServers.serverToken')}</li>
+          <li>- {t('remoteServers.agentToken')}</li>
         </ul>
-        <p className='text-sm text-muted-foreground mt-4'>
-          可在服务器详情页重置 Token。重置后 Agent 会通过 WebSocket 自动接收新 Token。
-        </p>
+        <p className='text-sm text-muted-foreground mt-4'>{t('remoteServers.tokenResetNote')}</p>
       </section>
 
       <section>
-        <h2 className='text-2xl font-bold mb-4'>服务器状态</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.statusHeading')}</h2>
         <div className='overflow-x-auto'>
           <table className='w-full text-sm'>
-            <thead><tr className='border-b'><th className='text-left py-3 px-4'>状态</th><th className='text-left py-3 px-4'>说明</th></tr></thead>
+            <thead><tr className='border-b'><th className='text-left py-3 px-4'>{t('remoteServers.statusCol')}</th><th className='text-left py-3 px-4'>{t('remoteServers.descCol')}</th></tr></thead>
             <tbody>
-              <tr className='border-b'><td className='py-3 px-4 font-mono text-green-600'>connected</td><td className='py-3 px-4'>Agent 已连接，可正常管理</td></tr>
-              <tr className='border-b'><td className='py-3 px-4 font-mono text-yellow-600'>disconnected</td><td className='py-3 px-4'>Agent 断开连接</td></tr>
-              <tr><td className='py-3 px-4 font-mono text-gray-500'>pending</td><td className='py-3 px-4'>等待 Agent 首次连接</td></tr>
+              <tr className='border-b'><td className='py-3 px-4 font-mono text-green-600'>connected</td><td className='py-3 px-4'>{t('remoteServers.statusConnected')}</td></tr>
+              <tr className='border-b'><td className='py-3 px-4 font-mono text-yellow-600'>disconnected</td><td className='py-3 px-4'>{t('remoteServers.statusDisconnected')}</td></tr>
+              <tr><td className='py-3 px-4 font-mono text-gray-500'>pending</td><td className='py-3 px-4'>{t('remoteServers.statusPending')}</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>批量升级 Agent</h2>
-        <p className='text-muted-foreground'>
-          主控发布新版本后,可在远程服务器管理里对多台服务器<strong>批量升级 Agent</strong>,无需逐台 SSH 重新执行安装命令。升级过程以流式日志展示进度。
-        </p>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.batchUpgradeHeading')}</h2>
+        <p className='text-muted-foreground'>{t('remoteServers.batchUpgradeText')}</p>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>分享服务器给其他妙妙屋X</h2>
-        <p className='text-muted-foreground mb-4'>
-          你可以把自己的一台服务器<strong>分享</strong>给别人的妙妙屋X 主控,让对方也能在其面板里管理该服务器(创建入站、出节点等),而无需把 Agent 令牌直接交出去。
-        </p>
+        <h2 className='text-2xl font-bold mb-4'>{t('remoteServers.shareHeading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('remoteServers.shareText')}</p>
         <div className='space-y-4'>
           <Card>
             <CardContent className='pt-6'>
-              <h3 className='font-semibold mb-2'>分享方(拥有者)</h3>
-              <p className='text-sm text-muted-foreground'>
-                在服务器管理里为该服务器生成一个<strong>分享令牌</strong>(可带前缀),交给对方。对方的操作会经你的主控代理转发到该服务器。
-              </p>
+              <h3 className='font-semibold mb-2'>{t('remoteServers.shareOwnerHeading')}</h3>
+              <p className='text-sm text-muted-foreground'>{t('remoteServers.shareOwnerText')}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className='pt-6'>
-              <h3 className='font-semibold mb-2'>接收方</h3>
-              <p className='text-sm text-muted-foreground'>
-                在「添加服务器」里选择「接入分享的服务器」,填入对方给的分享令牌即可。接入后该服务器会作为一台<strong>联邦(federated)服务器</strong>出现在你的列表里,
-                状态随拥有方上报刷新;入站 / 节点 / Tunnel 管理等均可用。
-              </p>
+              <h3 className='font-semibold mb-2'>{t('remoteServers.shareConsumerHeading')}</h3>
+              <p className='text-sm text-muted-foreground'>{t('remoteServers.shareConsumerText')}</p>
             </CardContent>
           </Card>
           <Card>
-            <CardContent className='pt-6 text-sm text-muted-foreground'>
-              主控与 Agent、以及主控之间的联邦通信均走加密通道(密钥协商 + 会话缓存),令牌轮换不影响在线管理。
-            </CardContent>
+            <CardContent className='pt-6 text-sm text-muted-foreground'>{t('remoteServers.shareSecurityNote')}</CardContent>
           </Card>
         </div>
       </section>

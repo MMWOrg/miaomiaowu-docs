@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -7,32 +8,31 @@ export const Route = createFileRoute('/x/docs/protocol-hysteria2')({
 })
 
 function ProtocolHysteria2Page() {
+  const { t } = useTranslation('xdocs')
+
   return (
-    <XDocLayout title='Hysteria2' description='Hysteria2 协议配置详解'>
+    <XDocLayout title='Hysteria2' description={t('protocolHysteria2.description')}>
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>概述</h2>
-        <p className='text-muted-foreground'>Hysteria2 基于 QUIC（UDP），专为高延迟、高丢包网络优化。需要 TLS 证书。</p>
+        <h2 className='text-2xl font-bold mb-4'>{t('protocolHysteria2.overview')}</h2>
+        <p className='text-muted-foreground'>{t('protocolHysteria2.overviewText')}</p>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>前置要求</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('protocolHysteria2.prerequisitesHeading')}</h2>
         <ul className='space-y-2 text-sm text-muted-foreground'>
-          <li>- 需要 TLS 证书（可通过证书管理自动申请）</li>
-          <li>- 需要开放 UDP 端口</li>
-          <li>- 客户端需支持 Hysteria2（mihomo/Clash.Meta 支持）</li>
+          <li>- {t('protocolHysteria2.prereq1')}</li>
+          <li>- {t('protocolHysteria2.prereq2')}</li>
+          <li>- {t('protocolHysteria2.prereq3')}</li>
         </ul>
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>Xray 配置说明</h2>
-        <p className='text-muted-foreground mb-4'>
-          在 Xray-core 中，Hysteria2 使用 <code className='bg-muted px-1.5 py-0.5 rounded'>protocol: "hysteria"</code> 配合 <code className='bg-muted px-1.5 py-0.5 rounded'>version: 2</code>。
-          认证使用 <code className='bg-muted px-1.5 py-0.5 rounded'>auth</code> 字段（非 password）。
-        </p>
+        <h2 className='text-2xl font-bold mb-4'>{t('protocolHysteria2.xrayConfigHeading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('protocolHysteria2.xrayConfigText')}</p>
       </section>
 
       <section>
-        <h2 className='text-2xl font-bold mb-4'>配置示例</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('protocolHysteria2.configExampleHeading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm overflow-x-auto'>

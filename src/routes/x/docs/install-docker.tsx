@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 
@@ -7,10 +8,12 @@ export const Route = createFileRoute('/x/docs/install-docker')({
 })
 
 function InstallDockerPage() {
+  const { t } = useTranslation('xdocs')
+
   return (
-    <XDocLayout title='Docker 安装' description='使用 Docker 快速部署妙妙屋X'>
+    <XDocLayout title={t('installDocker.title')} description={t('installDocker.description')}>
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>快速部署</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('installDocker.quickDeploy.heading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm overflow-x-auto'>
@@ -52,14 +55,14 @@ services:
       </section>
 
       <section className='mb-10'>
-        <h2 className='text-2xl font-bold mb-4'>数据持久化</h2>
+        <h2 className='text-2xl font-bold mb-4'>{t('installDocker.dataPersistence.heading')}</h2>
         <p className='text-muted-foreground mb-4'>
-          数据库文件存储在 <code className='bg-muted px-1.5 py-0.5 rounded text-sm'>data/traffic.db</code>，请确保挂载 <code className='bg-muted px-1.5 py-0.5 rounded text-sm'>./data</code> 目录以持久化数据。
+          {t('installDocker.dataPersistence.text')}
         </p>
       </section>
 
       <section>
-        <Link to='/x/docs/install-agent' className='text-primary hover:underline'>→ 接下来部署 Agent 到远程服务器</Link>
+        <Link to='/x/docs/install-agent' className='text-primary hover:underline'>{t('installDocker.nextAgent')}</Link>
       </section>
     </XDocLayout>
   )

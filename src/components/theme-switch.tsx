@@ -1,26 +1,25 @@
 import { useEffect } from 'react'
 import { Moon, Sun } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useTheme } from '@/context/theme-provider'
 import { Button } from '@/components/ui/button'
 
 export function ThemeSwitch() {
   const { resolvedTheme, setTheme } = useTheme()
+  const { t } = useTranslation('common')
 
-  /* Update theme-color meta tag
-   * when theme is updated */
   useEffect(() => {
     const themeColor = resolvedTheme === 'dark' ? '#020817' : '#fff'
     const metaThemeColor = document.querySelector("meta[name='theme-color']")
     if (metaThemeColor) metaThemeColor.setAttribute('content', themeColor)
   }, [resolvedTheme])
 
-  // 切换: light <-> dark
   const toggleTheme = () => {
     setTheme(resolvedTheme === 'light' ? 'dark' : 'light')
   }
 
   const Icon = resolvedTheme === 'light' ? Sun : Moon
-  const label = resolvedTheme === 'light' ? '浅色模式' : '深色模式'
+  const label = resolvedTheme === 'light' ? t('theme.light') : t('theme.dark')
 
   return (
     <Button

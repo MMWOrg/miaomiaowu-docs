@@ -5,8 +5,10 @@ import { DocBreadcrumb } from './doc-breadcrumb'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { AnimatedX } from '@/components/animated-x'
 import { ChevronUp, Menu, X, Github, List } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { SearchTrigger } from '@/components/search/search-trigger'
+import { LanguageSwitch } from '@/components/language-switch'
 
 interface TocItem {
   id: string
@@ -25,6 +27,7 @@ export function DocLayout({
   title,
   description,
 }: DocLayoutProps) {
+  const { t } = useTranslation('layout')
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [tocOpen, setTocOpen] = useState(false)
@@ -145,8 +148,8 @@ export function DocLayout({
 
           {/* Logo */}
           <Link to='/' className='flex items-center gap-2 font-semibold'>
-            <img src='/images/logo.webp' alt='妙妙屋' className='size-8' />
-            <span>妙妙屋文档</span>
+            <img src='/images/logo.webp' alt={t('common:brand')} className='size-8' />
+            <span>{t('docLayout.title')}</span>
           </Link>
 
           {/* Spacer */}
@@ -159,14 +162,14 @@ export function DocLayout({
               to='/x'
               className='inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors'
             >
-              妙妙屋<AnimatedX size='sm' />
+              {t('common:brand')}<AnimatedX size='sm' />
             </Link>
             {/* Mobile TOC button */}
             {tableOfContents.length > 0 && (
               <button
                 onClick={() => setTocOpen(!tocOpen)}
                 className='xl:hidden p-2 text-muted-foreground hover:text-foreground transition-colors'
-                aria-label='目录'
+                aria-label={t('docLayout.tocAria')}
               >
                 <List className='size-5' />
               </button>
@@ -180,6 +183,7 @@ export function DocLayout({
               <Github className='size-4' />
               <span className='hidden sm:inline'>GitHub</span>
             </a>
+            <LanguageSwitch />
             <ThemeSwitch />
           </div>
         </div>
@@ -236,7 +240,7 @@ export function DocLayout({
           <aside className='hidden xl:block w-56 border-l bg-background/30 backdrop-blur h-[calc(100vh-3.5rem)] sticky top-14 overflow-y-auto'>
             <div className='p-4'>
               <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>
-                本页内容
+                {t('docLayout.toc')}
               </h3>
               <nav className='space-y-1 text-sm'>
                 {tableOfContents.map((item) => (
@@ -269,7 +273,7 @@ export function DocLayout({
             <aside className='fixed right-0 top-14 h-[calc(100vh-3.5rem)] w-64 border-l bg-background overflow-y-auto'>
               <div className='p-4'>
                 <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>
-                  本页内容
+                  {t('docLayout.toc')}
                 </h3>
                 <nav className='space-y-1 text-sm'>
                   {tableOfContents.map((item) => (
@@ -299,7 +303,7 @@ export function DocLayout({
         <button
           onClick={scrollToTop}
           className='fixed bottom-8 right-8 p-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all z-40'
-          aria-label='返回顶部'
+          aria-label={t('docLayout.backToTop')}
         >
           <ChevronUp className='size-5' />
         </button>

@@ -1,0 +1,2429 @@
+{
+  "about": {
+    "title": "About MiaoMiaoWu",
+    "description": "Learn about MiaoMiaoWu's design philosophy and core features",
+    "intro": {
+      "name": "MiaoMiaoWu",
+      "text1": "MiaoMiaoWu is a user management system designed specifically for self-hosted proxy services. It provides comprehensive node management, subscription generation, user management, and traffic statistics, allowing you to easily manage your own proxy services.",
+      "text2": "Additionally, MiaoMiaoWu supports taking over external subscriptions, enabling unified management and distribution of external subscription nodes alongside self-hosted ones."
+    },
+    "designPhilosophy": {
+      "heading": "Design Philosophy",
+      "text": "MiaoMiaoWu's design philosophy is <strong>simple, efficient, and secure</strong>. We hope users can:",
+      "item1": "Quickly complete node management and subscription configuration through a clean interface",
+      "item2": "Deploy and use without complex technical background",
+      "item3": "Enjoy a secure and reliable proxy service management experience"
+    },
+    "coreFeatures": {
+      "heading": "Core Features",
+      "nodeManagement": {
+        "title": "Node Management",
+        "desc": "Supports manual addition and external subscription import of nodes, with multiple protocols (VMess, VLESS, Trojan, Shadowsocks, etc.)"
+      },
+      "subscriptionGeneration": {
+        "title": "Subscription Generation",
+        "desc": "Visual configuration of proxy groups and rules, with multiple templates, generating standard Clash format subscriptions"
+      },
+      "userManagement": {
+        "title": "User Management",
+        "desc": "Create and manage user accounts, assign different subscription configurations to different users"
+      },
+      "trafficStats": {
+        "title": "Traffic Statistics",
+        "desc": "Integrated probe system, no additional components needed, monitors node traffic usage"
+      },
+      "customRules": {
+        "title": "Custom Rules",
+        "desc": "Supports custom DNS configuration, rule lists, and rule-set providers"
+      },
+      "chainProxy": {
+        "title": "Chain Proxy",
+        "desc": "Supports creating multi-layer proxy chains for relay acceleration and privacy protection"
+      }
+    },
+    "techStack": {
+      "heading": "Tech Stack",
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "goLang": "• Go Language",
+      "sqlite": "• SQLite Database"
+    },
+    "openSource": {
+      "heading": "Open Source",
+      "text": "MiaoMiaoWu is an open-source project under the MIT license. Community contributions and issue submissions are welcome.",
+      "repo": "GitHub Repository"
+    }
+  },
+  "chainProxy": {
+    "title": "Chain Proxy",
+    "description": "Forward traffic through multiple proxy servers",
+    "groupTypes": {
+      "select": "Manual Select",
+      "urlTest": "Auto Select",
+      "fallback": "Auto Fallback",
+      "loadBalance": "Load Balance"
+    },
+    "whatIs": {
+      "heading": "What is Chain Proxy",
+      "desc": "Chain Proxy is a technique that forwards traffic through multiple proxy servers to achieve more complex network routing strategies. MiaoMiaoWu implements chain proxy through dialer-proxy technology, allowing you to specify a relay node for any node to achieve multi-level proxy forwarding.",
+      "example": "Chain proxy means chaining multiple proxy nodes together so that traffic passes through multiple proxy servers before reaching the target website. For example:",
+      "client": "Client",
+      "relay": "Relay Node",
+      "landing": "Landing Node",
+      "target": "Target Website",
+      "techDesc": "In MiaoMiaoWu, this is implemented through Clash's <code>dialer-proxy</code> property. The source node forwards traffic to the specified target node (relay node), which then forwards it to the final destination."
+    },
+    "scenarios": {
+      "heading": "Use Cases",
+      "accelerateTitle": "Scenario 1: Relay Acceleration",
+      "accelerateDesc": "When the landing node is far from the user, a relay node closer to the user can accelerate the connection. For example: Domestic user → Hong Kong relay → US landing node.",
+      "hideIpTitle": "Scenario 2: Hide Real IP",
+      "hideIpDesc": "Hide the client's real IP address through multi-layer proxies for enhanced privacy protection. The target website can only see the IP of the last landing node.",
+      "bypassTitle": "Scenario 3: Bypass Regional Restrictions",
+      "bypassDesc": "Some services may restrict specific IP ranges. Chain proxy allows you to exit from nodes in different regions to bypass these restrictions.",
+      "loadBalanceTitle": "Scenario 4: Traffic Load Distribution",
+      "loadBalanceDesc": "Distribute traffic across multiple relay nodes to reduce the load on a single node and improve overall stability."
+    },
+    "configMethod": {
+      "heading": "Configuration Method",
+      "desc": "Configuring chain proxy in MiaoMiaoWu is very simple, just operate on the node management page:",
+      "step1Title": "Go to Node Management Page",
+      "step1Desc": "Click \"Node Management\" in the left menu",
+      "step2Title": "Find the Target Node",
+      "step2Desc": "Find the node that needs chain proxy configuration (landing node) in the node list",
+      "step3Title": "Click Chain Proxy Button",
+      "step3Desc": "Click the chain proxy icon (two arrows exchange icon) in the node action bar",
+      "step4Title": "Select Relay Node",
+      "step4Desc": "Select the relay node in the popup dialog",
+      "step5Title": "Save Configuration",
+      "step5Desc": "After confirmation, the system will automatically create a new chain proxy node, labeled as \"Chain Proxy\""
+    },
+    "groupConfig": {
+      "heading": "Proxy Group Configuration",
+      "desc": "When generating subscriptions, MiaoMiaoWu supports configuring dedicated chain proxy groups:",
+      "landingTitle": "🌄 Landing Nodes",
+      "landingDesc": "Used to store the final exit nodes. The IPs of these nodes will be seen by the target website.",
+      "relayTitle": "🌠 Relay Nodes",
+      "relayDesc": "Used to store relay server nodes. Traffic passes through these nodes before being forwarded to landing nodes.",
+      "note": "This grouping method is suitable for users with multiple landing nodes and multiple relay nodes, allowing flexible combination of different chains."
+    },
+    "singleNode": {
+      "heading": "Single Node Configuration",
+      "desc1": "On the node management page, click the",
+      "desc2": "button to individually assign a relay node to a landing node. After assignment, a new chain proxy node will be created in the node table.",
+      "demoLanding": "🌄 Landing Node",
+      "switchTypeLabel": "Switch Proxy Group Type",
+      "closeLabel": "Close",
+      "relayGroupLabel": "Relay Proxy Group",
+      "selectRelayPlaceholder": "Select Relay Proxy Group",
+      "currentBinding": "Current Binding",
+      "demoNote": "The above is an in-page simulation showing the \"Relay Proxy Group\" dropdown menu in the \"Proxy Group Type Switch\" button (not an image). In actual use, this configuration is written to the dialer-proxy-group field."
+    },
+    "techPrinciple": {
+      "heading": "Technical Principle",
+      "desc": "Chain proxy implementation is based on Clash's dialer-proxy feature:",
+      "explanation": "The <code>dialer-proxy</code> property specifies the name of the relay proxy node. Clash first connects to the relay node, then connects to the target node through it."
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "latencyTitle": "Latency Stacking",
+      "latencyDesc": ": Chain proxy increases network latency because traffic needs to pass through multiple nodes",
+      "stabilityTitle": "Node Stability",
+      "stabilityDesc": ": Any node failure in the chain will cause the entire chain to be unavailable",
+      "bandwidthTitle": "Bandwidth Limit",
+      "bandwidthDesc": ": The final speed is limited by the slowest node in the chain",
+      "loopTitle": "Avoid Loops",
+      "loopDesc": ": Ensure chain configurations do not form circular references",
+      "protocolTitle": "Protocol Compatibility",
+      "protocolDesc": ": Ensure node protocols in the chain are compatible with each other"
+    }
+  },
+  "clientSetup": {
+    "title": "Client Setup",
+    "description": "Import and use subscription links in various platform clients",
+    "tip": "It is recommended to use clients that support Clash format for the best compatibility",
+    "generalSteps": {
+      "heading": "General Import Steps",
+      "step1": "Get the subscription link from MiaoMiaoWu",
+      "step2": "Copy the subscription link",
+      "step3": "Open the client",
+      "step4": "Find the subscription/configuration management page",
+      "step5": "Paste the subscription link",
+      "step6": "Update/download the subscription",
+      "step7": "Select a node and connect"
+    },
+    "clients": {
+      "heading": "Detailed Steps for Each Client",
+      "clashVerge": {
+        "step1": "Open Clash Verge",
+        "step2": "Click the \"Subscriptions\" menu on the left",
+        "step3": "Click the \"New\" button",
+        "step4": "Paste the subscription link and save",
+        "step5": "Click the refresh button to update the subscription"
+      },
+      "clashMeta": {
+        "step1": "Open Clash Meta for Android",
+        "step2": "Click the \"Profiles\" tab",
+        "step3": "Click the \"+\" button to add a profile",
+        "step4": "Select \"URL\" type, paste the subscription link",
+        "step5": "Save and select the profile"
+      },
+      "shadowrocket": {
+        "step1": "Open Shadowrocket",
+        "step2": "Click the \"+\" button in the top right",
+        "step3": "Select type as \"Subscribe\"",
+        "step4": "Paste the subscription link",
+        "step5": "Click done and update the subscription"
+      }
+    }
+  },
+  "customRules": {
+    "title": "Custom Rules",
+    "description": "Create and manage custom routing rules (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "Custom rules allow administrators to create their own DNS configurations, rule lists, and rule-set providers, which can be used to override or supplement default rules in templates when generating subscriptions.",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "createTitle": "Create Rules",
+      "createDesc": "Create new custom rule configurations",
+      "editTitle": "Edit Rules",
+      "editDesc": "Modify existing rule configuration content",
+      "deleteTitle": "Delete Rules",
+      "deleteDesc": "Remove rule configurations that are no longer needed",
+      "viewTitle": "View Rules",
+      "viewDesc": "View detailed rule configuration content",
+      "behaviorTitle": "Rule Behavior",
+      "behaviorDesc": "Supports three rule behaviors: domain, ipcidr, and classical"
+    },
+    "ruleTypes": {
+      "heading": "Rule Types",
+      "desc": "MiaoMiaoWu supports the following types of custom rules:",
+      "rulesLabel": "rules",
+      "rulesDesc": "Directly define routing rules such as DOMAIN-SUFFIX, IP-CIDR, etc.",
+      "ruleProvidersLabel": "rule-providers",
+      "ruleProvidersDesc": "Use external rule-set providers, supporting both URL and file sources",
+      "dnsDesc": "Custom DNS server configuration such as nameserver, fallback, etc."
+    },
+    "createSteps": {
+      "heading": "Creation Steps",
+      "step1Title": "Go to Custom Rules Page",
+      "step1Desc": "Click \"Custom Rules\" in the left menu",
+      "step2Title": "Fill in Rule Information",
+      "step3Title": "Write Rule Content",
+      "step3Desc": "Write rule configuration content in the editor",
+      "step4Title": "Save Rules",
+      "step4Desc": "Click the save button to complete rule creation",
+      "ruleNameLabel": "Rule Name",
+      "ruleNameDesc": "Set the display name of the rule",
+      "ruleTypeLabel": "Rule Type",
+      "ruleTypeDesc": "Select the rule type (rules / rule-providers / DNS)",
+      "ruleBehaviorLabel": "Rule Behavior",
+      "ruleBehaviorDesc": "Select the rule behavior (domain / ipcidr / classical)"
+    },
+    "referenceInSub": {
+      "heading": "Reference in Subscriptions",
+      "desc": "Created custom rules can be referenced when generating subscriptions to override or supplement default rules in templates.",
+      "exampleTitle": "Reference Example",
+      "priorityTitle": "Priority",
+      "priorityDesc": "Custom rules have higher priority than default rules in templates"
+    },
+    "scenarios": {
+      "heading": "Typical Scenarios",
+      "directTitle": "Direct Rules: Add domains or IPs that need direct connection",
+      "streamingTitle": "Streaming Routing: Create routing rules for specific streaming services",
+      "adBlockTitle": "Ad Blocking: Add blocking rules for ad domains",
+      "lanTitle": "LAN Rules: Configure direct connection rules for LAN addresses"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "formatTitle": "Rule Format",
+      "formatDesc": ": Please ensure the rule format is correct; incorrect format may cause subscriptions to malfunction",
+      "groupExistTitle": "Proxy Group Existence",
+      "groupExistDesc": ": Proxy group names referenced by rules type must exist in the subscription configuration"
+    },
+    "maintenance": {
+      "heading": "Rule Maintenance",
+      "checkTitle": "Regular Review",
+      "checkDesc": "Regularly check whether rules are still valid and necessary",
+      "feedbackTitle": "User Feedback",
+      "feedbackDesc": "Adjust and optimize rules based on user feedback"
+    }
+  },
+  "editNodes": {
+    "title": "Node & Proxy Group Editing",
+    "description": "Manage node assignments and proxy group configurations in subscriptions (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "The node and proxy group editing feature allows administrators to add or remove nodes from generated subscriptions and configure proxy group types and ordering.",
+    "availableNodes": "Available Nodes",
+    "clickToEditName": "Click to edit name",
+    "enterNewName": "Enter new name",
+    "nodesCount": "Node Count",
+    "dragNodesHere": "Drag nodes here",
+    "addToAllGroups": "Add to all groups",
+    "removeFromAllGroups": "Remove from all groups",
+    "switchGroupType": "Switch Proxy Group Type",
+    "proxyTypes": {
+      "select": "Manual Select",
+      "urlTest": "Auto Select",
+      "fallback": "Auto Fallback",
+      "loadBalance": "Load Balance"
+    },
+    "demo": {
+      "heading": "Operation Demo",
+      "filterPlaceholder": "Search nodes...",
+      "noNodes": "No nodes available",
+      "addGroup": "Add Proxy Group",
+      "resetData": "Reset Data",
+      "dragHint": "Drag nodes to left proxy groups",
+      "settingsHint": "Click gear icon to configure proxy group"
+    },
+    "dialog": {
+      "title": "Add Proxy Group",
+      "description": "Create a new proxy group",
+      "namePlaceholder": "Enter proxy group name",
+      "quickSelect": "Quick Select",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "dragOps": {
+      "heading": "Drag & Drop Instructions",
+      "iconCol": "Icon",
+      "actionCol": "Action",
+      "descCol": "Description",
+      "dragNode": "Drag Node",
+      "dragNodeDesc": "Drag nodes from right side into left proxy groups",
+      "dragToAdd": "Drag to Add",
+      "dragToAddDesc": "Drag a node into a proxy group card to add it",
+      "dragToRemove": "Drag to Remove",
+      "dragToRemoveDesc": "Drag a node out of a proxy group to remove it",
+      "dragCard": "Drag Card",
+      "dragCardDesc": "Drag proxy group cards to reorder them",
+      "clickTitle": "Click Title",
+      "clickTitleDesc": "Click proxy group title to rename",
+      "clickSettings": "Click Settings",
+      "clickSettingsDesc": "Click gear icon to configure proxy group type",
+      "dragTitle": "Drag to Sort",
+      "dragTitleDesc": "Drag nodes to reorder within a proxy group",
+      "dragAvailTitle": "Drag Available Nodes",
+      "dragAvailTitleDesc": "Drag from right available nodes list into left proxy groups"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "saveTitle": "Save Promptly",
+      "saveDesc": "Save your changes promptly after editing; unsaved changes will be lost",
+      "insertTitle": "Node Order",
+      "insertDesc": "The order of nodes in proxy groups affects client display",
+      "providerTitle": "Proxy Providers",
+      "providerDesc": "Proxy providers (purple border) and regular nodes can coexist in the same proxy group",
+      "selfRefTitle": "Avoid Self-Reference",
+      "selfRefDesc": "Proxy groups cannot reference themselves, as this would cause circular references"
+    },
+    "recentUpdates": {
+      "heading": "Recent Updates",
+      "columnTitle": "Column Display",
+      "column1": "Supports 2-6 column switching",
+      "column2": "Remembers last selected column count",
+      "column3": "Adapts to different screen widths"
+    },
+    "scenarios": {
+      "heading": "Related Features",
+      "generatorLink": "Generate Subscription",
+      "generatorDesc": "Create and manage subscription configurations on the subscription generation page",
+      "subscribeLink": "Subscription Management",
+      "subscribeDesc": "View and manage subscription files on the subscription management page"
+    }
+  },
+  "externalSubscriptions": {
+    "title": "External Subscriptions",
+    "description": "Import and manage external subscription links (Admin feature)",
+    "adminBadge": "Admin Feature",
+    "intro": "The external subscription feature allows administrators to import third-party subscription links, bringing external nodes into MiaoMiaoWu's unified management system.",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "addSub": "Add external subscription links",
+      "syncNodes": "Sync nodes from external subscriptions",
+      "viewTraffic": "View external subscription traffic info",
+      "deleteSub": "Delete external subscriptions"
+    },
+    "addSteps": {
+      "heading": "Adding Steps",
+      "step1": {
+        "title": "Go to External Subscriptions Page",
+        "desc": "Click \"External Subscriptions\" in the left menu"
+      },
+      "step2": {
+        "title": "Click the Add Button",
+        "desc": "Click the \"Add Subscription\" button on the page"
+      },
+      "step2b": {
+        "title": "Fill in Subscription Info",
+        "desc": "Enter the subscription name and subscription link URL"
+      },
+      "step3": {
+        "title": "Select User-Agent (Optional)",
+        "desc": "Some subscription sources require a specific User-Agent to return nodes correctly"
+      },
+      "step4": {
+        "title": "Save and Sync",
+        "desc": "After saving, the system will automatically sync nodes from the subscription"
+      }
+    },
+    "syncMechanism": {
+      "heading": "Sync Mechanism",
+      "manual": {
+        "title": "Manual Sync",
+        "desc": "Click the refresh button on the subscription card to manually trigger sync"
+      },
+      "force": {
+        "title": "Force Sync",
+        "desc": "When enabled in system settings, the system automatically syncs external subscriptions every time a user fetches their subscription"
+      }
+    },
+    "trafficInfo": {
+      "heading": "Traffic Information",
+      "desc": "Some subscription sources return traffic usage information in response headers:",
+      "upload": {
+        "title": "Upload Traffic",
+        "desc": "Upload traffic used"
+      },
+      "download": {
+        "title": "Download Traffic",
+        "desc": "Download traffic used"
+      },
+      "total": {
+        "title": "Total Traffic",
+        "desc": "Total traffic quota of the subscription"
+      },
+      "expiry": {
+        "title": "Expiry Date",
+        "desc": "Subscription expiry date"
+      }
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "linkPrivacy": "Subscription links contain sensitive information, please keep them safe",
+      "userAgent": "Some subscription sources have User-Agent requirements, please set accordingly",
+      "trafficNote": "Traffic information depends on whether the subscription source returns relevant data in response headers",
+      "deleteNote": "Deleting an external subscription will also delete all synced nodes"
+    },
+    "relations": {
+      "heading": "Feature Relations",
+      "toNodes": {
+        "title": "External Subscriptions → Node Management",
+        "desc": "Synced nodes will appear in the node management list"
+      },
+      "toGenerator": {
+        "title": "External Subscriptions → Generate Subscription",
+        "descPrefix": "Synced nodes can be used in",
+        "link": "Generate Subscription",
+        "descSuffix": ""
+      },
+      "toProxyProviders": {
+        "title": "External Subscriptions → Proxy Providers",
+        "descPrefix": "Can be automatically grouped by region or protocol through",
+        "link": "Proxy Providers",
+        "descSuffix": ""
+      },
+      "toTraffic": {
+        "title": "External Subscriptions → Traffic Info",
+        "desc": "After enabling traffic sync, external subscription traffic info will be merged into user traffic statistics"
+      }
+    }
+  },
+  "faq": {
+    "title": "FAQ",
+    "description": "Frequently asked questions about using MiaoMiaoWu",
+    "items": {
+      "addNodes": {
+        "q": "How to add nodes?",
+        "a": "You can add nodes in two ways: 1. Manual addition: Click the add button on the node management page and fill in node information; 2. External subscription: Add a subscription link on the external subscriptions page, and the system will automatically sync nodes."
+      },
+      "importFailed": {
+        "q": "What if subscription import fails?",
+        "a": "Please check if the subscription link is correct and the network is accessible. Some subscription sources may require a specific User-Agent. If it still fails, try adding nodes manually."
+      },
+      "subNotShowing": {
+        "q": "What if users can't see subscriptions?",
+        "a": "Administrators need to assign subscriptions to users in \"User Management\". Users need at least one assigned subscription to see it on the \"Subscription Links\" page."
+      },
+      "forgotAdminPwd": {
+        "q": "What if I forgot the admin password?",
+        "a": "You can reset the admin password to default by adding the --reset-admin parameter when restarting the service."
+      },
+      "supportedFormats": {
+        "q": "What subscription formats are supported?",
+        "a": "MiaoMiaoWu supports Clash/Meta format subscription output and can convert to 12 client formats through the built-in SubStore."
+      },
+      "updateNodes": {
+        "q": "How to update external subscription nodes?",
+        "a": "Click the refresh button on the external subscriptions page to manually sync. You can also enable auto-sync in system settings."
+      },
+      "customRules": {
+        "q": "How to use custom rules?",
+        "a": "Create rules on the \"Custom Rules\" page, then apply them when editing configurations in \"Generate Subscription\" or \"Subscription Management\"."
+      },
+      "trafficStats": {
+        "q": "What if traffic statistics are inaccurate?",
+        "a": "Please confirm the probe server is properly configured and the node is bound to the corresponding probe. If using external subscriptions, you need to enable traffic info sync in system settings."
+      },
+      "chainProxy": {
+        "q": "How to configure chain proxy?",
+        "a": "Click the chain proxy button on a node in the node management page and select a relay node. For detailed instructions, refer to the chain proxy documentation."
+      },
+      "backup": {
+        "q": "How to back up data?",
+        "a": "MiaoMiaoWu uses SQLite database, just back up the data directory. Docker users should back up the mounted volume directory; script installation users should back up the /etc/mmw directory."
+      }
+    },
+    "help": {
+      "heading": "Need More Help?",
+      "desc": "If none of the above questions resolve your issue, you can get help through:",
+      "issues": "GitHub Issues",
+      "goToIssues": "Go to Issues",
+      "reportBug": "Report a Bug",
+      "reportBugDesc": "If you found a bug, please submit an Issue on GitHub",
+      "submitBug": "Submit Bug Report"
+    }
+  },
+  "features": {
+    "title": "Features",
+    "description": "Overview of MiaoMiaoWu's core features and capabilities",
+    "nodeManagement": {
+      "heading": "Node Management",
+      "protocols": "Supports VMess, VLESS, Trojan, Shadowsocks and other protocols",
+      "manualAdd": "Manual node addition",
+      "subImport": "External subscription import",
+      "chainProxy": "Chain proxy configuration",
+      "dnsResolve": "DNS resolve IP",
+      "probeBind": "Probe binding",
+      "functionsHeading": "Node Functions"
+    },
+    "subGenerator": {
+      "heading": "Subscription Generator",
+      "visualConfig": "Visual proxy group and rule configuration",
+      "builtinTemplates": "Multiple built-in configuration templates",
+      "chainProxyGroup": "Chain proxy group support",
+      "versionControl": "Subscription version management"
+    },
+    "userManagement": {
+      "heading": "User Management",
+      "createUser": "Create and manage user accounts",
+      "assignSub": "Assign subscriptions to users",
+      "resetPwd": "Reset user passwords",
+      "statusMgmt": "User status management (enable/disable)"
+    },
+    "trafficStats": {
+      "heading": "Traffic Statistics",
+      "desc": "Integrated probe system for node traffic monitoring",
+      "multiProbe": "Supports multiple probe servers",
+      "nodeLevel": "Node-level traffic statistics",
+      "flexConfig": "Flexible probe configuration"
+    },
+    "customRules": {
+      "heading": "Custom Rules",
+      "dns": "Custom DNS configuration",
+      "ruleList": "Custom rule lists",
+      "ruleProvider": "Rule-set providers"
+    },
+    "chainProxy": {
+      "heading": "Chain Proxy",
+      "diagram": "Client → Relay Node → Landing Node → Target",
+      "relay": "Relay acceleration",
+      "privacy": "Privacy protection",
+      "flexCombo": "Flexible chain combinations",
+      "desc": "Relay acceleration and privacy protection through multi-layer proxies"
+    },
+    "externalSync": {
+      "heading": "External Subscription Sync",
+      "autoSync": "Auto sync external subscription nodes",
+      "matchRules": "Multiple node matching rules",
+      "cache": "Cache mechanism for performance optimization"
+    },
+    "multiClient": {
+      "heading": "Multi-Client Support",
+      "desc": "Supports automatic conversion to 12 client formats"
+    },
+    "overrideScripts": {
+      "heading": "Override Scripts",
+      "jsScript": "JavaScript override scripts",
+      "hooks": "Supports post_fetch and pre_save_nodes hooks",
+      "orderControl": "Script execution order control",
+      "toggle": "Script enable/disable toggle"
+    },
+    "security": {
+      "heading": "Security Features",
+      "twoFa": {
+        "title": "Two-Factor Authentication (2FA)",
+        "totp": "TOTP dynamic verification code",
+        "recovery": "Recovery code backup"
+      },
+      "silentMode": {
+        "title": "Silent Mode",
+        "panelHide": "Panel auto-hide",
+        "tempWindow": "Temporary access window",
+        "configTimeout": "Configurable timeout"
+      }
+    },
+    "telegram": {
+      "heading": "Telegram Notifications",
+      "multiEvent": "Multiple event notifications",
+      "dailyReport": "Daily traffic report",
+      "expiryReminder": "Subscription expiry reminder",
+      "toggle": "Notification toggle control"
+    },
+    "opsTools": {
+      "heading": "Operations Tools",
+      "tcpPing": {
+        "speedTest": "Node Speed Test",
+        "timeout": "Timeout detection"
+      },
+      "backup": {
+        "title": "Data Backup",
+        "fullBackup": "Full data backup",
+        "oneClickRestore": "One-click restore"
+      },
+      "debugLog": {
+        "title": "Debug Log",
+        "tempEnable": "Temporarily enable debugging",
+        "download": "Log download"
+      }
+    }
+  },
+  "generator": {
+    "title": "Generate Subscription",
+    "description": "Create and manage subscription configuration files (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "Generate Subscription is one of the core admin features, used to create standard Clash format subscription configuration files.",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "createNewTitle": "Create New Subscription",
+      "createNewDesc": "Create a new subscription configuration from scratch",
+      "builtinTemplateTitle": "Built-in Templates",
+      "builtinTemplateDesc": "Use preset configuration templates to quickly generate subscriptions",
+      "proxyGroupTitle": "Proxy Group Configuration",
+      "proxyGroupDesc": "Customize proxy group types, node assignments, and ordering",
+      "chainProxyTitle": "Chain Proxy",
+      "chainProxyDesc": "Configure relay and landing node chain proxies",
+      "sublinkTitle": "Subscription Link",
+      "sublinkDesc": "Generate and manage subscription link URLs"
+    },
+    "steps": {
+      "heading": "Creation Steps",
+      "step1Title": "Select Nodes",
+      "step1Desc": "Select nodes to include in the subscription from the node list",
+      "step2Title": "Select Template",
+      "step2Desc": "Choose a built-in or custom template as the base configuration",
+      "step3Title": "Configure Proxy Groups",
+      "step3UseTemplateTitle": "Use Template",
+      "step3UseTemplateDesc": "Click the load button to load template configuration",
+      "step3CustomRulesTitle": "Custom Rules",
+      "step3CustomRulesDesc": "Optional: Apply custom rules to override template rules",
+      "step4Title": "Save Subscription",
+      "step4DescPrefix": "Enter the subscription name and save. After saving, you can view it in",
+      "step4LinkText": "Subscription Management",
+      "step4DescSuffix": "",
+      "step5Title": "Assign Users",
+      "step5Desc": "Assign the subscription to users in User Management"
+    },
+    "subscriptionType": {
+      "heading": "Subscription Type",
+      "clashFormat": "Clash Format",
+      "clashDesc": "MiaoMiaoWu generates standard Clash/Meta format subscription configurations",
+      "supportedClients": "Supported Clients",
+      "clientList": "Clash Verge, Clash Meta, Stash, Shadowrocket, and 12 other clients",
+      "configFeatures": "Configuration Features",
+      "feature1": "Complete proxy group and rule configuration",
+      "feature2": "Supports custom DNS and rule sets",
+      "feature3": "Auto-fills node information"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "formatTitle": "Configuration Format",
+      "formatDesc": ": Generated subscriptions are in standard Clash YAML format",
+      "assignTitle": "User Assignment",
+      "assignDesc": ": After generating a subscription, you need to assign it to users in User Management before they can use it",
+      "deleteTitle": "Deletion Impact",
+      "deleteDesc": ": Deleting a subscription will also delete all versions and user assignments",
+      "nodeUpdateTitle": "Node Updates",
+      "nodeUpdateDesc": ": Changes to node information are automatically synced to generated subscriptions"
+    },
+    "bestPractices": {
+      "heading": "Best Practices",
+      "namingTitle": "Standard Naming",
+      "namingDesc": "Use clear names like \"Primary Subscription\", \"Backup Subscription\"",
+      "descriptionTitle": "Add Description",
+      "descriptionDesc": "Add descriptions to subscriptions for easy identification and management",
+      "scenarioTitle": "Scenario Classification",
+      "scenarioDesc": "Create different subscription configurations based on use cases",
+      "testTitle": "Test Verification",
+      "testDesc": "Test in a client first after generation to confirm nodes and rules work properly",
+      "autoUpdateTitle": "Regular Updates",
+      "autoUpdateDesc": "Update subscription configurations promptly after node changes"
+    }
+  },
+  "importSubscription": {
+    "title": "Import Subscription",
+    "description": "Import Clash format subscription configurations from external sources",
+    "formatSupport": {
+      "heading": "Supported Formats",
+      "clashFormat": {
+        "title": "Clash Format",
+        "desc": "Directly import standard Clash YAML format subscription configuration files"
+      }
+    },
+    "formatConversion": {
+      "heading": "Format Conversion",
+      "desc": "MiaoMiaoWu supports automatic conversion of multiple subscription formats through built-in SubStore",
+      "protocols": {
+        "title": "Supported Protocols"
+      },
+      "usage": {
+        "title": "Usage",
+        "desc": "Select the corresponding client format when copying on the subscription link page for automatic conversion"
+      }
+    },
+    "supportedClients": {
+      "heading": "Supported Clients",
+      "tip": "Click the \"Copy\" button to select different client formats"
+    }
+  },
+  "index": {
+    "hero": {
+      "title": "MiaoMiaoWu Documentation",
+      "subtitle": "Proxy Subscription Management System User Guide",
+      "quickStart": "Quick Start"
+    },
+    "cards": {
+      "intro": {
+        "title": "System Introduction",
+        "desc": "Learn about MiaoMiaoWu's design philosophy, core features, and technical architecture",
+        "action": "Learn More"
+      },
+      "install": {
+        "title": "Installation",
+        "desc": "Quickly deploy MiaoMiaoWu via Docker or direct installation",
+        "action": "Start Installing"
+      },
+      "nodes": {
+        "title": "Node Management",
+        "desc": "Add, import, and manage proxy nodes"
+      },
+      "subscription": {
+        "title": "Subscription Configuration",
+        "desc": "Generate and manage subscription files"
+      },
+      "users": {
+        "title": "User Management",
+        "desc": "Manage user accounts and subscription assignments"
+      },
+      "settings": {
+        "title": "System Settings",
+        "desc": "Configure system-level features and parameters"
+      },
+      "learnMore": "Learn More"
+    },
+    "highlights": {
+      "heading": "Key Highlights",
+      "externalSub": {
+        "title": "External Subscriptions",
+        "desc": "Import third-party subscriptions for unified management"
+      },
+      "templates": {
+        "title": "Template System",
+        "desc": "Multiple templates for quick subscription generation"
+      },
+      "chainProxy": {
+        "title": "Chain Proxy",
+        "desc": "Multi-layer proxy relay acceleration"
+      },
+      "trafficStats": {
+        "title": "Traffic Statistics",
+        "desc": "Precise traffic usage statistics"
+      },
+      "customRules": {
+        "title": "Custom Rules",
+        "desc": "Flexible routing rule configuration"
+      },
+      "multiClient": {
+        "title": "Multi-Client",
+        "desc": "12 client format support"
+      }
+    },
+    "quickLinks": {
+      "heading": "Quick Links",
+      "quickStart": "Quick Start",
+      "dockerInstall": "Docker Installation",
+      "nodeManagement": "Node Management",
+      "generateSub": "Generate Subscription",
+      "chainProxy": "Chain Proxy",
+      "faq": "FAQ"
+    }
+  },
+  "installDirect": {
+    "title": "Direct Installation",
+    "description": "Install MiaoMiaoWu directly on the server",
+    "notice": {
+      "heading": "Installation Notice",
+      "versionNote": "It is recommended to use the latest version of the system and dependency environment"
+    },
+    "prerequisites": {
+      "heading": "Prerequisites",
+      "desc": "Source code compilation requires the following environment:",
+      "go": "Go 1.21+",
+      "node": "Node.js 18+",
+      "git": "Git"
+    },
+    "simple": {
+      "heading": "Simple Installation",
+      "desc": "Quick deployment using the simple installation script:",
+      "note": "Simple installation downloads pre-compiled binaries, no compilation environment required."
+    },
+    "oneClick": {
+      "heading": "One-Click Installation Script",
+      "desc": "Use the one-click installation script for automatic installation and configuration:",
+      "autoOps": "Operations performed by the script",
+      "op1": "Download the latest pre-compiled binary",
+      "op2": "Create necessary directories and configuration files",
+      "op3": "Configure systemd service",
+      "op4": "Start the MiaoMiaoWu service",
+      "updateHeading": "Version Update",
+      "versionUpdate": "Update to the latest version using the script:",
+      "moreUpdate": "For more update methods, refer to the update documentation",
+      "uninstallHeading": "Uninstall"
+    },
+    "binary": {
+      "heading": "Manual Download Installation",
+      "desc": "Download pre-compiled binaries from GitHub Releases:",
+      "goToReleases": "Go to Releases Page",
+      "platforms": "Supported Platforms",
+      "step1": "Download the binary for your platform",
+      "step2": "Extract and grant execute permissions"
+    },
+    "source": {
+      "heading": "Source Code Compilation",
+      "step1": "Clone the repository",
+      "step2": "Build the frontend",
+      "step3": "Build the backend",
+      "step4": "Run"
+    },
+    "systemd": {
+      "heading": "Configure systemd Service",
+      "desc": "Create a systemd service file for auto-start on boot:",
+      "step1": "Create service file",
+      "step2": "Reload systemd",
+      "step3": "Start the service",
+      "step4": "Enable auto-start on boot",
+      "step5": "Check service status",
+      "commonCmds": "Common Commands",
+      "cmdRestart": "Restart service",
+      "cmdStop": "Stop service",
+      "cmdLogs": "View logs"
+    },
+    "windows": {
+      "heading": "Windows Installation",
+      "desc": "Windows users can directly run the executable:",
+      "step1": {
+        "title": "Download",
+        "download": "Download Windows version",
+        "desc": "Download windows-amd64.zip from the Releases page"
+      },
+      "step2": {
+        "title": "Extract",
+        "desc": "Extract to any directory"
+      },
+      "step3": {
+        "title": "Run",
+        "desc": "Double-click mmw.exe or run from command line"
+      }
+    },
+    "accessSystem": {
+      "heading": "Access the System",
+      "desc": "After installation, access in your browser:",
+      "firstVisit": "First visit requires setting up an admin account"
+    }
+  },
+  "installDocker": {
+    "title": "Docker Installation",
+    "description": "Quickly deploy MiaoMiaoWu using Docker",
+    "prerequisites": {
+      "heading": "Prerequisites",
+      "docker": "Docker 19.03+",
+      "dockerCompose": "Docker Compose (optional but recommended)",
+      "memory": "512MB+ available memory",
+      "port": "Port 8080 available"
+    },
+    "compose": {
+      "heading": "Docker Compose Installation (Recommended)",
+      "desc": "Using Docker Compose is the most recommended installation method:",
+      "step1": "Create project directory",
+      "step2": "Create docker-compose.yml",
+      "step3": "Create data directory",
+      "step4": "Start the service"
+    },
+    "dockerRun": {
+      "heading": "Docker Run Installation",
+      "desc": "If not using Docker Compose, you can use docker run directly:",
+      "step1": "Pull image",
+      "step2": "Run container",
+      "paramsHeading": "Parameter Description",
+      "params": {
+        "d": "Run in background",
+        "name": "Container name",
+        "port": "Port mapping",
+        "dataVol": "Data directory mount",
+        "subVol": "Subscription directory mount",
+        "ruleVol": "Rule template directory mount",
+        "user": "Run as user"
+      }
+    },
+    "dataDirs": {
+      "heading": "Data Directories",
+      "desc": "MiaoMiaoWu uses the following data directories:",
+      "data": "Main data directory (database, configuration files)",
+      "subscribes": "Subscription file storage directory",
+      "ruleTemplates": "Rule template storage directory",
+      "important": "Please ensure data directories are properly mounted, otherwise data will be lost when the container restarts"
+    },
+    "envVars": {
+      "heading": "Environment Variables",
+      "port": "Service listening port (default 8080)",
+      "dbPath": "Database file path",
+      "jwtSecret": "JWT secret (recommended to customize)",
+      "logLevel": "Log level (debug/info/warn/error)"
+    },
+    "commands": {
+      "heading": "Common Commands",
+      "start": "Start service",
+      "stop": "Stop service",
+      "restart": "Restart service",
+      "logs": "View logs",
+      "updateImage": "Update image",
+      "versionUpdate": "Version Update",
+      "moreUpdate": "For more update methods, refer to the update documentation"
+    },
+    "accessSystem": {
+      "heading": "Access the System",
+      "desc": "After installation, access in your browser:",
+      "firstVisit": "First visit requires setting up an admin account"
+    }
+  },
+  "login": {
+    "title": "Login",
+    "description": "Learn about MiaoMiaoWu's login process and user permissions",
+    "firstVisit": {
+      "heading": "First Visit",
+      "desc": "After first installation, you need to create an admin account:",
+      "step1": {
+        "title": "Access the System",
+        "desc": "Open the MiaoMiaoWu URL in your browser"
+      },
+      "step2": {
+        "title": "Create Admin",
+        "desc": "First visit will automatically redirect to the admin creation page"
+      },
+      "step3": {
+        "title": "Set Password",
+        "desc": "Set the admin username and password"
+      }
+    },
+    "loginPage": {
+      "heading": "Login Page",
+      "desc": "Enter your username and password to log in",
+      "demo": {
+        "appName": "MiaoMiaoWu",
+        "loginPrompt": "Log in to your account",
+        "username": "Username",
+        "usernamePlaceholder": "Enter username",
+        "password": "Password",
+        "passwordPlaceholder": "Enter password",
+        "loginBtn": "Log In"
+      }
+    },
+    "userTypes": {
+      "heading": "User Roles",
+      "admin": {
+        "title": "Administrator",
+        "perm1": "Manage all nodes and subscriptions",
+        "perm2": "Manage user accounts",
+        "perm3": "Configure system settings",
+        "perm4": "View all users' data"
+      },
+      "user": {
+        "title": "Regular User",
+        "perm1": "View subscriptions assigned to them",
+        "perm2": "Get subscription links",
+        "perm3": "View traffic information",
+        "perm4": "Modify personal settings"
+      }
+    },
+    "afterLogin": {
+      "heading": "Post-Login Redirect",
+      "desc": "After successful login, users are automatically redirected based on their role:",
+      "adminRedirect": "Administrator → Node Management Page",
+      "userRedirect": "Regular User → Subscription Links Page"
+    },
+    "tokenManagement": {
+      "heading": "Token Management",
+      "desc": "The system uses JWT Token to manage login status:",
+      "autoSave": "Token is automatically saved in cookies",
+      "autoRefresh": "Token refreshes automatically, no need to log in frequently",
+      "logout": "Logging out clears the token"
+    },
+    "faq": {
+      "heading": "FAQ",
+      "forgotPassword": {
+        "q": "What if I forgot my password?",
+        "a": "Regular users should contact the administrator to reset their password"
+      },
+      "forgotAdminPassword": {
+        "q": "What if I forgot the admin password?",
+        "a": "You can reset the admin password by adding the --reset-admin parameter when restarting the service"
+      },
+      "autoLogout": {
+        "q": "Why am I automatically logged out?",
+        "a": "You need to log in again when the token expires. You can adjust the token validity period in system settings"
+      }
+    }
+  },
+  "nodeSpeedtest": {
+    "title": "Node Speed Test",
+    "description": "Test node latency and speed",
+    "overview": {
+      "heading": "Feature Overview",
+      "desc": "The node speed test feature allows administrators to test node latency, speed, and exit IP, supporting two testing methods:",
+      "local": {
+        "title": "Local Speed Test",
+        "desc": "Test speed locally on the server using the mihomo core"
+      },
+      "home": {
+        "title": "Home Network Speed Test",
+        "desc": "Test speed from a home network environment via mmw-agent"
+      }
+    },
+    "mihomo": {
+      "heading": "mihomo Core",
+      "dep": "Node speed test depends on the mihomo core",
+      "detectOrder": "The system auto-detects mihomo in this order: 1. Search in system PATH 2. Same directory as the executable",
+      "manual": "If auto-detection fails, you can manually specify the mihomo path"
+    },
+    "startTest": {
+      "heading": "Start Speed Test",
+      "stepsHeading": "Steps",
+      "step1": "Go to the Node Management page",
+      "step2": "Select the nodes to test",
+      "step3": "Click the \"Speed Test\" button",
+      "step4": "Wait for the test to complete",
+      "step5": "View the test results",
+      "collapseNote": "You can collapse the speed test panel during testing"
+    },
+    "results": {
+      "heading": "Test Results",
+      "latency": "Latency (ms): Connection establishment response time",
+      "speed": "Speed (MB/s): Download speed",
+      "exitIp": "Exit IP: Node's exit IP address and region"
+    },
+    "homeSetup": {
+      "heading": "Home Network Speed Test Setup",
+      "stepsHeading": "Setup Steps",
+      "step1": "Install mmw-agent on the home network machine",
+      "step2": "Configure agent to connect to the MiaoMiaoWu server",
+      "step3": "Initiate home network speed test from MiaoMiaoWu",
+      "note1": "Home network speed test requires mmw-agent installation",
+      "note2": "The agent needs to be able to access the MiaoMiaoWu server",
+      "note3": "Test results are closer to actual usage experience"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "serial": "Speed tests are executed serially; many nodes will require longer waiting",
+      "duration": "Speed tests take approximately a few seconds to tens of seconds",
+      "port": "Ensure the port used by mihomo is not occupied"
+    }
+  },
+  "nodes": {
+    "title": "Node Management",
+    "description": "Manage adding, editing, and deleting proxy nodes (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "Node Management is one of the core admin features, used to manage all proxy nodes including manually added and external subscription imported nodes.",
+    "protocols": {
+      "heading": "Supported Protocols"
+    },
+    "mainFeatures": {
+      "heading": "Main Features",
+      "addTitle": "Manual Node Addition",
+      "addDesc": "Manually enter node information to add to the system",
+      "importTitle": "Subscription Import",
+      "importDesc": "Import nodes from external subscription links",
+      "sortTitle": "Node Sorting",
+      "sortDesc": "Sort nodes via drag-and-drop or quick sort function",
+      "viewConfigTitle": "View Configuration",
+      "viewConfigDesc": "View the complete proxy configuration of a node",
+      "chainProxyTitle": "Chain Proxy",
+      "chainProxyDesc": "Configure relay nodes for a node",
+      "resolveIpTitle": "DNS Resolve IP",
+      "resolveIpDesc": "Resolve node domain names to IP addresses"
+    },
+    "addSteps": {
+      "heading": "Steps to Add Nodes",
+      "step1Title": "Go to Node Management",
+      "step1Desc": "Click \"Node Management\" in the left menu",
+      "step2Title": "Click the Add Button",
+      "step2Desc": "Click the \"Add Node\" button on the page",
+      "step3Title": "Fill in Node Information",
+      "step3Desc": "Select the protocol type and fill in server address, port, etc.",
+      "step4Title": "Save Node",
+      "step4Desc": "Click the save button to complete node addition"
+    },
+    "filter": {
+      "heading": "Node Filtering",
+      "desc": "The node list supports multiple filtering methods:",
+      "all": "All",
+      "manualInput": "Manually Added",
+      "externalSub": "External Subscription",
+      "chainProxy": "Chain Proxy",
+      "customTag": "Custom Tag",
+      "byProtocolTitle": "Filter by Protocol",
+      "byProtocolDesc": "Filter nodes of a specific protocol type",
+      "byTagTitle": "Filter by Tag",
+      "byTagDesc": "Filter nodes with specific tags"
+    },
+    "nodeActions": {
+      "heading": "Node Actions",
+      "desc": "Each node supports the following actions:",
+      "iconCol": "Icon",
+      "nameCol": "Action",
+      "descCol": "Description",
+      "editName": "Edit Name",
+      "editNameDesc": "Modify the display name of the node",
+      "viewConfig": "View Config",
+      "viewConfigDesc": "View the complete proxy configuration of the node",
+      "copyUri": "Copy URI",
+      "copyUriDesc": "Copy the node's share link",
+      "chainProxy": "Chain Proxy",
+      "chainProxyDesc": "Configure relay nodes for the node",
+      "bindProbe": "Bind Probe",
+      "bindProbeDesc": "Bind the node to a probe server",
+      "addEmoji": "Add Emoji",
+      "addEmojiDesc": "Add flag or other emoji prefix to node name",
+      "resolveIp": "Resolve IP",
+      "resolveIpDesc": "Resolve node domain name to IP address",
+      "restoreDomain": "Restore Domain",
+      "restoreDomainDesc": "Restore resolved IP back to original domain",
+      "tempSub": "Temporary Subscription",
+      "tempSubDesc": "Generate a temporary subscription link for a single node",
+      "deleteNode": "Delete Node",
+      "deleteNodeDesc": "Permanently delete this node"
+    },
+    "batchOps": {
+      "heading": "Batch Operations",
+      "descPrefix": "Select multiple nodes to perform batch operations",
+      "descSuffix": ":",
+      "syncTitle": "Sync Subscription",
+      "syncDesc": "Sync node information from external subscriptions",
+      "renameTitle": "Batch Rename",
+      "renameDesc": "Batch modify node names",
+      "emojiTitle": "Batch Emoji",
+      "emojiDesc": "Batch add or remove emojis from node names",
+      "tagTitle": "Batch Tags",
+      "tagDesc": "Batch add or remove tags for nodes",
+      "removeDupTitle": "Remove Duplicates",
+      "removeDupDesc": "Remove duplicate nodes",
+      "batchDeleteTitle": "Batch Delete",
+      "batchDeleteDesc": "Batch delete selected nodes",
+      "clearAllTitle": "Clear All Nodes",
+      "clearAllDesc": "Clear all nodes (use with caution)",
+      "quickSortTitle": "Quick Sort",
+      "quickSortDesc": "Quickly sort nodes by name or protocol",
+      "sortMode": "Sort Mode"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "deleteTitle": "Deletion is Irreversible",
+      "deleteDesc": ": Deleted nodes cannot be recovered, please proceed with caution",
+      "subUpdateTitle": "Subscription Sync",
+      "subUpdateDesc": ": Changes to node information are automatically synced to subscriptions referencing the node",
+      "accuracyTitle": "Information Accuracy",
+      "accuracyDesc": ": Please ensure node information is filled in correctly, otherwise connections may fail"
+    }
+  },
+  "probe": {
+    "title": "Probe Management",
+    "description": "Manage probe servers and node bindings (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "Probe Management is used to configure and manage probe servers for precise node traffic statistics.",
+    "howItWorks": {
+      "heading": "How It Works",
+      "desc": "The probe system collects traffic statistics by running probe programs on proxy servers:",
+      "flowTitle": "Data Flow",
+      "flow1": "Probe program runs on the proxy server",
+      "flow2": "Collects traffic statistics in real time",
+      "flow3": "Reports traffic data to MiaoMiaoWu periodically",
+      "flow4": "MiaoMiaoWu aggregates and displays traffic statistics",
+      "flow5": "Users view on the Traffic Info page",
+      "advantagesTitle": "Advantages",
+      "adv1Title": "No Extra Components",
+      "adv1Desc": "Built-in probe system, no third-party monitoring needed",
+      "adv2Title": "Precise Statistics",
+      "adv2Desc": "Node-level precise traffic statistics",
+      "adv3Title": "Real-Time Data",
+      "adv3Desc": "Traffic data updated in real time",
+      "adv4Title": "Multi-Server Support",
+      "adv4Desc": "Supports multiple probe servers running simultaneously"
+    },
+    "mainFeatures": {
+      "heading": "Main Features",
+      "addTitle": "Add Probe",
+      "addDesc": "Add new probe server configuration",
+      "editTitle": "Edit Probe",
+      "editDesc": "Modify probe server configuration",
+      "deleteTitle": "Delete Probe",
+      "deleteDesc": "Remove probe servers no longer in use",
+      "bindTitle": "Node Binding",
+      "bindDesc": "Bind nodes to specific probe servers"
+    },
+    "configSteps": {
+      "heading": "Configuration Steps",
+      "step1Title": "Go to Probe Management",
+      "step1Desc": "Click \"Probe Management\" in the left menu",
+      "step2Title": "Fill in Probe Information",
+      "serverTypeLabel": "Server Type",
+      "serverTypeDesc": "Select the probe server type",
+      "serverAddrLabel": "Server Address",
+      "serverAddrDesc": "Enter the probe server address and port",
+      "step3Title": "Add Probe",
+      "step3Desc": "Click the add button to complete probe server addition",
+      "step4Title": "Bind Nodes",
+      "step4Desc": "Bind nodes to their corresponding probes on the Node Management page",
+      "step5Title": "View Data",
+      "step5Desc": "View traffic statistics on the Traffic Info page",
+      "step6Title": "Maintenance",
+      "step6Desc": "Regularly check probe status to ensure normal operation"
+    },
+    "trafficStats": {
+      "heading": "Traffic Statistics",
+      "desc": "After binding probes, the system automatically collects node traffic usage:",
+      "boundTitle": "Bound Nodes",
+      "boundDesc": "Only nodes bound to probes have traffic statistics",
+      "bound1": "Traffic is counted at the node level",
+      "bound2": "Data is updated in real time",
+      "unboundTitle": "Unbound Nodes",
+      "unboundDesc": "Nodes not bound to probes do not participate in traffic statistics"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "requirementTitle": "Prerequisites",
+      "requirementDesc": "Probe program must be installed and running on the proxy server",
+      "bindingTitle": "Binding Relationship",
+      "bindingDesc": "A node can only bind to one probe; a probe can bind to multiple nodes",
+      "deleteTitle": "Deletion Impact",
+      "deleteDesc": "Deleting a probe will unbind all associated nodes",
+      "securityTitle": "Security Configuration",
+      "securityDesc": "Probe communication uses key authentication; ensure the key is secure"
+    },
+    "recentUpdates": {
+      "heading": "Recent Updates",
+      "searchScrollTitle": "Search & Scroll Optimization",
+      "searchScrollItem1": "Probe binding dialog now has a search input",
+      "searchScrollItem2": "Probe list supports scrolling",
+      "searchScrollItem3": "Improved experience with large numbers of probes"
+    }
+  },
+  "proxyProviders": {
+    "title": "Proxy Providers",
+    "description": "Manage Proxy Provider configurations (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "Proxy Providers allow dynamically loading nodes from external subscriptions into proxy groups without manually adding and managing each node.",
+    "prerequisiteLabel": "Prerequisite",
+    "prerequisiteDesc": "The \"Enable Proxy Providers\" feature switch must be turned on in System Settings",
+    "requiresSetting": "Must be enabled in System Settings",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "createTitle": "Create Proxy Provider",
+      "createDesc": "Create a new Proxy Provider configuration",
+      "filterTitle": "Node Filtering",
+      "filterDesc": "Filter nodes by keyword, region, protocol, etc.",
+      "healthTitle": "Health Check",
+      "healthDesc": "Automatically detect node availability",
+      "batchTitle": "Batch Management",
+      "batchDesc": "Batch create and manage proxy providers",
+      "modesTitle": "Processing Modes",
+      "modesDesc": "Supports MiaoMiaoWu processing and client processing modes"
+    },
+    "createSteps": {
+      "heading": "Creation Steps",
+      "step1Title": "Go to Proxy Providers Page",
+      "step1Desc": "Click in the left menu",
+      "step1Link": "Proxy Providers",
+      "step1Suffix": "",
+      "step2Title": "Click Create Button",
+      "step2Desc": "Click the \"New Proxy Provider\" button",
+      "step3Title": "Select Processing Mode",
+      "step3Desc": "Choose MiaoMiaoWu processing or client processing mode",
+      "step4Title": "Configure Filter Rules",
+      "step4Desc": "Set node name filter keywords",
+      "step5Title": "Set Health Check",
+      "step5Desc": "Configure speed test URL and check interval",
+      "step6Title": "Save Configuration",
+      "step6Desc": "Click save to complete proxy provider creation"
+    },
+    "processingModes": {
+      "heading": "Processing Modes",
+      "mmwTitle": "MiaoMiaoWu Processing Mode",
+      "mmwDesc": "Nodes are processed server-side and embedded in the subscription file",
+      "mmwPro": "Pros",
+      "mmwCon": "Cons",
+      "mmwPreview": "Preview Effect",
+      "clientTitle": "Client Processing Mode",
+      "clientDesc": "Retains proxy-provider configuration for the client to pull directly",
+      "clientPro": "Pros",
+      "clientCon": "Cons"
+    },
+    "basicMode": {
+      "heading": "Basic Mode",
+      "desc": "Basic mode provides simple node filtering",
+      "descSuffix": ":",
+      "byRegionTitle": "Filter by Region",
+      "byRegionDesc": "Filter based on region keywords in node names",
+      "byProtocolTitle": "Filter by Protocol",
+      "byProtocolDesc": "Filter based on node proxy protocol type",
+      "advancedLink": "Advanced Mode"
+    },
+    "advancedMode": {
+      "heading": "Advanced Mode",
+      "desc": "Advanced mode provides more flexible filtering and configuration options",
+      "descSuffix": ", see details at",
+      "docLink": "Proxy Providers Advanced Documentation"
+    },
+    "scenarios": {
+      "heading": "Use Cases",
+      "simplifyTitle": "Simplify Node Management",
+      "simplifyDesc": "Automatically group large numbers of nodes by region or protocol, simplifying proxy group configuration",
+      "autoUpdateTitle": "Auto Update",
+      "autoUpdateDesc": "When external subscriptions update, proxy providers automatically get the latest nodes",
+      "editNodesTitle": "Edit Nodes",
+      "editNodesDesc1": "In",
+      "editNodesLink": "Node & Proxy Group Editing",
+      "editNodesDesc2": "you can drag proxy providers into proxy groups"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "settingTitle": "Feature Switch",
+      "settingDesc": ": \"Enable Proxy Providers\" must be turned on in System Settings",
+      "filterTitle": "Filter Rules",
+      "filterDesc": ": Filters use regular expressions; pay attention to special character escaping",
+      "deleteTitle": "Deletion Impact",
+      "deleteDesc": ": Deleting proxy providers does not affect already generated subscriptions",
+      "compatTitle": "Client Compatibility",
+      "compatDesc": ": Client processing mode requires client support for proxy-provider",
+      "geoipTitle": "GeoIP Data",
+      "geoipDesc": ": Region filtering depends on region keywords in node names"
+    }
+  },
+  "proxyProvidersAdvanced": {
+    "title": "Proxy Providers - Advanced Mode",
+    "description": "Advanced configuration and usage of Proxy Providers",
+    "whatItDoes": {
+      "heading": "Advanced Mode Features",
+      "autoManageTitle": "Auto Management",
+      "autoManageDesc": "Automatically manage node addition and removal based on filter rules",
+      "multiFilterTitle": "Multi-Filter",
+      "multiFilterDesc": "Combine multiple filter conditions for precise node matching",
+      "quickSwitchTitle": "Quick Switch",
+      "quickSwitchDesc": "Quickly switch between MiaoMiaoWu processing and client processing modes"
+    },
+    "modeComparison": {
+      "heading": "Mode Comparison",
+      "desc": "Each processing mode has its pros and cons; choose the one that suits you:",
+      "mmwTitle": "MiaoMiaoWu Processing",
+      "mmwDesc": "Nodes are processed server-side and embedded in the subscription file, suitable for most scenarios",
+      "clientTitle": "Client Processing",
+      "clientDesc": "Retains proxy-provider configuration for the client to pull directly, suitable for scenarios requiring real-time updates"
+    },
+    "modeSuggestions": {
+      "heading": "Mode Selection Guide",
+      "mmwTitle": "Recommended: MiaoMiaoWu Processing",
+      "mmw1": "First choice for most users",
+      "mmw2": "Better compatibility",
+      "mmw3": "Simpler configuration",
+      "mmw4": "Does not expose original subscription URL",
+      "clientTitle": "Recommended: Client Processing",
+      "client1": "Need real-time node updates",
+      "client2": "Client supports proxy-provider",
+      "client3": "Need client to manage nodes directly",
+      "client4": "Very large number of nodes"
+    },
+    "example": {
+      "heading": "Configuration Example",
+      "step1Title": "Create Proxy Provider",
+      "step1Desc1": "On the",
+      "step1Link": "Proxy Providers",
+      "step1Desc2": "page, create a new configuration",
+      "step2Title": "Use in Subscription",
+      "step2Desc1": "In",
+      "step2Link": "Node & Proxy Group Editing",
+      "step2Desc2": "drag proxy providers into proxy groups",
+      "step2ImgAlt": "Proxy provider editing example"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "settingTitle": "Feature Switch",
+      "settingDesc": ": \"Enable Proxy Providers\" must be turned on in System Settings",
+      "filterTitle": "Filter Rules",
+      "filterDesc": ": Filters use regular expression syntax",
+      "perfTitle": "Performance Impact",
+      "perfDesc": ": Client processing mode may increase client memory usage",
+      "compatTitle": "Compatibility",
+      "compatDesc": ": Not all clients support the proxy-provider feature",
+      "geoipTitle": "Region Identification",
+      "geoipDesc": ": Region filtering depends on region keywords in node names"
+    }
+  },
+  "quickStart": {
+    "title": "Quick Start",
+    "description": "Get started quickly with MiaoMiaoWu proxy subscription management system",
+    "viewDocs": "View Documentation",
+    "steps": {
+      "install": "Installation",
+      "init": "Initial Setup",
+      "addNodes": "Add Nodes",
+      "generateSub": "Generate Subscription",
+      "assignUsers": "Assign Users"
+    },
+    "step1": {
+      "heading": "Step 1: Installation",
+      "desc": "Choose a suitable installation method to deploy MiaoMiaoWu:",
+      "dockerInstall": "Docker Installation (Recommended)",
+      "directInstall": "Direct Installation",
+      "or": "or",
+      "moreInfo": "View detailed installation documentation"
+    },
+    "step2": {
+      "heading": "Step 2: Initial Setup",
+      "accessSystem": {
+        "title": "Access the System",
+        "desc": "Open the MiaoMiaoWu URL in your browser"
+      },
+      "initAdmin": {
+        "title": "Create Admin",
+        "desc": "First visit automatically redirects to the admin creation page"
+      },
+      "login": {
+        "title": "Log In",
+        "desc": "Log in with the admin account you created"
+      }
+    },
+    "step3": {
+      "heading": "Step 3: Add Nodes",
+      "desc": "Add proxy nodes using the following methods:",
+      "manual": {
+        "title": "Manual Addition",
+        "desc": "Manually enter node information on the Node Management page"
+      },
+      "subImport": {
+        "title": "Subscription Import",
+        "desc": "Import subscription links on the External Subscriptions page"
+      }
+    },
+    "step4": {
+      "heading": "Step 4: Generate Subscription",
+      "goToPage": {
+        "title": "Go to Generate Subscription Page",
+        "desc": "Click \"Generate Subscription\" in the left menu"
+      },
+      "selectTemplate": {
+        "title": "Select Template",
+        "desc": "Choose a built-in or custom template"
+      },
+      "configGroups": {
+        "title": "Configure Proxy Groups",
+        "desc": "Adjust proxy groups and node assignments as needed"
+      },
+      "save": {
+        "title": "Save Subscription",
+        "desc": "Enter a name and save the subscription configuration"
+      }
+    },
+    "step5": {
+      "heading": "Step 5: Assign Users",
+      "createUser": {
+        "title": "Create User",
+        "desc": "Create new users on the User Management page"
+      },
+      "assignSub": {
+        "title": "Assign Subscription",
+        "desc": "Assign subscription configurations to users"
+      },
+      "getLink": {
+        "title": "Get Link",
+        "desc": "Users can get their subscription after logging in on the Subscription Links page"
+      }
+    },
+    "complete": {
+      "heading": "Done!",
+      "desc": "Congratulations! You have completed the basic MiaoMiaoWu setup. Now you can explore more advanced features:",
+      "subLink": "Subscription Link Management",
+      "chainProxy": "Chain Proxy Configuration",
+      "clientSetup": "Client Setup Guide"
+    }
+  },
+  "settings": {
+    "title": "User Settings",
+    "description": "Manage personal account information and preferences",
+    "intro": "The User Settings page allows users to manage their personal information, including modifying nickname, email, and password. All users can access this page.",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "nicknameTitle": "Change Nickname",
+      "nicknameDesc": "Update the nickname displayed in the system",
+      "emailTitle": "Change Email",
+      "emailDesc": "Update the email address associated with the account",
+      "passwordTitle": "Change Password",
+      "passwordDesc": "Change the account login password",
+      "twoFaTitle": "Two-Factor Authentication (2FA)",
+      "twoFaDesc": "Enable TOTP verification code for enhanced account security",
+      "debugTitle": "Debug Log",
+      "debugDesc": "Temporarily enable debug logging for troubleshooting"
+    },
+    "settingsPage": {
+      "heading": "Settings Page",
+      "personalInfo": "Personal Information",
+      "usernameLabel": "Username",
+      "usernameNote": "Username cannot be changed after creation",
+      "nicknameLabel": "Nickname",
+      "nicknamePlaceholder": "Enter nickname",
+      "nicknameDefault": "Demo User",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Enter email",
+      "saveInfo": "Save Information",
+      "changePassword": "Change Password",
+      "currentPwdLabel": "Current Password",
+      "currentPwdPlaceholder": "Enter current password",
+      "newPwdLabel": "New Password",
+      "newPwdPlaceholder": "Enter new password",
+      "confirmPwdLabel": "Confirm New Password",
+      "confirmPwdPlaceholder": "Enter new password again",
+      "changePasswordBtn": "Change Password"
+    },
+    "editInfo": {
+      "heading": "Edit Personal Information",
+      "step1Title": "Click the user avatar in the top right",
+      "step1Desc": "Expand the user menu",
+      "step2Title": "Click \"Settings\"",
+      "step2Desc": "Go to the User Settings page",
+      "step3Title": "Edit Information",
+      "step3Desc": "Fill in the nickname or email you want to change",
+      "step4Title": "Save Changes",
+      "step4Desc": "Click the \"Save Information\" button to complete"
+    },
+    "changePwd": {
+      "heading": "Change Password",
+      "step1Title": "Enter Current Password",
+      "step1Desc": "Verify account ownership",
+      "step2Title": "Enter New Password",
+      "step2Desc": "Use a strong password with uppercase, lowercase letters, numbers, and special characters",
+      "step3Title": "Confirm New Password",
+      "step3Desc": "Enter the new password again to ensure consistency",
+      "step4Title": "Submit Changes",
+      "step4Desc": "Click the \"Change Password\" button; you will need to log in again after success"
+    },
+    "twoFa": {
+      "heading": "Two-Factor Authentication (2FA)",
+      "desc": "Two-factor authentication adds an extra security layer to your account. Once enabled, you'll need a dynamic verification code in addition to your password when logging in.",
+      "setupTitle": "Setup Steps",
+      "setup1": "1. Find the \"Two-Factor Authentication\" section on the settings page, click \"Set up 2FA\"",
+      "setup2": "2. Scan the QR code with an authenticator app (Google Authenticator, Microsoft Authenticator, etc.)",
+      "setup3": "3. Enter the 6-digit code shown in the app to complete binding",
+      "setup4": "4. Securely save the recovery codes for account access if the authenticator is lost",
+      "recoveryTitle": "Recovery Codes",
+      "recoveryDesc": "• One-time recovery codes are generated when enabling 2FA\n• Use recovery codes to log in when your phone is lost or the authenticator is unavailable\n• Be sure to save recovery codes in a safe place; they are shown only once"
+    },
+    "debugLog": {
+      "heading": "Debug Log",
+      "desc": "The debug log feature is used for temporarily collecting detailed runtime logs to help troubleshoot subscription fetching, node sync, and other issues.",
+      "usageTitle": "Usage",
+      "usage1": "After clicking \"Enable Debug\", the system starts recording detailed logs",
+      "usage2": "Debug mode automatically closes after 5 minutes to prevent log files from growing too large",
+      "usage3": "You can manually close debug mode at any time",
+      "usage4": "Supports downloading log files or viewing the latest logs in real time",
+      "usage5": "Log files are automatically cleaned up after 7 days"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "usernameTitle": "Username is not changeable:",
+      "usernameDesc": "Username cannot be changed after creation; only the nickname can be modified",
+      "passwordTitle": "Password requirements:",
+      "passwordDesc": "Recommended password length of at least 8 characters, including letters and numbers",
+      "afterChangeTitle": "After changing password:",
+      "afterChangeDesc": "The current session will be invalidated after a password change; you need to log in again",
+      "forgotTitle": "Forgot password:",
+      "forgotDesc": "If you forgot your current password, contact the administrator to reset it",
+      "twoFaTitle": "2FA recovery codes:",
+      "twoFaDesc": "After enabling two-factor authentication, be sure to save recovery codes; administrator assistance is needed if lost"
+    }
+  },
+  "subscribeFiles": {
+    "title": "Subscription Management",
+    "description": "Manage subscription file versions and user assignments (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "The Subscription Management page is an admin-only feature for managing subscription file versions, viewing subscription details, and assigning subscription configurations to users. It supports multi-version management and user subscription assignment.",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "viewListTitle": "Subscription List View",
+      "viewListDesc": ": View all created subscription files and their basic information",
+      "sortTitle": "Sort Subscriptions",
+      "sortDesc": ": Support drag-and-drop sorting to adjust the display order of subscriptions",
+      "importTitle": "Import Subscription",
+      "importDesc": ": Directly import external subscriptions with ability to edit external subscription rules",
+      "uploadTitle": "Upload File",
+      "uploadDesc": ": Upload locally used subscription files to generate subscription links",
+      "generateTitle": "Generate Subscription",
+      "generateDesc": ": Same as the Generate Subscription menu",
+      "editConfigTitle": "Edit Configuration",
+      "editConfigDesc": ": Directly edit subscription configuration files",
+      "applyRulesTitle": "Edit Configuration - Apply Custom Rules",
+      "applyRulesDesc": ": Use custom rules to override configuration file rules",
+      "editNodesTitle": "Edit Configuration - Edit Nodes",
+      "editNodesDesc": ": Add or remove nodes from generated subscriptions. For detailed operations, refer to",
+      "editNodesLink": "Node & Proxy Group Editing",
+      "bindV3Title": "Bind V3 Template",
+      "bindV3Desc": ": Bind subscription to a V3 template; subscription configuration will be fully generated based on the template, and new nodes are automatically added",
+      "tagFilterTitle": "Tag Filtering",
+      "tagFilterDesc": ": After binding a template, filter nodes by tags; only nodes matching the tags will be added to the subscription",
+      "customLinkTitle": "Custom Link (Beta)",
+      "customLinkDesc": ": Set a custom short code for subscriptions to replace auto-generated short link codes, making subscription links easier to remember"
+    },
+    "sorting": {
+      "heading": "Subscription Sorting",
+      "desc": "The subscription list supports drag-and-drop sorting to adjust display order:",
+      "methodTitle": "How to Use",
+      "methodDescPrefix": "Click the drag icon on the left side of each row (",
+      "methodDescSuffix": "), hold and drag to change the subscription order. Sort results are saved automatically."
+    },
+    "layout": {
+      "heading": "Edit Page Layout",
+      "desc": "Uses a two-column layout for convenient node dragging:",
+      "leftTitle": "Left - Proxy Groups",
+      "leftDesc": "Shows all proxy group cards from the configuration file",
+      "rightTitle": "Right - Available Nodes",
+      "rightDesc": "Shows all available nodes from the node table"
+    },
+    "versionMgmt": {
+      "heading": "Version Management",
+      "desc": "Subscription files support multi-version management. Each time you edit and save a subscription configuration in \"Generate Subscription\", the system automatically creates a new version.",
+      "infoTitle": "Version Information",
+      "versionNumber": "Version Number",
+      "versionNumberDesc": ": Each version has a unique version number, incrementing by creation time",
+      "createTime": "Creation Time",
+      "createTimeDesc": ": Records when the version was created",
+      "currentVersion": "Current Version",
+      "currentVersionDesc": ": Identifies the version currently used by users",
+      "rollbackTitle": "Version Rollback (TODO)",
+      "rollbackDesc": "If a new version has issues, you can roll back to a previous stable version. This feature is under development."
+    },
+    "bindV3": {
+      "heading": "Bind V3 Template",
+      "desc": "Subscriptions can be bound to V3 templates. Once bound, subscription configuration will be fully generated based on the template, enabling automatic node management.",
+      "methodTitle": "Binding Method",
+      "methodDesc": "Click the \"Bind Template\" button in the subscription list and select the V3 template to bind.",
+      "effectTitle": "Effects After Binding",
+      "effect1": "Subscription configuration is fully generated based on the template; existing rule configuration will be ignored",
+      "effect2": "When new nodes are added, if they match the template's filter rules, they are automatically added to the subscription",
+      "effect3": "When nodes are deleted, they are automatically removed from the subscription",
+      "effect4": "When the template is modified, subscriptions bound to it are automatically regenerated"
+    },
+    "tagFilter": {
+      "heading": "Tag Filtering",
+      "desc": "After binding a V3 template, you can further filter nodes by tags. Only nodes matching the tags will be added to the subscription.",
+      "usageTitle": "Usage",
+      "usage1": "Select tags to filter in subscription details",
+      "usage2": "Supports selecting multiple tags; a node only needs to match one tag",
+      "usage3": "When no tags are selected, all nodes from the template are used",
+      "scenarioTitle": "Typical Scenario",
+      "scenarioDesc": "Assign nodes with different tags to different users. For example: VIP users get nodes tagged \"High Speed\", regular users get nodes tagged \"Standard\"."
+    },
+    "typicalScenario": {
+      "heading": "Typical Use Case",
+      "newNodeTitle": "Scenario: Added new nodes",
+      "newNodeDesc": "Click Edit Nodes, and drag the new nodes from available nodes to the left proxy groups. For detailed operations, refer to",
+      "editNodesLink": "Node & Proxy Group Editing"
+    },
+    "relations": {
+      "heading": "Feature Relations",
+      "desc": "Subscription Management is closely related to other feature modules, forming a complete subscription service workflow:",
+      "genToSubTitle": "Generate Subscription → Subscription Management",
+      "genToSubDesc": "After creating or editing subscription configurations in \"Generate Subscription\", view version history in \"Subscription Management\"",
+      "subToUserTitle": "Subscription Management → User Management",
+      "subToUserDesc": "You can quickly navigate from \"User Management\" to view a specific user's subscription assignments",
+      "nodeToSubTitle": "Node Management → Subscription Management",
+      "nodeToSubDesc": "Subscription configurations reference nodes from \"Node Management\"; node changes affect subscription content",
+      "subToLinkTitle": "Subscription Management → Subscription Links",
+      "subToLinkDesc": "The subscriptions users see on the \"Subscription Links\" page are the ones administrators have assigned to them"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "nodeModTitle": "Node Modifications",
+      "nodeModDesc": ": When nodes are edited in Node Management, changes are automatically synced to subscriptions",
+      "deleteTitle": "Subscription Deletion",
+      "deleteDesc": ": Deleting a subscription file in \"Generate Subscription\" will also delete all versions and user assignments"
+    }
+  },
+  "subscriptionLink": {
+    "title": "Subscription Links",
+    "description": "Get and manage your subscription links",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "intro": "The Subscription Links page provides convenient subscription management features, supporting subscription link generation and import for multiple client formats.",
+      "cardDisplayTitle": "Subscription Card Display",
+      "cardDisplayDesc": ": Shows all subscription configurations assigned to you by the administrator, including subscription name, description, update time, and version number",
+      "viewLinkTitle": "Subscription Link View",
+      "viewLinkDesc": ": Each subscription card displays the full subscription link URL, supporting direct copy",
+      "multiClientTitle": "Multi-Client Support",
+      "multiClientDesc": ": Click the \"Copy\" button to select different client formats (12 clients)",
+      "importClashTitle": "One-Click Clash Import",
+      "importClashDesc": ": Click the \"Import Clash\" button to directly open and import the subscription in a Clash client",
+      "qrCodeTitle": "QR Code Generation",
+      "qrCodeDesc": ": Click the subscription icon to display a QR code for easy mobile device scanning and import"
+    },
+    "preview": {
+      "heading": "Interface Preview",
+      "desc": "Here is an example of a subscription card:",
+      "cardTitle": "Primary Subscription",
+      "cardDesc": "Includes Hong Kong, Japan, Singapore nodes",
+      "version": "Version v1.0.3",
+      "copy": "Copy",
+      "importClash": "Import Clash",
+      "qrCode": "QR Code"
+    },
+    "steps": {
+      "heading": "Usage Steps",
+      "step1Title": "Select Subscription Configuration",
+      "step1Desc": "Select the subscription configuration you want to use from the subscription card list",
+      "step2Title": "Choose Import Method",
+      "step2PcTitle": "PC",
+      "step2PcDesc": ": Click the \"Copy\" button, select the corresponding client format",
+      "step2MobileTitle": "Mobile",
+      "step2MobileDesc": ": Click the QR code icon, scan with your mobile client to import",
+      "step2ClashTitle": "Clash Quick Import",
+      "step2ClashDesc": ": Click the \"Import Clash\" button to open directly",
+      "step3Title": "Complete Import in Client",
+      "step3Desc": "Follow client prompts to complete subscription import and configuration update"
+    },
+    "clientFormats": {
+      "heading": "Supported Client Formats",
+      "desc": "Subscription links support automatic conversion to the following 12 client formats:"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "note1": "Subscription links contain your personal authentication information; do not share with others",
+      "note2": "If the subscription list is empty, the administrator has not assigned subscriptions to you yet; please contact the administrator",
+      "note3": "Client conversion is implemented via SubStore. If you encounter issues, contact the developer or submit an Issue",
+      "note4": "It is recommended to regularly update subscriptions to get the latest node configurations and rules",
+      "note5": "Some providers frequently change domains and IPs; you can enable forced external subscription sync in System Settings"
+    }
+  },
+  "systemRequirements": {
+    "title": "System Requirements",
+    "description": "Server and client requirements for MiaoMiaoWu",
+    "server": {
+      "heading": "Server Requirements",
+      "cpu": "1 core or above",
+      "memoryLabel": "Memory",
+      "memory": "512MB or above",
+      "storageLabel": "Storage",
+      "storage": "1GB or above",
+      "networkLabel": "Network",
+      "network": "Stable internet connection",
+      "recommended": "<strong>Recommended OS:</strong> Linux (Debian 11+)"
+    },
+    "clients": {
+      "heading": "Client Support"
+    },
+    "browser": {
+      "heading": "Browser Requirements",
+      "desc": "MiaoMiaoWu admin panel supports all modern browsers:"
+    }
+  },
+  "systemSettings": {
+    "title": "System Settings",
+    "description": "Configure system-level global settings (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "The System Settings page is an admin-only feature for configuring system-level global settings, including external subscription sync, feature switches, and other core function configurations.",
+    "externalSync": {
+      "heading": "External Subscription Sync Settings",
+      "desc": "Configure the sync behavior of external subscription links, controlling node data update strategies and caching mechanisms.",
+      "trafficTitle": "Sync External Subscription Traffic Info",
+      "trafficDesc": "• Enabled: Traffic information data includes external subscription traffic info\n• Disabled: Only counts traffic for locally managed nodes",
+      "syncTitle": "External Subscription Sync Settings",
+      "syncDesc": "• Enabled: Every time a user fetches their subscription link, the system re-fetches the latest node data from external subscription sources\n• Disabled: Uses cached external subscription data without real-time updates\n• Note: Enabling increases subscription API response time",
+      "matchTitle": "Match Rules",
+      "matchDesc": "When external subscription sync is enabled, you can choose the node matching method:",
+      "matchNameLabel": "Node Name",
+      "matchNameDesc": ": Match and update node information based on node name; suitable for subscription sources with stable node names",
+      "matchServerLabel": "Server:Port",
+      "matchServerDesc": ": Match based on server address and port; suitable for subscription sources with frequently changing node names",
+      "matchTypeLabel": "Type:Server:Port",
+      "matchTypeDesc": ": Match based on protocol type, server address, and port; the strictest matching method",
+      "scopeTitle": "Sync Scope",
+      "scopeDesc": "Control which nodes to sync:",
+      "scopeSavedLabel": "Sync saved nodes only",
+      "scopeSavedDesc": ": Only update nodes already in the database; do not add new nodes",
+      "scopeAllLabel": "Sync all nodes",
+      "scopeAllDesc": ": Sync all nodes from external subscriptions, including new ones",
+      "keepNameTitle": "Keep Current Node Names",
+      "keepNameDesc": "• Enabled: Keep existing node names in the database during sync; do not use external subscription node names\n• Disabled: Overwrite local names with external subscription node names",
+      "cacheTitle": "Cache Expiry Time (minutes)",
+      "cacheDesc": "• Set to 0: Re-fetch external subscription nodes every time a subscription is fetched (real-time updates)\n• Greater than 0: Only re-fetch when the time since last sync exceeds the set minutes\n• Warning: Setting to 0 affects subscription API response speed",
+      "excludeTitle": "Default Exclude External Subscription Nodes",
+      "excludeDesc": "• Purpose: Automatically exclude nodes whose names match specified keywords when syncing external subscriptions\n• Default: remaining|traffic|expiry|subscription|time|reset\n• Format: Separate multiple keywords with |, supports regular expressions"
+    },
+    "featureSwitches": {
+      "heading": "Feature Switches",
+      "desc": "Manage the enabled status of system features; turn on or off as needed.",
+      "probeTitle": "Node Probe Server Binding",
+      "probeOnLabel": "When enabled:",
+      "probeOn1": "Node list shows the \"Probe\" button",
+      "probeOn2": "You can bind each node to a specific probe server",
+      "probeOn3": "Traffic statistics only aggregate traffic from probe servers with bound nodes",
+      "probeOffLabel": "When disabled:",
+      "probeOff1": "Probe button is not shown",
+      "probeOff2": "Traffic statistics aggregate traffic from all probe servers",
+      "shortLinkTitle": "Enable Short Links",
+      "shortLinkOnLabel": "When enabled:",
+      "shortLinkOn1": "Subscription links page shows 6-character short links",
+      "shortLinkOn2": "Short link format: https://your-domain.com/s/abc123",
+      "shortLinkOn3": "Short links can be reset in \"Personal Settings\"",
+      "shortLinkOffLabel": "When disabled:",
+      "shortLinkOff1": "Only full subscription links are shown",
+      "shortLinkTip": "Tip: Short links are easier to share and remember, and do not expose user ID information",
+      "newTemplateTitle": "Use New Template System",
+      "newTemplateOnLabel": "When enabled (recommended):",
+      "newTemplateOn1": "Uses database-stored templates",
+      "newTemplateOn2": "Supports managing templates via web interface (create, edit, delete)",
+      "newTemplateOn3": "Template data is backed up with the database",
+      "newTemplateOffLabel": "When disabled:",
+      "newTemplateOff1": "Uses template files in the rule_templates directory",
+      "newTemplateOff2": "Templates must be managed by manually editing files",
+      "newTemplateOff3": "Suitable for scenarios requiring version control of templates",
+      "proxyProviderTitle": "Enable Proxy Providers",
+      "proxyProviderOnLabel": "When enabled:",
+      "proxyProviderOn1": "Subscription file page shows \"Proxy Provider\" management features",
+      "proxyProviderOn2": "You can create Proxy Provider configurations",
+      "proxyProviderOn3": "In \"Node & Proxy Group Editing\", you can drag proxy providers into proxy groups",
+      "proxyProviderOn4": "Proxy providers are shown with purple borders to distinguish from regular nodes",
+      "proxyProviderOffLabel": "When disabled:",
+      "proxyProviderOff1": "Proxy provider related features are not shown",
+      "proxyProviderTip": "Tip: Proxy Providers allow dynamically loading nodes from external subscriptions, ideal for managing multiple providers",
+      "subInfoTitle": "Subscription Info Node",
+      "subInfoOnLabel": "When enabled:",
+      "subInfoOn1": "Subscription output adds expiry time and remaining traffic info nodes at the top of the node list",
+      "subInfoOn2": "Client node list can directly show subscription status info",
+      "subInfoOn3": "Customizable expiry time prefix and remaining traffic prefix",
+      "subInfoOffLabel": "When disabled:",
+      "subInfoOff1": "Subscription output does not include info nodes",
+      "silentTitle": "Silent Mode",
+      "silentOnLabel": "When enabled:",
+      "silentOn1": "All non-subscription API requests return a 404 page",
+      "silentOn2": "After fetching a subscription, users get a temporary access window (configurable timeout)",
+      "silentOn3": "After timeout, returns 404 again until the user re-fetches the subscription",
+      "silentOffLabel": "When disabled:",
+      "silentOff1": "Admin panel and all pages display normally",
+      "silentTimeoutLabel": "Timeout (minutes):",
+      "silentTimeout1": "Default 15 minutes; users can normally access the admin panel within this time after fetching a subscription",
+      "silentTimeout2": "Automatically returns to silent state after timeout",
+      "silentWarning": "Security feature: Silent mode effectively prevents panel scanning and probing, suitable for high-security scenarios",
+      "clientCompatTitle": "Client Compatibility Mode",
+      "clientCompatOnLabel": "When enabled:",
+      "clientCompatOn1": "Automatically filters incompatible nodes based on the client type in user requests",
+      "clientCompatOn2": "Ensures clients only receive nodes with supported protocols and transport methods",
+      "clientCompatOffLabel": "When disabled:",
+      "clientCompatOff1": "Returns all nodes without compatibility filtering",
+      "responseHeaderTitle": "Subscription Response Header Traffic Info",
+      "responseHeaderOnLabel": "When enabled:",
+      "responseHeaderOn1": "HTTP response headers of the subscription API carry traffic usage information",
+      "responseHeaderOn2": "Supported clients (Clash, Stash, etc.) can display remaining traffic and expiry time in the UI",
+      "responseHeaderOffLabel": "When disabled:",
+      "responseHeaderOff1": "Response headers do not carry traffic information",
+      "overrideScriptTitle": "Enable Override Scripts",
+      "overrideScriptOnLabel": "When enabled:",
+      "overrideScriptOn1": "Enables JavaScript override script functionality",
+      "overrideScriptOn2": "Scripts execute when subscriptions are fetched and can modify node configurations",
+      "overrideScriptOn3": "Supports two hooks: post_fetch and pre_save_nodes",
+      "overrideScriptOn4": "Script execution order and enable/disable status can be configured",
+      "overrideScriptOffLabel": "When disabled:",
+      "overrideScriptOff1": "No override scripts are executed",
+      "customSubLinkTitle": "Custom Subscription Link (Beta)",
+      "customSubLinkDesc": "Administrators can set custom short codes for subscriptions and users on the \"Subscription File Management\" and \"User Management\" pages:",
+      "customSubLink1Label": "Subscription Custom Short Code",
+      "customSubLink1Desc": ": Replaces auto-generated subscription file short code; only letters and numbers supported",
+      "customSubLink2Label": "User Custom Short Code",
+      "customSubLink2Desc": ": Replaces auto-generated user short code",
+      "customSubLink3": "Custom short codes are used in short link generation, making subscription links easier to remember",
+      "customSubLink4": "Short link format: https://domain/subscription-code+user-code"
+    },
+    "notification": {
+      "heading": "Notification System",
+      "desc": "Receive system event notifications via Telegram Bot. You need to configure the Bot Token and Chat ID first.",
+      "configTitle": "Basic Configuration",
+      "enableLabel": "Enable Notifications",
+      "enableDesc": ": Master switch; no notifications are sent when disabled",
+      "tokenLabel": "Telegram Bot Token",
+      "tokenDesc": ": Bot Token obtained from @BotFather",
+      "chatIdLabel": "Telegram Chat ID",
+      "chatIdDesc": ": Chat ID to receive notifications (personal or group)",
+      "testDesc": "After configuration, click \"Send Test Notification\" to verify",
+      "eventsTitle": "Event Notification Switches",
+      "eventsDesc": "Each event notification can be individually enabled or disabled:",
+      "subFetchLabel": "Subscription Fetch Notification",
+      "subFetchDesc": ": Notify when users fetch subscription links",
+      "loginLabel": "User Login Notification",
+      "loginDesc": ": Notify when users log in",
+      "ipBanLabel": "IP Ban Notification",
+      "ipBanDesc": ": Notify when brute-force attempts are detected and IPs are banned",
+      "silentLabel": "Silent Mode Notification",
+      "silentDesc": ": Notify when silent mode status changes",
+      "dailyLabel": "Daily Traffic Report",
+      "dailyDesc": ": Send daily traffic statistics summary at a scheduled time",
+      "expiryLabel": "Subscription Expiry Notification",
+      "expiryDesc": ": Notify when user subscriptions are about to expire",
+      "dailyTimeTitle": "Daily Traffic Report Time",
+      "dailyTimeDesc": "• Format: HH:MM, e.g., 08:00\n• The system automatically sends the previous day's traffic statistics at the specified time"
+    },
+    "typicalScenarios": {
+      "heading": "Typical Use Scenarios",
+      "s1Title": "Scenario 1: Using External Subscription Sources",
+      "s1Desc": "Administrator imports external subscription links as node sources → Enable \"External Subscription Sync Settings\" → Set appropriate cache time (e.g., 30 minutes) → Select match rules → Node info stays up to date each time users fetch subscriptions.",
+      "s2Title": "Scenario 2: Precise Traffic Statistics",
+      "s2Desc": "Add probe servers in \"Probe Management\" → Enable \"Node Probe Server Binding\" in system settings → Bind each node to its corresponding probe → Achieve per-node precise traffic statistics.",
+      "s3Title": "Scenario 3: Simplify Subscription Link Sharing",
+      "s3Desc": "Enable \"Short Links\" → Users can use 6-character short links → Easy to share and remember → Can be reset in personal settings if needed.",
+      "s4Title": "Scenario 4: Multi-Provider Node Management",
+      "s4Desc": "Enable \"Proxy Providers\" → Create proxy providers to split nodes by region → Use proxy providers in proxy groups → Easy to switch between different providers' nodes.",
+      "s5Title": "Scenario 5: High-Security Panel Deployment",
+      "s5Desc": "Enable \"Silent Mode\" → Set timeout to 15 minutes → Enable \"IP Ban Notification\" → Panel only responds to subscription requests externally, effectively preventing scanning and probing.",
+      "s6Title": "Scenario 6: Operations Monitoring Notifications",
+      "s6Desc": "Configure Telegram Bot → Enable \"Daily Traffic Report\" and \"Subscription Expiry Notification\" → Stay informed about system status and user conditions."
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "perfTitle": "Performance Impact",
+      "perfDesc": ": Setting cache time to 0 significantly increases subscription API response time",
+      "matchTitle": "Match Rule Selection",
+      "matchDesc": ": If external subscription node names change frequently, use \"Server:Port\" matching",
+      "probeTitle": "Probe Binding Prerequisites",
+      "probeDesc": ": Add probe servers in \"Probe Management\" before using probe features",
+      "shortLinkTitle": "Short Link Security",
+      "shortLinkDesc": ": After resetting short links, old short links will become invalid",
+      "templateTitle": "Template System Switch",
+      "templateDesc": ": After switching template systems, confirm that the templates in use are correct",
+      "silentTitle": "Silent Mode",
+      "silentDesc": ": When enabled, all non-subscription requests return 404; make sure you know how to restore access by fetching a subscription",
+      "scriptTitle": "Override Scripts",
+      "scriptDesc": ": Scripts execute when subscriptions are fetched; coding errors may cause abnormal subscription output",
+      "immediateTitle": "Settings Take Effect Immediately",
+      "immediateDesc": ": All setting changes take effect immediately without restarting the service"
+    },
+    "bestPractices": {
+      "heading": "Best Practices",
+      "cacheTitle": "Set Cache Reasonably",
+      "cacheDesc": ": Set cache time based on node update frequency; 15-60 minutes is recommended",
+      "onDemandTitle": "Enable Features On Demand",
+      "onDemandDesc": ": Only enable features you actually need to avoid unnecessary complexity",
+      "newTemplateTitle": "Use New Template System",
+      "newTemplateDesc": ": Database templates are recommended for easy web-based management",
+      "shortLinkTitle": "Enable Short Links",
+      "shortLinkDesc": ": Recommended to enable short links for better user experience",
+      "checkTitle": "Regular Checks",
+      "checkDesc": ": Regularly check if external subscription sync is working and probe servers are online"
+    }
+  },
+  "templates": {
+    "title": "Template Management",
+    "description": "Manage subscription configuration templates for quick subscription generation",
+    "adminFeature": "Admin Feature",
+    "intro": "The Template Management page is an admin-only feature for managing subscription configuration templates. Templates enable quick generation of standardized subscription configuration files.",
+    "systemSwitch": {
+      "heading": "Template System Switch",
+      "desc": "MiaoMiaoWu supports two template systems, which can be switched in",
+      "settingsLink": "System Settings",
+      "descSuffix": "via the \"Use New Template System\" toggle:",
+      "newTitle": "Enable \"Use New Template System\" (Recommended)",
+      "newDesc": "Uses database-stored templates with web-based management support. The template format is compatible with subscription conversion backends like subconverter, so you can directly use templates shared on GitHub.",
+      "oldTitle": "Disable \"Use New Template System\"",
+      "oldDesc": "Uses template files in the rule_templates directory. Templates are complete Clash configuration files (without proxies), requiring manual file editing for management."
+    },
+    "newTemplate": {
+      "heading": "New Templates (Database Templates) Template V2",
+      "desc": "The new template system uses a format fully compatible with various subscription conversion backends (subconverter, sub-web, etc.). You can directly use templates shared on GitHub:",
+      "resourceTitle": "Recommended Template Resources",
+      "formatTitle": "Template Format Description",
+      "formatDesc": "New templates use INI format with the following main sections:",
+      "formatCustom": ": Configuration flags",
+      "formatRuleset": ": Define routing rules",
+      "formatProxyGroup": ": Define proxy groups",
+      "formatRuleGen": ": Enable rule generator",
+      "formatOverwrite": ": Override original rules",
+      "exampleTitle": "Click to view new template example (INI format)"
+    },
+    "oldTemplate": {
+      "heading": "Old Templates (File Templates) - Template V1",
+      "desc": "Old templates are stored in the server's rule_templates directory as complete Clash configuration files but without proxies configuration; nodes are automatically populated when generating subscriptions.",
+      "formatTitle": "Template Format Description",
+      "formatDesc": "Old templates use YAML format with the following main sections:",
+      "formatPort": ": Proxy port configuration",
+      "formatDns": ": DNS configuration (nameserver, fake-ip, etc.)",
+      "formatProxies": ": Left empty, auto-populated during generation",
+      "formatProxyGroups": ": Proxy group configuration",
+      "formatRules": ": Routing rules",
+      "formatRuleProviders": ": Rule-set providers",
+      "exampleTitle": "Click to view old template example (YAML format)"
+    },
+    "mainFeatures": {
+      "heading": "Main Features",
+      "createTitle": "Create Template",
+      "createDesc": "Create a new configuration template from an external template URL (new template system)",
+      "editTitle": "Edit Template",
+      "editDesc": "Modify template name, URL, and other configuration",
+      "deleteTitle": "Delete Template",
+      "deleteDesc": "Remove templates that are no longer in use",
+      "loadTitle": "Load Template",
+      "loadDesc": "Quickly load template configuration when generating subscriptions"
+    },
+    "builtIn": {
+      "heading": "Built-in Templates",
+      "desc": "MiaoMiaoWu includes multiple commonly used configuration templates ready to use:",
+      "acl4ssrTitle": "ACL4SSR Series",
+      "acl4ssrDesc": "Configuration templates based on ACL4SSR rules, providing various rule set combinations:",
+      "acl4ssrFull": ": Full groups complete version",
+      "acl4ssrFullNoAuto": ": Full version without auto speed test",
+      "acl4ssrMini": ": Compact version",
+      "acl4ssrDefault": ": Default version",
+      "aethersailorTitle": "Aethersailor Series",
+      "aethersailorDesc": "Configuration templates provided by Aethersailor:",
+      "aethersailorFull": ": Full rules",
+      "aethersailorLite": ": Lite rules"
+    },
+    "createSteps": {
+      "heading": "Template Creation Steps",
+      "newSystemTitle": "New Template System (Database Templates)",
+      "newStep1": "Click the \"New Template\" button on the \"Generate Subscription\" page",
+      "newStep2": "Fill in the template name and template URL (e.g., a GitHub template link)",
+      "newStep3": "Enable \"Use Proxy\" option if the template URL requires proxy access",
+      "newStep4": "Click save to complete template creation",
+      "oldSystemTitle": "Old Template System (File Templates)",
+      "oldStep1": "Create a YAML file in the server's rule_templates directory",
+      "oldStep2": "Write template content in Clash configuration format (keep proxies field empty)",
+      "oldStep3": "Refresh the page to see the new template on the \"Generate Subscription\" page"
+    },
+    "useTemplate": {
+      "heading": "Using Templates",
+      "desc": "Created templates can be used on the \"Generate Subscription\" page:",
+      "step1Title": "Go to Generate Subscription Page",
+      "step1Desc": "Select the nodes to include",
+      "step2Title": "Select Template",
+      "step2Desc": "Choose the template from the dropdown menu",
+      "step3Title": "Click the \"Load\" Button",
+      "step3Desc": "The system will load configuration from the template URL and apply it",
+      "step4Title": "Adjust Configuration (Optional)",
+      "step4Desc": "Adjust proxy groups and node assignments as needed",
+      "step5Title": "Save Subscription",
+      "step5Desc": "Enter the subscription name and save"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "formatTitle": "Different Template Formats",
+      "formatDesc": ": New templates use INI format (subconverter format), old templates use YAML format (Clash configuration); they cannot be mixed",
+      "urlTitle": "Template URL",
+      "urlDesc": ": Ensure the template URL is accessible, otherwise loading will fail",
+      "proxyTitle": "Proxy Settings",
+      "proxyDesc": ": If the template URL is blocked, enable the \"Use Proxy\" option",
+      "switchTitle": "Switching Template Systems",
+      "switchDesc": ": After switching template systems in \"System Settings\", previously created templates are retained, but only templates of the current system are displayed",
+      "deleteTitle": "Deletion Impact",
+      "deleteDesc": ": Deleting a template does not affect subscriptions already generated using that template"
+    }
+  },
+  "templatesV3": {
+    "title": "Template Management V3",
+    "description": "Advanced template system with mihomo-style subscription configuration management",
+    "adminFeature": "Admin Feature",
+    "mihomoCompat": "mihomo Compatible",
+    "visualEdit": "Visual Editing",
+    "intro": "Template Management V3 is MiaoMiaoWu's latest template system, featuring mihomo-style proxy group configuration syntax with support for include-all, filter, and other advanced features. It solves the problem of manually editing subscriptions when adding nodes by automatically adding nodes to subscriptions based on templates.",
+    "prerequisite": {
+      "title": "Prerequisite",
+      "desc1": "You need to enable \"Use New Template System\" and select \"V3 Version Template\" in",
+      "settingsLink": "System Settings",
+      "desc2": "for the template management menu to appear."
+    },
+    "versionCompare": {
+      "heading": "Template Version Comparison",
+      "desc1": "MiaoMiaoWu supports three template versions, which can be switched in",
+      "settingsLink": "System Settings",
+      "desc2": ":",
+      "v1Title": "Legacy (V1) - File Templates",
+      "v1Desc": "Uses YAML files in the rule_templates directory. These are complete Clash configuration files; nodes are auto-populated into the proxies field during generation.",
+      "v2Title": "Universal Backend (V2) - Database Templates",
+      "v2Desc": "Uses INI format (subconverter format), defining proxy groups via custom_proxy_group. Compatible with various subscription conversion templates on GitHub.",
+      "v3Title": "New (V3) - mihomo-Style Templates (Recommended)",
+      "v3Desc": "Uses YAML format with mihomo's include-all, filter, and other advanced syntax. Provides a visual editing interface and supports automatic regional proxy group generation."
+    },
+    "coreConcepts": {
+      "heading": "Core Concepts",
+      "desc": "V3 templates are based on mihomo's proxy group syntax, using declarative configuration to automatically match and assign nodes:",
+      "includeTitle": "Node Inclusion",
+      "includeAll": "Include all nodes and proxy providers",
+      "includeAllProxies": "Include all proxy nodes only",
+      "includeAllProviders": "Include all proxy providers only",
+      "includeType": "Include by node type",
+      "filterTitle": "Node Filtering",
+      "filter": "Filter nodes matching keywords",
+      "excludeFilter": "Exclude nodes matching keywords",
+      "excludeType": "Exclude by node type"
+    },
+    "configAttrs": {
+      "heading": "Proxy Group Configuration Attributes",
+      "attrCol": "Attribute",
+      "typeCol": "Type",
+      "descCol": "Description",
+      "basicTitle": "Basic Attributes",
+      "nameDesc": "Proxy group name",
+      "typeDesc": "Proxy group type: select, url-test, fallback, load-balance, relay",
+      "proxiesDesc": "Static proxy list (other proxy group names, DIRECT/REJECT, or placeholders like __PROXY_NODES__)",
+      "iconDesc": "Proxy group icon, can be an image URL or emoji",
+      "hiddenDesc": "Whether to hide this proxy group in the client (default false)",
+      "includeTitle": "Node Inclusion Attributes",
+      "includeAllDesc": "Include all outbound proxies and proxy providers",
+      "includeAllProxiesDesc": "Include all outbound proxy nodes only",
+      "includeAllProvidersDesc": "Include all proxy providers only",
+      "includeTypeDesc": "Include by node type, separate multiple types with |",
+      "includeRegionDesc": "Include preset regional proxy groups (MiaoMiaoWu extension)",
+      "filterAttrTitle": "Node Filtering Attributes",
+      "filterDesc": "Filter nodes matching regex, separate multiple with `",
+      "excludeFilterDesc": "Exclude nodes matching regex, separate multiple with `",
+      "excludeTypeDesc": "Exclude by node type, separate multiple types with |",
+      "relayTitle": "Relay Proxy Group Attributes",
+      "dialerProxyDesc": "Specify relay proxy group name; traffic is forwarded through this group before reaching the target (chain proxy)",
+      "dialerProxyNote": "After setting a relay proxy group, traffic from nodes in this proxy group is first forwarded through the selected node in the relay proxy group, achieving Client → Relay Node → Landing Node → Target chain proxy effect. This can be quickly set via the link icon on the right side of proxy groups in the visual editor.",
+      "speedTestTitle": "Speed Test Attributes (url-test/fallback/load-balance)",
+      "urlDesc": "Speed test URL, default https://www.gstatic.com/generate_204",
+      "intervalDesc": "Speed test interval (seconds), default 300",
+      "toleranceDesc": "Tolerance (milliseconds), default 50",
+      "yamlVarTitle": "YAML Variables",
+      "yamlVarDesc": "V3 templates support defining custom variables at the top level to avoid repeating complex regex in multiple proxy groups:",
+      "yamlVar1": "Define non-Clash standard string fields at the YAML top level to use as variables",
+      "yamlVar2": "Proxy group filter and exclude-filter can directly reference variable names",
+      "yamlVar3": "Custom variables are automatically removed from the final generated configuration",
+      "yamlVarExample": "Click to view YAML variable example",
+      "proxyGroupExample": "Click to view proxy group configuration example",
+      "equivDesc": "Equivalent to the following page configuration:",
+      "equivImgAlt": "Proxy group example configuration",
+      "resultExample": "Click to view proxy group subscription result"
+    },
+    "nodeTypes": {
+      "heading": "Supported Node Types",
+      "desc": "include-type and exclude-type support the following node types (case-insensitive):"
+    },
+    "regionGroups": {
+      "heading": "Regional Proxy Groups",
+      "desc": "MiaoMiaoWu V3 templates support automatic generation of regional proxy groups. Enable the \"Regional Proxy Groups\" switch when editing a template. The system automatically matches regions based on node names and creates corresponding proxy groups.",
+      "presetTitle": "Preset Regional Proxy Groups",
+      "usageTitle": "Usage",
+      "usage1": "After enabling the regional proxy groups switch, all regional proxy groups can be included",
+      "usage2": "Regional proxy groups automatically match based on region keywords in node names",
+      "usage3": "The \"Other Regions\" group includes all nodes not matched to specific regions",
+      "usage4": "Regional proxy groups with no matched nodes are automatically removed from subscriptions; no need to delete unused ones from the template"
+    },
+    "createMethods": {
+      "heading": "Template Creation Methods",
+      "uploadTitle": "Upload File",
+      "uploadDesc": "Upload a local YAML template file; the filename becomes the template name.",
+      "pasteTitle": "Paste Text",
+      "pasteDesc": "Directly paste YAML format template content; enter the template name and save.",
+      "convertTitle": "Convert from V2 Template",
+      "convertDesc": "Convert existing V2 (subconverter INI format) templates to V3 format. The system automatically parses custom_proxy_group and generates corresponding proxy group configurations.",
+      "fromSubTitle": "Generate from Existing Subscription",
+      "fromSubDesc": "Analyze proxy groups in existing subscription configurations, automatically generate filter regex and include-all configuration, and quickly create templates matching the existing subscription structure.",
+      "blankTitle": "Create Blank Template",
+      "blankDesc": "Create a blank template with basic configuration, then add proxy groups through the visual editor."
+    },
+    "visualEditor": {
+      "heading": "Visual Editor",
+      "desc": "V3 templates provide a visual editing interface; no need to manually write YAML code to configure proxy groups:",
+      "layoutTitle": "Editor Layout",
+      "desktopLabel": "Desktop",
+      "desktopDesc": ": Three-column layout, proxy group editor on the left, configuration preview on the right",
+      "tabletLabel": "Tablet",
+      "tabletDesc": ": Two-column layout, editor and preview each take half",
+      "mobileLabel": "Mobile",
+      "mobileDesc": ": Single-column layout, preview shows below the save button",
+      "editFeaturesTitle": "Proxy Group Editing Features",
+      "filterKeywordLabel": "Filter Keywords",
+      "filterKeywordDesc": ": Enter keywords to auto-generate filter regex",
+      "excludeKeywordLabel": "Exclude Keywords",
+      "excludeKeywordDesc": ": Enter keywords to auto-generate exclude-filter regex",
+      "nodeTypeLabel": "Node Type Selection",
+      "nodeTypeDesc": ": Popup multi-select for choosing node types to include/exclude",
+      "includeOptionsLabel": "Include Options",
+      "includeOptionsDesc": ": One-click enable include-all, include-all-proxies, and other options",
+      "iconHiddenLabel": "Icon & Hidden",
+      "iconHiddenDesc": ": Configure proxy group icon and set whether to hide it",
+      "groupRefLabel": "Proxy Group Reference",
+      "groupRefDesc": ": Select and drag to sort other proxy groups",
+      "relayLabel": "Relay Proxy Group",
+      "relayDesc": ": Click the link icon to set relay proxy group for chain proxy",
+      "previewLabel": "Real-Time Preview",
+      "previewDesc": ": Right side shows generated YAML configuration in real time",
+      "dualModeTitle": "Dual Mode Editing",
+      "visualModeLabel": "Visual Mode",
+      "visualModeDesc": ": Configure proxy groups through forms, ideal for quick editing",
+      "yamlModeLabel": "YAML Mode",
+      "yamlModeDesc": ": Edit YAML code directly, ideal for advanced users",
+      "modeSyncDesc": "You can switch between modes at any time; data syncs automatically"
+    },
+    "subBinding": {
+      "heading": "Subscription Binding",
+      "desc": "V3 templates can be bound to subscriptions. Once bound, subscription configuration will be fully generated based on the template:",
+      "flowTitle": "Binding Flow",
+      "flow1": "Select the subscription to bind on the Subscription Management page",
+      "flow2": "Select the V3 template to bind",
+      "flow3": "System automatically regenerates subscription configuration based on template rules",
+      "behaviorTitle": "Behavior After Binding",
+      "behavior1": "Subscription configuration is fully generated based on the template; existing rule configuration will be ignored",
+      "behavior2": "Matches all nodes in the node table based on proxy group filter rules in the template",
+      "behavior3": "Matched nodes are added to proxy group proxies lists and top-level proxies",
+      "behavior4": "Template include-*, filter, exclude-* attributes are removed during generation",
+      "behavior5": "A subscription can only bind to one template",
+      "autoUpdateTitle": "Auto Update Triggers",
+      "autoUpdate1": "When new nodes are added, if proxy group rules match new nodes, bound subscriptions are automatically updated",
+      "autoUpdate2": "When nodes are deleted, they are automatically removed from template-bound subscriptions",
+      "autoUpdate3": "When the template is modified, subscriptions bound to it are automatically regenerated"
+    },
+    "fullExample": {
+      "heading": "Complete Template Example",
+      "title": "Click to view complete V3 template example"
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "formatTitle": "Template Format",
+      "formatDesc": ": V3 templates use YAML format, incompatible with V2 (INI format), but can be migrated via the conversion feature",
+      "filterRuleTitle": "Node Filter Rules (filter)",
+      "filterRuleDesc": ": By default, all nodes are used for matching; this is equivalent to explicitly enabling proxy providers + nodes (include-all)",
+      "regexTitle": "Regular Expressions",
+      "regexDesc": ": filter and exclude-filter use regex syntax; special characters need to be escaped",
+      "orderTitle": "Proxy Group Order",
+      "orderDesc": ": Proxy group order affects the final configuration; place frequently used proxy groups first",
+      "emptyGroupTitle": "Empty Proxy Groups",
+      "emptyGroupDesc": ": If a proxy group's filter matches no nodes, that proxy group is automatically removed",
+      "bindingTitle": "Binding Impact",
+      "bindingDesc": ": After binding a template, the subscription's rule configuration will be completely overridden by the template"
+    }
+  },
+  "trafficInfo": {
+    "title": "Traffic Information",
+    "description": "View current user's traffic usage and subscription validity information",
+    "intro": {
+      "heading": "Feature Introduction",
+      "desc": "The Traffic Information page shows the current logged-in user's traffic usage and subscription validity information, helping users understand their service status.",
+      "mainFeatures": "Main Features",
+      "feature1": "Displays total traffic quota, used traffic, remaining traffic",
+      "feature2": "Traffic usage percentage display",
+      "feature3": "Daily traffic consumption trend chart",
+      "feature4": "Displays subscription validity information"
+    },
+    "preview": {
+      "heading": "Interface Preview",
+      "desc": "Here is an example of the Traffic Information page:",
+      "totalQuota": "Total Traffic Quota",
+      "usedTraffic": "Used Traffic",
+      "remainingTraffic": "Remaining Traffic",
+      "usageRate": "Usage Rate",
+      "dailyTraffic": "Daily Traffic Consumption"
+    },
+    "dataSource": {
+      "heading": "Data Sources",
+      "probe": {
+        "title": "Probe Server Statistics",
+        "desc": "Traffic data comes from real-time probe server statistics. Administrators need to configure probe servers in \"Probe Management\" and bind nodes to their corresponding probes for accurate traffic statistics."
+      },
+      "external": {
+        "title": "External Subscription Traffic",
+        "desc": "If the administrator has enabled \"Sync External Subscription Traffic Info\" in system settings, traffic data will also include traffic information from external subscription sources."
+      }
+    }
+  },
+  "update": {
+    "title": "Version Update",
+    "description": "Multiple ways to update MiaoMiaoWu to the latest version",
+    "webUpdate": {
+      "heroTitle": "Web-based auto-update supported!",
+      "heroDesc": "Starting from version 0.3.5, you can check and update the application directly from the web interface.",
+      "howTo": "How to:",
+      "howToSteps": "Go to \"Personal Settings\" menu → Click \"Check for Updates\" button → Confirm update"
+    },
+    "recentSync": {
+      "heading": "Recent Documentation Sync (2026-04-14)",
+      "desc": "This page has been synced with recent changes from `../miaomiaowu`:",
+      "change1": {
+        "title": "Proxy groups support binding relay proxy groups",
+        "desc": "Proxy group type menu adds \"Relay Proxy Group\" dropdown configuration, corresponding to chain proxy's",
+        "seeAlso": "field. See",
+        "link": "Chain Proxy"
+      },
+      "change2": {
+        "title": "Edit proxy groups support column count",
+        "desc": "Node editing dialog adds 2-6 column switching and remembers last column count. See",
+        "link": "Node & Proxy Group Editing"
+      },
+      "change3": {
+        "title": "Bind probe supports search and scroll",
+        "desc": "Node probe binding dialog adds search input and scroll list. See",
+        "link": "Probe Management"
+      },
+      "change4": {
+        "title": "Default DNS template changed to DoH, Trojan URI defaults to security=none",
+        "desc": "Corresponding template and subscription conversion behavior has been updated on the backend; generated configurations will reflect more appropriate default values."
+      }
+    },
+    "changelog": {
+      "heading": "Changelog Display",
+      "desc": "When checking for updates, the update dialog renders GitHub Release Notes in rich text format, supporting:",
+      "headings": "Headings: Markdown headings (# / ## / ###)",
+      "lists": "Lists: Unordered list items (- / *)",
+      "linksCode": "Links & Code: Hyperlinks, inline code highlighting"
+    },
+    "debugLog": {
+      "heading": "Debug Log",
+      "desc": "Administrators can enable Debug logs in personal settings. When enabled, a floating icon appears on the right side of the page; clicking it opens a real-time log viewer:",
+      "featuresHeading": "Features",
+      "feature1": "• Floating icon on the right side shows runtime duration in real time",
+      "feature2": "• Sidebar viewer scrolls through the latest 200 lines of logs in real time",
+      "feature3": "• Auto-closes after 5 minutes to prevent log files from growing too large",
+      "feature4": "• Automatically downloads log file when closing"
+    },
+    "webUpdateSteps": {
+      "heading": "Web Update (0.3.5+)",
+      "desc": "For users who have already installed version 0.3.5 or above:",
+      "step1": {
+        "title": "Go to Personal Settings",
+        "desc": "Click the user avatar in the top right corner, select \"Personal Settings\""
+      },
+      "step2": {
+        "title": "Click Check for Updates",
+        "desc": "Find the \"Check for Updates\" button on the settings page and click it"
+      },
+      "step3": {
+        "title": "Confirm Update",
+        "desc": "If a new version is available, follow the prompts to confirm and wait for the update to complete"
+      }
+    },
+    "dockerCompose": {
+      "heading": "Docker Compose Update (Recommended)",
+      "desc": "For users deployed with Docker Compose, updating is very simple:",
+      "note": "Docker Compose automatically handles stopping, removing, and rebuilding the container; data is preserved in mounted volumes."
+    },
+    "dockerRun": {
+      "heading": "Docker Run Update",
+      "desc": "For users deployed with Docker Run, manual steps are required:",
+      "note": "Please ensure you use the same volume mount paths as the initial installation to preserve data."
+    },
+    "scriptUpdate": {
+      "heading": "One-Click Script Update",
+      "desc": "For users installed with the one-click script, use the following command to update:",
+      "note": "The script automatically downloads the latest version and restarts the service."
+    },
+    "simpleUpdate": {
+      "heading": "Simple Installation Update",
+      "desc": "For users with simple installation, use the following command to update:",
+      "note": "You need to manually restart the program after the update."
+    },
+    "backup": {
+      "heading": "Data Backup Recommendations",
+      "important": "Important: Back up the data directory before updating in case issues occur during the update process.",
+      "dockerDeploy": "Docker Deployment",
+      "scriptInstall": "One-Click Script Installation"
+    },
+    "relatedDocs": {
+      "heading": "Related Documentation",
+      "dockerInstall": {
+        "title": "Docker Installation",
+        "desc": "View complete Docker deployment configuration"
+      },
+      "directInstall": {
+        "title": "Direct Installation",
+        "desc": "View one-click script and manual installation methods"
+      }
+    }
+  },
+  "users": {
+    "title": "User Management",
+    "description": "Manage platform user accounts and subscription assignments (Admin feature)",
+    "adminFeature": "Admin Feature",
+    "intro": "The User Management page is an admin-only feature for managing all platform user accounts, including creating users, editing user information, and assigning subscriptions.",
+    "mainFeatures": {
+      "heading": "Main Features",
+      "viewListTitle": "User List View",
+      "viewListDesc": ": View basic information for all users",
+      "createTitle": "Create New User",
+      "createDesc": ": Manually create new user accounts with username and password",
+      "editTitle": "Edit User Info",
+      "editDesc": ": Modify user status (enable/disable)",
+      "deleteTitle": "Delete User",
+      "deleteDesc": ": Delete user accounts that are no longer needed",
+      "assignSubTitle": "Subscription Assignment",
+      "assignSubDesc": ": Assign or unassign subscription files to/from users",
+      "resetPwdTitle": "Reset Password",
+      "resetPwdDesc": ": Reset user login passwords",
+      "remarkTitle": "Remark Management",
+      "remarkDesc": ": Add remarks to users for easy identification and management",
+      "customLinkTitle": "Custom Short Link (Beta)",
+      "customLinkDesc": ": Set custom short codes for users to replace auto-generated user short codes, making subscription links easier to remember"
+    },
+    "createSteps": {
+      "heading": "User Creation Steps",
+      "step1Title": "Click the \"Add User\" Button",
+      "step1Desc": "Open the user creation dialog",
+      "step2Title": "Fill in User Basic Information",
+      "usernameLabel": "Username",
+      "usernameDesc": ": Set the user's login username (unique, no duplicates)",
+      "passwordLabel": "Initial Password",
+      "passwordDesc": ": Set the user's initial login password",
+      "emailLabel": "Email",
+      "emailDesc": ": User's email address (optional)",
+      "nicknameLabel": "Nickname",
+      "nicknameDesc": ": User nickname",
+      "remarkLabel": "Remark",
+      "remarkDesc": ": User remark information for identification and management (optional)",
+      "assignSubLabel": "Assign Subscription",
+      "assignSubDesc": ": Subscriptions visible to the user",
+      "step3Title": "Assign Subscription (Optional)",
+      "step3Desc": "You can assign subscriptions during creation or later in \"Subscription Management\"",
+      "step4Title": "Save User",
+      "step4Desc": "Click the save button to create the user; the user can then log in with their account"
+    },
+    "typicalScenario": {
+      "heading": "Typical Use Case",
+      "newUserTitle": "Scenario: Onboarding a New User",
+      "newUserDesc": "When sharing with friends or family: administrator creates an account → assigns the corresponding subscription → notifies the user of their login information."
+    },
+    "notes": {
+      "heading": "Important Notes",
+      "uniqueTitle": "Username Uniqueness",
+      "uniqueDesc": ": Usernames must be unique and cannot be changed after creation; please set carefully",
+      "deleteTitle": "Deletion is Irreversible",
+      "deleteDesc": ": Deleting a user permanently removes all their data and cannot be recovered",
+      "passwordTitle": "Password Security",
+      "passwordDesc": ": Passwords set during user creation should be complex enough, including letters, numbers, and symbols",
+      "assignTitle": "Subscription Assignment",
+      "assignDesc": ": Users need at least one assigned subscription to use the service normally"
+    },
+    "bestPractices": {
+      "heading": "Best Practices",
+      "remarkTitle": "Use Remarks",
+      "remarkDesc": ": Add remark information to users such as \"Zhang San's family member\", \"VIP customer\", etc., for easy identification",
+      "namingTitle": "Standard Naming",
+      "namingDesc": ": Use consistent username naming conventions such as \"user001\", \"vip-zhangsan\", etc.",
+      "notifyTitle": "Timely Notification",
+      "notifyDesc": ": After creating a user, promptly share login information (username, password, login URL) with the user",
+      "backupTitle": "Data Backup",
+      "backupDesc": ": Regularly export user data for backup"
+    }
+  }
+}

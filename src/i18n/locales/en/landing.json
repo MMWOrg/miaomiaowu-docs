@@ -1,0 +1,187 @@
+{
+  "hero": {
+    "logoAlt": "MiaoMiaoWu Logo",
+    "navInstall": "Install",
+    "navInstallTooltip": "Installation",
+    "navChangelog": "Log",
+    "navChangelogTooltip": "Changelog",
+    "navDocs": "Docs",
+    "navTelegram": "Telegram Community",
+    "title": "MiaoMiaoWu",
+    "slogan": "Simple & Efficient Proxy Subscription Platform",
+    "description": "Supports 12+ mainstream proxy clients with one-click subscription generation.\nNode management, traffic statistics, chain proxy, custom rules — all in one.",
+    "quickStart": "Quick Start",
+    "liveDemo": "Live Demo",
+    "viewSource": "View Source",
+    "stats": {
+      "clients": "Supported Clients",
+      "protocols": "Proxy Protocols",
+      "openSource": "Open Source",
+      "dependencies": "Dependencies"
+    }
+  },
+  "features": {
+    "title": "Core Features",
+    "description": "MiaoMiaoWu provides a complete proxy subscription management solution for various use cases",
+    "items": {
+      "multiClient": {
+        "title": "Multi-Client Support",
+        "desc": "Supports 12+ mainstream proxy clients including Clash, Surge, Shadowrocket, Loon, QuantumultX, etc."
+      },
+      "nodeManagement": {
+        "title": "Node Management",
+        "desc": "Supports multiple protocols like SS, SSR, VMess, VLESS, Trojan, Hysteria2, with batch import/export."
+      },
+      "subscriptionGen": {
+        "title": "Subscription Generation",
+        "desc": "One-click subscription link generation with custom rules, node filtering, sorting and other advanced features."
+      },
+      "chainProxy": {
+        "title": "Chain Proxy",
+        "desc": "Multi-layer proxy forwarding for transit acceleration, improving connection quality and privacy."
+      },
+      "trafficStats": {
+        "title": "Traffic Statistics",
+        "desc": "Integrated probe system with accurate per-node traffic statistics and visual chart display."
+      },
+      "customRules": {
+        "title": "Custom Rules",
+        "desc": "Custom DNS, routing rules, and rule sets for flexible proxy policy configuration."
+      },
+      "multiUser": {
+        "title": "Multi-User Management",
+        "desc": "Multi-user system where each user gets independent subscription configuration and node permissions."
+      },
+      "externalSub": {
+        "title": "External Subscriptions",
+        "desc": "Import airport subscription links with automatic node sync and scheduled updates."
+      },
+      "templates": {
+        "title": "Template System",
+        "desc": "Built-in configuration templates with custom template support for professional subscription configs."
+      },
+      "security": {
+        "title": "Secure & Reliable",
+        "desc": "Local data storage with backup/restore, no third-party dependencies — full control of your data."
+      },
+      "probe": {
+        "title": "Probe Monitoring",
+        "desc": "Real-time node status and traffic monitoring with multi-probe aggregation for comprehensive network awareness."
+      },
+      "flexible": {
+        "title": "Flexible Deployment",
+        "desc": "Docker one-click deployment with multiple deployment methods and rich system configuration options."
+      }
+    }
+  },
+  "clients": {
+    "title": "Supported Clients",
+    "description": "One subscription, compatible with all mainstream proxy clients — no tedious conversion",
+    "crossPlatform": "Cross-Platform",
+    "universalLink": "Universal Link",
+    "protocols": "Supports SS, SSR, VMess, VLESS, Trojan, Hysteria, Hysteria2, TUIC, WireGuard and more"
+  },
+  "demo": {
+    "title": "Feature Demo",
+    "description": "Interactive experience of MiaoMiaoWu's core features — understand system operations without installation",
+    "tabs": {
+      "nodesFull": "Node Management",
+      "nodesShort": "Nodes",
+      "subscriptionsFull": "Subscription Mgmt",
+      "subscriptionsShort": "Subscriptions",
+      "generateFull": "Generate Subscription",
+      "generateShort": "Generate",
+      "editFull": "Node Editing",
+      "editShort": "Edit",
+      "usersFull": "User Management",
+      "usersShort": "Users"
+    }
+  },
+  "footer": {
+    "brandDesc": "A simple and efficient proxy subscription management platform supporting 12+ mainstream proxy clients with one-click subscription generation.",
+    "quickLinks": "Quick Links",
+    "quickStart": "Quick Start",
+    "dockerInstall": "Docker Install",
+    "nodeManagement": "Node Management",
+    "generateSub": "Generate Subscription",
+    "more": "More",
+    "about": "About MiaoMiaoWu",
+    "faq": "FAQ",
+    "feedback": "Feedback"
+  },
+  "changelog": {
+    "backToHome": "Back to Home",
+    "docs": "Docs",
+    "title": "Changelog",
+    "subtitle": "Recording every growth and progress of MiaoMiaoWu",
+    "viewOnGithub": "View full release history on GitHub",
+    "loadFailed": "Failed to load",
+    "retry": "Retry",
+    "latest": "Latest",
+    "newFeatures": "New Features",
+    "bugFixes": "Bug Fixes",
+    "viewDetails": "View details at",
+    "viewFullNotes": "View full release notes",
+    "loadMore": "Load more ({{count}} releases)",
+    "historyStart": "This is where it all began...",
+    "footerDesc": "MiaoMiaoWu - Simple and efficient proxy subscription management platform",
+    "relativeTime": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "daysAgo": "{{count}} days ago",
+      "weeksAgo": "{{count}} weeks ago",
+      "monthsAgo": "{{count}} months ago",
+      "yearsAgo": "{{count}} years ago"
+    }
+  },
+  "xHome": {
+    "logoAlt": "MiaoMiaoWu X Logo",
+    "navHome": "MiaoMiaoWu",
+    "navDocs": "Docs",
+    "navChangelog": "Log",
+    "advancedBadge": "The advanced version of MiaoMiaoWu",
+    "slogan": "Multi-Server Xray Management & Subscription Platform",
+    "description": "Master-Agent architecture for centralized remote server management. Visual Xray inbound configuration,\n17 protocol combinations, automated certificate management, and automatic node sync.",
+    "quickStart": "Quick Start",
+    "viewDocs": "View Docs",
+    "stats": {
+      "protocolCombos": "Protocol Combos",
+      "protocols": "Protocols",
+      "clientFormats": "Client Formats",
+      "connectionModes": "Connection Modes"
+    },
+    "coreCapabilities": "Core Capabilities",
+    "coreCapabilitiesDesc": "Building on MiaoMiaoWu with complete remote server management and Xray configuration capabilities",
+    "features": {
+      "remoteServer": { "title": "Remote Server Management", "desc": "Master-Agent architecture with WebSocket/HTTP/Pull modes for managing remote servers. Auto-reconnect, token rotation, and status monitoring." },
+      "xrayInbound": { "title": "Xray Inbound Management", "desc": "Visual inbound wizard supporting VLESS/VMess/Trojan/SS/Hysteria2, 17 protocol combinations with one-click configuration" },
+      "reality": { "title": "REALITY Support", "desc": "No domain or certificate needed, auto-generates X25519 key pairs, strongest anti-detection capability" },
+      "certificates": { "title": "Certificate Management", "desc": "ACME auto-apply and renew TLS certificates, supports Cloudflare/Alibaba Cloud/Tencent Cloud DNS providers" },
+      "trafficMonitor": { "title": "Traffic Monitoring", "desc": "Real-time Xray traffic data collection, per-user/node statistics, visual chart display" },
+      "userPackage": { "title": "Users & Packages", "desc": "Multi-user management, package quota control, subscription token distribution, monthly traffic reset" },
+      "multiFormat": { "title": "Multi-Format Subscriptions", "desc": "Supports Clash/Surge/Loon/QX/Shadowrocket/SingBox and 12+ client formats" },
+      "autoSync": { "title": "Auto Node Sync", "desc": "Inbound changes automatically trigger node sync, event-bus driven, zero manual operation" }
+    },
+    "comparisonTitle": "Comparison with MiaoMiaoWu",
+    "comparisonHeaders": { "feature": "Feature", "mmw": "MiaoMiaoWu" },
+    "comparisonRows": {
+      "subscriptionMgmt": "Subscription Management",
+      "multiClient": "Multi-Client Formats (12+)",
+      "trafficProbe": "Traffic Monitoring & Probes",
+      "customRulesTemplates": "Custom Rules & Templates",
+      "remoteServer": "Remote Server Management",
+      "xrayInOut": "Xray Inbound/Outbound Mgmt",
+      "acmeCert": "ACME Certificate Management",
+      "connectivityTest": "Protocol Connectivity Testing"
+    },
+    "quickNav": "Quick Navigation",
+    "quickNavDesc": "Start exploring MiaoMiaoWu X from here",
+    "quickLinks": {
+      "quickStart": { "title": "Quick Start", "desc": "Deploy MiaoMiaoWu X in 5 minutes" },
+      "install": { "title": "Installation", "desc": "Docker / Binary install" },
+      "protocols": { "title": "Protocol Reference", "desc": "17 protocol combinations explained" },
+      "fullDocs": { "title": "Full Documentation", "desc": "View all documentation" }
+    },
+    "footerDesc": "MiaoMiaoWu X — Multi-Server Xray Management & Subscription Platform"
+  }
+}

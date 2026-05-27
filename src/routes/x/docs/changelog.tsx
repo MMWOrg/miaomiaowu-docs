@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -83,6 +84,7 @@ function getRelativeTime(dateString: string): string {
 }
 
 function ChangelogPage() {
+  const { t } = useTranslation('xdocs')
   const [releases, setReleases] = useState<Release[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -114,7 +116,7 @@ function ChangelogPage() {
   const displayedReleases = showAll ? releases : releases.slice(0, 10)
 
   return (
-    <XDocLayout title='更新日志' description='版本更新记录'>
+    <XDocLayout title={t('changelog.title')} description={t('changelog.description')}>
       <div className='mb-4'>
         <a
           href='https://github.com/iluobei/miaomiaowux/releases'
@@ -122,7 +124,7 @@ function ChangelogPage() {
           rel='noopener noreferrer'
           className='inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors'
         >
-          在 GitHub 上查看完整发布记录
+          {t('changelog.viewOnGithub')}
           <ExternalLink className='size-3' />
         </a>
       </div>
@@ -136,10 +138,10 @@ function ChangelogPage() {
       {error && (
         <div className='flex flex-col items-center justify-center py-20 text-muted-foreground'>
           <AlertCircle className='size-8 mb-4' />
-          <p className='mb-2'>加载失败</p>
+          <p className='mb-2'>{t('changelog.loadFailed')}</p>
           <p className='text-sm mb-4'>{error}</p>
           <Button variant='outline' size='sm' onClick={() => window.location.reload()}>
-            重试
+            {t('changelog.retry')}
           </Button>
         </div>
       )}
@@ -167,7 +169,7 @@ function ChangelogPage() {
                         variant='outline'
                         className='text-green-600 border-green-600/50 bg-green-500/10'
                       >
-                        最新版本
+                        {t('changelog.latestVersion')}
                       </Badge>
                     )}
                     <div className='flex-1' />
@@ -181,7 +183,7 @@ function ChangelogPage() {
                       <div>
                         <h4 className='font-semibold text-amber-600 dark:text-amber-400 mb-2 flex items-center gap-2'>
                           <Sparkles className='size-4' />
-                          新功能
+                          {t('changelog.newFeatures')}
                         </h4>
                         <ul className='space-y-1 ml-6'>
                           {features.map((item, i) => (
@@ -198,7 +200,7 @@ function ChangelogPage() {
                       <div>
                         <h4 className='font-semibold text-blue-600 dark:text-blue-400 mb-2 flex items-center gap-2'>
                           <Wrench className='size-4' />
-                          问题修复
+                          {t('changelog.bugFixes')}
                         </h4>
                         <ul className='space-y-1 ml-6'>
                           {fixes.map((item, i) => (
@@ -213,7 +215,7 @@ function ChangelogPage() {
 
                     {features.length === 0 && fixes.length === 0 && (
                       <p className='text-muted-foreground italic'>
-                        查看详情请访问{' '}
+                        {t('changelog.viewDetails')}{' '}
                         <a
                           href={release.html_url}
                           target='_blank'
@@ -233,7 +235,7 @@ function ChangelogPage() {
                       rel='noopener noreferrer'
                       className='inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors'
                     >
-                      查看完整发布说明
+                      {t('changelog.viewFullNotes')}
                       <ExternalLink className='size-3' />
                     </a>
                   </div>
@@ -246,7 +248,7 @@ function ChangelogPage() {
             <div className='text-center'>
               <Button variant='outline' onClick={() => setShowAll(true)} className='gap-2'>
                 <ChevronDown className='size-4' />
-                加载更多版本 ({releases.length - 10} 个)
+                {t('changelog.loadMore', { count: releases.length - 10 })}
               </Button>
             </div>
           )}

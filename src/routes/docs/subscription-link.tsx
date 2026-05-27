@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -33,43 +34,45 @@ const CLIENT_TYPES = [
 ]
 
 function SubscriptionLinkPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='订阅链接'
-      description='获取和管理您的订阅链接'
+      title={t('subscriptionLink.title')}
+      description={t('subscriptionLink.description')}
     >
       {/* 主要功能 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          主要功能
+          {t('subscriptionLink.mainFeatures.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              订阅链接页面提供便捷的订阅管理功能，支持多种客户端格式的订阅链接生成和导入。
+              {t('subscriptionLink.mainFeatures.intro')}
             </p>
             <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-blue-500'>
               <ul className='space-y-2 text-sm'>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>订阅卡片展示</strong>：显示管理员分配给您的所有订阅配置，包括订阅名称、描述、更新时间和版本号</span>
+                  <span><strong>{t('subscriptionLink.mainFeatures.cardDisplayTitle')}</strong>{t('subscriptionLink.mainFeatures.cardDisplayDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>订阅链接查看</strong>：每个订阅卡片都显示完整的订阅链接地址，支持直接复制</span>
+                  <span><strong>{t('subscriptionLink.mainFeatures.viewLinkTitle')}</strong>{t('subscriptionLink.mainFeatures.viewLinkDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>多客户端支持</strong>：点击"复制"按钮可选择不同的客户端格式（12种客户端）</span>
+                  <span><strong>{t('subscriptionLink.mainFeatures.multiClientTitle')}</strong>{t('subscriptionLink.mainFeatures.multiClientDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>一键导入 Clash</strong>：点击"导入 Clash"按钮可直接在 Clash 客户端中打开并导入订阅</span>
+                  <span><strong>{t('subscriptionLink.mainFeatures.importClashTitle')}</strong>{t('subscriptionLink.mainFeatures.importClashDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>二维码生成</strong>：点击订阅图标可显示二维码，方便在移动设备上扫码导入订阅</span>
+                  <span><strong>{t('subscriptionLink.mainFeatures.qrCodeTitle')}</strong>{t('subscriptionLink.mainFeatures.qrCodeDesc')}</span>
                 </li>
               </ul>
             </div>
@@ -79,22 +82,22 @@ function SubscriptionLinkPage() {
 
       {/* 界面演示 */}
       <section className='mb-8'>
-        <h2 className='text-xl font-bold mb-4'>界面预览</h2>
+        <h2 className='text-xl font-bold mb-4'>{t('subscriptionLink.preview.heading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-sm text-muted-foreground mb-4'>
-              以下是订阅卡片的示例展示：
+              {t('subscriptionLink.preview.desc')}
             </p>
 
             {/* 模拟订阅卡片 */}
             <div className='bg-muted/30 rounded-lg p-4 space-y-4'>
               <div className='flex items-start justify-between'>
                 <div>
-                  <h4 className='font-semibold'>主订阅配置</h4>
-                  <p className='text-sm text-muted-foreground'>包含香港、日本、新加坡节点</p>
+                  <h4 className='font-semibold'>{t('subscriptionLink.preview.cardTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('subscriptionLink.preview.cardDesc')}</p>
                 </div>
                 <div className='text-xs text-muted-foreground'>
-                  版本 v1.0.3
+                  {t('subscriptionLink.preview.version')}
                 </div>
               </div>
 
@@ -105,15 +108,15 @@ function SubscriptionLinkPage() {
               <div className='flex gap-2 flex-wrap'>
                 <Button size='sm' variant='outline' className='gap-1'>
                   <Copy className='size-3' />
-                  复制
+                  {t('subscriptionLink.preview.copy')}
                 </Button>
                 <Button size='sm' variant='outline' className='gap-1'>
                   <ExternalLink className='size-3' />
-                  导入 Clash
+                  {t('subscriptionLink.preview.importClash')}
                 </Button>
                 <Button size='sm' variant='outline' className='gap-1'>
                   <QrCode className='size-3' />
-                  二维码
+                  {t('subscriptionLink.preview.qrCode')}
                 </Button>
               </div>
             </div>
@@ -125,7 +128,7 @@ function SubscriptionLinkPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          使用步骤
+          {t('subscriptionLink.steps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -134,26 +137,26 @@ function SubscriptionLinkPage() {
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>1</span>
                   <div>
-                    <strong>选择订阅配置</strong>
-                    <p className='text-muted-foreground mt-1'>从订阅卡片列表中选择需要使用的订阅配置</p>
+                    <strong>{t('subscriptionLink.steps.step1Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('subscriptionLink.steps.step1Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>2</span>
                   <div>
-                    <strong>选择导入方式</strong>
+                    <strong>{t('subscriptionLink.steps.step2Title')}</strong>
                     <p className='text-muted-foreground mt-1'>
-                      • <strong>PC端</strong>：点击"复制"按钮，选择对应的客户端格式<br/>
-                      • <strong>移动端</strong>：点击二维码图标，使用手机客户端扫码导入<br/>
-                      • <strong>Clash快捷导入</strong>：点击"导入 Clash"按钮直接打开
+                      • <strong>{t('subscriptionLink.steps.step2PcTitle')}</strong>{t('subscriptionLink.steps.step2PcDesc')}<br/>
+                      • <strong>{t('subscriptionLink.steps.step2MobileTitle')}</strong>{t('subscriptionLink.steps.step2MobileDesc')}<br/>
+                      • <strong>{t('subscriptionLink.steps.step2ClashTitle')}</strong>{t('subscriptionLink.steps.step2ClashDesc')}
                     </p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>3</span>
                   <div>
-                    <strong>在客户端中完成导入</strong>
-                    <p className='text-muted-foreground mt-1'>根据客户端提示完成订阅导入和配置更新</p>
+                    <strong>{t('subscriptionLink.steps.step3Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('subscriptionLink.steps.step3Desc')}</p>
                   </div>
                 </div>
               </div>
@@ -166,12 +169,12 @@ function SubscriptionLinkPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Network className='size-5 text-primary' />
-          支持的客户端格式
+          {t('subscriptionLink.clientFormats.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-sm text-muted-foreground mb-4'>
-              订阅链接支持以下12种客户端格式的自动转换：
+              {t('subscriptionLink.clientFormats.desc')}
             </p>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2'>
               {CLIENT_TYPES.map((client) => (
@@ -194,7 +197,7 @@ function SubscriptionLinkPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-primary' />
-          注意事项
+          {t('subscriptionLink.notes.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -202,23 +205,23 @@ function SubscriptionLinkPage() {
               <ul className='space-y-2 text-sm text-muted-foreground'>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span>订阅链接包含您的个人认证信息，请勿分享给他人</span>
+                  <span>{t('subscriptionLink.notes.note1')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span>如果订阅列表为空，表示管理员尚未为您分配订阅，请联系管理员</span>
+                  <span>{t('subscriptionLink.notes.note2')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span>客户端转换功能基于 SubStore 实现，如遇到问题请联系开发者或提交 Issue</span>
+                  <span>{t('subscriptionLink.notes.note3')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span>建议定期更新订阅以获取最新的节点配置和规则</span>
+                  <span>{t('subscriptionLink.notes.note4')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span>机场有经常更换域名和IP的情况，可以在系统管理打开强制同步外部订阅</span>
+                  <span>{t('subscriptionLink.notes.note5')}</span>
                 </li>
               </ul>
             </div>

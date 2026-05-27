@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -204,20 +205,22 @@ function CollapsibleCode({ title, code, language }: { title: string; code: strin
 }
 
 function TemplatesDocPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='模板管理'
-      description='管理订阅配置模板，快速生成订阅文件'
+      title={t('templates.title')}
+      description={t('templates.description')}
     >
       {/* 功能介绍 */}
       <section className='mb-8'>
         <Card className='bg-muted/30'>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              模板管理页面是管理员专用功能，用于管理订阅配置模板。通过模板可以快速生成标准化的订阅配置文件。
+              {t('templates.intro')}
             </p>
             <div className='flex gap-2'>
-              <Badge variant='destructive'>管理员功能</Badge>
+              <Badge variant='destructive'>{t('templates.adminFeature')}</Badge>
             </div>
           </CardContent>
         </Card>
@@ -227,36 +230,34 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Settings className='size-5 text-primary' />
-          模板系统切换
+          {t('templates.systemSwitch.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              妙妙屋支持两种模板系统，可以在
+              {t('templates.systemSwitch.desc')}
               <Link to='/docs/system-settings' className='text-primary hover:underline mx-1'>
-                系统设置
+                {t('templates.systemSwitch.settingsLink')}
               </Link>
-              中通过「使用新模板系统」开关进行切换：
+              {t('templates.systemSwitch.descSuffix')}
             </p>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-green-500'>
                 <div className='flex items-center gap-2 mb-2'>
                   <Database className='size-4 text-green-500' />
-                  <h4 className='font-semibold text-sm'>开启「使用新模板系统」（推荐）</h4>
+                  <h4 className='font-semibold text-sm'>{t('templates.systemSwitch.newTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  使用数据库存储的模板，支持在网页端管理模板。模板格式与 subconverter 等转换后端使用的格式一致，
-                  可以直接使用 GitHub 上大佬们分享的模板。
+                  {t('templates.systemSwitch.newDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-blue-500'>
                 <div className='flex items-center gap-2 mb-2'>
                   <FolderOpen className='size-4 text-blue-500' />
-                  <h4 className='font-semibold text-sm'>关闭「使用新模板系统」</h4>
+                  <h4 className='font-semibold text-sm'>{t('templates.systemSwitch.oldTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  使用 <code className='bg-muted px-1 rounded'>rule_templates</code> 目录下的模板文件。
-                  模板是一个完整的 Clash 配置文件（缺少节点配置），需要手动编辑文件来管理。
+                  {t('templates.systemSwitch.oldDesc')}
                 </p>
               </div>
             </div>
@@ -268,18 +269,17 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Database className='size-5 text-primary' />
-          新模板（数据库模板）模板V2
+          {t('templates.newTemplate.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              新模板系统使用的模板格式与各种订阅转换后端（如 subconverter、sub-web 等）完全兼容。
-              你可以直接使用 GitHub 上大佬们分享的模板：
+              {t('templates.newTemplate.desc')}
             </p>
             <div className='bg-muted/30 rounded-lg p-4 mb-4'>
               <h4 className='font-semibold text-sm mb-2 flex items-center gap-2'>
                 <ExternalLink className='size-4' />
-                推荐模板资源
+                {t('templates.newTemplate.resourceTitle')}
               </h4>
               <ul className='text-xs text-muted-foreground space-y-1'>
                 <li>• <strong>ACL4SSR</strong>：<code className='bg-muted px-1 rounded'>https://github.com/ACL4SSR/ACL4SSR/tree/master/Clash/config</code></li>
@@ -288,20 +288,20 @@ function TemplatesDocPage() {
             </div>
             <div className='space-y-4'>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>模板格式说明</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templates.newTemplate.formatTitle')}</h4>
                 <p className='text-xs text-muted-foreground mb-2'>
-                  新模板使用 INI 格式，主要包含以下部分：
+                  {t('templates.newTemplate.formatDesc')}
                 </p>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <code className='bg-muted px-1 rounded'>[custom]</code>：配置标志</li>
-                  <li>• <code className='bg-muted px-1 rounded'>ruleset=</code>：定义分流规则，格式为 <code className='bg-muted px-1 rounded'>ruleset=代理组名,规则类型:规则地址</code></li>
-                  <li>• <code className='bg-muted px-1 rounded'>custom_proxy_group=</code>：定义代理组，格式为 <code className='bg-muted px-1 rounded'>代理组名`类型`匹配规则`测速URL`间隔</code></li>
-                  <li>• <code className='bg-muted px-1 rounded'>enable_rule_generator=true</code>：启用规则生成器</li>
-                  <li>• <code className='bg-muted px-1 rounded'>overwrite_original_rules=true</code>：覆盖原始规则</li>
+                  <li>• <code className='bg-muted px-1 rounded'>[custom]</code>{t('templates.newTemplate.formatCustom')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>ruleset=</code>{t('templates.newTemplate.formatRuleset')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>custom_proxy_group=</code>{t('templates.newTemplate.formatProxyGroup')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>enable_rule_generator=true</code>{t('templates.newTemplate.formatRuleGen')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>overwrite_original_rules=true</code>{t('templates.newTemplate.formatOverwrite')}</li>
                 </ul>
               </div>
               <CollapsibleCode
-                title='点击查看新模板示例（INI 格式）'
+                title={t('templates.newTemplate.exampleTitle')}
                 code={newTemplateExample}
                 language='ini'
               />
@@ -314,31 +314,30 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FolderOpen className='size-5 text-primary' />
-          旧模板（文件模板）- 模板V1
+          {t('templates.oldTemplate.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              旧模板存储在服务器的 <code className='bg-muted px-1 rounded'>rule_templates</code> 目录下，
-              是一个完整的 Clash 配置文件，但<strong>缺少节点配置（proxies）</strong>，节点会在生成订阅时自动填充。
+              {t('templates.oldTemplate.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>模板格式说明</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templates.oldTemplate.formatTitle')}</h4>
                 <p className='text-xs text-muted-foreground mb-2'>
-                  旧模板使用 YAML 格式，主要包含以下部分：
+                  {t('templates.oldTemplate.formatDesc')}
                 </p>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <code className='bg-muted px-1 rounded'>port/socks-port</code>：代理端口配置</li>
-                  <li>• <code className='bg-muted px-1 rounded'>dns</code>：DNS 配置（nameserver、fake-ip 等）</li>
-                  <li>• <code className='bg-muted px-1 rounded'>proxies</code>：留空，生成时自动填充</li>
-                  <li>• <code className='bg-muted px-1 rounded'>proxy-groups</code>：代理组配置</li>
-                  <li>• <code className='bg-muted px-1 rounded'>rules</code>：分流规则</li>
-                  <li>• <code className='bg-muted px-1 rounded'>rule-providers</code>：规则集提供商</li>
+                  <li>• <code className='bg-muted px-1 rounded'>port/socks-port</code>{t('templates.oldTemplate.formatPort')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>dns</code>{t('templates.oldTemplate.formatDns')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>proxies</code>{t('templates.oldTemplate.formatProxies')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>proxy-groups</code>{t('templates.oldTemplate.formatProxyGroups')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>rules</code>{t('templates.oldTemplate.formatRules')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>rule-providers</code>{t('templates.oldTemplate.formatRuleProviders')}</li>
                 </ul>
               </div>
               <CollapsibleCode
-                title='点击查看旧模板示例（YAML 格式）'
+                title={t('templates.oldTemplate.exampleTitle')}
                 code={oldTemplateExample}
                 language='yaml'
               />
@@ -351,7 +350,7 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          主要功能
+          {t('templates.mainFeatures.heading')}
         </h2>
         <div className='grid gap-4 md:grid-cols-2'>
           <Card>
@@ -359,9 +358,9 @@ function TemplatesDocPage() {
               <div className='flex items-start gap-3'>
                 <Plus className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>创建模板</h4>
+                  <h4 className='font-semibold'>{t('templates.mainFeatures.createTitle')}</h4>
                   <p className='text-sm text-muted-foreground'>
-                    从外部模板 URL 创建新的配置模板（新模板系统）
+                    {t('templates.mainFeatures.createDesc')}
                   </p>
                 </div>
               </div>
@@ -372,9 +371,9 @@ function TemplatesDocPage() {
               <div className='flex items-start gap-3'>
                 <Pencil className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>编辑模板</h4>
+                  <h4 className='font-semibold'>{t('templates.mainFeatures.editTitle')}</h4>
                   <p className='text-sm text-muted-foreground'>
-                    修改模板名称、URL 和其他配置
+                    {t('templates.mainFeatures.editDesc')}
                   </p>
                 </div>
               </div>
@@ -385,9 +384,9 @@ function TemplatesDocPage() {
               <div className='flex items-start gap-3'>
                 <Trash2 className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>删除模板</h4>
+                  <h4 className='font-semibold'>{t('templates.mainFeatures.deleteTitle')}</h4>
                   <p className='text-sm text-muted-foreground'>
-                    移除不再使用的模板配置
+                    {t('templates.mainFeatures.deleteDesc')}
                   </p>
                 </div>
               </div>
@@ -398,9 +397,9 @@ function TemplatesDocPage() {
               <div className='flex items-start gap-3'>
                 <Download className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>加载模板</h4>
+                  <h4 className='font-semibold'>{t('templates.mainFeatures.loadTitle')}</h4>
                   <p className='text-sm text-muted-foreground'>
-                    在生成订阅时快速加载模板配置
+                    {t('templates.mainFeatures.loadDesc')}
                   </p>
                 </div>
               </div>
@@ -413,34 +412,34 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          内置模板
+          {t('templates.builtIn.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              妙妙屋内置了多种常用的配置模板，可以直接使用：
+              {t('templates.builtIn.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold mb-2'>ACL4SSR 系列</h4>
+                <h4 className='font-semibold mb-2'>{t('templates.builtIn.acl4ssrTitle')}</h4>
                 <p className='text-sm text-muted-foreground mb-2'>
-                  基于 ACL4SSR 规则的配置模板，提供多种规则集组合：
+                  {t('templates.builtIn.acl4ssrDesc')}
                 </p>
                 <ul className='text-sm text-muted-foreground space-y-1 ml-4'>
-                  <li>• <strong>ACL4SSR_Online_Full</strong>：全分组完整版</li>
-                  <li>• <strong>ACL4SSR_Online_Full_NoAuto</strong>：完整版无自动测速</li>
-                  <li>• <strong>ACL4SSR_Online_Mini</strong>：精简版</li>
-                  <li>• <strong>ACL4SSR_Online</strong>：默认版本</li>
+                  <li>• <strong>ACL4SSR_Online_Full</strong>{t('templates.builtIn.acl4ssrFull')}</li>
+                  <li>• <strong>ACL4SSR_Online_Full_NoAuto</strong>{t('templates.builtIn.acl4ssrFullNoAuto')}</li>
+                  <li>• <strong>ACL4SSR_Online_Mini</strong>{t('templates.builtIn.acl4ssrMini')}</li>
+                  <li>• <strong>ACL4SSR_Online</strong>{t('templates.builtIn.acl4ssrDefault')}</li>
                 </ul>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold mb-2'>Aethersailor 系列</h4>
+                <h4 className='font-semibold mb-2'>{t('templates.builtIn.aethersailorTitle')}</h4>
                 <p className='text-sm text-muted-foreground mb-2'>
-                  Aethersailor 提供的配置模板：
+                  {t('templates.builtIn.aethersailorDesc')}
                 </p>
                 <ul className='text-sm text-muted-foreground space-y-1 ml-4'>
-                  <li>• <strong>Aethersailor Full</strong>：完整版规则</li>
-                  <li>• <strong>Aethersailor Lite</strong>：精简版规则</li>
+                  <li>• <strong>Aethersailor Full</strong>{t('templates.builtIn.aethersailorFull')}</li>
+                  <li>• <strong>Aethersailor Lite</strong>{t('templates.builtIn.aethersailorLite')}</li>
                 </ul>
               </div>
             </div>
@@ -452,25 +451,25 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          创建模板步骤
+          {t('templates.createSteps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-green-500/10 rounded-lg p-4 mb-4 border border-green-500/20'>
-              <h4 className='font-semibold text-sm mb-2 text-green-600'>新模板系统（数据库模板）</h4>
+              <h4 className='font-semibold text-sm mb-2 text-green-600'>{t('templates.createSteps.newSystemTitle')}</h4>
               <ol className='space-y-3 text-sm'>
                 <li className='flex gap-3'>
                   <span className='flex-shrink-0 size-5 rounded-full bg-green-500/20 text-green-600 flex items-center justify-center text-xs font-semibold'>
                     1
                   </span>
-                  <span className='text-muted-foreground'>在「生成订阅」页面点击「新建模板」按钮</span>
+                  <span className='text-muted-foreground'>{t('templates.createSteps.newStep1')}</span>
                 </li>
                 <li className='flex gap-3'>
                   <span className='flex-shrink-0 size-5 rounded-full bg-green-500/20 text-green-600 flex items-center justify-center text-xs font-semibold'>
                     2
                   </span>
                   <span className='text-muted-foreground'>
-                    填写模板名称和模板 URL（如 GitHub 上的模板链接）
+                    {t('templates.createSteps.newStep2')}
                   </span>
                 </li>
                 <li className='flex gap-3'>
@@ -478,26 +477,26 @@ function TemplatesDocPage() {
                     3
                   </span>
                   <span className='text-muted-foreground'>
-                    根据需要开启「使用代理」选项（如果模板 URL 需要代理访问）
+                    {t('templates.createSteps.newStep3')}
                   </span>
                 </li>
                 <li className='flex gap-3'>
                   <span className='flex-shrink-0 size-5 rounded-full bg-green-500/20 text-green-600 flex items-center justify-center text-xs font-semibold'>
                     4
                   </span>
-                  <span className='text-muted-foreground'>点击保存完成模板创建</span>
+                  <span className='text-muted-foreground'>{t('templates.createSteps.newStep4')}</span>
                 </li>
               </ol>
             </div>
             <div className='bg-blue-500/10 rounded-lg p-4 border border-blue-500/20'>
-              <h4 className='font-semibold text-sm mb-2 text-blue-600'>旧模板系统（文件模板）</h4>
+              <h4 className='font-semibold text-sm mb-2 text-blue-600'>{t('templates.createSteps.oldSystemTitle')}</h4>
               <ol className='space-y-3 text-sm'>
                 <li className='flex gap-3'>
                   <span className='flex-shrink-0 size-5 rounded-full bg-blue-500/20 text-blue-600 flex items-center justify-center text-xs font-semibold'>
                     1
                   </span>
                   <span className='text-muted-foreground'>
-                    在服务器的 <code className='bg-muted px-1 rounded'>rule_templates</code> 目录下创建 YAML 文件
+                    {t('templates.createSteps.oldStep1')}
                   </span>
                 </li>
                 <li className='flex gap-3'>
@@ -505,14 +504,14 @@ function TemplatesDocPage() {
                     2
                   </span>
                   <span className='text-muted-foreground'>
-                    按照 Clash 配置格式编写模板内容（保留 proxies 字段为空）
+                    {t('templates.createSteps.oldStep2')}
                   </span>
                 </li>
                 <li className='flex gap-3'>
                   <span className='flex-shrink-0 size-5 rounded-full bg-blue-500/20 text-blue-600 flex items-center justify-center text-xs font-semibold'>
                     3
                   </span>
-                  <span className='text-muted-foreground'>刷新页面后即可在「生成订阅」页面看到新模板</span>
+                  <span className='text-muted-foreground'>{t('templates.createSteps.oldStep3')}</span>
                 </li>
               </ol>
             </div>
@@ -524,12 +523,12 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Globe className='size-5 text-primary' />
-          使用模板
+          {t('templates.useTemplate.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              在「生成订阅」页面可以使用已创建的模板：
+              {t('templates.useTemplate.desc')}
             </p>
             <ol className='space-y-4 text-sm'>
               <li className='flex gap-3'>
@@ -537,8 +536,8 @@ function TemplatesDocPage() {
                   1
                 </span>
                 <div>
-                  <p className='font-medium'>进入生成订阅页面</p>
-                  <p className='text-muted-foreground'>选择需要包含的节点</p>
+                  <p className='font-medium'>{t('templates.useTemplate.step1Title')}</p>
+                  <p className='text-muted-foreground'>{t('templates.useTemplate.step1Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
@@ -546,8 +545,8 @@ function TemplatesDocPage() {
                   2
                 </span>
                 <div>
-                  <p className='font-medium'>选择模板</p>
-                  <p className='text-muted-foreground'>从下拉菜单中选择要使用的模板</p>
+                  <p className='font-medium'>{t('templates.useTemplate.step2Title')}</p>
+                  <p className='text-muted-foreground'>{t('templates.useTemplate.step2Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
@@ -555,8 +554,8 @@ function TemplatesDocPage() {
                   3
                 </span>
                 <div>
-                  <p className='font-medium'>点击「加载」按钮</p>
-                  <p className='text-muted-foreground'>系统将从模板 URL 加载配置并应用</p>
+                  <p className='font-medium'>{t('templates.useTemplate.step3Title')}</p>
+                  <p className='text-muted-foreground'>{t('templates.useTemplate.step3Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
@@ -564,8 +563,8 @@ function TemplatesDocPage() {
                   4
                 </span>
                 <div>
-                  <p className='font-medium'>调整配置（可选）</p>
-                  <p className='text-muted-foreground'>根据需要调整代理组和节点分配</p>
+                  <p className='font-medium'>{t('templates.useTemplate.step4Title')}</p>
+                  <p className='text-muted-foreground'>{t('templates.useTemplate.step4Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
@@ -573,8 +572,8 @@ function TemplatesDocPage() {
                   5
                 </span>
                 <div>
-                  <p className='font-medium'>保存订阅</p>
-                  <p className='text-muted-foreground'>输入订阅名称并保存</p>
+                  <p className='font-medium'>{t('templates.useTemplate.step5Title')}</p>
+                  <p className='text-muted-foreground'>{t('templates.useTemplate.step5Desc')}</p>
                 </div>
               </li>
             </ol>
@@ -586,30 +585,30 @@ function TemplatesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-orange-500' />
-          注意事项
+          {t('templates.notes.heading')}
         </h2>
         <Card className='border-orange-500/20'>
           <CardContent className='pt-6'>
             <ul className='space-y-2 text-sm text-muted-foreground'>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>模板格式不同</strong>：新模板使用 INI 格式（subconverter 格式），旧模板使用 YAML 格式（Clash 配置），两者不可混用</span>
+                <span><strong>{t('templates.notes.formatTitle')}</strong>{t('templates.notes.formatDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>模板 URL</strong>：确保模板 URL 可以正常访问，否则加载会失败</span>
+                <span><strong>{t('templates.notes.urlTitle')}</strong>{t('templates.notes.urlDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>代理设置</strong>：如果模板 URL 被墙，需要开启「使用代理」选项</span>
+                <span><strong>{t('templates.notes.proxyTitle')}</strong>{t('templates.notes.proxyDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>切换模板系统</strong>：在「系统设置」中切换模板系统后，之前创建的模板仍然保留，但只有当前系统的模板会显示</span>
+                <span><strong>{t('templates.notes.switchTitle')}</strong>{t('templates.notes.switchDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>删除影响</strong>：删除模板不会影响已使用该模板生成的订阅</span>
+                <span><strong>{t('templates.notes.deleteTitle')}</strong>{t('templates.notes.deleteDesc')}</span>
               </li>
             </ul>
           </CardContent>

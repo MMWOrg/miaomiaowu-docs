@@ -1,0 +1,2429 @@
+{
+  "about": {
+    "title": "关于妙妙屋",
+    "description": "了解妙妙屋的设计理念和核心功能",
+    "intro": {
+      "name": "妙妙屋 (MiaoMiaoWu)",
+      "text1": "妙妙屋是一个专为自建代理服务设计的用户管理系统。它提供了完整的节点管理、订阅生成、用户管理和流量统计功能，让您能够轻松管理自己的代理服务。",
+      "text2": "同时，妙妙屋也支持接管外部订阅，实现外部订阅节点和自建的统一管理和分发。"
+    },
+    "designPhilosophy": {
+      "heading": "设计理念",
+      "text": "妙妙屋的设计理念是<strong>简单、高效、安全</strong>。我们希望用户能够：",
+      "item1": "通过简洁的界面快速完成节点管理和订阅配置",
+      "item2": "无需复杂的技术背景即可部署和使用",
+      "item3": "享受安全可靠的代理服务管理体验"
+    },
+    "coreFeatures": {
+      "heading": "核心功能",
+      "nodeManagement": {
+        "title": "节点管理",
+        "desc": "支持手动添加和外部订阅导入节点，支持多种协议（VMess、VLESS、Trojan、Shadowsocks 等）"
+      },
+      "subscriptionGeneration": {
+        "title": "订阅生成",
+        "desc": "可视化配置代理组和规则，支持多种模板，生成标准 Clash 格式订阅"
+      },
+      "userManagement": {
+        "title": "用户管理",
+        "desc": "创建和管理用户账户，为不同用户分配不同的订阅配置"
+      },
+      "trafficStats": {
+        "title": "流量统计",
+        "desc": "集成探针系统，无需安装额外组件，监控节点流量使用情况"
+      },
+      "customRules": {
+        "title": "自定义规则",
+        "desc": "支持自定义 DNS 配置、规则列表和规则集提供商"
+      },
+      "chainProxy": {
+        "title": "链式代理",
+        "desc": "支持创建多层代理链路，实现中转加速和隐私保护"
+      }
+    },
+    "techStack": {
+      "heading": "技术栈",
+      "backend": "后端",
+      "frontend": "前端",
+      "goLang": "• Go 语言",
+      "sqlite": "• SQLite 数据库"
+    },
+    "openSource": {
+      "heading": "开源信息",
+      "text": "妙妙屋是一个开源项目，遵循 MIT 许可证。欢迎社区贡献代码和提交问题。",
+      "repo": "GitHub 仓库"
+    }
+  },
+  "chainProxy": {
+    "title": "链式代理",
+    "description": "通过多层代理服务器转发流量",
+    "groupTypes": {
+      "select": "手动选择",
+      "urlTest": "自动选择",
+      "fallback": "自动回退",
+      "loadBalance": "负载均衡"
+    },
+    "whatIs": {
+      "heading": "什么是链式代理",
+      "desc": "链式代理（Chain Proxy）是一种通过多层代理服务器转发流量的技术，可以实现更复杂的网络路由策略。妙妙屋通过 dialer-proxy 技术实现链式代理，允许为节点指定前置节点，实现多级代理转发。",
+      "example": "链式代理是指将多个代理节点串联起来，让流量依次通过多个代理服务器再到达目标网站。例如：",
+      "client": "客户端",
+      "relay": "中转节点",
+      "landing": "落地节点",
+      "target": "目标网站",
+      "techDesc": "在妙妙屋中，这通过 Clash 的 <code>dialer-proxy</code> 属性实现。源节点会将流量先转发到指定的目标节点（前置节点），再由目标节点转发到最终目的地。"
+    },
+    "scenarios": {
+      "heading": "应用场景",
+      "accelerateTitle": "场景一：中转加速",
+      "accelerateDesc": "当落地节点距离用户较远时，可以通过距离用户较近的中转节点来加速连接。例如：国内用户 → 香港中转 → 美国落地节点。",
+      "hideIpTitle": "场景二：隐藏真实IP",
+      "hideIpDesc": "通过多层代理隐藏客户端的真实 IP 地址，增强隐私保护。目标网站只能看到最后一个落地节点的 IP。",
+      "bypassTitle": "场景三：绕过地区限制",
+      "bypassDesc": "某些服务可能对特定 IP 段有限制，通过链式代理可以从不同地区的节点出口，绕过这些限制。",
+      "loadBalanceTitle": "场景四：流量负载分散",
+      "loadBalanceDesc": "将流量分散到多个中转节点，降低单个节点的压力，提高整体稳定性。"
+    },
+    "configMethod": {
+      "heading": "配置方法",
+      "desc": "在妙妙屋中配置链式代理非常简单，只需在节点管理页面操作：",
+      "step1Title": "进入节点管理页面",
+      "step1Desc": "在左侧菜单中点击「节点管理」",
+      "step2Title": "找到目标节点",
+      "step2Desc": "在节点列表中找到需要配置链式代理的节点（落地节点）",
+      "step3Title": "点击链式代理按钮",
+      "step3Desc": "点击节点操作栏中的链式代理图标（两个箭头交换图标）",
+      "step4Title": "选择前置节点",
+      "step4Desc": "在弹出的对话框中选择作为中转的前置节点",
+      "step5Title": "保存配置",
+      "step5Desc": "确认后系统会自动创建一个新的链式代理节点，标签显示为「链式代理」"
+    },
+    "groupConfig": {
+      "heading": "代理组配置",
+      "desc": "在生成订阅时，妙妙屋支持配置专门的链式代理分组：",
+      "landingTitle": "🌄 落地节点",
+      "landingDesc": "用于存放最终的出口节点，这些节点的 IP 会被目标网站看到。",
+      "relayTitle": "🌠 中转节点",
+      "relayDesc": "用于存放中转服务器节点，流量会先经过这些节点再转发到落地节点。",
+      "note": "这种分组方式适合有多个落地节点和多个中转节点的用户，可以灵活组合不同的链路。"
+    },
+    "singleNode": {
+      "heading": "单节点配置",
+      "desc1": "在节点管理页面，点击",
+      "desc2": "按钮支持给落地节点单独指定中转节点，指定后会在节点表创建一个新的链式代理节点。",
+      "demoLanding": "🌄 落地节点",
+      "switchTypeLabel": "切换代理组类型",
+      "closeLabel": "关闭",
+      "relayGroupLabel": "中转代理组",
+      "selectRelayPlaceholder": "选择中转代理组",
+      "currentBinding": "当前绑定",
+      "demoNote": "上方为页面内模拟数据演示，展示「代理组类型切换按钮」中的「中转代理组」下拉菜单（非图片）。实际使用时，该配置会写入 dialer-proxy-group 字段。"
+    },
+    "techPrinciple": {
+      "heading": "技术原理",
+      "desc": "链式代理的实现基于 Clash 的 dialer-proxy 特性：",
+      "explanation": "<code>dialer-proxy</code> 属性指定了前置代理节点的名称，Clash 会先连接到前置节点，再通过前置节点连接到目标节点。"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "latencyTitle": "延迟叠加",
+      "latencyDesc": "：链式代理会增加网络延迟，因为流量需要经过多个节点",
+      "stabilityTitle": "节点稳定性",
+      "stabilityDesc": "：链路中任何一个节点故障都会导致整个链路不可用",
+      "bandwidthTitle": "带宽限制",
+      "bandwidthDesc": "：最终速度受限于链路中最慢的节点",
+      "loopTitle": "避免循环",
+      "loopDesc": "：确保链式配置不会形成循环引用",
+      "protocolTitle": "协议兼容",
+      "protocolDesc": "：确保链路中的节点协议相互兼容"
+    }
+  },
+  "clientSetup": {
+    "title": "客户端配置",
+    "description": "在各平台客户端中导入和使用订阅链接",
+    "tip": "建议使用支持 Clash 格式的客户端以获得最佳兼容性",
+    "generalSteps": {
+      "heading": "通用导入步骤",
+      "step1": "在妙妙屋中获取订阅链接",
+      "step2": "复制订阅链接",
+      "step3": "打开客户端",
+      "step4": "找到订阅/配置管理页面",
+      "step5": "粘贴订阅链接",
+      "step6": "更新/下载订阅",
+      "step7": "选择节点并连接"
+    },
+    "clients": {
+      "heading": "各客户端详细步骤",
+      "clashVerge": {
+        "step1": "打开 Clash Verge",
+        "step2": "点击左侧「订阅」菜单",
+        "step3": "点击「新建」按钮",
+        "step4": "粘贴订阅链接并保存",
+        "step5": "点击刷新按钮更新订阅"
+      },
+      "clashMeta": {
+        "step1": "打开 Clash Meta for Android",
+        "step2": "点击「配置」标签",
+        "step3": "点击「+」按钮添加配置",
+        "step4": "选择「URL」类型，粘贴订阅链接",
+        "step5": "保存并选择该配置"
+      },
+      "shadowrocket": {
+        "step1": "打开 Shadowrocket",
+        "step2": "点击右上角「+」按钮",
+        "step3": "选择类型为「Subscribe」",
+        "step4": "粘贴订阅链接",
+        "step5": "点击完成并更新订阅"
+      }
+    }
+  },
+  "customRules": {
+    "title": "自定义规则",
+    "description": "创建和管理自定义分流规则（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "自定义规则允许管理员创建自己的 DNS 配置、规则列表和规则集提供商，用于在生成订阅时覆盖或补充模板中的默认规则。",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "createTitle": "创建规则",
+      "createDesc": "创建新的自定义规则配置",
+      "editTitle": "编辑规则",
+      "editDesc": "修改已有的规则配置内容",
+      "deleteTitle": "删除规则",
+      "deleteDesc": "移除不再需要的规则配置",
+      "viewTitle": "查看规则",
+      "viewDesc": "查看规则的详细配置内容",
+      "behaviorTitle": "规则行为",
+      "behaviorDesc": "支持 domain、ipcidr、classical 三种规则行为"
+    },
+    "ruleTypes": {
+      "heading": "规则类型",
+      "desc": "妙妙屋支持以下类型的自定义规则：",
+      "rulesLabel": "rules",
+      "rulesDesc": "直接定义分流规则，如 DOMAIN-SUFFIX、IP-CIDR 等",
+      "ruleProvidersLabel": "rule-providers",
+      "ruleProvidersDesc": "使用外部规则集提供商，支持 URL 和文件两种来源",
+      "dnsDesc": "自定义 DNS 服务器配置，如 nameserver、fallback 等"
+    },
+    "createSteps": {
+      "heading": "创建步骤",
+      "step1Title": "进入自定义规则页面",
+      "step1Desc": "在左侧菜单中点击「自定义规则」",
+      "step2Title": "填写规则信息",
+      "step3Title": "编写规则内容",
+      "step3Desc": "在编辑器中编写规则配置内容",
+      "step4Title": "保存规则",
+      "step4Desc": "点击保存按钮完成规则创建",
+      "ruleNameLabel": "规则名称",
+      "ruleNameDesc": "设置规则的显示名称",
+      "ruleTypeLabel": "规则类型",
+      "ruleTypeDesc": "选择规则类型（rules / rule-providers / DNS）",
+      "ruleBehaviorLabel": "规则行为",
+      "ruleBehaviorDesc": "选择规则行为（domain / ipcidr / classical）"
+    },
+    "referenceInSub": {
+      "heading": "在订阅中引用",
+      "desc": "创建的自定义规则可以在生成订阅时被引用，覆盖或补充模板中的默认规则。",
+      "exampleTitle": "引用示例",
+      "priorityTitle": "优先级",
+      "priorityDesc": "自定义规则的优先级高于模板中的默认规则"
+    },
+    "scenarios": {
+      "heading": "典型场景",
+      "directTitle": "直连规则：添加需要直连的域名或 IP",
+      "streamingTitle": "流媒体分流：为特定流媒体服务创建分流规则",
+      "adBlockTitle": "广告拦截：添加广告域名的拦截规则",
+      "lanTitle": "局域网规则：配置局域网地址的直连规则"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "formatTitle": "规则格式",
+      "formatDesc": "：请确保规则格式正确，错误的格式可能导致订阅无法正常使用",
+      "groupExistTitle": "代理组存在",
+      "groupExistDesc": "：rules 类型引用的代理组名称必须在订阅配置中存在"
+    },
+    "maintenance": {
+      "heading": "规则维护",
+      "checkTitle": "定期检查",
+      "checkDesc": "定期检查规则是否仍然有效和必要",
+      "feedbackTitle": "用户反馈",
+      "feedbackDesc": "根据用户反馈调整和优化规则"
+    }
+  },
+  "editNodes": {
+    "title": "节点与代理组编辑",
+    "description": "管理订阅中的节点分配和代理组配置（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "节点与代理组编辑功能允许管理员为已生成的订阅添加或移除节点，并配置代理组的类型和排序。",
+    "availableNodes": "可用节点",
+    "clickToEditName": "点击编辑名称",
+    "enterNewName": "输入新名称",
+    "nodesCount": "节点数量",
+    "dragNodesHere": "拖动节点到这里",
+    "addToAllGroups": "添加到所有组",
+    "removeFromAllGroups": "从所有组移除",
+    "switchGroupType": "切换代理组类型",
+    "proxyTypes": {
+      "select": "手动选择",
+      "urlTest": "自动选择",
+      "fallback": "自动回退",
+      "loadBalance": "负载均衡"
+    },
+    "demo": {
+      "heading": "操作演示",
+      "filterPlaceholder": "搜索节点...",
+      "noNodes": "暂无节点",
+      "addGroup": "添加代理组",
+      "resetData": "重置数据",
+      "dragHint": "拖动节点到左侧代理组",
+      "settingsHint": "点击齿轮图标配置代理组"
+    },
+    "dialog": {
+      "title": "添加代理组",
+      "description": "创建新的代理组",
+      "namePlaceholder": "输入代理组名称",
+      "quickSelect": "快速选择",
+      "save": "保存",
+      "cancel": "取消"
+    },
+    "dragOps": {
+      "heading": "拖拽操作说明",
+      "iconCol": "图标",
+      "actionCol": "操作",
+      "descCol": "说明",
+      "dragNode": "拖动节点",
+      "dragNodeDesc": "将右侧节点拖入左侧代理组",
+      "dragToAdd": "拖入添加",
+      "dragToAddDesc": "将节点拖入代理组卡片即可添加",
+      "dragToRemove": "拖出移除",
+      "dragToRemoveDesc": "将节点从代理组中拖出即可移除",
+      "dragCard": "拖动卡片",
+      "dragCardDesc": "拖动代理组卡片可调整顺序",
+      "clickTitle": "点击标题",
+      "clickTitleDesc": "点击代理组标题可重命名",
+      "clickSettings": "点击设置",
+      "clickSettingsDesc": "点击齿轮图标可配置代理组类型",
+      "dragTitle": "拖拽排序",
+      "dragTitleDesc": "拖动节点可调整在代理组中的顺序",
+      "dragAvailTitle": "拖拽可用节点",
+      "dragAvailTitleDesc": "从右侧可用节点列表拖入左侧代理组"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "saveTitle": "及时保存",
+      "saveDesc": "编辑完成后请及时保存，未保存的更改会丢失",
+      "insertTitle": "节点顺序",
+      "insertDesc": "节点在代理组中的顺序会影响客户端显示",
+      "providerTitle": "代理集合",
+      "providerDesc": "代理集合（紫色边框）和普通节点可以共存于同一代理组",
+      "selfRefTitle": "避免自引用",
+      "selfRefDesc": "代理组不能引用自身，否则会导致循环引用"
+    },
+    "recentUpdates": {
+      "heading": "近期更新",
+      "columnTitle": "分列显示",
+      "column1": "支持 2-6 列切换",
+      "column2": "记忆上次选择的列数",
+      "column3": "适配不同屏幕宽度"
+    },
+    "scenarios": {
+      "heading": "相关功能",
+      "generatorLink": "生成订阅",
+      "generatorDesc": "在生成订阅页面创建和管理订阅配置",
+      "subscribeLink": "订阅管理",
+      "subscribeDesc": "在订阅管理页面查看和管理订阅文件"
+    }
+  },
+  "externalSubscriptions": {
+    "title": "外部订阅",
+    "description": "导入和管理外部订阅链接（管理员功能）",
+    "adminBadge": "管理员功能",
+    "intro": "外部订阅功能允许管理员导入第三方订阅链接，将外部节点纳入妙妙屋的统一管理体系。",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "addSub": "添加外部订阅链接",
+      "syncNodes": "同步外部订阅中的节点",
+      "viewTraffic": "查看外部订阅的流量信息",
+      "deleteSub": "删除外部订阅"
+    },
+    "addSteps": {
+      "heading": "添加步骤",
+      "step1": {
+        "title": "进入外部订阅页面",
+        "desc": "在左侧菜单中点击「外部订阅」"
+      },
+      "step2": {
+        "title": "点击添加按钮",
+        "desc": "点击页面上的「添加订阅」按钮"
+      },
+      "step2b": {
+        "title": "填写订阅信息",
+        "desc": "输入订阅名称和订阅链接地址"
+      },
+      "step3": {
+        "title": "选择 User-Agent（可选）",
+        "desc": "某些订阅源需要特定的 User-Agent 才能正确返回节点"
+      },
+      "step4": {
+        "title": "保存并同步",
+        "desc": "保存后系统会自动同步订阅中的节点"
+      }
+    },
+    "syncMechanism": {
+      "heading": "同步机制",
+      "manual": {
+        "title": "手动同步",
+        "desc": "点击订阅卡片上的刷新按钮手动触发同步"
+      },
+      "force": {
+        "title": "强制同步",
+        "desc": "在系统设置中开启后，每次用户获取订阅时自动同步外部订阅"
+      }
+    },
+    "trafficInfo": {
+      "heading": "流量信息",
+      "desc": "部分订阅源会在响应头中返回流量使用信息：",
+      "upload": {
+        "title": "上传流量",
+        "desc": "已使用的上传流量"
+      },
+      "download": {
+        "title": "下载流量",
+        "desc": "已使用的下载流量"
+      },
+      "total": {
+        "title": "总流量",
+        "desc": "订阅的总流量配额"
+      },
+      "expiry": {
+        "title": "到期时间",
+        "desc": "订阅的到期时间"
+      }
+    },
+    "notes": {
+      "heading": "注意事项",
+      "linkPrivacy": "订阅链接包含敏感信息，请妥善保管",
+      "userAgent": "某些订阅源对 User-Agent 有要求，请按需设置",
+      "trafficNote": "流量信息取决于订阅源是否在响应头中返回相关数据",
+      "deleteNote": "删除外部订阅会同时删除已同步的节点"
+    },
+    "relations": {
+      "heading": "功能关联",
+      "toNodes": {
+        "title": "外部订阅 → 节点管理",
+        "desc": "同步的节点会出现在节点管理列表中"
+      },
+      "toGenerator": {
+        "title": "外部订阅 → 生成订阅",
+        "descPrefix": "同步的节点可以在",
+        "link": "生成订阅",
+        "descSuffix": "中使用"
+      },
+      "toProxyProviders": {
+        "title": "外部订阅 → 代理集合",
+        "descPrefix": "可以通过",
+        "link": "代理集合",
+        "descSuffix": "按地域或协议自动分组"
+      },
+      "toTraffic": {
+        "title": "外部订阅 → 流量信息",
+        "desc": "开启同步流量后，外部订阅的流量信息会合并到用户的流量统计中"
+      }
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "description": "妙妙屋使用中的常见问题及解答",
+    "items": {
+      "addNodes": {
+        "q": "如何添加节点？",
+        "a": "可以通过两种方式添加节点：1. 手动添加：在节点管理页面点击添加按钮，填写节点信息；2. 外部订阅：在外部订阅页面添加订阅链接，系统自动同步节点。"
+      },
+      "importFailed": {
+        "q": "订阅导入失败怎么办？",
+        "a": "请检查订阅链接是否正确、网络是否通畅。某些订阅源可能需要设置特定的 User-Agent。如果仍然失败，可以尝试手动添加节点。"
+      },
+      "subNotShowing": {
+        "q": "用户看不到订阅怎么办？",
+        "a": "管理员需要在「用户管理」中为用户分配订阅。用户至少需要分配一个订阅才能在「订阅链接」页面看到订阅。"
+      },
+      "forgotAdminPwd": {
+        "q": "忘记管理员密码怎么办？",
+        "a": "可以通过重启服务时添加 --reset-admin 参数来重置管理员密码为默认值。"
+      },
+      "supportedFormats": {
+        "q": "支持哪些订阅格式？",
+        "a": "妙妙屋支持 Clash/Meta 格式的订阅输出，并通过内置的 SubStore 支持转换为 12 种客户端格式。"
+      },
+      "updateNodes": {
+        "q": "如何更新外部订阅的节点？",
+        "a": "在外部订阅页面点击刷新按钮即可手动同步。也可以在系统设置中开启自动同步功能。"
+      },
+      "customRules": {
+        "q": "如何使用自定义规则？",
+        "a": "在「自定义规则」页面创建规则，然后在「生成订阅」或「订阅管理」中编辑配置时应用自定义规则。"
+      },
+      "trafficStats": {
+        "q": "流量统计不准确怎么办？",
+        "a": "请确认探针服务器已正确配置，并且节点已绑定对应的探针。如果使用外部订阅，需要在系统设置中开启流量信息同步。"
+      },
+      "chainProxy": {
+        "q": "如何配置链式代理？",
+        "a": "在节点管理页面点击节点的链式代理按钮，选择前置节点即可。详细操作请参考链式代理文档。"
+      },
+      "backup": {
+        "q": "如何备份数据？",
+        "a": "妙妙屋使用 SQLite 数据库，只需备份数据目录即可。Docker 用户备份挂载的卷目录，脚本安装用户备份 /etc/mmw 目录。"
+      }
+    },
+    "help": {
+      "heading": "需要更多帮助？",
+      "desc": "如果上述问题都没有解决你的疑问，可以通过以下方式获取帮助：",
+      "issues": "GitHub Issues",
+      "goToIssues": "前往 Issues",
+      "reportBug": "提交 Bug",
+      "reportBugDesc": "如果你发现了 Bug，请在 GitHub 上提交 Issue",
+      "submitBug": "提交 Bug 报告"
+    }
+  },
+  "features": {
+    "title": "功能特性",
+    "description": "妙妙屋的核心功能和特性一览",
+    "nodeManagement": {
+      "heading": "节点管理",
+      "protocols": "支持 VMess、VLESS、Trojan、Shadowsocks 等多种协议",
+      "manualAdd": "手动添加节点",
+      "subImport": "外部订阅导入",
+      "chainProxy": "链式代理配置",
+      "dnsResolve": "DNS 解析 IP",
+      "probeBind": "探针绑定",
+      "functionsHeading": "节点功能"
+    },
+    "subGenerator": {
+      "heading": "订阅生成器",
+      "visualConfig": "可视化配置代理组和规则",
+      "builtinTemplates": "内置多种配置模板",
+      "chainProxyGroup": "支持链式代理分组",
+      "versionControl": "订阅版本管理"
+    },
+    "userManagement": {
+      "heading": "用户管理",
+      "createUser": "创建和管理用户账户",
+      "assignSub": "为用户分配订阅",
+      "resetPwd": "重置用户密码",
+      "statusMgmt": "用户状态管理（启用/停用）"
+    },
+    "trafficStats": {
+      "heading": "流量统计",
+      "desc": "集成探针系统，监控节点流量",
+      "multiProbe": "支持多个探针服务器",
+      "nodeLevel": "节点级别流量统计",
+      "flexConfig": "灵活的探针配置"
+    },
+    "customRules": {
+      "heading": "自定义规则",
+      "dns": "自定义 DNS 配置",
+      "ruleList": "自定义规则列表",
+      "ruleProvider": "规则集提供商"
+    },
+    "chainProxy": {
+      "heading": "链式代理",
+      "diagram": "客户端 → 中转节点 → 落地节点 → 目标",
+      "relay": "中转加速",
+      "privacy": "隐私保护",
+      "flexCombo": "灵活的链路组合",
+      "desc": "通过多层代理实现中转加速和隐私保护"
+    },
+    "externalSync": {
+      "heading": "外部订阅同步",
+      "autoSync": "自动同步外部订阅节点",
+      "matchRules": "多种节点匹配规则",
+      "cache": "缓存机制优化性能"
+    },
+    "multiClient": {
+      "heading": "多客户端支持",
+      "desc": "支持 12 种客户端格式自动转换"
+    },
+    "overrideScripts": {
+      "heading": "覆写脚本",
+      "jsScript": "JavaScript 覆写脚本",
+      "hooks": "支持 post_fetch 和 pre_save_nodes 钩子",
+      "orderControl": "脚本执行顺序控制",
+      "toggle": "脚本启用/禁用切换"
+    },
+    "security": {
+      "heading": "安全功能",
+      "twoFa": {
+        "title": "双因素认证 (2FA)",
+        "totp": "TOTP 动态验证码",
+        "recovery": "恢复代码备份"
+      },
+      "silentMode": {
+        "title": "静默模式",
+        "panelHide": "面板自动隐藏",
+        "tempWindow": "临时访问窗口",
+        "configTimeout": "可配置超时时间"
+      }
+    },
+    "telegram": {
+      "heading": "Telegram 通知",
+      "multiEvent": "多种事件通知",
+      "dailyReport": "每日流量报告",
+      "expiryReminder": "订阅到期提醒",
+      "toggle": "通知开关控制"
+    },
+    "opsTools": {
+      "heading": "运维工具",
+      "tcpPing": {
+        "speedTest": "节点测速",
+        "timeout": "超时检测"
+      },
+      "backup": {
+        "title": "数据备份",
+        "fullBackup": "全量数据备份",
+        "oneClickRestore": "一键恢复"
+      },
+      "debugLog": {
+        "title": "调试日志",
+        "tempEnable": "临时开启调试",
+        "download": "日志下载"
+      }
+    }
+  },
+  "generator": {
+    "title": "生成订阅",
+    "description": "创建和管理订阅配置文件（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "生成订阅是管理员的核心功能之一，用于创建标准的 Clash 格式订阅配置文件。",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "createNewTitle": "创建新订阅",
+      "createNewDesc": "从头开始创建新的订阅配置",
+      "builtinTemplateTitle": "内置模板",
+      "builtinTemplateDesc": "使用预置的配置模板快速生成订阅",
+      "proxyGroupTitle": "代理组配置",
+      "proxyGroupDesc": "自定义代理组的类型、节点分配和排序",
+      "chainProxyTitle": "链式代理",
+      "chainProxyDesc": "配置中转节点和落地节点的链式代理",
+      "sublinkTitle": "订阅链接",
+      "sublinkDesc": "生成并管理订阅链接地址"
+    },
+    "steps": {
+      "heading": "创建步骤",
+      "step1Title": "选择节点",
+      "step1Desc": "从节点列表中选择需要包含在订阅中的节点",
+      "step2Title": "选择模板",
+      "step2Desc": "选择内置模板或自定义模板作为基础配置",
+      "step3Title": "配置代理组",
+      "step3UseTemplateTitle": "使用模板",
+      "step3UseTemplateDesc": "点击加载按钮加载模板配置",
+      "step3CustomRulesTitle": "自定义规则",
+      "step3CustomRulesDesc": "可选：应用自定义规则覆盖模板规则",
+      "step4Title": "保存订阅",
+      "step4DescPrefix": "输入订阅名称并保存，保存后可在",
+      "step4LinkText": "订阅管理",
+      "step4DescSuffix": "中查看",
+      "step5Title": "分配用户",
+      "step5Desc": "在用户管理中为用户分配该订阅"
+    },
+    "subscriptionType": {
+      "heading": "订阅类型",
+      "clashFormat": "Clash 格式",
+      "clashDesc": "妙妙屋生成标准的 Clash/Meta 格式订阅配置",
+      "supportedClients": "支持的客户端",
+      "clientList": "Clash Verge、Clash Meta、Stash、Shadowrocket 等 12 种客户端",
+      "configFeatures": "配置特性",
+      "feature1": "完整的代理组和规则配置",
+      "feature2": "支持自定义 DNS 和规则集",
+      "feature3": "自动填充节点信息"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "formatTitle": "配置格式",
+      "formatDesc": "：生成的订阅为标准 Clash YAML 格式",
+      "assignTitle": "用户分配",
+      "assignDesc": "：生成订阅后需要在用户管理中为用户分配才能使用",
+      "deleteTitle": "删除影响",
+      "deleteDesc": "：删除订阅会同时删除所有版本和用户分配关系",
+      "nodeUpdateTitle": "节点更新",
+      "nodeUpdateDesc": "：节点信息变更后会自动同步到已生成的订阅中"
+    },
+    "bestPractices": {
+      "heading": "最佳实践",
+      "namingTitle": "规范命名",
+      "namingDesc": "使用清晰的命名，如「主力订阅」、「备用订阅」",
+      "descriptionTitle": "添加描述",
+      "descriptionDesc": "为订阅添加描述，方便识别和管理",
+      "scenarioTitle": "场景分类",
+      "scenarioDesc": "根据使用场景创建不同的订阅配置",
+      "testTitle": "测试验证",
+      "testDesc": "生成后先在客户端测试，确认节点和规则正常",
+      "autoUpdateTitle": "定期更新",
+      "autoUpdateDesc": "节点变更后及时更新订阅配置"
+    }
+  },
+  "importSubscription": {
+    "title": "导入订阅",
+    "description": "从外部导入 Clash 格式的订阅配置",
+    "formatSupport": {
+      "heading": "支持的格式",
+      "clashFormat": {
+        "title": "Clash 格式",
+        "desc": "直接导入标准 Clash YAML 格式的订阅配置文件"
+      }
+    },
+    "formatConversion": {
+      "heading": "格式转换",
+      "desc": "妙妙屋通过内置 SubStore 支持多种订阅格式的自动转换",
+      "protocols": {
+        "title": "支持的协议"
+      },
+      "usage": {
+        "title": "使用方式",
+        "desc": "在订阅链接页面复制时选择对应的客户端格式即可自动转换"
+      }
+    },
+    "supportedClients": {
+      "heading": "支持的客户端",
+      "tip": "点击「复制」按钮时可选择不同的客户端格式"
+    }
+  },
+  "index": {
+    "hero": {
+      "title": "妙妙屋文档",
+      "subtitle": "代理订阅管理系统使用指南",
+      "quickStart": "快速开始"
+    },
+    "cards": {
+      "intro": {
+        "title": "系统介绍",
+        "desc": "了解妙妙屋的设计理念、核心功能和技术架构",
+        "action": "了解更多"
+      },
+      "install": {
+        "title": "安装部署",
+        "desc": "通过 Docker 或直接安装快速部署妙妙屋",
+        "action": "开始安装"
+      },
+      "nodes": {
+        "title": "节点管理",
+        "desc": "添加、导入和管理代理节点"
+      },
+      "subscription": {
+        "title": "订阅配置",
+        "desc": "生成和管理订阅文件"
+      },
+      "users": {
+        "title": "用户管理",
+        "desc": "管理用户账户和订阅分配"
+      },
+      "settings": {
+        "title": "系统设置",
+        "desc": "配置系统级功能和参数"
+      },
+      "learnMore": "了解更多"
+    },
+    "highlights": {
+      "heading": "核心亮点",
+      "externalSub": {
+        "title": "外部订阅",
+        "desc": "导入第三方订阅，统一管理"
+      },
+      "templates": {
+        "title": "模板系统",
+        "desc": "多种模板快速生成订阅"
+      },
+      "chainProxy": {
+        "title": "链式代理",
+        "desc": "多层代理中转加速"
+      },
+      "trafficStats": {
+        "title": "流量统计",
+        "desc": "精确的流量使用统计"
+      },
+      "customRules": {
+        "title": "自定义规则",
+        "desc": "灵活的分流规则配置"
+      },
+      "multiClient": {
+        "title": "多客户端",
+        "desc": "12 种客户端格式支持"
+      }
+    },
+    "quickLinks": {
+      "heading": "快速链接",
+      "quickStart": "快速开始",
+      "dockerInstall": "Docker 安装",
+      "nodeManagement": "节点管理",
+      "generateSub": "生成订阅",
+      "chainProxy": "链式代理",
+      "faq": "常见问题"
+    }
+  },
+  "installDirect": {
+    "title": "直接安装",
+    "description": "在服务器上直接安装妙妙屋",
+    "notice": {
+      "heading": "安装须知",
+      "versionNote": "建议使用最新版本的系统和依赖环境"
+    },
+    "prerequisites": {
+      "heading": "环境要求",
+      "desc": "源码编译安装需要以下环境：",
+      "go": "Go 1.21+",
+      "node": "Node.js 18+",
+      "git": "Git"
+    },
+    "simple": {
+      "heading": "简易安装",
+      "desc": "使用简易安装脚本快速部署：",
+      "note": "简易安装会下载预编译的二进制文件，无需编译环境。"
+    },
+    "oneClick": {
+      "heading": "一键安装脚本",
+      "desc": "使用一键安装脚本自动完成安装和配置：",
+      "autoOps": "脚本自动完成的操作",
+      "op1": "下载最新版本的预编译二进制",
+      "op2": "创建必要的目录和配置文件",
+      "op3": "配置 systemd 服务",
+      "op4": "启动妙妙屋服务",
+      "updateHeading": "版本更新",
+      "versionUpdate": "使用脚本更新到最新版本：",
+      "moreUpdate": "更多更新方式请参考更新文档",
+      "uninstallHeading": "卸载"
+    },
+    "binary": {
+      "heading": "手动下载安装",
+      "desc": "从 GitHub Releases 下载预编译的二进制文件：",
+      "goToReleases": "前往 Releases 页面",
+      "platforms": "支持的平台",
+      "step1": "下载对应平台的二进制文件",
+      "step2": "解压并赋予执行权限"
+    },
+    "source": {
+      "heading": "源码编译安装",
+      "step1": "克隆仓库",
+      "step2": "编译前端",
+      "step3": "编译后端",
+      "step4": "运行"
+    },
+    "systemd": {
+      "heading": "配置 systemd 服务",
+      "desc": "创建 systemd 服务文件实现开机自启：",
+      "step1": "创建服务文件",
+      "step2": "重新加载 systemd",
+      "step3": "启动服务",
+      "step4": "设置开机自启",
+      "step5": "检查服务状态",
+      "commonCmds": "常用命令",
+      "cmdRestart": "重启服务",
+      "cmdStop": "停止服务",
+      "cmdLogs": "查看日志"
+    },
+    "windows": {
+      "heading": "Windows 安装",
+      "desc": "Windows 用户可以直接运行可执行文件：",
+      "step1": {
+        "title": "下载",
+        "download": "下载 Windows 版本",
+        "desc": "从 Releases 页面下载 windows-amd64.zip"
+      },
+      "step2": {
+        "title": "解压",
+        "desc": "解压到任意目录"
+      },
+      "step3": {
+        "title": "运行",
+        "desc": "双击运行 mmw.exe 或在命令行中运行"
+      }
+    },
+    "accessSystem": {
+      "heading": "访问系统",
+      "desc": "安装完成后，在浏览器中访问：",
+      "firstVisit": "首次访问需要设置管理员账户"
+    }
+  },
+  "installDocker": {
+    "title": "Docker 安装",
+    "description": "使用 Docker 快速部署妙妙屋",
+    "prerequisites": {
+      "heading": "前置要求",
+      "docker": "Docker 19.03+",
+      "dockerCompose": "Docker Compose（可选但推荐）",
+      "memory": "512MB 以上可用内存",
+      "port": "8080 端口未被占用"
+    },
+    "compose": {
+      "heading": "Docker Compose 安装（推荐）",
+      "desc": "使用 Docker Compose 是最推荐的安装方式：",
+      "step1": "创建项目目录",
+      "step2": "创建 docker-compose.yml",
+      "step3": "创建数据目录",
+      "step4": "启动服务"
+    },
+    "dockerRun": {
+      "heading": "Docker Run 安装",
+      "desc": "如果不使用 Docker Compose，可以直接使用 docker run：",
+      "step1": "拉取镜像",
+      "step2": "运行容器",
+      "paramsHeading": "参数说明",
+      "params": {
+        "d": "后台运行",
+        "name": "容器名称",
+        "port": "端口映射",
+        "dataVol": "数据目录挂载",
+        "subVol": "订阅目录挂载",
+        "ruleVol": "规则模板目录挂载",
+        "user": "运行用户"
+      }
+    },
+    "dataDirs": {
+      "heading": "数据目录",
+      "desc": "妙妙屋使用以下数据目录：",
+      "data": "主数据目录（数据库、配置文件）",
+      "subscribes": "订阅文件存储目录",
+      "ruleTemplates": "规则模板存储目录",
+      "important": "请确保数据目录已正确挂载，否则容器重启后数据会丢失"
+    },
+    "envVars": {
+      "heading": "环境变量",
+      "port": "服务监听端口（默认 8080）",
+      "dbPath": "数据库文件路径",
+      "jwtSecret": "JWT 密钥（建议自定义）",
+      "logLevel": "日志级别（debug/info/warn/error）"
+    },
+    "commands": {
+      "heading": "常用命令",
+      "start": "启动服务",
+      "stop": "停止服务",
+      "restart": "重启服务",
+      "logs": "查看日志",
+      "updateImage": "更新镜像",
+      "versionUpdate": "版本更新",
+      "moreUpdate": "更多更新方式请参考更新文档"
+    },
+    "accessSystem": {
+      "heading": "访问系统",
+      "desc": "安装完成后，在浏览器中访问：",
+      "firstVisit": "首次访问需要设置管理员账户"
+    }
+  },
+  "login": {
+    "title": "登录系统",
+    "description": "了解妙妙屋的登录流程和用户权限",
+    "firstVisit": {
+      "heading": "首次访问",
+      "desc": "首次安装后需要创建管理员账户：",
+      "step1": {
+        "title": "访问系统",
+        "desc": "在浏览器中打开妙妙屋地址"
+      },
+      "step2": {
+        "title": "创建管理员",
+        "desc": "首次访问会自动跳转到管理员创建页面"
+      },
+      "step3": {
+        "title": "设置密码",
+        "desc": "设置管理员用户名和密码"
+      }
+    },
+    "loginPage": {
+      "heading": "登录页面",
+      "desc": "输入用户名和密码即可登录系统",
+      "demo": {
+        "appName": "妙妙屋",
+        "loginPrompt": "登录到您的账户",
+        "username": "用户名",
+        "usernamePlaceholder": "请输入用户名",
+        "password": "密码",
+        "passwordPlaceholder": "请输入密码",
+        "loginBtn": "登录"
+      }
+    },
+    "userTypes": {
+      "heading": "用户角色",
+      "admin": {
+        "title": "管理员",
+        "perm1": "管理所有节点和订阅",
+        "perm2": "管理用户账户",
+        "perm3": "配置系统设置",
+        "perm4": "查看所有用户的数据"
+      },
+      "user": {
+        "title": "普通用户",
+        "perm1": "查看分配给自己的订阅",
+        "perm2": "获取订阅链接",
+        "perm3": "查看流量信息",
+        "perm4": "修改个人设置"
+      }
+    },
+    "afterLogin": {
+      "heading": "登录后跳转",
+      "desc": "登录成功后会根据用户角色自动跳转：",
+      "adminRedirect": "管理员 → 节点管理页面",
+      "userRedirect": "普通用户 → 订阅链接页面"
+    },
+    "tokenManagement": {
+      "heading": "Token 管理",
+      "desc": "系统使用 JWT Token 管理登录状态：",
+      "autoSave": "Token 自动保存在 Cookie 中",
+      "autoRefresh": "Token 会自动刷新，无需频繁登录",
+      "logout": "退出登录会清除 Token"
+    },
+    "faq": {
+      "heading": "常见问题",
+      "forgotPassword": {
+        "q": "忘记密码怎么办？",
+        "a": "普通用户请联系管理员重置密码"
+      },
+      "forgotAdminPassword": {
+        "q": "忘记管理员密码怎么办？",
+        "a": "可以通过重启服务时添加 --reset-admin 参数重置管理员密码"
+      },
+      "autoLogout": {
+        "q": "为什么会自动退出登录？",
+        "a": "Token 过期后需要重新登录，可以在系统设置中调整 Token 有效期"
+      }
+    }
+  },
+  "nodeSpeedtest": {
+    "title": "节点测速",
+    "description": "测试节点的延迟和速度",
+    "overview": {
+      "heading": "功能概览",
+      "desc": "节点测速功能允许管理员测试节点的延迟、速度和出口 IP，支持两种测速方式：",
+      "local": {
+        "title": "本地测速",
+        "desc": "在服务器本地使用 mihomo 内核进行测速"
+      },
+      "home": {
+        "title": "家宽测速",
+        "desc": "通过 mmw-agent 在家宽环境下测速"
+      }
+    },
+    "mihomo": {
+      "heading": "mihomo 内核",
+      "dep": "节点测速功能依赖 mihomo 内核",
+      "detectOrder": "系统会按以下顺序自动检测 mihomo：1. 系统 PATH 中查找 2. 可执行文件同级目录",
+      "manual": "如果自动检测失败，可以手动指定 mihomo 路径"
+    },
+    "startTest": {
+      "heading": "开始测速",
+      "stepsHeading": "操作步骤",
+      "step1": "进入节点管理页面",
+      "step2": "选择需要测速的节点",
+      "step3": "点击「测速」按钮",
+      "step4": "等待测速完成",
+      "step5": "查看测速结果",
+      "collapseNote": "测速过程中可以折叠测速面板"
+    },
+    "results": {
+      "heading": "测速结果",
+      "latency": "延迟（ms）：连接建立的响应时间",
+      "speed": "速度（MB/s）：下载速度",
+      "exitIp": "出口 IP：节点的出口 IP 地址和地区"
+    },
+    "homeSetup": {
+      "heading": "家宽测速配置",
+      "stepsHeading": "配置步骤",
+      "step1": "安装 mmw-agent 到家宽机器",
+      "step2": "配置 agent 连接到妙妙屋服务器",
+      "step3": "在妙妙屋中发起家宽测速",
+      "note1": "家宽测速需要安装 mmw-agent",
+      "note2": "agent 需要能访问妙妙屋服务器",
+      "note3": "测速结果更贴近实际使用体验"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "serial": "测速是串行执行的，节点较多时需要等待",
+      "duration": "测速过程大约需要几秒到几十秒",
+      "port": "确保 mihomo 使用的端口未被占用"
+    }
+  },
+  "nodes": {
+    "title": "节点管理",
+    "description": "管理代理节点的添加、编辑和删除（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "节点管理是管理员的核心功能之一，用于管理所有代理节点，包括手动添加和外部订阅导入的节点。",
+    "protocols": {
+      "heading": "支持的协议"
+    },
+    "mainFeatures": {
+      "heading": "主要功能",
+      "addTitle": "手动添加节点",
+      "addDesc": "手动输入节点信息添加到系统",
+      "importTitle": "订阅导入",
+      "importDesc": "从外部订阅链接导入节点",
+      "sortTitle": "节点排序",
+      "sortDesc": "通过拖拽排序或快速排序功能排列节点",
+      "viewConfigTitle": "查看配置",
+      "viewConfigDesc": "查看节点的完整代理配置",
+      "chainProxyTitle": "链式代理",
+      "chainProxyDesc": "为节点配置前置中转节点",
+      "resolveIpTitle": "DNS 解析 IP",
+      "resolveIpDesc": "将节点域名解析为 IP 地址"
+    },
+    "addSteps": {
+      "heading": "添加节点步骤",
+      "step1Title": "进入节点管理",
+      "step1Desc": "在左侧菜单中点击「节点管理」",
+      "step2Title": "点击添加按钮",
+      "step2Desc": "点击页面上的「添加节点」按钮",
+      "step3Title": "填写节点信息",
+      "step3Desc": "选择协议类型并填写服务器地址、端口等信息",
+      "step4Title": "保存节点",
+      "step4Desc": "点击保存按钮完成节点添加"
+    },
+    "filter": {
+      "heading": "节点筛选",
+      "desc": "节点列表支持多种筛选方式：",
+      "all": "全部",
+      "manualInput": "手动添加",
+      "externalSub": "外部订阅",
+      "chainProxy": "链式代理",
+      "customTag": "自定义标签",
+      "byProtocolTitle": "按协议筛选",
+      "byProtocolDesc": "筛选特定协议类型的节点",
+      "byTagTitle": "按标签筛选",
+      "byTagDesc": "筛选带有特定标签的节点"
+    },
+    "nodeActions": {
+      "heading": "节点操作",
+      "desc": "每个节点都支持以下操作：",
+      "iconCol": "图标",
+      "nameCol": "操作",
+      "descCol": "说明",
+      "editName": "编辑名称",
+      "editNameDesc": "修改节点的显示名称",
+      "viewConfig": "查看配置",
+      "viewConfigDesc": "查看节点的完整代理配置信息",
+      "copyUri": "复制 URI",
+      "copyUriDesc": "复制节点的分享链接",
+      "chainProxy": "链式代理",
+      "chainProxyDesc": "为节点配置前置中转节点",
+      "bindProbe": "绑定探针",
+      "bindProbeDesc": "将节点绑定到探针服务器",
+      "addEmoji": "添加表情",
+      "addEmojiDesc": "为节点名称添加国旗或其他表情前缀",
+      "resolveIp": "解析 IP",
+      "resolveIpDesc": "将节点域名解析为 IP 地址",
+      "restoreDomain": "恢复域名",
+      "restoreDomainDesc": "将已解析的 IP 恢复为原始域名",
+      "tempSub": "临时订阅",
+      "tempSubDesc": "为单个节点生成临时订阅链接",
+      "deleteNode": "删除节点",
+      "deleteNodeDesc": "永久删除该节点"
+    },
+    "batchOps": {
+      "heading": "批量操作",
+      "descPrefix": "选中多个节点后可执行批量操作",
+      "descSuffix": "：",
+      "syncTitle": "同步订阅",
+      "syncDesc": "同步外部订阅中的节点信息",
+      "renameTitle": "批量重命名",
+      "renameDesc": "批量修改节点名称",
+      "emojiTitle": "批量表情",
+      "emojiDesc": "批量添加或移除节点名称中的表情",
+      "tagTitle": "批量标签",
+      "tagDesc": "批量为节点添加或移除标签",
+      "removeDupTitle": "去重",
+      "removeDupDesc": "移除重复的节点",
+      "batchDeleteTitle": "批量删除",
+      "batchDeleteDesc": "批量删除选中的节点",
+      "clearAllTitle": "清空节点",
+      "clearAllDesc": "清空所有节点（谨慎使用）",
+      "quickSortTitle": "快速排序",
+      "quickSortDesc": "按名称或协议快速排序节点",
+      "sortMode": "排序模式"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "deleteTitle": "删除不可恢复",
+      "deleteDesc": "：删除节点后无法恢复，请谨慎操作",
+      "subUpdateTitle": "订阅同步",
+      "subUpdateDesc": "：节点信息修改后会自动同步到引用该节点的订阅中",
+      "accuracyTitle": "信息准确",
+      "accuracyDesc": "：请确保节点信息填写正确，否则可能无法正常连接"
+    }
+  },
+  "probe": {
+    "title": "探针管理",
+    "description": "管理探针服务器和节点绑定（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "探针管理用于配置和管理探针服务器，实现节点流量的精确统计。",
+    "howItWorks": {
+      "heading": "工作原理",
+      "desc": "探针系统通过在代理服务器上运行探针程序来统计流量：",
+      "flowTitle": "数据流",
+      "flow1": "探针程序运行在代理服务器上",
+      "flow2": "实时统计经过服务器的流量",
+      "flow3": "定期上报流量数据到妙妙屋",
+      "flow4": "妙妙屋汇总并展示流量统计",
+      "flow5": "用户在流量信息页面查看",
+      "advantagesTitle": "优势",
+      "adv1Title": "无需额外组件",
+      "adv1Desc": "内置探针系统，无需安装第三方监控",
+      "adv2Title": "精确统计",
+      "adv2Desc": "按节点级别精确统计流量",
+      "adv3Title": "实时数据",
+      "adv3Desc": "流量数据实时更新",
+      "adv4Title": "多服务器支持",
+      "adv4Desc": "支持多个探针服务器同时运行"
+    },
+    "mainFeatures": {
+      "heading": "主要功能",
+      "addTitle": "添加探针",
+      "addDesc": "添加新的探针服务器配置",
+      "editTitle": "编辑探针",
+      "editDesc": "修改探针服务器的配置信息",
+      "deleteTitle": "删除探针",
+      "deleteDesc": "移除不再使用的探针服务器",
+      "bindTitle": "节点绑定",
+      "bindDesc": "将节点绑定到特定的探针服务器"
+    },
+    "configSteps": {
+      "heading": "配置步骤",
+      "step1Title": "进入探针管理",
+      "step1Desc": "在左侧菜单中点击「探针管理」",
+      "step2Title": "填写探针信息",
+      "serverTypeLabel": "服务器类型",
+      "serverTypeDesc": "选择探针服务器的类型",
+      "serverAddrLabel": "服务器地址",
+      "serverAddrDesc": "输入探针服务器的地址和端口",
+      "step3Title": "添加探针",
+      "step3Desc": "点击添加按钮完成探针服务器添加",
+      "step4Title": "绑定节点",
+      "step4Desc": "在节点管理页面为节点绑定对应的探针",
+      "step5Title": "查看数据",
+      "step5Desc": "在流量信息页面查看流量统计",
+      "step6Title": "维护管理",
+      "step6Desc": "定期检查探针状态，确保正常运行"
+    },
+    "trafficStats": {
+      "heading": "流量统计",
+      "desc": "绑定探针后，系统会自动统计节点的流量使用情况：",
+      "boundTitle": "已绑定节点",
+      "boundDesc": "只统计绑定了探针的节点流量",
+      "bound1": "流量按节点维度统计",
+      "bound2": "数据实时更新",
+      "unboundTitle": "未绑定节点",
+      "unboundDesc": "未绑定探针的节点不参与流量统计"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "requirementTitle": "前置条件",
+      "requirementDesc": "需要在代理服务器上安装并运行探针程序",
+      "bindingTitle": "绑定关系",
+      "bindingDesc": "一个节点只能绑定一个探针，一个探针可以绑定多个节点",
+      "deleteTitle": "删除影响",
+      "deleteDesc": "删除探针会解除所有节点的绑定关系",
+      "securityTitle": "安全配置",
+      "securityDesc": "探针通信使用密钥认证，确保密钥安全"
+    },
+    "recentUpdates": {
+      "heading": "近期更新",
+      "searchScrollTitle": "搜索与滚动优化",
+      "searchScrollItem1": "绑定探针弹窗新增搜索输入框",
+      "searchScrollItem2": "探针列表支持滚动浏览",
+      "searchScrollItem3": "优化大量探针时的使用体验"
+    }
+  },
+  "proxyProviders": {
+    "title": "代理集合",
+    "description": "管理代理集合（Proxy Provider）配置（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "代理集合（Proxy Provider）允许从外部订阅动态加载节点到代理组，无需手动添加和管理每个节点。",
+    "prerequisiteLabel": "前置条件",
+    "prerequisiteDesc": "需要在系统设置中开启「启用节点集合」功能开关",
+    "requiresSetting": "需要在系统设置中开启",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "createTitle": "创建代理集合",
+      "createDesc": "创建新的 Proxy Provider 配置",
+      "filterTitle": "节点筛选",
+      "filterDesc": "按关键词、地域、协议等筛选节点",
+      "healthTitle": "健康检查",
+      "healthDesc": "自动检测节点可用性",
+      "batchTitle": "批量管理",
+      "batchDesc": "批量创建和管理代理集合",
+      "modesTitle": "处理模式",
+      "modesDesc": "支持妙妙屋处理和客户端处理两种模式"
+    },
+    "createSteps": {
+      "heading": "创建步骤",
+      "step1Title": "进入代理集合页面",
+      "step1Desc": "在左侧菜单中点击",
+      "step1Link": "代理集合",
+      "step1Suffix": "",
+      "step2Title": "点击创建按钮",
+      "step2Desc": "点击「新建代理集合」按钮",
+      "step3Title": "选择处理模式",
+      "step3Desc": "选择妙妙屋处理或客户端处理模式",
+      "step4Title": "配置筛选规则",
+      "step4Desc": "设置节点名称过滤关键词",
+      "step5Title": "设置健康检查",
+      "step5Desc": "配置测速 URL 和检查间隔",
+      "step6Title": "保存配置",
+      "step6Desc": "点击保存完成代理集合创建"
+    },
+    "processingModes": {
+      "heading": "处理模式",
+      "mmwTitle": "妙妙屋处理模式",
+      "mmwDesc": "节点在服务端处理后嵌入订阅文件",
+      "mmwPro": "优点",
+      "mmwCon": "缺点",
+      "mmwPreview": "预览效果",
+      "clientTitle": "客户端处理模式",
+      "clientDesc": "保留 proxy-provider 配置，由客户端直接拉取",
+      "clientPro": "优点",
+      "clientCon": "缺点"
+    },
+    "basicMode": {
+      "heading": "基础模式",
+      "desc": "基础模式提供简单的节点筛选功能",
+      "descSuffix": "：",
+      "byRegionTitle": "按地域筛选",
+      "byRegionDesc": "根据节点名称中的地区关键词筛选",
+      "byProtocolTitle": "按协议筛选",
+      "byProtocolDesc": "根据节点的代理协议类型筛选",
+      "advancedLink": "高级模式"
+    },
+    "advancedMode": {
+      "heading": "高级模式",
+      "desc": "高级模式提供更灵活的筛选和配置选项",
+      "descSuffix": "，详情请参考",
+      "docLink": "代理集合高级文档"
+    },
+    "scenarios": {
+      "heading": "使用场景",
+      "simplifyTitle": "简化节点管理",
+      "simplifyDesc": "将大量节点按地域或协议自动分组，简化代理组配置",
+      "autoUpdateTitle": "自动更新",
+      "autoUpdateDesc": "外部订阅更新后，代理集合自动获取最新节点",
+      "editNodesTitle": "编辑节点",
+      "editNodesDesc1": "在",
+      "editNodesLink": "节点与代理组编辑",
+      "editNodesDesc2": "中可将代理集合拖入代理组"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "settingTitle": "功能开关",
+      "settingDesc": "：需要在系统设置中开启「启用节点集合」",
+      "filterTitle": "筛选规则",
+      "filterDesc": "：筛选使用正则表达式，注意特殊字符转义",
+      "deleteTitle": "删除影响",
+      "deleteDesc": "：删除代理集合不影响已生成的订阅",
+      "compatTitle": "客户端兼容",
+      "compatDesc": "：客户端处理模式需要客户端支持 proxy-provider",
+      "geoipTitle": "GeoIP 数据",
+      "geoipDesc": "：按地域筛选依赖节点名称中的地区关键词"
+    }
+  },
+  "proxyProvidersAdvanced": {
+    "title": "代理集合 - 高级模式",
+    "description": "代理集合的高级配置和使用方式",
+    "whatItDoes": {
+      "heading": "高级模式功能",
+      "autoManageTitle": "自动管理",
+      "autoManageDesc": "根据筛选规则自动管理节点的添加和移除",
+      "multiFilterTitle": "多重筛选",
+      "multiFilterDesc": "支持组合多种筛选条件精确匹配节点",
+      "quickSwitchTitle": "快速切换",
+      "quickSwitchDesc": "在妙妙屋处理和客户端处理模式之间快速切换"
+    },
+    "modeComparison": {
+      "heading": "模式对比",
+      "desc": "两种处理模式各有优劣，选择适合的模式：",
+      "mmwTitle": "妙妙屋处理",
+      "mmwDesc": "节点在服务端处理后嵌入订阅文件，适合大多数场景",
+      "clientTitle": "客户端处理",
+      "clientDesc": "保留 proxy-provider 配置由客户端直接拉取，适合需要实时更新的场景"
+    },
+    "modeSuggestions": {
+      "heading": "模式选择建议",
+      "mmwTitle": "推荐使用妙妙屋处理",
+      "mmw1": "大多数用户的首选",
+      "mmw2": "兼容性更好",
+      "mmw3": "配置更简单",
+      "mmw4": "不暴露原始订阅地址",
+      "clientTitle": "推荐使用客户端处理",
+      "client1": "需要实时更新节点",
+      "client2": "客户端支持 proxy-provider",
+      "client3": "需要客户端直接管理节点",
+      "client4": "节点数量非常大"
+    },
+    "example": {
+      "heading": "配置示例",
+      "step1Title": "创建代理集合",
+      "step1Desc1": "在",
+      "step1Link": "代理集合",
+      "step1Desc2": "页面创建新的配置",
+      "step2Title": "在订阅中使用",
+      "step2Desc1": "在",
+      "step2Link": "节点与代理组编辑",
+      "step2Desc2": "中将代理集合拖入代理组",
+      "step2ImgAlt": "代理集合编辑示例"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "settingTitle": "功能开关",
+      "settingDesc": "：需要在系统设置中开启「启用节点集合」",
+      "filterTitle": "筛选规则",
+      "filterDesc": "：筛选使用正则表达式语法",
+      "perfTitle": "性能影响",
+      "perfDesc": "：客户端处理模式可能增加客户端的内存占用",
+      "compatTitle": "兼容性",
+      "compatDesc": "：并非所有客户端都支持 proxy-provider 功能",
+      "geoipTitle": "地域识别",
+      "geoipDesc": "：按地域筛选依赖节点名称中的地区关键词"
+    }
+  },
+  "quickStart": {
+    "title": "快速开始",
+    "description": "快速上手妙妙屋代理订阅管理系统",
+    "viewDocs": "查看文档",
+    "steps": {
+      "install": "安装部署",
+      "init": "初始化设置",
+      "addNodes": "添加节点",
+      "generateSub": "生成订阅",
+      "assignUsers": "分配用户"
+    },
+    "step1": {
+      "heading": "第一步：安装部署",
+      "desc": "选择适合的安装方式部署妙妙屋：",
+      "dockerInstall": "Docker 安装（推荐）",
+      "directInstall": "直接安装",
+      "or": "或",
+      "moreInfo": "查看详细安装文档"
+    },
+    "step2": {
+      "heading": "第二步：初始化设置",
+      "accessSystem": {
+        "title": "访问系统",
+        "desc": "在浏览器中打开妙妙屋地址"
+      },
+      "initAdmin": {
+        "title": "创建管理员",
+        "desc": "首次访问自动跳转到管理员创建页面"
+      },
+      "login": {
+        "title": "登录系统",
+        "desc": "使用创建的管理员账户登录"
+      }
+    },
+    "step3": {
+      "heading": "第三步：添加节点",
+      "desc": "通过以下方式添加代理节点：",
+      "manual": {
+        "title": "手动添加",
+        "desc": "在节点管理页面手动输入节点信息"
+      },
+      "subImport": {
+        "title": "订阅导入",
+        "desc": "在外部订阅页面导入订阅链接"
+      }
+    },
+    "step4": {
+      "heading": "第四步：生成订阅",
+      "goToPage": {
+        "title": "进入生成订阅页面",
+        "desc": "在左侧菜单中点击「生成订阅」"
+      },
+      "selectTemplate": {
+        "title": "选择模板",
+        "desc": "选择内置模板或自定义模板"
+      },
+      "configGroups": {
+        "title": "配置代理组",
+        "desc": "根据需要调整代理组和节点分配"
+      },
+      "save": {
+        "title": "保存订阅",
+        "desc": "输入名称并保存订阅配置"
+      }
+    },
+    "step5": {
+      "heading": "第五步：分配用户",
+      "createUser": {
+        "title": "创建用户",
+        "desc": "在用户管理页面创建新用户"
+      },
+      "assignSub": {
+        "title": "分配订阅",
+        "desc": "为用户分配订阅配置"
+      },
+      "getLink": {
+        "title": "获取链接",
+        "desc": "用户登录后在订阅链接页面获取订阅"
+      }
+    },
+    "complete": {
+      "heading": "完成！",
+      "desc": "恭喜！您已完成妙妙屋的基本配置。接下来可以探索更多高级功能：",
+      "subLink": "订阅链接管理",
+      "chainProxy": "链式代理配置",
+      "clientSetup": "客户端配置指南"
+    }
+  },
+  "settings": {
+    "title": "用户设置",
+    "description": "管理个人账户信息和偏好设置",
+    "intro": "用户设置页面允许用户管理自己的个人信息，包括修改昵称、邮箱和密码。所有用户都可以访问此页面。",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "nicknameTitle": "修改昵称",
+      "nicknameDesc": "更新显示在系统中的昵称",
+      "emailTitle": "修改邮箱",
+      "emailDesc": "更新账户关联的邮箱地址",
+      "passwordTitle": "修改密码",
+      "passwordDesc": "更改账户登录密码",
+      "twoFaTitle": "双因素认证 (2FA)",
+      "twoFaDesc": "启用 TOTP 验证码增强账户安全",
+      "debugTitle": "调试日志",
+      "debugDesc": "临时开启调试日志排查问题"
+    },
+    "settingsPage": {
+      "heading": "设置页面",
+      "personalInfo": "个人信息",
+      "usernameLabel": "用户名",
+      "usernameNote": "用户名创建后不可修改",
+      "nicknameLabel": "昵称",
+      "nicknamePlaceholder": "请输入昵称",
+      "nicknameDefault": "演示用户",
+      "emailLabel": "邮箱",
+      "emailPlaceholder": "请输入邮箱",
+      "saveInfo": "保存信息",
+      "changePassword": "修改密码",
+      "currentPwdLabel": "当前密码",
+      "currentPwdPlaceholder": "请输入当前密码",
+      "newPwdLabel": "新密码",
+      "newPwdPlaceholder": "请输入新密码",
+      "confirmPwdLabel": "确认新密码",
+      "confirmPwdPlaceholder": "请再次输入新密码",
+      "changePasswordBtn": "修改密码"
+    },
+    "editInfo": {
+      "heading": "修改个人信息",
+      "step1Title": "点击右上角用户头像",
+      "step1Desc": "展开用户菜单",
+      "step2Title": "点击「设置」",
+      "step2Desc": "进入用户设置页面",
+      "step3Title": "修改信息",
+      "step3Desc": "填写需要修改的昵称或邮箱",
+      "step4Title": "保存更改",
+      "step4Desc": "点击「保存信息」按钮完成修改"
+    },
+    "changePwd": {
+      "heading": "修改密码",
+      "step1Title": "输入当前密码",
+      "step1Desc": "验证账户所有权",
+      "step2Title": "输入新密码",
+      "step2Desc": "建议使用包含大小写字母、数字和特殊字符的强密码",
+      "step3Title": "确认新密码",
+      "step3Desc": "再次输入新密码确保一致",
+      "step4Title": "提交修改",
+      "step4Desc": "点击「修改密码」按钮，成功后需要重新登录"
+    },
+    "twoFa": {
+      "heading": "双因素认证 (2FA)",
+      "desc": "双因素认证为账户添加额外的安全层。启用后，登录时除了密码还需要输入动态验证码。",
+      "setupTitle": "设置步骤",
+      "setup1": "1. 在设置页面找到「双因素认证」区域，点击「设置 2FA」",
+      "setup2": "2. 使用认证器 App（Google Authenticator、Microsoft Authenticator 等）扫描二维码",
+      "setup3": "3. 输入 App 显示的 6 位验证码完成绑定",
+      "setup4": "4. 妥善保存恢复代码，用于认证器丢失时恢复账户访问",
+      "recoveryTitle": "恢复代码",
+      "recoveryDesc": "• 启用 2FA 时会生成一次性恢复代码\n• 当手机丢失或无法使用认证器时，可使用恢复代码登录\n• 务必将恢复代码保存在安全的地方，恢复代码仅显示一次"
+    },
+    "debugLog": {
+      "heading": "调试日志",
+      "desc": "调试日志功能用于临时采集详细运行日志，帮助排查订阅获取、节点同步等问题。",
+      "usageTitle": "使用方式",
+      "usage1": "点击「开启调试」后，系统开始记录详细日志",
+      "usage2": "调试模式会在 5 分钟后自动关闭，避免日志文件过大",
+      "usage3": "可随时手动关闭调试模式",
+      "usage4": "支持下载日志文件或实时查看最新日志",
+      "usage5": "日志文件保留 7 天后自动清理"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "usernameTitle": "用户名不可修改：",
+      "usernameDesc": "用户名在创建后无法更改，只能修改昵称",
+      "passwordTitle": "密码要求：",
+      "passwordDesc": "建议密码长度至少8位，包含字母和数字",
+      "afterChangeTitle": "修改密码后：",
+      "afterChangeDesc": "修改密码成功后当前会话会失效，需要重新登录",
+      "forgotTitle": "忘记密码：",
+      "forgotDesc": "如果忘记当前密码，请联系管理员重置",
+      "twoFaTitle": "2FA 恢复代码：",
+      "twoFaDesc": "启用双因素认证后务必保存恢复代码，丢失后需管理员协助"
+    }
+  },
+  "subscribeFiles": {
+    "title": "订阅管理",
+    "description": "管理订阅文件版本和用户分配（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "订阅管理页面是管理员专用功能，用于管理订阅文件的版本、查看订阅详情，以及为用户分配订阅配置。支持多版本管理和用户订阅分配。",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "viewListTitle": "订阅列表查看",
+      "viewListDesc": "：查看所有已创建的订阅文件及其基本信息",
+      "sortTitle": "排序订阅",
+      "sortDesc": "：支持拖拽排序，调整订阅列表的显示顺序",
+      "importTitle": "导入订阅",
+      "importDesc": "：直接导入外部订阅，可以编辑外部订阅的规则",
+      "uploadTitle": "上传文件",
+      "uploadDesc": "：上传本地使用的订阅文件生成订阅链接",
+      "generateTitle": "生成订阅",
+      "generateDesc": "：同生成订阅菜单",
+      "editConfigTitle": "编辑配置",
+      "editConfigDesc": "：直接编辑订阅的配置文件",
+      "applyRulesTitle": "编辑配置 - 应用自定义规则",
+      "applyRulesDesc": "：使用自定义规则覆盖配置文件的规则",
+      "editNodesTitle": "编辑配置 - 编辑节点",
+      "editNodesDesc": "：给已生成的订阅添加或删除节点，详细操作请参考",
+      "editNodesLink": "节点与代理组编辑",
+      "bindV3Title": "绑定 V3 模板",
+      "bindV3Desc": "：将订阅绑定到 V3 模板，订阅配置将完全基于模板生成，新增节点时自动添加到订阅",
+      "tagFilterTitle": "标签筛选",
+      "tagFilterDesc": "：绑定模板后可根据节点标签筛选节点，只有匹配标签的节点才会添加到订阅",
+      "customLinkTitle": "自定义连接 (Beta)",
+      "customLinkDesc": "：为订阅设置自定义短码，替代自动生成的短链接码，使订阅链接更易记忆"
+    },
+    "sorting": {
+      "heading": "订阅排序",
+      "desc": "订阅列表支持拖拽排序，调整订阅列表的显示顺序：",
+      "methodTitle": "操作方法",
+      "methodDescPrefix": "点击列表每行左侧的拖拽图标（",
+      "methodDescSuffix": "），按住并拖动即可改变订阅的顺序。排序结果会自动保存。"
+    },
+    "layout": {
+      "heading": "编辑页面布局",
+      "desc": "采用双列布局，便于拖动节点：",
+      "leftTitle": "左侧 - 代理组",
+      "leftDesc": "显示配置文件里的所有代理组卡片",
+      "rightTitle": "右侧 - 可用节点",
+      "rightDesc": "显示节点表里所有可用节点"
+    },
+    "versionMgmt": {
+      "heading": "版本管理",
+      "desc": "订阅文件支持多版本管理，每次在「生成订阅」中编辑保存订阅配置时，系统会自动创建新版本。",
+      "infoTitle": "版本信息",
+      "versionNumber": "版本号",
+      "versionNumberDesc": "：每个版本都有唯一的版本编号，按创建时间递增",
+      "createTime": "创建时间",
+      "createTimeDesc": "：记录版本的创建时间",
+      "currentVersion": "当前版本",
+      "currentVersionDesc": "：标识用户当前使用的版本",
+      "rollbackTitle": "版本回退 (TODO)",
+      "rollbackDesc": "如果新版本出现问题，可以回退到之前的稳定版本。此功能正在开发中。"
+    },
+    "bindV3": {
+      "heading": "绑定 V3 模板",
+      "desc": "订阅可以绑定 V3 模板，绑定后订阅配置将完全基于模板生成，实现节点自动管理。",
+      "methodTitle": "绑定方式",
+      "methodDesc": "在订阅列表中点击「绑定模板」按钮，选择要绑定的 V3 模板即可。",
+      "effectTitle": "绑定后的效果",
+      "effect1": "订阅配置完全基于模板生成，原有的规则配置将被忽略",
+      "effect2": "新增节点时，如果匹配模板中的 filter 规则，会自动添加到订阅",
+      "effect3": "删除节点时，会自动从订阅中移除",
+      "effect4": "修改模板后，绑定该模板的订阅会自动重新生成"
+    },
+    "tagFilter": {
+      "heading": "标签筛选",
+      "desc": "绑定 V3 模板后，可以根据节点标签进一步筛选节点，只有匹配标签的节点才会添加到订阅。",
+      "usageTitle": "使用方式",
+      "usage1": "在订阅详情中选择要筛选的标签",
+      "usage2": "支持选择多个标签，节点只需匹配其中一个标签即可",
+      "usage3": "不选择标签时，使用模板中的所有节点",
+      "scenarioTitle": "典型场景",
+      "scenarioDesc": "为不同用户分配不同标签的节点，例如：VIP 用户使用「高速」标签的节点，普通用户使用「标准」标签的节点。"
+    },
+    "typicalScenario": {
+      "heading": "典型使用场景",
+      "newNodeTitle": "场景：添加了新节点",
+      "newNodeDesc": "点击编辑节点，在可用节点里把新增的节点拖到左侧代理组中。详细操作请参考",
+      "editNodesLink": "节点与代理组编辑"
+    },
+    "relations": {
+      "heading": "功能关联",
+      "desc": "订阅管理与其他功能模块紧密关联，形成完整的订阅服务流程：",
+      "genToSubTitle": "生成订阅 → 订阅管理",
+      "genToSubDesc": "在「生成订阅」中创建或编辑订阅配置后，可在「订阅管理」中查看版本历史",
+      "subToUserTitle": "订阅管理 → 用户管理",
+      "subToUserDesc": "可以从「用户管理」快速跳转查看特定用户的订阅分配情况",
+      "nodeToSubTitle": "节点管理 → 订阅管理",
+      "nodeToSubDesc": "订阅配置引用「节点管理」中的节点，节点变化会影响订阅内容",
+      "subToLinkTitle": "订阅管理 → 订阅链接",
+      "subToLinkDesc": "用户在「订阅链接」页面看到的订阅，就是管理员分配给他们的"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "nodeModTitle": "节点修改",
+      "nodeModDesc": "：在节点管理对节点编辑后，会自动同步到订阅中",
+      "deleteTitle": "订阅删除",
+      "deleteDesc": "：在「生成订阅」中删除订阅文件会同时删除所有版本和用户分配关系"
+    }
+  },
+  "subscriptionLink": {
+    "title": "订阅链接",
+    "description": "获取和管理您的订阅链接",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "intro": "订阅链接页面提供便捷的订阅管理功能，支持多种客户端格式的订阅链接生成和导入。",
+      "cardDisplayTitle": "订阅卡片展示",
+      "cardDisplayDesc": "：显示管理员分配给您的所有订阅配置，包括订阅名称、描述、更新时间和版本号",
+      "viewLinkTitle": "订阅链接查看",
+      "viewLinkDesc": "：每个订阅卡片都显示完整的订阅链接地址，支持直接复制",
+      "multiClientTitle": "多客户端支持",
+      "multiClientDesc": "：点击「复制」按钮可选择不同的客户端格式（12种客户端）",
+      "importClashTitle": "一键导入 Clash",
+      "importClashDesc": "：点击「导入 Clash」按钮可直接在 Clash 客户端中打开并导入订阅",
+      "qrCodeTitle": "二维码生成",
+      "qrCodeDesc": "：点击订阅图标可显示二维码，方便在移动设备上扫码导入订阅"
+    },
+    "preview": {
+      "heading": "界面预览",
+      "desc": "以下是订阅卡片的示例展示：",
+      "cardTitle": "主订阅配置",
+      "cardDesc": "包含香港、日本、新加坡节点",
+      "version": "版本 v1.0.3",
+      "copy": "复制",
+      "importClash": "导入 Clash",
+      "qrCode": "二维码"
+    },
+    "steps": {
+      "heading": "使用步骤",
+      "step1Title": "选择订阅配置",
+      "step1Desc": "从订阅卡片列表中选择需要使用的订阅配置",
+      "step2Title": "选择导入方式",
+      "step2PcTitle": "PC端",
+      "step2PcDesc": "：点击「复制」按钮，选择对应的客户端格式",
+      "step2MobileTitle": "移动端",
+      "step2MobileDesc": "：点击二维码图标，使用手机客户端扫码导入",
+      "step2ClashTitle": "Clash快捷导入",
+      "step2ClashDesc": "：点击「导入 Clash」按钮直接打开",
+      "step3Title": "在客户端中完成导入",
+      "step3Desc": "根据客户端提示完成订阅导入和配置更新"
+    },
+    "clientFormats": {
+      "heading": "支持的客户端格式",
+      "desc": "订阅链接支持以下12种客户端格式的自动转换："
+    },
+    "notes": {
+      "heading": "注意事项",
+      "note1": "订阅链接包含您的个人认证信息，请勿分享给他人",
+      "note2": "如果订阅列表为空，表示管理员尚未为您分配订阅，请联系管理员",
+      "note3": "客户端转换功能基于 SubStore 实现，如遇到问题请联系开发者或提交 Issue",
+      "note4": "建议定期更新订阅以获取最新的节点配置和规则",
+      "note5": "机场有经常更换域名和IP的情况，可以在系统管理打开强制同步外部订阅"
+    }
+  },
+  "systemRequirements": {
+    "title": "系统要求",
+    "description": "妙妙屋的服务器和客户端要求",
+    "server": {
+      "heading": "服务器要求",
+      "cpu": "1核心以上",
+      "memoryLabel": "内存",
+      "memory": "512MB 以上",
+      "storageLabel": "存储",
+      "storage": "1GB 以上",
+      "networkLabel": "网络",
+      "network": "稳定的互联网连接",
+      "recommended": "<strong>推荐系统：</strong>Linux (Debian 11+)"
+    },
+    "clients": {
+      "heading": "客户端支持"
+    },
+    "browser": {
+      "heading": "浏览器要求",
+      "desc": "妙妙屋管理面板支持所有现代浏览器："
+    }
+  },
+  "systemSettings": {
+    "title": "系统设置",
+    "description": "配置系统级别的全局设置（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "系统设置页面是管理员专用功能，用于配置系统级别的全局设置，包括外部订阅同步、功能开关等核心功能的配置。",
+    "externalSync": {
+      "heading": "外部订阅同步设置",
+      "desc": "配置外部订阅链接的同步行为，控制节点数据的更新策略和缓存机制。",
+      "trafficTitle": "同步外部订阅流量信息",
+      "trafficDesc": "• 开启后：流量信息数据包含外部订阅的流量信息\n• 关闭后：仅统计本地管理的节点流量",
+      "syncTitle": "外部订阅同步设置",
+      "syncDesc": "• 开启后：每次用户获取订阅链接时，系统都会重新从外部订阅源拉取最新节点数据\n• 关闭后：使用缓存的外部订阅数据，不会实时更新\n• 注意：开启会增加订阅接口的响应时间",
+      "matchTitle": "匹配规则",
+      "matchDesc": "当开启外部订阅同步后，可选择节点匹配方式：",
+      "matchNameLabel": "节点名称",
+      "matchNameDesc": "：根据节点名称匹配并更新节点信息，适用于节点名称稳定的订阅源",
+      "matchServerLabel": "服务器:端口",
+      "matchServerDesc": "：根据服务器地址和端口匹配，适用于节点名称经常变更的订阅源",
+      "matchTypeLabel": "类型:服务器:端口",
+      "matchTypeDesc": "：根据协议类型、服务器地址和端口匹配，最严格的匹配方式",
+      "scopeTitle": "同步范围",
+      "scopeDesc": "控制同步哪些节点：",
+      "scopeSavedLabel": "仅同步已保存节点",
+      "scopeSavedDesc": "：只更新数据库中已存在的节点，不添加新节点",
+      "scopeAllLabel": "同步所有节点",
+      "scopeAllDesc": "：同步外部订阅中的所有节点，包括新增节点",
+      "keepNameTitle": "保留当前节点名称",
+      "keepNameDesc": "• 开启后：同步时保留数据库中已有的节点名称，不使用外部订阅的节点名称\n• 关闭后：使用外部订阅中的节点名称覆盖本地名称",
+      "cacheTitle": "缓存过期时间（分钟）",
+      "cacheDesc": "• 设置为 0：每次获取订阅时都重新拉取外部订阅节点（实时更新）\n• 大于 0：只有距离上次同步时间超过设置的分钟数才会重新拉取\n• ⚠️ 警告：设置为 0 会影响获取订阅接口的响应速度",
+      "excludeTitle": "默认排除外部订阅节点",
+      "excludeDesc": "• 作用：同步外部订阅时，自动排除节点名称匹配指定关键词的节点\n• 默认值：剩余|流量|到期|订阅|时间|重置\n• 格式：使用 | 分隔多个关键词，支持正则表达式"
+    },
+    "featureSwitches": {
+      "heading": "功能开关",
+      "desc": "管理系统功能的启用状态，根据需要开启或关闭对应功能。",
+      "probeTitle": "节点探针服务器绑定",
+      "probeOnLabel": "开启后：",
+      "probeOn1": "节点列表显示「探针」按钮",
+      "probeOn2": "可以为每个节点绑定特定的探针服务器",
+      "probeOn3": "流量统计只会汇总绑定了节点的探针服务器流量",
+      "probeOffLabel": "关闭后：",
+      "probeOff1": "探针按钮不显示",
+      "probeOff2": "流量统计会汇总所有探针服务器的流量",
+      "shortLinkTitle": "启用短链接",
+      "shortLinkOnLabel": "开启后：",
+      "shortLinkOn1": "订阅链接页面将显示 6 位字符的短链接",
+      "shortLinkOn2": "短链接格式：https://your-domain.com/s/abc123",
+      "shortLinkOn3": "可在「个人设置」页面重置短链接",
+      "shortLinkOffLabel": "关闭后：",
+      "shortLinkOff1": "仅显示完整的订阅链接",
+      "shortLinkTip": "💡 提示：短链接更便于分享和记忆，且不会暴露用户 ID 信息",
+      "newTemplateTitle": "使用新模板系统",
+      "newTemplateOnLabel": "开启后（推荐）：",
+      "newTemplateOn1": "使用数据库存储的模板",
+      "newTemplateOn2": "支持在网页端管理模板（创建、编辑、删除）",
+      "newTemplateOn3": "模板数据与数据库一起备份",
+      "newTemplateOffLabel": "关闭后：",
+      "newTemplateOff1": "使用 rule_templates 目录下的模板文件",
+      "newTemplateOff2": "需要手动编辑文件来管理模板",
+      "newTemplateOff3": "适用于需要版本控制模板的场景",
+      "proxyProviderTitle": "启用节点集合",
+      "proxyProviderOnLabel": "开启后：",
+      "proxyProviderOn1": "订阅文件页面显示「代理集合」管理功能",
+      "proxyProviderOn2": "可以创建 Proxy Provider 配置",
+      "proxyProviderOn3": "在「节点与代理组编辑」中可将节点集合拖入代理组",
+      "proxyProviderOn4": "节点集合显示为紫色边框以区分普通节点",
+      "proxyProviderOffLabel": "关闭后：",
+      "proxyProviderOff1": "代理集合相关功能不显示",
+      "proxyProviderTip": "💡 提示：节点集合（Proxy Provider）允许从外部订阅动态加载节点，适合管理多个机场的场景",
+      "subInfoTitle": "订阅信息节点",
+      "subInfoOnLabel": "开启后：",
+      "subInfoOn1": "订阅输出时在节点列表顶部添加过期时间和剩余流量信息节点",
+      "subInfoOn2": "客户端节点列表中可直接看到订阅状态信息",
+      "subInfoOn3": "可自定义过期时间前缀和剩余流量前缀",
+      "subInfoOffLabel": "关闭后：",
+      "subInfoOff1": "订阅输出不包含信息节点",
+      "silentTitle": "静默模式",
+      "silentOnLabel": "开启后：",
+      "silentOn1": "所有非订阅接口的请求将返回 404 页面",
+      "silentOn2": "用户获取订阅后会有一个临时访问窗口（可配置超时时间）",
+      "silentOn3": "超时后再次返回 404，直到用户重新获取订阅",
+      "silentOffLabel": "关闭后：",
+      "silentOff1": "正常显示管理面板和所有页面",
+      "silentTimeoutLabel": "超时时间（分钟）：",
+      "silentTimeout1": "默认 15 分钟，用户获取订阅后在此时间内可正常访问管理面板",
+      "silentTimeout2": "超时后自动恢复静默状态",
+      "silentWarning": "⚠ 安全功能：静默模式可有效防止面板被扫描和探测，适合高安全要求的场景",
+      "clientCompatTitle": "客户端兼容模式",
+      "clientCompatOnLabel": "开启后：",
+      "clientCompatOn1": "根据用户请求的客户端类型，自动过滤不兼容的节点",
+      "clientCompatOn2": "确保客户端只收到其支持的协议和传输方式的节点",
+      "clientCompatOffLabel": "关闭后：",
+      "clientCompatOff1": "返回所有节点，不进行兼容性过滤",
+      "responseHeaderTitle": "订阅响应头流量信息",
+      "responseHeaderOnLabel": "开启后：",
+      "responseHeaderOn1": "订阅接口的 HTTP 响应头中携带流量使用信息",
+      "responseHeaderOn2": "支持的客户端（如 Clash、Stash 等）可在 UI 中显示剩余流量和到期时间",
+      "responseHeaderOffLabel": "关闭后：",
+      "responseHeaderOff1": "响应头中不携带流量信息",
+      "overrideScriptTitle": "启用覆写脚本",
+      "overrideScriptOnLabel": "开启后：",
+      "overrideScriptOn1": "启用 JavaScript 覆写脚本功能",
+      "overrideScriptOn2": "脚本在订阅获取时执行，可修改节点配置",
+      "overrideScriptOn3": "支持两个钩子：post_fetch（获取后）和 pre_save_nodes（保存前）",
+      "overrideScriptOn4": "可设置脚本执行顺序和启用/禁用状态",
+      "overrideScriptOffLabel": "关闭后：",
+      "overrideScriptOff1": "不执行任何覆写脚本",
+      "customSubLinkTitle": "自定义订阅连接 (Beta)",
+      "customSubLinkDesc": "管理员可在「订阅文件管理」和「用户管理」页面为订阅和用户设置自定义短码：",
+      "customSubLink1Label": "订阅自定义短码",
+      "customSubLink1Desc": "：替代自动生成的订阅文件短码，仅支持字母和数字",
+      "customSubLink2Label": "用户自定义短码",
+      "customSubLink2Desc": "：替代自动生成的用户短码",
+      "customSubLink3": "自定义短码会用于短链接的生成，使订阅链接更易记忆",
+      "customSubLink4": "短链接格式：https://域名/订阅短码+用户短码"
+    },
+    "notification": {
+      "heading": "通知系统",
+      "desc": "通过 Telegram Bot 接收系统事件通知，需要先配置 Bot Token 和 Chat ID。",
+      "configTitle": "基础配置",
+      "enableLabel": "启用通知",
+      "enableDesc": "：总开关，关闭后不发送任何通知",
+      "tokenLabel": "Telegram Bot Token",
+      "tokenDesc": "：从 @BotFather 获取的 Bot Token",
+      "chatIdLabel": "Telegram Chat ID",
+      "chatIdDesc": "：接收通知的聊天 ID（个人或群组）",
+      "testDesc": "配置完成后可点击「发送测试通知」验证是否正常",
+      "eventsTitle": "事件通知开关",
+      "eventsDesc": "可独立开启或关闭每种事件的通知：",
+      "subFetchLabel": "订阅获取通知",
+      "subFetchDesc": "：用户获取订阅链接时通知",
+      "loginLabel": "用户登录通知",
+      "loginDesc": "：用户登录系统时通知",
+      "ipBanLabel": "IP 封禁通知",
+      "ipBanDesc": "：检测到暴力破解尝试并封禁 IP 时通知",
+      "silentLabel": "静默模式通知",
+      "silentDesc": "：静默模式状态变化时通知",
+      "dailyLabel": "每日流量报告",
+      "dailyDesc": "：每天定时发送流量统计摘要",
+      "expiryLabel": "订阅到期通知",
+      "expiryDesc": "：用户订阅即将到期时通知",
+      "dailyTimeTitle": "每日流量报告时间",
+      "dailyTimeDesc": "• 格式为 HH:MM，如 08:00\n• 系统会在指定时间自动发送前一天的流量统计"
+    },
+    "typicalScenarios": {
+      "heading": "典型使用场景",
+      "s1Title": "场景一：使用外部订阅源",
+      "s1Desc": "管理员导入外部订阅链接作为节点来源 → 开启「外部订阅同步设置」 → 设置合适的缓存时间（如 30 分钟）→ 选择匹配规则 → 用户每次获取订阅时节点信息保持最新。",
+      "s2Title": "场景二：精确流量统计",
+      "s2Desc": "在「探针管理」中添加探针服务器 → 在系统设置中开启「节点探针服务器绑定」 → 为每个节点绑定对应的探针 → 实现按节点精确统计流量使用。",
+      "s3Title": "场景三：简化订阅链接分享",
+      "s3Desc": "开启「启用短链接」 → 用户可以使用 6 位字符的短链接 → 方便分享和记忆 → 需要时可在个人设置中重置短链接。",
+      "s4Title": "场景四：多机场节点管理",
+      "s4Desc": "开启「启用节点集合」 → 创建代理集合按地域分裂节点 → 在代理组中使用节点集合 → 方便切换不同机场的节点。",
+      "s5Title": "场景五：高安全面板部署",
+      "s5Desc": "开启「静默模式」 → 设置超时时间为 15 分钟 → 开启「IP 封禁通知」 → 面板对外仅响应订阅请求，有效防止扫描探测。",
+      "s6Title": "场景六：运维监控通知",
+      "s6Desc": "配置 Telegram Bot → 开启「每日流量报告」和「订阅到期通知」 → 及时了解系统运行状况和用户状态。"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "perfTitle": "性能影响",
+      "perfDesc": "：将缓存时间设置为 0 会显著增加订阅接口的响应时间",
+      "matchTitle": "匹配规则选择",
+      "matchDesc": "：如果外部订阅的节点名称经常变化，建议使用「服务器:端口」匹配",
+      "probeTitle": "探针绑定前提",
+      "probeDesc": "：使用探针功能前需要先在「探针管理」中添加探针服务器",
+      "shortLinkTitle": "短链接安全",
+      "shortLinkDesc": "：重置短链接后，旧的短链接将失效",
+      "templateTitle": "模板系统切换",
+      "templateDesc": "：切换模板系统后，需要确认使用的模板是否正确",
+      "silentTitle": "静默模式",
+      "silentDesc": "：开启后所有非订阅请求返回 404，确保已知道如何通过获取订阅恢复访问",
+      "scriptTitle": "覆写脚本",
+      "scriptDesc": "：脚本在订阅获取时执行，编写错误可能导致订阅输出异常",
+      "immediateTitle": "设置即时生效",
+      "immediateDesc": "：所有设置修改后立即生效，无需重启服务"
+    },
+    "bestPractices": {
+      "heading": "最佳实践",
+      "cacheTitle": "合理设置缓存",
+      "cacheDesc": "：根据节点更新频率设置缓存时间，建议 15-60 分钟",
+      "onDemandTitle": "按需开启功能",
+      "onDemandDesc": "：只开启实际需要的功能，避免不必要的复杂性",
+      "newTemplateTitle": "使用新模板系统",
+      "newTemplateDesc": "：推荐使用数据库模板，便于在网页端管理",
+      "shortLinkTitle": "启用短链接",
+      "shortLinkDesc": "：建议开启短链接功能，提升用户体验",
+      "checkTitle": "定期检查",
+      "checkDesc": "：定期检查外部订阅同步是否正常，探针服务器是否在线"
+    }
+  },
+  "templates": {
+    "title": "模板管理",
+    "description": "管理订阅配置模板，快速生成订阅文件",
+    "adminFeature": "管理员功能",
+    "intro": "模板管理页面是管理员专用功能，用于管理订阅配置模板。通过模板可以快速生成标准化的订阅配置文件。",
+    "systemSwitch": {
+      "heading": "模板系统切换",
+      "desc": "妙妙屋支持两种模板系统，可以在",
+      "settingsLink": "系统设置",
+      "descSuffix": "中通过「使用新模板系统」开关进行切换：",
+      "newTitle": "开启「使用新模板系统」（推荐）",
+      "newDesc": "使用数据库存储的模板，支持在网页端管理模板。模板格式与 subconverter 等转换后端使用的格式一致，可以直接使用 GitHub 上大佬们分享的模板。",
+      "oldTitle": "关闭「使用新模板系统」",
+      "oldDesc": "使用 rule_templates 目录下的模板文件。模板是一个完整的 Clash 配置文件（缺少节点配置），需要手动编辑文件来管理。"
+    },
+    "newTemplate": {
+      "heading": "新模板（数据库模板）模板V2",
+      "desc": "新模板系统使用的模板格式与各种订阅转换后端（如 subconverter、sub-web 等）完全兼容。你可以直接使用 GitHub 上大佬们分享的模板：",
+      "resourceTitle": "推荐模板资源",
+      "formatTitle": "模板格式说明",
+      "formatDesc": "新模板使用 INI 格式，主要包含以下部分：",
+      "formatCustom": "：配置标志",
+      "formatRuleset": "：定义分流规则",
+      "formatProxyGroup": "：定义代理组",
+      "formatRuleGen": "：启用规则生成器",
+      "formatOverwrite": "：覆盖原始规则",
+      "exampleTitle": "点击查看新模板示例（INI 格式）"
+    },
+    "oldTemplate": {
+      "heading": "旧模板（文件模板）- 模板V1",
+      "desc": "旧模板存储在服务器的 rule_templates 目录下，是一个完整的 Clash 配置文件，但缺少节点配置（proxies），节点会在生成订阅时自动填充。",
+      "formatTitle": "模板格式说明",
+      "formatDesc": "旧模板使用 YAML 格式，主要包含以下部分：",
+      "formatPort": "：代理端口配置",
+      "formatDns": "：DNS 配置（nameserver、fake-ip 等）",
+      "formatProxies": "：留空，生成时自动填充",
+      "formatProxyGroups": "：代理组配置",
+      "formatRules": "：分流规则",
+      "formatRuleProviders": "：规则集提供商",
+      "exampleTitle": "点击查看旧模板示例（YAML 格式）"
+    },
+    "mainFeatures": {
+      "heading": "主要功能",
+      "createTitle": "创建模板",
+      "createDesc": "从外部模板 URL 创建新的配置模板（新模板系统）",
+      "editTitle": "编辑模板",
+      "editDesc": "修改模板名称、URL 和其他配置",
+      "deleteTitle": "删除模板",
+      "deleteDesc": "移除不再使用的模板配置",
+      "loadTitle": "加载模板",
+      "loadDesc": "在生成订阅时快速加载模板配置"
+    },
+    "builtIn": {
+      "heading": "内置模板",
+      "desc": "妙妙屋内置了多种常用的配置模板，可以直接使用：",
+      "acl4ssrTitle": "ACL4SSR 系列",
+      "acl4ssrDesc": "基于 ACL4SSR 规则的配置模板，提供多种规则集组合：",
+      "acl4ssrFull": "：全分组完整版",
+      "acl4ssrFullNoAuto": "：完整版无自动测速",
+      "acl4ssrMini": "：精简版",
+      "acl4ssrDefault": "：默认版本",
+      "aethersailorTitle": "Aethersailor 系列",
+      "aethersailorDesc": "Aethersailor 提供的配置模板：",
+      "aethersailorFull": "：完整版规则",
+      "aethersailorLite": "：精简版规则"
+    },
+    "createSteps": {
+      "heading": "创建模板步骤",
+      "newSystemTitle": "新模板系统（数据库模板）",
+      "newStep1": "在「生成订阅」页面点击「新建模板」按钮",
+      "newStep2": "填写模板名称和模板 URL（如 GitHub 上的模板链接）",
+      "newStep3": "根据需要开启「使用代理」选项（如果模板 URL 需要代理访问）",
+      "newStep4": "点击保存完成模板创建",
+      "oldSystemTitle": "旧模板系统（文件模板）",
+      "oldStep1": "在服务器的 rule_templates 目录下创建 YAML 文件",
+      "oldStep2": "按照 Clash 配置格式编写模板内容（保留 proxies 字段为空）",
+      "oldStep3": "刷新页面后即可在「生成订阅」页面看到新模板"
+    },
+    "useTemplate": {
+      "heading": "使用模板",
+      "desc": "在「生成订阅」页面可以使用已创建的模板：",
+      "step1Title": "进入生成订阅页面",
+      "step1Desc": "选择需要包含的节点",
+      "step2Title": "选择模板",
+      "step2Desc": "从下拉菜单中选择要使用的模板",
+      "step3Title": "点击「加载」按钮",
+      "step3Desc": "系统将从模板 URL 加载配置并应用",
+      "step4Title": "调整配置（可选）",
+      "step4Desc": "根据需要调整代理组和节点分配",
+      "step5Title": "保存订阅",
+      "step5Desc": "输入订阅名称并保存"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "formatTitle": "模板格式不同",
+      "formatDesc": "：新模板使用 INI 格式（subconverter 格式），旧模板使用 YAML 格式（Clash 配置），两者不可混用",
+      "urlTitle": "模板 URL",
+      "urlDesc": "：确保模板 URL 可以正常访问，否则加载会失败",
+      "proxyTitle": "代理设置",
+      "proxyDesc": "：如果模板 URL 被墙，需要开启「使用代理」选项",
+      "switchTitle": "切换模板系统",
+      "switchDesc": "：在「系统设置」中切换模板系统后，之前创建的模板仍然保留，但只有当前系统的模板会显示",
+      "deleteTitle": "删除影响",
+      "deleteDesc": "：删除模板不会影响已使用该模板生成的订阅"
+    }
+  },
+  "templatesV3": {
+    "title": "模板管理 V3",
+    "description": "使用 mihomo 风格的高级模板系统管理订阅配置",
+    "adminFeature": "管理员功能",
+    "mihomoCompat": "mihomo 兼容",
+    "visualEdit": "可视化编辑",
+    "intro": "模板管理 V3 是妙妙屋最新的模板系统，采用 mihomo 风格的代理组配置语法，支持 include-all、filter 等高级特性，可以解决添加节点时需要手动编辑订阅的问题，现在可以根据模板自动添加节点到订阅。",
+    "prerequisite": {
+      "title": "前置条件",
+      "desc1": "需要在",
+      "settingsLink": "系统设置",
+      "desc2": "中开启「使用新模板系统」并选择「V3 版本模板」，才会显示模板管理菜单。"
+    },
+    "versionCompare": {
+      "heading": "模板版本对比",
+      "desc1": "妙妙屋支持三种模板版本，可以在",
+      "settingsLink": "系统设置",
+      "desc2": "中切换：",
+      "v1Title": "旧版 (V1) - 文件模板",
+      "v1Desc": "使用 rule_templates 目录下的 YAML 文件，是完整的 Clash 配置文件，节点在生成时自动填充到 proxies 字段。",
+      "v2Title": "通用后端 (V2) - 数据库模板",
+      "v2Desc": "使用 INI 格式（subconverter 格式），通过 custom_proxy_group 定义代理组，兼容 GitHub 上的各种订阅转换模板。",
+      "v3Title": "新版 (V3) - mihomo 风格模板（推荐）",
+      "v3Desc": "使用 YAML 格式，支持 mihomo 的 include-all、filter 等高级语法，提供可视化编辑界面，支持区域代理组自动生成。"
+    },
+    "coreConcepts": {
+      "heading": "核心概念",
+      "desc": "V3 模板基于 mihomo 的代理组语法，通过声明式配置自动匹配和分配节点：",
+      "includeTitle": "节点引入",
+      "includeAll": "引入所有节点和代理集合",
+      "includeAllProxies": "仅引入所有代理节点",
+      "includeAllProviders": "仅引入所有代理集合",
+      "includeType": "按节点类型引入",
+      "filterTitle": "节点筛选",
+      "filter": "筛选匹配关键词的节点",
+      "excludeFilter": "排除匹配关键词的节点",
+      "excludeType": "按节点类型排除"
+    },
+    "configAttrs": {
+      "heading": "代理组配置属性",
+      "attrCol": "属性",
+      "typeCol": "类型",
+      "descCol": "说明",
+      "basicTitle": "基础属性",
+      "nameDesc": "代理组名称",
+      "typeDesc": "代理组类型：select、url-test、fallback、load-balance、relay",
+      "proxiesDesc": "静态代理列表（其他代理组名称或 DIRECT/REJECT 或 __PROXY_NODES__ 等占位符）",
+      "iconDesc": "代理组图标，可以是图片 URL 或 emoji",
+      "hiddenDesc": "是否在客户端中隐藏此代理组（默认 false）",
+      "includeTitle": "节点引入属性",
+      "includeAllDesc": "引入所有出站代理和代理集合",
+      "includeAllProxiesDesc": "仅引入所有出站代理节点",
+      "includeAllProvidersDesc": "仅引入所有代理集合",
+      "includeTypeDesc": "按节点类型引入，用 | 分隔多个类型",
+      "includeRegionDesc": "引入预置的区域代理组（妙妙屋扩展）",
+      "filterAttrTitle": "节点筛选属性",
+      "filterDesc": "筛选匹配正则表达式的节点，多个用 ` 分隔",
+      "excludeFilterDesc": "排除匹配正则表达式的节点，多个用 ` 分隔",
+      "excludeTypeDesc": "按节点类型排除，用 | 分隔多个类型",
+      "relayTitle": "中转代理组属性",
+      "dialerProxyDesc": "指定中转代理组名称，流量经该组转发后再到达目标（链式代理）",
+      "dialerProxyNote": "设置中转代理组后，该代理组中的节点流量会先经过中转代理组选中的节点转发，实现客户端 → 中转节点 → 落地节点 → 目标的链式代理效果。可在可视化编辑器中通过代理组右侧的链接图标快速设置。",
+      "speedTestTitle": "测速相关属性（url-test/fallback/load-balance）",
+      "urlDesc": "测速 URL，默认 https://www.gstatic.com/generate_204",
+      "intervalDesc": "测速间隔（秒），默认 300",
+      "toleranceDesc": "容差（毫秒），默认 50",
+      "yamlVarTitle": "YAML 变量",
+      "yamlVarDesc": "V3 模板支持在顶层定义自定义变量，避免在多个代理组中重复编写复杂的正则表达式：",
+      "yamlVar1": "在 YAML 顶层定义非 Clash 标准字段的字符串即可作为变量",
+      "yamlVar2": "代理组的 filter 和 exclude-filter 可以直接引用变量名",
+      "yamlVar3": "最终生成的配置中会自动移除这些自定义变量",
+      "yamlVarExample": "点击查看 YAML 变量示例",
+      "proxyGroupExample": "点击查看代理组配置示例",
+      "equivDesc": "等同于页面以下配置：",
+      "equivImgAlt": "代理组示例配置",
+      "resultExample": "点击查看代理组订阅结果"
+    },
+    "nodeTypes": {
+      "heading": "支持的节点类型",
+      "desc": "include-type 和 exclude-type 支持以下节点类型（不区分大小写）："
+    },
+    "regionGroups": {
+      "heading": "区域代理组",
+      "desc": "妙妙屋 V3 模板支持自动生成区域代理组，在编辑模板时开启「区域代理组」开关即可。系统会根据节点名称自动匹配地区，并创建对应的代理组。",
+      "presetTitle": "预置区域代理组",
+      "usageTitle": "使用方式",
+      "usage1": "开启区域代理组开关后，可引入所有区域代理组",
+      "usage2": "区域代理组会自动根据节点名称中的地区关键词进行匹配",
+      "usage3": "「其他地区」组会包含所有未匹配到特定地区的节点",
+      "usage4": "未匹配到任何节点的区域代理组会自动在订阅中移除，不需在模板删除不用的区域代理组"
+    },
+    "createMethods": {
+      "heading": "模板创建方式",
+      "uploadTitle": "上传文件",
+      "uploadDesc": "上传本地的 YAML 模板文件，文件名将作为模板名称。",
+      "pasteTitle": "粘贴文本",
+      "pasteDesc": "直接粘贴 YAML 格式的模板内容，输入模板名称后保存。",
+      "convertTitle": "从 V2 模板转换",
+      "convertDesc": "将现有的 V2（subconverter INI 格式）模板转换为 V3 格式，系统会自动解析 custom_proxy_group 并生成对应的代理组配置。",
+      "fromSubTitle": "从现有订阅生成",
+      "fromSubDesc": "分析现有订阅配置中的代理组，自动生成 filter 正则表达式和 include-all 配置，快速创建与现有订阅结构一致的模板。",
+      "blankTitle": "创建空白模板",
+      "blankDesc": "创建一个包含基础配置的空白模板，然后通过可视化编辑器添加代理组。"
+    },
+    "visualEditor": {
+      "heading": "可视化编辑器",
+      "desc": "V3 模板提供可视化编辑界面，无需手动编写 YAML 代码即可配置代理组：",
+      "layoutTitle": "编辑器布局",
+      "desktopLabel": "桌面端",
+      "desktopDesc": "：三列布局，左侧为代理组编辑器，右侧为配置预览",
+      "tabletLabel": "平板端",
+      "tabletDesc": "：两列布局，编辑器和预览各占一半",
+      "mobileLabel": "手机端",
+      "mobileDesc": "：单列布局，预览显示在保存按钮下方",
+      "editFeaturesTitle": "代理组编辑功能",
+      "filterKeywordLabel": "筛选关键词",
+      "filterKeywordDesc": "：输入关键词自动生成 filter 正则表达式",
+      "excludeKeywordLabel": "排除关键词",
+      "excludeKeywordDesc": "：输入关键词自动生成 exclude-filter 正则表达式",
+      "nodeTypeLabel": "节点类型选择",
+      "nodeTypeDesc": "：弹出气泡多选需要引入/排除的节点类型",
+      "includeOptionsLabel": "引入选项",
+      "includeOptionsDesc": "：一键开启 include-all、include-all-proxies 等选项",
+      "iconHiddenLabel": "图标与隐藏",
+      "iconHiddenDesc": "：可以配置代理组的图标以及设置隐藏该代理组",
+      "groupRefLabel": "代理组引用",
+      "groupRefDesc": "：选择并拖动排序其他代理组",
+      "relayLabel": "中转代理组",
+      "relayDesc": "：点击链接图标设置中转代理组，实现链式代理",
+      "previewLabel": "实时预览",
+      "previewDesc": "：右侧实时显示生成的 YAML 配置",
+      "dualModeTitle": "双模式编辑",
+      "visualModeLabel": "可视化模式",
+      "visualModeDesc": "：通过表单配置代理组，适合快速编辑",
+      "yamlModeLabel": "YAML 模式",
+      "yamlModeDesc": "：直接编辑 YAML 代码，适合高级用户",
+      "modeSyncDesc": "两种模式可以随时切换，数据会自动同步"
+    },
+    "subBinding": {
+      "heading": "订阅绑定",
+      "desc": "V3 模板可以绑定到订阅，绑定后订阅配置将完全基于模板生成：",
+      "flowTitle": "绑定流程",
+      "flow1": "在订阅管理页面选择要绑定的订阅",
+      "flow2": "选择要绑定的 V3 模板",
+      "flow3": "系统自动根据模板规则重新生成订阅配置",
+      "behaviorTitle": "绑定后的行为",
+      "behavior1": "订阅配置完全基于模板生成，原有的规则配置将被忽略",
+      "behavior2": "根据模板中代理组的 filter 规则匹配节点表中的所有节点",
+      "behavior3": "匹配到的节点会添加到代理组的 proxies 列表和顶层 proxies 中",
+      "behavior4": "模板中的 include-*、filter、exclude-* 等属性会在生成时被移除",
+      "behavior5": "一个订阅只能绑定一个模板",
+      "autoUpdateTitle": "自动更新触发",
+      "autoUpdate1": "新增节点时，如果代理组规则匹配到新节点，会自动更新绑定的订阅",
+      "autoUpdate2": "删除节点时，会自动从绑定模板的订阅中移除该节点",
+      "autoUpdate3": "修改模板后，绑定该模板的订阅会自动重新生成"
+    },
+    "fullExample": {
+      "heading": "完整模板示例",
+      "title": "点击查看完整 V3 模板示例"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "formatTitle": "模板格式",
+      "formatDesc": "：V3 模板使用 YAML 格式，与 V2（INI 格式）不兼容，但可以通过转换功能迁移",
+      "filterRuleTitle": "节点过滤规则(filter)",
+      "filterRuleDesc": "：默认会使用所有节点匹配，与显式开启代理集合+节点(include-all)结果一致",
+      "regexTitle": "正则表达式",
+      "regexDesc": "：filter 和 exclude-filter 使用正则表达式语法，特殊字符需要转义",
+      "orderTitle": "代理组顺序",
+      "orderDesc": "：代理组的顺序会影响最终配置，建议将常用的代理组放在前面",
+      "emptyGroupTitle": "空代理组",
+      "emptyGroupDesc": "：如果代理组的 filter 没有匹配到任何节点，该代理组会被自动移除",
+      "bindingTitle": "绑定影响",
+      "bindingDesc": "：绑定模板后，订阅的规则配置将被模板完全覆盖"
+    }
+  },
+  "trafficInfo": {
+    "title": "流量信息",
+    "description": "查看当前用户的流量使用情况和订阅有效期信息",
+    "intro": {
+      "heading": "功能介绍",
+      "desc": "流量信息页面展示当前登录用户的流量使用情况和订阅有效期信息，帮助用户了解自己的服务状态。",
+      "mainFeatures": "主要功能",
+      "feature1": "显示总流量配额、已用流量、剩余流量",
+      "feature2": "流量使用率百分比展示",
+      "feature3": "每日流量消耗趋势图表",
+      "feature4": "显示订阅有效期信息"
+    },
+    "preview": {
+      "heading": "界面预览",
+      "desc": "以下是流量信息页面的示例展示：",
+      "totalQuota": "总流量配额",
+      "usedTraffic": "已用流量",
+      "remainingTraffic": "剩余流量",
+      "usageRate": "使用率",
+      "dailyTraffic": "每日流量消耗"
+    },
+    "dataSource": {
+      "heading": "数据来源",
+      "probe": {
+        "title": "探针服务器统计",
+        "desc": "流量数据来自探针服务器的实时统计。管理员需要在「探针管理」中配置探针服务器，并为节点绑定对应的探针，系统才能准确统计流量。"
+      },
+      "external": {
+        "title": "外部订阅流量",
+        "desc": "如果管理员在系统设置中开启了「同步外部订阅流量信息」，流量数据还会包含外部订阅源的流量信息。"
+      }
+    }
+  },
+  "update": {
+    "title": "版本更新",
+    "description": "更新妙妙屋到最新版本的多种方式",
+    "webUpdate": {
+      "heroTitle": "支持网页端自动更新！",
+      "heroDesc": "从 0.3.5 版本 开始，可以在网页端直接检查并更新应用。",
+      "howTo": "操作方法：",
+      "howToSteps": "进入 「个人设置」 菜单 → 点击 「检查更新」 按钮 → 确认更新"
+    },
+    "recentSync": {
+      "heading": "近期文档同步（2026-04-14）",
+      "desc": "本页已根据 `../miaomiaowu` 近期提交同步以下变更：",
+      "change1": {
+        "title": "代理组支持绑定中转代理组",
+        "desc": "代理组类型菜单新增「中转代理组」下拉配置，对应链式代理的",
+        "seeAlso": "字段。详见",
+        "link": "链式代理"
+      },
+      "change2": {
+        "title": "编辑代理组支持分列数量",
+        "desc": "编辑节点弹窗新增 2-6 列切换，并记忆上次列数。详见",
+        "link": "节点与代理组编辑"
+      },
+      "change3": {
+        "title": "绑定探针支持搜索与滚动",
+        "desc": "节点绑定探针弹窗新增搜索输入框和滚动列表。详见",
+        "link": "探针管理"
+      },
+      "change4": {
+        "title": "默认 DNS 模板改为 DoH，Trojan URI 默认 security=none",
+        "desc": "对应模板与订阅转换行为已在后端更新，生成配置时会体现为更符合当前实现的默认值。"
+      }
+    },
+    "changelog": {
+      "heading": "更新日志展示",
+      "desc": "检查更新时，更新弹窗会以富文本格式展示 GitHub Release Notes，支持以下格式渲染：",
+      "headings": "标题：Markdown 标题（# / ## / ###）",
+      "lists": "列表：无序列表项（- / *）",
+      "linksCode": "链接与代码：超链接、行内代码高亮"
+    },
+    "debugLog": {
+      "heading": "Debug 日志",
+      "desc": "管理员可在个人设置中开启 Debug 日志，开启后页面右侧会出现浮动图标，点击可展开实时日志查看器：",
+      "featuresHeading": "功能特性",
+      "feature1": "• 页面右侧浮动图标实时显示运行时长",
+      "feature2": "• 侧边栏查看器实时滚动显示最近 200 行日志",
+      "feature3": "• 5 分钟后自动关闭，避免遗忘导致日志文件过大",
+      "feature4": "• 关闭时自动下载日志文件"
+    },
+    "webUpdateSteps": {
+      "heading": "网页端更新（0.3.5+）",
+      "desc": "适用于已安装 0.3.5 及以上版本的用户：",
+      "step1": {
+        "title": "进入个人设置",
+        "desc": "点击页面右上角的用户头像，选择「个人设置」"
+      },
+      "step2": {
+        "title": "点击检查更新",
+        "desc": "在设置页面中找到「检查更新」按钮并点击"
+      },
+      "step3": {
+        "title": "确认更新",
+        "desc": "如果有新版本，按照提示确认并等待更新完成"
+      }
+    },
+    "dockerCompose": {
+      "heading": "Docker Compose 更新（推荐）",
+      "desc": "使用 Docker Compose 部署的用户，更新非常简单：",
+      "note": "Docker Compose 会自动处理容器的停止、删除和重建，数据会保留在挂载的卷中。"
+    },
+    "dockerRun": {
+      "heading": "Docker Run 更新",
+      "desc": "使用 Docker Run 部署的用户，需要手动执行以下步骤：",
+      "note": "请确保使用与初次安装时相同的卷挂载路径，以保留数据。"
+    },
+    "scriptUpdate": {
+      "heading": "一键脚本更新",
+      "desc": "使用一键安装脚本安装的用户，可以使用以下命令更新：",
+      "note": "脚本会自动下载最新版本并重启服务。"
+    },
+    "simpleUpdate": {
+      "heading": "简易安装更新",
+      "desc": "使用简易安装的用户，可以使用以下命令更新：",
+      "note": "更新后需要手动重新启动程序。"
+    },
+    "backup": {
+      "heading": "数据备份建议",
+      "important": "重要：在更新前建议备份数据目录，以防更新过程中出现问题。",
+      "dockerDeploy": "Docker 部署",
+      "scriptInstall": "一键脚本安装"
+    },
+    "relatedDocs": {
+      "heading": "相关文档",
+      "dockerInstall": {
+        "title": "Docker 安装",
+        "desc": "查看完整的 Docker 部署配置"
+      },
+      "directInstall": {
+        "title": "直接安装",
+        "desc": "查看一键脚本和手动安装方式"
+      }
+    }
+  },
+  "users": {
+    "title": "用户管理",
+    "description": "管理平台用户账户和订阅分配（管理员功能）",
+    "adminFeature": "管理员功能",
+    "intro": "用户管理页面是管理员专用功能，用于管理平台的所有用户账户，包括创建用户、编辑用户信息、分配订阅等核心管理功能。",
+    "mainFeatures": {
+      "heading": "主要功能",
+      "viewListTitle": "用户列表查看",
+      "viewListDesc": "：查看所有用户的基本信息",
+      "createTitle": "创建新用户",
+      "createDesc": "：手动创建新用户账户，设置用户名、密码",
+      "editTitle": "编辑用户信息",
+      "editDesc": "：修改用户的状态（启用|停用）",
+      "deleteTitle": "删除用户",
+      "deleteDesc": "：删除不再需要的用户账户",
+      "assignSubTitle": "订阅分配",
+      "assignSubDesc": "：为用户分配或取消分配订阅文件",
+      "resetPwdTitle": "重置密码",
+      "resetPwdDesc": "：为用户重置登录密码",
+      "remarkTitle": "备注管理",
+      "remarkDesc": "：为用户添加备注信息，便于识别和管理",
+      "customLinkTitle": "自定义短链接 (Beta)",
+      "customLinkDesc": "：为用户设置自定义短码，替代自动生成的用户短码，使订阅链接更易记忆"
+    },
+    "createSteps": {
+      "heading": "创建用户步骤",
+      "step1Title": "点击「新增用户」按钮",
+      "step1Desc": "打开用户创建对话框",
+      "step2Title": "填写用户基本信息",
+      "usernameLabel": "用户名",
+      "usernameDesc": "：设置用户的登录用户名（唯一，不可重复）",
+      "passwordLabel": "初始密码",
+      "passwordDesc": "：设置用户的初始登录密码",
+      "emailLabel": "邮箱",
+      "emailDesc": "：用户的邮箱地址（可选）",
+      "nicknameLabel": "昵称",
+      "nicknameDesc": "：用户昵称",
+      "remarkLabel": "备注",
+      "remarkDesc": "：用户备注信息，便于识别和管理（可选）",
+      "assignSubLabel": "分配订阅",
+      "assignSubDesc": "：用户可以看到的订阅",
+      "step3Title": "分配订阅（可选）",
+      "step3Desc": "可以在创建时分配订阅，也可以稍后在「订阅管理」中分配",
+      "step4Title": "保存用户",
+      "step4Desc": "点击保存按钮创建用户，用户即可使用账户登录"
+    },
+    "typicalScenario": {
+      "heading": "典型使用场景",
+      "newUserTitle": "场景：新用户开通服务",
+      "newUserDesc": "分享给朋友或家人时，管理员创建账户 → 分配对应的订阅 → 通知用户登录信息。"
+    },
+    "notes": {
+      "heading": "注意事项",
+      "uniqueTitle": "用户名唯一性",
+      "uniqueDesc": "：用户名必须唯一且创建后不可修改，请谨慎设置",
+      "deleteTitle": "删除不可恢复",
+      "deleteDesc": "：删除用户会永久删除其所有数据，无法恢复",
+      "passwordTitle": "密码安全",
+      "passwordDesc": "：创建用户时设置的密码应足够复杂，建议包含字母、数字和符号",
+      "assignTitle": "订阅分配",
+      "assignDesc": "：用户至少需要分配一个订阅才能正常使用服务"
+    },
+    "bestPractices": {
+      "heading": "最佳实践",
+      "remarkTitle": "善用备注",
+      "remarkDesc": "：为用户添加备注信息，如「张三的家人」、「VIP客户」等，便于识别管理",
+      "namingTitle": "规范命名",
+      "namingDesc": "：使用统一的用户名命名规范，如「user001」、「vip-zhangsan」等",
+      "notifyTitle": "及时通知",
+      "notifyDesc": "：用户创建后及时将登录信息（用户名、密码、登录地址）告知用户",
+      "backupTitle": "数据备份",
+      "backupDesc": "：定期导出用户数据进行备份"
+    }
+  }
+}

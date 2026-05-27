@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -14,12 +15,14 @@ export const Route = createFileRoute('/docs/quick-start')({
 })
 
 function QuickStartPage() {
-  const steps = ['安装部署', '初始化', '添加节点', '生成订阅', '分配用户']
+  const { t } = useTranslation('docs')
+
+  const steps = [t('quickStart.steps.install'), t('quickStart.steps.init'), t('quickStart.steps.addNodes'), t('quickStart.steps.generateSub'), t('quickStart.steps.assignUsers')]
 
   return (
     <DocLayout
-      title='快速开始'
-      description='5分钟内完成妙妙屋的部署和基本配置'
+      title={t('quickStart.title')}
+      description={t('quickStart.description')}
     >
       {/* 步骤指示器 */}
       <div className='mb-8 overflow-x-auto pb-4'>
@@ -32,12 +35,12 @@ function QuickStartPage() {
           <div className='size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold'>
             1
           </div>
-          安装部署
+          {t('quickStart.step1.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              推荐使用 Docker 方式部署，简单快捷：
+              {t('quickStart.step1.desc')}
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 拉取镜像
@@ -51,13 +54,13 @@ docker run -d \\
   iluobei/miaomiaowu:latest`}</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
-              更多安装方式请参考{' '}
+              {t('quickStart.step1.moreInfo')}{' '}
               <Link to='/docs/install-docker' className='text-primary hover:underline'>
-                Docker 安装
+                {t('quickStart.step1.dockerInstall')}
               </Link>{' '}
-              或{' '}
+              {t('quickStart.step1.or')}{' '}
               <Link to='/docs/install-direct' className='text-primary hover:underline'>
-                直接安装
+                {t('quickStart.step1.directInstall')}
               </Link>
             </p>
           </CardContent>
@@ -70,7 +73,7 @@ docker run -d \\
           <div className='size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold'>
             2
           </div>
-          初始化设置
+          {t('quickStart.step2.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -80,9 +83,9 @@ docker run -d \\
                   a
                 </span>
                 <div>
-                  <p className='font-medium'>访问系统</p>
+                  <p className='font-medium'>{t('quickStart.step2.accessSystem.title')}</p>
                   <p className='text-muted-foreground'>
-                    打开浏览器访问 <code className='bg-muted px-1 rounded'>http://localhost:8080</code>
+                    {t('quickStart.step2.accessSystem.desc')} <code className='bg-muted px-1 rounded'>http://localhost:8080</code>
                   </p>
                 </div>
               </li>
@@ -91,9 +94,9 @@ docker run -d \\
                   b
                 </span>
                 <div>
-                  <p className='font-medium'>初始化管理员</p>
+                  <p className='font-medium'>{t('quickStart.step2.initAdmin.title')}</p>
                   <p className='text-muted-foreground'>
-                    首次访问时会提示创建管理员账户，设置用户名和密码
+                    {t('quickStart.step2.initAdmin.desc')}
                   </p>
                 </div>
               </li>
@@ -102,9 +105,9 @@ docker run -d \\
                   c
                 </span>
                 <div>
-                  <p className='font-medium'>登录系统</p>
+                  <p className='font-medium'>{t('quickStart.step2.login.title')}</p>
                   <p className='text-muted-foreground'>
-                    使用刚创建的管理员账户登录
+                    {t('quickStart.step2.login.desc')}
                   </p>
                 </div>
               </li>
@@ -119,37 +122,37 @@ docker run -d \\
           <div className='size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold'>
             3
           </div>
-          添加节点
+          {t('quickStart.step3.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              进入"节点管理"页面，添加代理节点：
+              {t('quickStart.step3.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4'>
                 <h4 className='font-semibold mb-2 flex items-center gap-2'>
                   <Terminal className='size-4' />
-                  方式一：手动添加
+                  {t('quickStart.step3.manual.title')}
                 </h4>
                 <p className='text-sm text-muted-foreground'>
-                  输入节点链接（如 vmess://、vless://），每行一个节点
+                  {t('quickStart.step3.manual.desc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
                 <h4 className='font-semibold mb-2 flex items-center gap-2'>
                   <Globe className='size-4' />
-                  方式二：订阅导入
+                  {t('quickStart.step3.subImport.title')}
                 </h4>
                 <p className='text-sm text-muted-foreground'>
-                  输入外部机场订阅链接，自动解析并导入所有节点
+                  {t('quickStart.step3.subImport.desc')}
                 </p>
               </div>
             </div>
             <div className='mt-4'>
               <Link to='/docs/nodes'>
                 <Button variant='outline' size='sm'>
-                  查看详细文档
+                  {t('quickStart.viewDocs')}
                   <ArrowRight className='size-4 ml-2' />
                 </Button>
               </Link>
@@ -164,7 +167,7 @@ docker run -d \\
           <div className='size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold'>
             4
           </div>
-          生成订阅
+          {t('quickStart.step4.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -174,9 +177,9 @@ docker run -d \\
                   a
                 </span>
                 <div>
-                  <p className='font-medium'>进入"生成订阅"页面</p>
+                  <p className='font-medium'>{t('quickStart.step4.goToPage.title')}</p>
                   <p className='text-muted-foreground'>
-                    选择需要包含在订阅中的节点
+                    {t('quickStart.step4.goToPage.desc')}
                   </p>
                 </div>
               </li>
@@ -185,9 +188,9 @@ docker run -d \\
                   b
                 </span>
                 <div>
-                  <p className='font-medium'>选择模板或自定义规则</p>
+                  <p className='font-medium'>{t('quickStart.step4.selectTemplate.title')}</p>
                   <p className='text-muted-foreground'>
-                    可以使用内置模板（ACL4SSR、Aethersailor）或自定义代理组
+                    {t('quickStart.step4.selectTemplate.desc')}
                   </p>
                 </div>
               </li>
@@ -196,9 +199,9 @@ docker run -d \\
                   c
                 </span>
                 <div>
-                  <p className='font-medium'>配置代理组（可选）</p>
+                  <p className='font-medium'>{t('quickStart.step4.configGroups.title')}</p>
                   <p className='text-muted-foreground'>
-                    通过拖拽将节点分配到不同的代理组
+                    {t('quickStart.step4.configGroups.desc')}
                   </p>
                 </div>
               </li>
@@ -207,9 +210,9 @@ docker run -d \\
                   d
                 </span>
                 <div>
-                  <p className='font-medium'>保存订阅</p>
+                  <p className='font-medium'>{t('quickStart.step4.save.title')}</p>
                   <p className='text-muted-foreground'>
-                    输入订阅名称，点击保存生成订阅文件
+                    {t('quickStart.step4.save.desc')}
                   </p>
                 </div>
               </li>
@@ -217,7 +220,7 @@ docker run -d \\
             <div className='mt-4'>
               <Link to='/docs/generator'>
                 <Button variant='outline' size='sm'>
-                  查看详细文档
+                  {t('quickStart.viewDocs')}
                   <ArrowRight className='size-4 ml-2' />
                 </Button>
               </Link>
@@ -232,7 +235,7 @@ docker run -d \\
           <div className='size-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold'>
             5
           </div>
-          分配给用户
+          {t('quickStart.step5.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -242,9 +245,9 @@ docker run -d \\
                   a
                 </span>
                 <div>
-                  <p className='font-medium'>创建用户（可选）</p>
+                  <p className='font-medium'>{t('quickStart.step5.createUser.title')}</p>
                   <p className='text-muted-foreground'>
-                    在"用户管理"页面创建新用户，或使用已有用户
+                    {t('quickStart.step5.createUser.desc')}
                   </p>
                 </div>
               </li>
@@ -253,9 +256,9 @@ docker run -d \\
                   b
                 </span>
                 <div>
-                  <p className='font-medium'>分配订阅</p>
+                  <p className='font-medium'>{t('quickStart.step5.assignSub.title')}</p>
                   <p className='text-muted-foreground'>
-                    为用户分配刚创建的订阅配置
+                    {t('quickStart.step5.assignSub.desc')}
                   </p>
                 </div>
               </li>
@@ -264,9 +267,9 @@ docker run -d \\
                   c
                 </span>
                 <div>
-                  <p className='font-medium'>获取订阅链接</p>
+                  <p className='font-medium'>{t('quickStart.step5.getLink.title')}</p>
                   <p className='text-muted-foreground'>
-                    用户登录后在"订阅链接"页面可以看到分配的订阅
+                    {t('quickStart.step5.getLink.desc')}
                   </p>
                 </div>
               </li>
@@ -274,7 +277,7 @@ docker run -d \\
             <div className='mt-4'>
               <Link to='/docs/users'>
                 <Button variant='outline' size='sm'>
-                  查看详细文档
+                  {t('quickStart.viewDocs')}
                   <ArrowRight className='size-4 ml-2' />
                 </Button>
               </Link>
@@ -288,25 +291,25 @@ docker run -d \\
         <Card className='bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-green-500/20'>
           <CardContent className='pt-6'>
             <h2 className='text-xl font-bold mb-2 flex items-center gap-2'>
-              🎉 恭喜完成！
+              {t('quickStart.complete.heading')}
             </h2>
             <p className='text-muted-foreground mb-4'>
-              您已经完成了妙妙屋的基本配置。用户现在可以在客户端中导入订阅链接开始使用了。
+              {t('quickStart.complete.desc')}
             </p>
             <div className='flex gap-2 flex-wrap'>
               <Link to='/docs/subscription-link'>
                 <Button variant='outline' size='sm'>
-                  了解订阅链接
+                  {t('quickStart.complete.subLink')}
                 </Button>
               </Link>
               <Link to='/docs/client-setup'>
                 <Button variant='outline' size='sm'>
-                  客户端配置
+                  {t('quickStart.complete.clientSetup')}
                 </Button>
               </Link>
               <Link to='/docs/chain-proxy'>
                 <Button variant='outline' size='sm'>
-                  高级：链式代理
+                  {t('quickStart.complete.chainProxy')}
                 </Button>
               </Link>
             </div>

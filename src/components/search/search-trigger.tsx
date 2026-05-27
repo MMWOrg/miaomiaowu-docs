@@ -1,5 +1,6 @@
 import { Search } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 
 function useIsMac() {
@@ -15,6 +16,7 @@ interface SearchTriggerProps {
 
 export function SearchTrigger({ className }: SearchTriggerProps) {
   const isMac = useIsMac()
+  const { t } = useTranslation('search')
 
   return (
     <button
@@ -25,7 +27,7 @@ export function SearchTrigger({ className }: SearchTriggerProps) {
       )}
     >
       <Search className='size-4' />
-      <span className='hidden sm:inline'>搜索...</span>
+      <span className='hidden sm:inline'>{t('trigger')}</span>
       <kbd className='pointer-events-none hidden select-none items-center gap-0.5 rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px] font-medium sm:inline-flex'>
         {isMac ? '⌘' : 'Ctrl '}K
       </kbd>

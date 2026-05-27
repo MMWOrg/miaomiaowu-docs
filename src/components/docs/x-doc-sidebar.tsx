@@ -1,7 +1,8 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Home,
   BookOpen,
@@ -45,133 +46,147 @@ export type XNavItem = {
   badge?: string
 }
 
-export const xNavItems: XNavItem[] = [
+type XNavItemDef = {
+  id: string
+  icon: React.ComponentType<{ className?: string }>
+  href?: string
+  badgeKey?: string
+  children?: XNavItemDef[]
+}
+
+const xNavStructure: XNavItemDef[] = [
   {
     id: 'introduction',
-    label: '简介',
     icon: Home,
     children: [
-      { id: 'about', label: '关于妙妙屋X', href: '/x/docs/about', icon: BookOpen },
-      { id: 'features', label: '核心特性', href: '/x/docs/features', icon: Sparkles },
-      { id: 'quick-start', label: '快速开始', href: '/x/docs/quick-start', icon: Zap },
-      { id: 'tutorial', label: '使用教程', href: '/x/docs/tutorial', icon: GraduationCap },
+      { id: 'about', href: '/x/docs/about', icon: BookOpen },
+      { id: 'features', href: '/x/docs/features', icon: Sparkles },
+      { id: 'quick-start', href: '/x/docs/quick-start', icon: Zap },
+      { id: 'tutorial', href: '/x/docs/tutorial', icon: GraduationCap },
     ],
   },
   {
     id: 'installation',
-    label: '安装部署',
     icon: Download,
     children: [
-      { id: 'install-direct', label: '直接安装', href: '/x/docs/install-direct', icon: Download },
-      { id: 'install-docker', label: 'Docker 安装', href: '/x/docs/install-docker', icon: Download },
-      { id: 'install-agent', label: 'Agent 部署', href: '/x/docs/install-agent', icon: Radio, badge: '新' },
-      { id: 'upgrade-from-mmw', label: '从妙妙屋迁移', href: '/x/docs/upgrade-from-mmw', icon: ArrowRightLeft, badge: '新' },
-      { id: 'system-requirements', label: '系统要求', href: '/x/docs/system-requirements', icon: Settings },
-      { id: 'update', label: '版本更新', href: '/x/docs/update', icon: RefreshCw },
+      { id: 'install-direct', href: '/x/docs/install-direct', icon: Download },
+      { id: 'install-docker', href: '/x/docs/install-docker', icon: Download },
+      { id: 'install-agent', href: '/x/docs/install-agent', icon: Radio, badgeKey: 'new' },
+      { id: 'upgrade-from-mmw', href: '/x/docs/upgrade-from-mmw', icon: ArrowRightLeft, badgeKey: 'new' },
+      { id: 'system-requirements', href: '/x/docs/system-requirements', icon: Settings },
+      { id: 'update', href: '/x/docs/update', icon: RefreshCw },
     ],
   },
   {
     id: 'server-manage',
-    label: '服务管理',
     icon: Server,
-    badge: '核心',
+    badgeKey: 'core',
     children: [
-      { id: 'remote-servers', label: '远程服务器', href: '/x/docs/remote-servers', icon: Globe },
-      { id: 'xray-service', label: 'Xray 服务管理', href: '/x/docs/xray-service', icon: Server },
-      { id: 'xray-inbounds', label: 'Xray 入站管理', href: '/x/docs/xray-inbounds', icon: Network },
-      { id: 'xray-outbounds', label: 'Xray 出站管理', href: '/x/docs/xray-outbounds', icon: Route },
-      { id: 'xray-routing', label: 'Xray 路由管理', href: '/x/docs/xray-routing', icon: Route, badge: '新' },
-      { id: 'xray-system-config', label: 'Xray 系统配置', href: '/x/docs/xray-system-config', icon: Settings },
+      { id: 'remote-servers', href: '/x/docs/remote-servers', icon: Globe },
+      { id: 'xray-service', href: '/x/docs/xray-service', icon: Server },
+      { id: 'xray-inbounds', href: '/x/docs/xray-inbounds', icon: Network },
+      { id: 'xray-outbounds', href: '/x/docs/xray-outbounds', icon: Route },
+      { id: 'xray-routing', href: '/x/docs/xray-routing', icon: Route, badgeKey: 'new' },
+      { id: 'xray-system-config', href: '/x/docs/xray-system-config', icon: Settings },
     ],
   },
   {
     id: 'protocol-ref',
-    label: '协议参考',
     icon: Layers,
     children: [
-      { id: 'protocol-matrix', label: '协议矩阵', href: '/x/docs/protocol-matrix', icon: Layers },
-      { id: 'protocol-vless', label: 'VLESS', href: '/x/docs/protocol-vless', icon: Lock },
-      { id: 'protocol-vmess', label: 'VMess', href: '/x/docs/protocol-vmess', icon: Lock },
-      { id: 'protocol-trojan', label: 'Trojan', href: '/x/docs/protocol-trojan', icon: Lock },
-      { id: 'protocol-shadowsocks', label: 'Shadowsocks', href: '/x/docs/protocol-shadowsocks', icon: Lock },
-      { id: 'protocol-hysteria2', label: 'Hysteria2', href: '/x/docs/protocol-hysteria2', icon: Lock },
+      { id: 'protocol-matrix', href: '/x/docs/protocol-matrix', icon: Layers },
+      { id: 'protocol-vless', href: '/x/docs/protocol-vless', icon: Lock },
+      { id: 'protocol-vmess', href: '/x/docs/protocol-vmess', icon: Lock },
+      { id: 'protocol-trojan', href: '/x/docs/protocol-trojan', icon: Lock },
+      { id: 'protocol-shadowsocks', href: '/x/docs/protocol-shadowsocks', icon: Lock },
+      { id: 'protocol-hysteria2', href: '/x/docs/protocol-hysteria2', icon: Lock },
     ],
   },
   {
     id: 'nodes-subscription',
-    label: '节点与订阅',
     icon: Network,
     children: [
-      { id: 'nodes', label: '节点管理', href: '/x/docs/nodes', icon: Network },
-      { id: 'generator', label: '生成订阅', href: '/x/docs/generator', icon: Zap },
-      { id: 'subscribe-files', label: '订阅文件', href: '/x/docs/subscribe-files', icon: Database },
-      { id: 'templates', label: '模板管理', href: '/x/docs/templates', icon: LayoutTemplate },
+      { id: 'nodes', href: '/x/docs/nodes', icon: Network },
+      { id: 'generator', href: '/x/docs/generator', icon: Zap },
+      { id: 'subscribe-files', href: '/x/docs/subscribe-files', icon: Database },
+      { id: 'templates', href: '/x/docs/templates', icon: LayoutTemplate },
     ],
   },
   {
     id: 'feature-guide',
-    label: '功能说明',
     icon: Workflow,
     children: [
-      { id: 'routed-outbound', label: '路由出站', href: '/x/docs/routed-outbound', icon: Route, badge: '新' },
-      { id: 'system-settings-guide', label: '系统设置', href: '/x/docs/system-settings', icon: Settings },
+      { id: 'routed-outbound', href: '/x/docs/routed-outbound', icon: Route, badgeKey: 'new' },
+      { id: 'system-settings-guide', href: '/x/docs/system-settings', icon: Settings },
     ],
   },
   {
     id: 'pro-features',
-    label: 'PRO 功能',
     icon: Crown,
-    badge: 'PRO',
+    badgeKey: 'pro',
     children: [
-      { id: 'node-speedtest', label: '节点测速', href: '/x/docs/node-speedtest', icon: Gauge, badge: 'PRO' },
-      { id: 'node-ratelimit', label: '节点限速', href: '/x/docs/node-ratelimit', icon: Ban, badge: 'PRO' },
-      { id: 'share-server', label: '分享服务器', href: '/x/docs/share-server', icon: Share2, badge: 'PRO' },
-      { id: 'embedded-xray', label: '内嵌 Xray', href: '/x/docs/embedded-xray', icon: Box, badge: 'PRO' },
+      { id: 'node-speedtest', href: '/x/docs/node-speedtest', icon: Gauge, badgeKey: 'pro' },
+      { id: 'node-ratelimit', href: '/x/docs/node-ratelimit', icon: Ban, badgeKey: 'pro' },
+      { id: 'share-server', href: '/x/docs/share-server', icon: Share2, badgeKey: 'pro' },
+      { id: 'embedded-xray', href: '/x/docs/embedded-xray', icon: Box, badgeKey: 'pro' },
     ],
   },
   {
     id: 'certificates',
-    label: '证书管理',
     icon: Shield,
     children: [
-      { id: 'certificates', label: '证书管理', href: '/x/docs/certificates', icon: Shield },
+      { id: 'certificates', href: '/x/docs/certificates', icon: Shield },
     ],
   },
   {
     id: 'users-packages',
-    label: '用户与套餐',
     icon: Users,
     children: [
-      { id: 'users', label: '用户管理', href: '/x/docs/users', icon: Users },
-      { id: 'packages', label: '套餐管理', href: '/x/docs/packages', icon: Package },
+      { id: 'users', href: '/x/docs/users', icon: Users },
+      { id: 'packages', href: '/x/docs/packages', icon: Package },
     ],
   },
   {
     id: 'system',
-    label: '系统配置',
     icon: Wrench,
     children: [
-      { id: 'custom-rules', label: '自定义规则', href: '/x/docs/custom-rules', icon: FileCode },
+      { id: 'custom-rules', href: '/x/docs/custom-rules', icon: FileCode },
     ],
   },
   {
     id: 'ai',
-    label: 'AI 集成',
     icon: Bot,
     children: [
-      { id: 'mcp', label: '接入 AI Agent(MCP)', href: '/x/docs/mcp', icon: Bot, badge: '新' },
+      { id: 'mcp', href: '/x/docs/mcp', icon: Bot, badgeKey: 'new' },
     ],
   },
   {
     id: 'help',
-    label: '帮助',
     icon: HelpCircle,
     children: [
-      { id: 'faq', label: '常见问题', href: '/x/docs/faq', icon: HelpCircle },
-      { id: 'changelog', label: '更新日志', href: '/x/docs/changelog', icon: RefreshCw },
+      { id: 'faq', href: '/x/docs/faq', icon: HelpCircle },
+      { id: 'changelog', href: '/x/docs/changelog', icon: RefreshCw },
     ],
   },
 ]
+
+export { xNavStructure }
+
+function translateNav(structure: XNavItemDef[], t: (key: string) => string): XNavItem[] {
+  return structure.map((item) => ({
+    id: item.id,
+    label: t(`mmwx.${item.id}`),
+    icon: item.icon,
+    href: item.href,
+    badge: item.badgeKey ? t(`badges.${item.badgeKey}`) : undefined,
+    children: item.children ? translateNav(item.children, t) : undefined,
+  }))
+}
+
+export function useXDocNavItems(): XNavItem[] {
+  const { t } = useTranslation('sidebar')
+  return useMemo(() => translateNav(xNavStructure, t), [t])
+}
 
 interface XDocSidebarProps {
   className?: string
@@ -180,6 +195,7 @@ interface XDocSidebarProps {
 export function XDocSidebar({ className }: XDocSidebarProps) {
   const location = useLocation()
   const [expandedItems, setExpandedItems] = useState<string[]>([])
+  const xNavItems = useXDocNavItems()
 
   useEffect(() => {
     const currentPath = location.pathname
@@ -188,7 +204,7 @@ export function XDocSidebar({ className }: XDocSidebarProps) {
         setExpandedItems((prev) => (prev.includes(item.id) ? prev : [...prev, item.id]))
       }
     })
-  }, [location.pathname])
+  }, [location.pathname, xNavItems])
 
   const toggleExpand = (id: string) => {
     setExpandedItems((prev) =>

@@ -1,7 +1,8 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
 import { ChevronDown, ChevronRight } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   Home,
   BookOpen,
@@ -36,80 +37,100 @@ export type NavItem = {
   badge?: string
 }
 
-export const navItems: NavItem[] = [
+type NavItemDef = {
+  id: string
+  icon: React.ComponentType<{ className?: string }>
+  href?: string
+  badgeKey?: string
+  children?: NavItemDef[]
+}
+
+const navStructure: NavItemDef[] = [
   {
     id: 'introduction',
-    label: '简介',
     icon: Home,
     children: [
-      { id: 'about', label: '关于妙妙屋', href: '/docs/about', icon: BookOpen },
-      { id: 'features', label: '核心特性', href: '/docs/features', icon: Sparkles },
-      { id: 'quick-start', label: '快速开始', href: '/docs/quick-start', icon: Zap },
+      { id: 'about', href: '/docs/about', icon: BookOpen },
+      { id: 'features', href: '/docs/features', icon: Sparkles },
+      { id: 'quick-start', href: '/docs/quick-start', icon: Zap },
     ],
   },
   {
     id: 'installation',
-    label: '安装',
     icon: Download,
     children: [
-      { id: 'direct-install', label: '直接安装', href: '/docs/install-direct', icon: Download },
-      { id: 'docker-install', label: 'Docker安装', href: '/docs/install-docker', icon: Download },
-      { id: 'system-requirements', label: '系统要求', href: '/docs/system-requirements', icon: Settings },
-      { id: 'client-setup', label: '客户端配置', href: '/docs/client-setup', icon: Settings },
-      { id: 'import-subscription', label: '导入订阅', href: '/docs/import-subscription', icon: LinkIcon },
-      { id: 'update', label: '版本更新', href: '/docs/update', icon: RefreshCw, badge: '新' },
+      { id: 'direct-install', href: '/docs/install-direct', icon: Download },
+      { id: 'docker-install', href: '/docs/install-docker', icon: Download },
+      { id: 'system-requirements', href: '/docs/system-requirements', icon: Settings },
+      { id: 'client-setup', href: '/docs/client-setup', icon: Settings },
+      { id: 'import-subscription', href: '/docs/import-subscription', icon: LinkIcon },
+      { id: 'update', href: '/docs/update', icon: RefreshCw, badgeKey: 'new' },
     ],
   },
   {
     id: 'user-guide',
-    label: '使用手册',
     icon: BookOpen,
     children: [
-      { id: 'login', label: '登录', href: '/docs/login', icon: LogIn, badge: '新' },
-      { id: 'traffic-info', label: '流量信息', href: '/docs/traffic-info', icon: Activity },
-      { id: 'subscription-link', label: '订阅链接', href: '/docs/subscription-link', icon: LinkIcon },
-      { id: 'settings', label: '用户设置', href: '/docs/settings', icon: UserCog, badge: '新' },
+      { id: 'login', href: '/docs/login', icon: LogIn, badgeKey: 'new' },
+      { id: 'traffic-info', href: '/docs/traffic-info', icon: Activity },
+      { id: 'subscription-link', href: '/docs/subscription-link', icon: LinkIcon },
+      { id: 'settings', href: '/docs/settings', icon: UserCog, badgeKey: 'new' },
     ],
   },
   {
     id: 'admin-guide',
-    label: '管理员功能',
     icon: Wrench,
-    badge: '管理员',
+    badgeKey: 'admin',
     children: [
-      { id: 'generator', label: '生成订阅', href: '/docs/generator', icon: Zap },
-      { id: 'edit-nodes', label: '节点与代理组编辑', href: '/docs/edit-nodes', icon: GripVertical, badge: '新' },
-      { id: 'nodes', label: '节点管理', href: '/docs/nodes', icon: Network },
-      { id: 'node-speedtest', label: '节点测速', href: '/docs/node-speedtest', icon: Zap, badge: '新' },
-      { id: 'probe', label: '探针管理', href: '/docs/probe', icon: Radar },
-      { id: 'subscribe-files', label: '订阅文件', href: '/docs/subscribe-files', icon: Database },
-      { id: 'external-subscriptions', label: '外部订阅', href: '/docs/external-subscriptions', icon: ExternalLink, badge: '新' },
-      { id: 'proxy-providers', label: '代理集合', href: '/docs/proxy-providers', icon: Layers, badge: '新' },
-      { id: 'users', label: '用户管理', href: '/docs/users', icon: Users },
-      { id: 'templates', label: '模板管理', href: '/docs/templates', icon: LayoutTemplate},
-      { id: 'templates', label: '模板管理(V3)', href: '/docs/templatesV3', icon: LayoutTemplate, badge: '新' },
-      { id: 'custom-rules', label: '自定义规则', href: '/docs/custom-rules', icon: FileCode },
-      { id: 'system-settings', label: '系统设置', href: '/docs/system-settings', icon: Settings },
+      { id: 'generator', href: '/docs/generator', icon: Zap },
+      { id: 'edit-nodes', href: '/docs/edit-nodes', icon: GripVertical, badgeKey: 'new' },
+      { id: 'nodes', href: '/docs/nodes', icon: Network },
+      { id: 'node-speedtest', href: '/docs/node-speedtest', icon: Zap, badgeKey: 'new' },
+      { id: 'probe', href: '/docs/probe', icon: Radar },
+      { id: 'subscribe-files', href: '/docs/subscribe-files', icon: Database },
+      { id: 'external-subscriptions', href: '/docs/external-subscriptions', icon: ExternalLink, badgeKey: 'new' },
+      { id: 'proxy-providers', href: '/docs/proxy-providers', icon: Layers, badgeKey: 'new' },
+      { id: 'users', href: '/docs/users', icon: Users },
+      { id: 'templates', href: '/docs/templates', icon: LayoutTemplate },
+      { id: 'templatesV3', href: '/docs/templatesV3', icon: LayoutTemplate, badgeKey: 'new' },
+      { id: 'custom-rules', href: '/docs/custom-rules', icon: FileCode },
+      { id: 'system-settings', href: '/docs/system-settings', icon: Settings },
     ],
   },
   {
     id: 'advanced',
-    label: '高级技巧',
     icon: Sparkles,
     children: [
-      { id: 'chain-proxy', label: '链式代理', href: '/docs/chain-proxy', icon: Network },
-      { id: 'proxy-providers-advanced', label: '代理集合', href: '/docs/proxy-providers-advanced', icon: Layers, badge: '新' },
+      { id: 'chain-proxy', href: '/docs/chain-proxy', icon: Network },
+      { id: 'proxy-providers-advanced', href: '/docs/proxy-providers-advanced', icon: Layers, badgeKey: 'new' },
     ],
   },
   {
     id: 'help',
-    label: '帮助',
     icon: HelpCircle,
     children: [
-      { id: 'faq', label: '常见问题', href: '/docs/faq', icon: HelpCircle },
+      { id: 'faq', href: '/docs/faq', icon: HelpCircle },
     ],
   },
 ]
+
+export { navStructure }
+
+function translateNav(structure: NavItemDef[], t: (key: string) => string): NavItem[] {
+  return structure.map((item) => ({
+    id: item.id,
+    label: t(`mmw.${item.id}`),
+    icon: item.icon,
+    href: item.href,
+    badge: item.badgeKey ? t(`badges.${item.badgeKey}`) : undefined,
+    children: item.children ? translateNav(item.children, t) : undefined,
+  }))
+}
+
+export function useDocNavItems(): NavItem[] {
+  const { t } = useTranslation('sidebar')
+  return useMemo(() => translateNav(navStructure, t), [t])
+}
 
 interface DocSidebarProps {
   className?: string
@@ -118,8 +139,8 @@ interface DocSidebarProps {
 export function DocSidebar({ className }: DocSidebarProps) {
   const location = useLocation()
   const [expandedItems, setExpandedItems] = useState<string[]>([])
+  const navItems = useDocNavItems()
 
-  // Auto-expand the parent of the current page
   useEffect(() => {
     const currentPath = location.pathname
     navItems.forEach((item) => {
@@ -127,7 +148,7 @@ export function DocSidebar({ className }: DocSidebarProps) {
         setExpandedItems((prev) => (prev.includes(item.id) ? prev : [...prev, item.id]))
       }
     })
-  }, [location.pathname])
+  }, [location.pathname, navItems])
 
   const toggleExpand = (id: string) => {
     setExpandedItems((prev) =>

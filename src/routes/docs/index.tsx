@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -20,21 +21,23 @@ export const Route = createFileRoute('/docs/')({
 })
 
 function DocsIndexPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout>
       {/* Hero Section */}
       <div className='text-center mb-12'>
         <h1 className='text-4xl font-bold tracking-tight mb-4'>
-          欢迎使用妙妙屋文档
+          {t('index.hero.title')}
         </h1>
         <p className='text-xl text-muted-foreground max-w-2xl mx-auto mb-8'>
-          妙妙屋是一个自建机场/翻墙平台的用户管理系统，通过简单的配置即可快速部署使用。
+          {t('index.hero.subtitle')}
         </p>
         <div className='flex items-center justify-center gap-4'>
           <Link to='/docs/quick-start'>
             <Button size='lg'>
               <Zap className='size-4 mr-2' />
-              快速开始
+              {t('index.hero.quickStart')}
             </Button>
           </Link>
           <a
@@ -55,15 +58,15 @@ function DocsIndexPage() {
         <Card className='group hover:shadow-lg transition-shadow'>
           <CardHeader>
             <BookOpen className='size-8 text-primary mb-2' />
-            <CardTitle>简介</CardTitle>
+            <CardTitle>{t('index.cards.intro.title')}</CardTitle>
             <CardDescription>
-              了解妙妙屋的核心功能和特性
+              {t('index.cards.intro.desc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link to='/docs/about'>
               <Button variant='ghost' className='group-hover:text-primary'>
-                开始阅读
+                {t('index.cards.intro.action')}
                 <ArrowRight className='size-4 ml-2' />
               </Button>
             </Link>
@@ -73,15 +76,15 @@ function DocsIndexPage() {
         <Card className='group hover:shadow-lg transition-shadow'>
           <CardHeader>
             <Download className='size-8 text-primary mb-2' />
-            <CardTitle>安装指南</CardTitle>
+            <CardTitle>{t('index.cards.install.title')}</CardTitle>
             <CardDescription>
-              多种安装方式，快速部署妙妙屋
+              {t('index.cards.install.desc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link to='/docs/install-docker'>
               <Button variant='ghost' className='group-hover:text-primary'>
-                查看安装
+                {t('index.cards.install.action')}
                 <ArrowRight className='size-4 ml-2' />
               </Button>
             </Link>
@@ -91,15 +94,15 @@ function DocsIndexPage() {
         <Card className='group hover:shadow-lg transition-shadow'>
           <CardHeader>
             <Network className='size-8 text-primary mb-2' />
-            <CardTitle>节点管理</CardTitle>
+            <CardTitle>{t('index.cards.nodes.title')}</CardTitle>
             <CardDescription>
-              添加、编辑和管理代理节点
+              {t('index.cards.nodes.desc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link to='/docs/nodes'>
               <Button variant='ghost' className='group-hover:text-primary'>
-                了解更多
+                {t('index.cards.learnMore')}
                 <ArrowRight className='size-4 ml-2' />
               </Button>
             </Link>
@@ -109,15 +112,15 @@ function DocsIndexPage() {
         <Card className='group hover:shadow-lg transition-shadow'>
           <CardHeader>
             <Users className='size-8 text-primary mb-2' />
-            <CardTitle>用户管理</CardTitle>
+            <CardTitle>{t('index.cards.users.title')}</CardTitle>
             <CardDescription>
-              创建用户并分配订阅配置
+              {t('index.cards.users.desc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link to='/docs/users'>
               <Button variant='ghost' className='group-hover:text-primary'>
-                了解更多
+                {t('index.cards.learnMore')}
                 <ArrowRight className='size-4 ml-2' />
               </Button>
             </Link>
@@ -127,15 +130,15 @@ function DocsIndexPage() {
         <Card className='group hover:shadow-lg transition-shadow'>
           <CardHeader>
             <Zap className='size-8 text-primary mb-2' />
-            <CardTitle>生成订阅</CardTitle>
+            <CardTitle>{t('index.cards.subscription.title')}</CardTitle>
             <CardDescription>
-              创建和配置订阅文件
+              {t('index.cards.subscription.desc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link to='/docs/generator'>
               <Button variant='ghost' className='group-hover:text-primary'>
-                了解更多
+                {t('index.cards.learnMore')}
                 <ArrowRight className='size-4 ml-2' />
               </Button>
             </Link>
@@ -145,15 +148,15 @@ function DocsIndexPage() {
         <Card className='group hover:shadow-lg transition-shadow'>
           <CardHeader>
             <Settings className='size-8 text-primary mb-2' />
-            <CardTitle>系统设置</CardTitle>
+            <CardTitle>{t('index.cards.settings.title')}</CardTitle>
             <CardDescription>
-              配置系统参数和高级选项
+              {t('index.cards.settings.desc')}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Link to='/docs/system-settings'>
               <Button variant='ghost' className='group-hover:text-primary'>
-                了解更多
+                {t('index.cards.learnMore')}
                 <ArrowRight className='size-4 ml-2' />
               </Button>
             </Link>
@@ -165,60 +168,60 @@ function DocsIndexPage() {
       <div className='bg-muted/30 rounded-lg p-8 mb-12'>
         <h2 className='text-2xl font-bold mb-6 flex items-center gap-2'>
           <Sparkles className='size-6 text-primary' />
-          核心特性
+          {t('index.highlights.heading')}
         </h2>
         <div className='grid gap-4 md:grid-cols-2'>
           <div className='flex items-start gap-3'>
             <div className='size-2 rounded-full bg-primary mt-2' />
             <div>
-              <h3 className='font-semibold'>多客户端支持</h3>
+              <h3 className='font-semibold'>{t('index.highlights.multiClient.title')}</h3>
               <p className='text-sm text-muted-foreground'>
-                支持 Clash、Stash、Shadowrocket、Surge 等12种客户端
+                {t('index.highlights.multiClient.desc')}
               </p>
             </div>
           </div>
           <div className='flex items-start gap-3'>
             <div className='size-2 rounded-full bg-primary mt-2' />
             <div>
-              <h3 className='font-semibold'>链式代理</h3>
+              <h3 className='font-semibold'>{t('index.highlights.chainProxy.title')}</h3>
               <p className='text-sm text-muted-foreground'>
-                支持多层代理转发，实现中转加速
+                {t('index.highlights.chainProxy.desc')}
               </p>
             </div>
           </div>
           <div className='flex items-start gap-3'>
             <div className='size-2 rounded-full bg-primary mt-2' />
             <div>
-              <h3 className='font-semibold'>流量统计</h3>
+              <h3 className='font-semibold'>{t('index.highlights.trafficStats.title')}</h3>
               <p className='text-sm text-muted-foreground'>
-                集成探针系统，精确统计节点流量
+                {t('index.highlights.trafficStats.desc')}
               </p>
             </div>
           </div>
           <div className='flex items-start gap-3'>
             <div className='size-2 rounded-full bg-primary mt-2' />
             <div>
-              <h3 className='font-semibold'>自定义规则</h3>
+              <h3 className='font-semibold'>{t('index.highlights.customRules.title')}</h3>
               <p className='text-sm text-muted-foreground'>
-                支持自定义 DNS、规则和规则集
+                {t('index.highlights.customRules.desc')}
               </p>
             </div>
           </div>
           <div className='flex items-start gap-3'>
             <div className='size-2 rounded-full bg-primary mt-2' />
             <div>
-              <h3 className='font-semibold'>外部订阅导入</h3>
+              <h3 className='font-semibold'>{t('index.highlights.externalSub.title')}</h3>
               <p className='text-sm text-muted-foreground'>
-                支持导入机场订阅，自动同步节点
+                {t('index.highlights.externalSub.desc')}
               </p>
             </div>
           </div>
           <div className='flex items-start gap-3'>
             <div className='size-2 rounded-full bg-primary mt-2' />
             <div>
-              <h3 className='font-semibold'>模板系统</h3>
+              <h3 className='font-semibold'>{t('index.highlights.templates.title')}</h3>
               <p className='text-sm text-muted-foreground'>
-                内置多种配置模板，快速生成订阅
+                {t('index.highlights.templates.desc')}
               </p>
             </div>
           </div>
@@ -229,44 +232,44 @@ function DocsIndexPage() {
       <div className='border-t pt-8'>
         <h2 className='text-xl font-semibold mb-4 flex items-center gap-2'>
           <FileText className='size-5' />
-          快速导航
+          {t('index.quickLinks.heading')}
         </h2>
         <div className='grid gap-2 md:grid-cols-3'>
           <Link
             to='/docs/quick-start'
             className='text-sm text-muted-foreground hover:text-primary transition-colors'
           >
-            → 快速开始
+            → {t('index.quickLinks.quickStart')}
           </Link>
           <Link
             to='/docs/install-docker'
             className='text-sm text-muted-foreground hover:text-primary transition-colors'
           >
-            → Docker 安装
+            → {t('index.quickLinks.dockerInstall')}
           </Link>
           <Link
             to='/docs/nodes'
             className='text-sm text-muted-foreground hover:text-primary transition-colors'
           >
-            → 节点管理
+            → {t('index.quickLinks.nodeManagement')}
           </Link>
           <Link
             to='/docs/generator'
             className='text-sm text-muted-foreground hover:text-primary transition-colors'
           >
-            → 生成订阅
+            → {t('index.quickLinks.generateSub')}
           </Link>
           <Link
             to='/docs/chain-proxy'
             className='text-sm text-muted-foreground hover:text-primary transition-colors'
           >
-            → 链式代理
+            → {t('index.quickLinks.chainProxy')}
           </Link>
           <Link
             to='/docs/faq'
             className='text-sm text-muted-foreground hover:text-primary transition-colors'
           >
-            → 常见问题
+            → {t('index.quickLinks.faq')}
           </Link>
         </div>
       </div>

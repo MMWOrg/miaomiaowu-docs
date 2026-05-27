@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -18,10 +19,12 @@ export const Route = createFileRoute('/docs/update')({
 })
 
 function UpdatePage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='版本更新'
-      description='更新妙妙屋到最新版本的多种方式'
+      title={t('update.title')}
+      description={t('update.description')}
     >
       {/* 网页端更新提示 - 醒目展示 */}
       <section className='mb-8'>
@@ -33,18 +36,18 @@ function UpdatePage() {
               </div>
               <div className='flex-1'>
                 <h2 className='text-2xl font-bold text-green-600 dark:text-green-400 mb-2'>
-                  支持网页端自动更新！
+                  {t('update.webUpdate.heroTitle')}
                 </h2>
                 <p className='text-lg text-muted-foreground mb-4'>
-                  从 <span className='font-bold text-primary'>0.3.5 版本</span> 开始，可以在网页端直接检查并更新应用。
+                  {t('update.webUpdate.heroDesc')}
                 </p>
                 <div className='bg-background/50 rounded-lg p-4 border border-green-500/20'>
                   <div className='flex items-center gap-3'>
                     <Settings className='size-5 text-green-500' />
-                    <span className='font-medium'>操作方法：</span>
+                    <span className='font-medium'>{t('update.webUpdate.howTo')}</span>
                   </div>
                   <p className='mt-2 text-muted-foreground'>
-                    进入 <strong>「个人设置」</strong> 菜单 → 点击 <strong>「检查更新」</strong> 按钮 → 确认更新
+                    {t('update.webUpdate.howToSteps')}
                   </p>
                 </div>
               </div>
@@ -57,44 +60,44 @@ function UpdatePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          近期文档同步（2026-04-14）
+          {t('update.recentSync.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              本页已根据 `../miaomiaowu` 近期提交同步以下变更：
+              {t('update.recentSync.desc')}
             </p>
             <div className='space-y-3 text-sm'>
               <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
-                <p className='font-medium'>代理组支持绑定中转代理组</p>
+                <p className='font-medium'>{t('update.recentSync.change1.title')}</p>
                 <p className='text-xs text-muted-foreground mt-1'>
-                  代理组类型菜单新增“中转代理组”下拉配置，对应链式代理的
+                  {t('update.recentSync.change1.desc')}
                   <code className='bg-muted px-1 rounded mx-1'>dialer-proxy-group</code>
-                  字段。详见
-                  <Link to='/docs/chain-proxy' className='text-primary hover:underline ml-1'>链式代理</Link>
+                  {t('update.recentSync.change1.seeAlso')}
+                  <Link to='/docs/chain-proxy' className='text-primary hover:underline ml-1'>{t('update.recentSync.change1.link')}</Link>
                   。
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
-                <p className='font-medium'>编辑代理组支持分列数量</p>
+                <p className='font-medium'>{t('update.recentSync.change2.title')}</p>
                 <p className='text-xs text-muted-foreground mt-1'>
-                  编辑节点弹窗新增 2-6 列切换，并记忆上次列数。详见
-                  <Link to='/docs/edit-nodes' className='text-primary hover:underline ml-1'>节点与代理组编辑</Link>
+                  {t('update.recentSync.change2.desc')}
+                  <Link to='/docs/edit-nodes' className='text-primary hover:underline ml-1'>{t('update.recentSync.change2.link')}</Link>
                   。
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
-                <p className='font-medium'>绑定探针支持搜索与滚动</p>
+                <p className='font-medium'>{t('update.recentSync.change3.title')}</p>
                 <p className='text-xs text-muted-foreground mt-1'>
-                  节点绑定探针弹窗新增搜索输入框和滚动列表。详见
-                  <Link to='/docs/probe' className='text-primary hover:underline ml-1'>探针管理</Link>
+                  {t('update.recentSync.change3.desc')}
+                  <Link to='/docs/probe' className='text-primary hover:underline ml-1'>{t('update.recentSync.change3.link')}</Link>
                   。
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-3 border-l-4 border-primary'>
-                <p className='font-medium'>默认 DNS 模板改为 DoH，Trojan URI 默认 security=none</p>
+                <p className='font-medium'>{t('update.recentSync.change4.title')}</p>
                 <p className='text-xs text-muted-foreground mt-1'>
-                  对应模板与订阅转换行为已在后端更新，生成配置时会体现为更符合当前实现的默认值。
+                  {t('update.recentSync.change4.desc')}
                 </p>
               </div>
             </div>
@@ -106,25 +109,25 @@ function UpdatePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileText className='size-5 text-primary' />
-          更新日志展示
+          {t('update.changelog.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              检查更新时，更新弹窗会以富文本格式展示 GitHub Release Notes，支持以下格式渲染：
+              {t('update.changelog.desc')}
             </p>
             <ul className='space-y-2 text-sm text-muted-foreground'>
               <li className='flex items-start gap-2'>
                 <span className='text-primary mt-1'>•</span>
-                <span><strong>标题</strong>：Markdown 标题（# / ## / ###）</span>
+                <span>{t('update.changelog.headings')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-primary mt-1'>•</span>
-                <span><strong>列表</strong>：无序列表项（- / *）</span>
+                <span>{t('update.changelog.lists')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-primary mt-1'>•</span>
-                <span><strong>链接与代码</strong>：超链接、行内代码高亮</span>
+                <span>{t('update.changelog.linksCode')}</span>
               </li>
             </ul>
           </CardContent>
@@ -135,21 +138,21 @@ function UpdatePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Bug className='size-5 text-primary' />
-          Debug 日志
+          {t('update.debugLog.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              管理员可在个人设置中开启 Debug 日志，开启后页面右侧会出现浮动图标，点击可展开实时日志查看器：
+              {t('update.debugLog.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>功能特性</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('update.debugLog.featuresHeading')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• 页面右侧浮动图标实时显示运行时长</li>
-                  <li>• 侧边栏查看器实时滚动显示最近 200 行日志</li>
-                  <li>• 5 分钟后自动关闭，避免遗忘导致日志文件过大</li>
-                  <li>• 关闭时自动下载日志文件</li>
+                  <li>{t('update.debugLog.feature1')}</li>
+                  <li>{t('update.debugLog.feature2')}</li>
+                  <li>{t('update.debugLog.feature3')}</li>
+                  <li>{t('update.debugLog.feature4')}</li>
                 </ul>
               </div>
             </div>
@@ -161,34 +164,34 @@ function UpdatePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <RefreshCw className='size-5 text-primary' />
-          网页端更新（0.3.5+）
+          {t('update.webUpdateSteps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              适用于已安装 0.3.5 及以上版本的用户：
+              {t('update.webUpdateSteps.desc')}
             </p>
             <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-green-500'>
               <div className='space-y-4 text-sm'>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>1</span>
                   <div>
-                    <strong>进入个人设置</strong>
-                    <p className='text-muted-foreground mt-1'>点击页面右上角的用户头像，选择「个人设置」</p>
+                    <strong>{t('update.webUpdateSteps.step1.title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('update.webUpdateSteps.step1.desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>2</span>
                   <div>
-                    <strong>点击检查更新</strong>
-                    <p className='text-muted-foreground mt-1'>在设置页面中找到「检查更新」按钮并点击</p>
+                    <strong>{t('update.webUpdateSteps.step2.title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('update.webUpdateSteps.step2.desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>3</span>
                   <div>
-                    <strong>确认更新</strong>
-                    <p className='text-muted-foreground mt-1'>如果有新版本，按照提示确认并等待更新完成</p>
+                    <strong>{t('update.webUpdateSteps.step3.title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('update.webUpdateSteps.step3.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -201,12 +204,12 @@ function UpdatePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileText className='size-5 text-primary' />
-          Docker Compose 更新（推荐）
+          {t('update.dockerCompose.heading')}
         </h2>
         <Card className='bg-gradient-to-r from-primary/10 to-blue-500/10 border-primary/20'>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              使用 Docker Compose 部署的用户，更新非常简单：
+              {t('update.dockerCompose.desc')}
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 进入 docker-compose.yml 所在目录
@@ -216,7 +219,7 @@ cd /path/to/your/docker-compose
 docker-compose pull && docker-compose up -d`}</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
-              Docker Compose 会自动处理容器的停止、删除和重建，数据会保留在挂载的卷中。
+              {t('update.dockerCompose.note')}
             </p>
           </CardContent>
         </Card>
@@ -226,12 +229,12 @@ docker-compose pull && docker-compose up -d`}</pre>
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Container className='size-5 text-primary' />
-          Docker Run 更新
+          {t('update.dockerRun.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              使用 Docker Run 部署的用户，需要手动执行以下步骤：
+              {t('update.dockerRun.desc')}
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>{`# 拉取最新镜像
@@ -251,7 +254,7 @@ docker run -d \\
   ghcr.io/iluobei/miaomiaowu:latest`}</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
-              请确保使用与初次安装时相同的卷挂载路径，以保留数据。
+              {t('update.dockerRun.note')}
             </p>
           </CardContent>
         </Card>
@@ -261,18 +264,18 @@ docker run -d \\
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Terminal className='size-5 text-primary' />
-          一键脚本更新
+          {t('update.scriptUpdate.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              使用一键安装脚本安装的用户，可以使用以下命令更新：
+              {t('update.scriptUpdate.desc')}
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/install.sh | sudo bash -s update</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
-              脚本会自动下载最新版本并重启服务。
+              {t('update.scriptUpdate.note')}
             </p>
           </CardContent>
         </Card>
@@ -282,18 +285,18 @@ docker run -d \\
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Terminal className='size-5 text-primary' />
-          简易安装更新
+          {t('update.simpleUpdate.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              使用简易安装的用户，可以使用以下命令更新：
+              {t('update.simpleUpdate.desc')}
             </p>
             <div className='bg-muted rounded-lg p-4 font-mono text-sm mb-4 overflow-x-auto'>
               <pre>curl -sL https://raw.githubusercontent.com/iluobei/miaomiaowu/main/quick-install.sh | bash -s update</pre>
             </div>
             <p className='text-sm text-muted-foreground'>
-              更新后需要手动重新启动程序。
+              {t('update.simpleUpdate.note')}
             </p>
           </CardContent>
         </Card>
@@ -303,24 +306,24 @@ docker run -d \\
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Database className='size-5 text-primary' />
-          数据备份建议
+          {t('update.backup.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-orange-500/10 rounded-lg p-4 border-l-4 border-orange-500'>
               <p className='text-sm text-muted-foreground mb-3'>
-                <strong>重要：</strong>在更新前建议备份数据目录，以防更新过程中出现问题。
+                {t('update.backup.important')}
               </p>
               <div className='space-y-3'>
                 <div className='bg-muted/50 rounded-lg p-3'>
-                  <h4 className='font-semibold text-sm mb-2'>Docker 部署</h4>
+                  <h4 className='font-semibold text-sm mb-2'>{t('update.backup.dockerDeploy')}</h4>
                   <div className='bg-muted rounded p-2 font-mono text-xs overflow-x-auto'>
                     <pre>{`cp -r ./mmw-data ./mmw-data-backup
 cp -r ./subscribes ./subscribes-backup`}</pre>
                   </div>
                 </div>
                 <div className='bg-muted/50 rounded-lg p-3'>
-                  <h4 className='font-semibold text-sm mb-2'>一键脚本安装</h4>
+                  <h4 className='font-semibold text-sm mb-2'>{t('update.backup.scriptInstall')}</h4>
                   <div className='bg-muted rounded p-2 font-mono text-xs overflow-x-auto'>
                     <pre>sudo cp -r /etc/mmw /etc/mmw-backup</pre>
                   </div>
@@ -333,26 +336,26 @@ cp -r ./subscribes ./subscribes-backup`}</pre>
 
       {/* 相关链接 */}
       <section className='mb-8'>
-        <h2 className='text-xl font-bold mb-4'>相关文档</h2>
+        <h2 className='text-xl font-bold mb-4'>{t('update.relatedDocs.heading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='grid md:grid-cols-2 gap-3'>
               <Link to='/docs/install-docker' className='bg-muted/30 rounded-lg p-4 hover:bg-muted/50 transition-colors block'>
                 <h4 className='font-semibold text-sm mb-2 flex items-center gap-2'>
-                  Docker 安装
+                  {t('update.relatedDocs.dockerInstall.title')}
                   <ArrowRight className='size-3' />
                 </h4>
                 <p className='text-xs text-muted-foreground'>
-                  查看完整的 Docker 部署配置
+                  {t('update.relatedDocs.dockerInstall.desc')}
                 </p>
               </Link>
               <Link to='/docs/install-direct' className='bg-muted/30 rounded-lg p-4 hover:bg-muted/50 transition-colors block'>
                 <h4 className='font-semibold text-sm mb-2 flex items-center gap-2'>
-                  直接安装
+                  {t('update.relatedDocs.directInstall.title')}
                   <ArrowRight className='size-3' />
                 </h4>
                 <p className='text-xs text-muted-foreground'>
-                  查看一键脚本和手动安装方式
+                  {t('update.relatedDocs.directInstall.desc')}
                 </p>
               </Link>
             </div>

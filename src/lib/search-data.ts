@@ -11,61 +11,72 @@ import {
   Users,
   Zap,
 } from 'lucide-react'
-import { navItems, type NavItem } from '@/components/docs/doc-sidebar'
-import { xNavItems, type XNavItem } from '@/components/docs/x-doc-sidebar'
+import { navStructure } from '@/components/docs/doc-sidebar'
+import { xNavStructure } from '@/components/docs/x-doc-sidebar'
 import { searchIndex } from '@/generated/search-index'
+import i18n from '@/i18n'
 
 export type SearchItem = {
   title: string
   description: string
   content: string
   href: string
-  section: '妙妙屋文档' | '妙妙屋X文档' | '管理功能'
+  section: string
   icon: React.ComponentType<{ className?: string }>
 }
 
 type NavIcon = React.ComponentType<{ className?: string }>
 
 function buildIconMap(
-  items: (NavItem | XNavItem)[],
+  items: { icon: NavIcon; href?: string; children?: { icon: NavIcon; href?: string; children?: unknown[] }[] }[],
 ): Map<string, NavIcon> {
   const map = new Map<string, NavIcon>()
   for (const item of items) {
     if (item.href && item.icon) map.set(item.href, item.icon)
     if (item.children) {
-      for (const [k, v] of buildIconMap(item.children)) map.set(k, v)
+      for (const [k, v] of buildIconMap(item.children as typeof items)) map.set(k, v)
     }
   }
   return map
 }
 
-const iconMap = buildIconMap([...navItems, ...xNavItems])
+const iconMap = buildIconMap([...navStructure, ...xNavStructure] as Parameters<typeof buildIconMap>[0])
 
-const docItems: SearchItem[] = searchIndex.map((entry) => ({
-  title: entry.pageTitle,
-  description: entry.description,
-  content: entry.content,
-  href: entry.href,
-  section: entry.section === 'docs' ? '妙妙屋文档' : '妙妙屋X文档',
-  icon: iconMap.get(entry.href) ?? FileCode,
-}))
+function getSectionLabel(section: string): string {
+  const t = i18n.t.bind(i18n)
+  if (section === 'docs') return t('search:sections.mmwDocs')
+  if (section === 'x-docs') return t('search:sections.mmwxDocs')
+  return t('search:sections.management')
+}
 
-const managementItems: SearchItem[] = [
-  { title: '流量信息', description: '管理功能', content: '', href: '/', icon: Activity, section: '管理功能' },
-  { title: '订阅链接', description: '管理功能', content: '', href: '/subscription', icon: LinkIcon, section: '管理功能' },
-  { title: '生成订阅', description: '管理功能', content: '', href: '/generator', icon: Zap, section: '管理功能' },
-  { title: '节点管理', description: '管理功能', content: '', href: '/nodes', icon: Network, section: '管理功能' },
-  { title: '订阅文件', description: '管理功能', content: '', href: '/subscribe-files', icon: Database, section: '管理功能' },
-  { title: '自定义规则', description: '管理功能', content: '', href: '/custom-rules', icon: FileCode, section: '管理功能' },
-  { title: '探针管理', description: '管理功能', content: '', href: '/probe', icon: Radar, section: '管理功能' },
-  { title: '用户管理', description: '管理功能', content: '', href: '/users', icon: Users, section: '管理功能' },
-  { title: '模板管理', description: '管理功能', content: '', href: '/templates', icon: LayoutTemplate, section: '管理功能' },
-  { title: '系统设置', description: '管理功能', content: '', href: '/system-settings', icon: Settings, section: '管理功能' },
-  { title: '用户设置', description: '管理功能', content: '', href: '/settings', icon: Settings, section: '管理功能' },
-  { title: '节点与代理组编辑', description: '管理功能', content: '', href: '/generator', icon: GripVertical, section: '管理功能' },
-]
+export function getSearchItems(): SearchItem[] {
+  const t = i18n.t.bind(i18n)
 
-export const searchItems: SearchItem[] = [
-  ...docItems,
-  ...managementItems,
-]
+  const docItems: SearchItem[] = searchIndex.map((entry) => ({
+    title: entry.pageTitle,
+    description: entry.description,
+    content: entry.content,
+    href: entry.href,
+    section: getSectionLabel(entry.section),
+    icon: iconMap.get(entry.href) ?? FileCode,
+  }))
+
+  const managementItems: SearchItem[] = [
+    { title: t('layout:nav.trafficInfo'), description: '', content: '', href: '/', icon: Activity, section: t('search:sections.management') },
+    { title: t('layout:nav.subscriptionLink'), description: '', content: '', href: '/subscription', icon: LinkIcon, section: t('search:sections.management') },
+    { title: t('layout:nav.generateSubscription'), description: '', content: '', href: '/generator', icon: Zap, section: t('search:sections.management') },
+    { title: t('layout:nav.nodeManagement'), description: '', content: '', href: '/nodes', icon: Network, section: t('search:sections.management') },
+    { title: t('sidebar:mmw.subscribe-files'), description: '', content: '', href: '/subscribe-files', icon: Database, section: t('search:sections.management') },
+    { title: t('sidebar:mmw.custom-rules'), description: '', content: '', href: '/custom-rules', icon: FileCode, section: t('search:sections.management') },
+    { title: t('sidebar:mmw.probe'), description: '', content: '', href: '/probe', icon: Radar, section: t('search:sections.management') },
+    { title: t('layout:nav.userManagement'), description: '', content: '', href: '/users', icon: Users, section: t('search:sections.management') },
+    { title: t('sidebar:mmw.templates'), description: '', content: '', href: '/templates', icon: LayoutTemplate, section: t('search:sections.management') },
+    { title: t('layout:nav.systemSettings'), description: '', content: '', href: '/system-settings', icon: Settings, section: t('search:sections.management') },
+    { title: t('sidebar:mmw.settings'), description: '', content: '', href: '/settings', icon: Settings, section: t('search:sections.management') },
+    { title: t('sidebar:mmw.edit-nodes'), description: '', content: '', href: '/generator', icon: GripVertical, section: t('search:sections.management') },
+  ]
+
+  return [...docItems, ...managementItems]
+}
+
+export const searchItems: SearchItem[] = getSearchItems()

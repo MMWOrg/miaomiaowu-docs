@@ -14,7 +14,15 @@
       "Bash(pkill -f \"vite\")",
       "Bash(xargs ls -la)",
       "Bash(grep -E \"\\\\.\\(ts|tsx\\)$\")",
-      "Bash(grep -E \"\\\\.\\(go|tsx|ts\\)$\")"
+      "Bash(grep -E \"\\\\.\\(go|tsx|ts\\)$\")",
+      "Bash(xxd /home/ubuntu/opensource/miaomiaowu-docs/src/components/landing/features.tsx)",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/tmp/i18n-xdocs-a-zh.json'\\)\\); json.load\\(open\\('/tmp/i18n-xdocs-a-en.json'\\)\\); print\\('Both JSON files are valid'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/tmp/i18n-docs-a-zh.json'\\)\\); json.load\\(open\\('/tmp/i18n-docs-a-en.json'\\)\\); print\\('Both JSON files are valid'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/tmp/i18n-xdocs-b-zh.json'\\)\\); json.load\\(open\\('/tmp/i18n-xdocs-b-en.json'\\)\\); print\\('Both JSON files are valid'\\)\")",
+      "Bash(python3 -c \"import json; json.load\\(open\\('/tmp/i18n-docs-b-zh.json'\\)\\); json.load\\(open\\('/tmp/i18n-docs-b-en.json'\\)\\); print\\('Both JSON files are valid'\\)\")",
+      "Bash(git -C /home/ubuntu/opensource/miaomiaowu-docs diff --stat src/routes/docs/)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3)"
     ]
   }
 }

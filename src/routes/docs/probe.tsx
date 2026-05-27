@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -15,22 +16,24 @@ export const Route = createFileRoute('/docs/probe')({
 })
 
 function ProbePage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='探针管理'
-      description='配置和管理流量统计探针服务器（管理员功能）'
+      title={t('probe.title')}
+      description={t('probe.description')}
     >
       {/* 功能说明 */}
       <section className='mb-8'>
         <div className='flex items-center gap-2 mb-4'>
           <span className='px-2 py-1 bg-destructive/10 text-destructive rounded-md text-xs border border-destructive/20'>
-            管理员功能
+            {t('probe.adminFeature')}
           </span>
         </div>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground'>
-              探针管理页面是管理员专用功能，用于配置和管理流量统计探针服务器。探针服务器可以精确统计特定节点的流量使用情况。
+              {t('probe.intro')}
             </p>
           </CardContent>
         </Card>
@@ -40,7 +43,7 @@ function ProbePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          主要功能
+          {t('probe.mainFeatures.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -48,19 +51,19 @@ function ProbePage() {
               <ul className='space-y-2 text-sm'>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>添加探针服务器</strong>：配置新的探针服务器用于流量统计</span>
+                  <span><strong>{t('probe.mainFeatures.addTitle')}</strong>{t('probe.mainFeatures.addDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>编辑探针配置</strong>：修改探针服务器的月流量信息和流量统计方式</span>
+                  <span><strong>{t('probe.mainFeatures.editTitle')}</strong>{t('probe.mainFeatures.editDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>删除探针服务器</strong>：移除不再使用的探针服务器</span>
+                  <span><strong>{t('probe.mainFeatures.deleteTitle')}</strong>{t('probe.mainFeatures.deleteDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-primary mt-1'>•</span>
-                  <span><strong>节点绑定管理</strong>：为节点分配特定的探针服务器，实现精准流量统计</span>
+                  <span><strong>{t('probe.mainFeatures.bindTitle')}</strong>{t('probe.mainFeatures.bindDesc')}</span>
                 </li>
               </ul>
             </div>
@@ -72,16 +75,16 @@ function ProbePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Search className='size-5 text-primary' />
-          近期更新
+          {t('probe.recentUpdates.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-primary'>
-              <h4 className='font-semibold text-sm mb-2'>绑定探针支持搜索与滚动（2026-04-07）</h4>
+              <h4 className='font-semibold text-sm mb-2'>{t('probe.recentUpdates.searchScrollTitle')}</h4>
               <ul className='space-y-1 text-xs text-muted-foreground'>
-                <li>• 绑定探针弹窗新增搜索框，可按服务器名称或服务器 ID 快速筛选。</li>
-                <li>• 服务器列表增加滚动区域，服务器较多时无需撑满整个弹窗。</li>
-                <li>• 关闭弹窗时会自动清空搜索词，避免下次进入时残留筛选条件。</li>
+                <li>• {t('probe.recentUpdates.searchScrollItem1')}</li>
+                <li>• {t('probe.recentUpdates.searchScrollItem2')}</li>
+                <li>• {t('probe.recentUpdates.searchScrollItem3')}</li>
               </ul>
             </div>
           </CardContent>
@@ -92,31 +95,31 @@ function ProbePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Network className='size-5 text-primary' />
-          探针工作原理
+          {t('probe.howItWorks.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              探针服务器通过监控探针服务器的流量，为管理员提供精确的流量统计数据。
+              {t('probe.howItWorks.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>统计流程</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('probe.howItWorks.flowTitle')}</h4>
                 <ol className='space-y-2 text-xs text-muted-foreground'>
-                  <li><strong>1.</strong> 在探针管理中配置探针服务器的连接信息</li>
-                  <li><strong>2.</strong> 在节点管理中为节点绑定特定的探针服务器</li>
-                  <li><strong>3.</strong> 探针服务器实时监控绑定节点的流量使用</li>
-                  <li><strong>4.</strong> 生成订阅时，系统仅统计订阅中包含的已绑定节点的流量</li>
-                  <li><strong>5.</strong> 用户的流量使用数据会精确反映实际使用情况</li>
+                  <li><strong>1.</strong> {t('probe.howItWorks.flow1')}</li>
+                  <li><strong>2.</strong> {t('probe.howItWorks.flow2')}</li>
+                  <li><strong>3.</strong> {t('probe.howItWorks.flow3')}</li>
+                  <li><strong>4.</strong> {t('probe.howItWorks.flow4')}</li>
+                  <li><strong>5.</strong> {t('probe.howItWorks.flow5')}</li>
                 </ol>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>优势</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('probe.howItWorks.advantagesTitle')}</h4>
                 <ul className='space-y-1 text-xs text-muted-foreground'>
-                  <li>• <strong>精确统计</strong>：只统计用户实际使用的节点流量</li>
-                  <li>• <strong>灵活配置</strong>：不同节点可以使用不同的探针服务器</li>
-                  <li>• <strong>负载分散</strong>：多个探针服务器可分担统计压力</li>
-                  <li>• <strong>独立部署</strong>：探针服务器可独立于主服务部署</li>
+                  <li>• <strong>{t('probe.howItWorks.adv1Title')}</strong>{t('probe.howItWorks.adv1Desc')}</li>
+                  <li>• <strong>{t('probe.howItWorks.adv2Title')}</strong>{t('probe.howItWorks.adv2Desc')}</li>
+                  <li>• <strong>{t('probe.howItWorks.adv3Title')}</strong>{t('probe.howItWorks.adv3Desc')}</li>
+                  <li>• <strong>{t('probe.howItWorks.adv4Title')}</strong>{t('probe.howItWorks.adv4Desc')}</li>
                 </ul>
               </div>
             </div>
@@ -128,7 +131,7 @@ function ProbePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          配置探针步骤
+          {t('probe.configSteps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -137,46 +140,46 @@ function ProbePage() {
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>1</span>
                   <div>
-                    <strong>点击"探针管理"菜单</strong>
-                    <p className='text-muted-foreground mt-1'>打开顶部探针管理菜单</p>
+                    <strong>{t('probe.configSteps.step1Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('probe.configSteps.step1Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>2</span>
                   <div>
-                    <strong>填写探针服务器信息</strong>
+                    <strong>{t('probe.configSteps.step2Title')}</strong>
                     <p className='text-muted-foreground mt-1'>
-                      • <strong>服务器类型</strong>：支持哪吒V0、哪吒、Dstatus、Komari<br/>
-                      • <strong>服务器地址</strong>：探针服务器的域名或 IP 地址
+                      • <strong>{t('probe.configSteps.serverTypeLabel')}</strong>{t('probe.configSteps.serverTypeDesc')}<br/>
+                      • <strong>{t('probe.configSteps.serverAddrLabel')}</strong>{t('probe.configSteps.serverAddrDesc')}
                     </p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>3</span>
                   <div>
-                    <strong>同步服务器</strong>
-                    <p className='text-muted-foreground mt-1'>点击从面板同步，加载探针配置的服务器列表</p>
+                    <strong>{t('probe.configSteps.step3Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('probe.configSteps.step3Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>4</span>
                   <div>
-                    <strong>配置流量统计方式</strong>
-                    <p className='text-muted-foreground mt-1'>服务器列表选择流量统计方式（上行、下行、上下行）</p>
+                    <strong>{t('probe.configSteps.step4Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('probe.configSteps.step4Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>5</span>
                   <div>
-                    <strong>配置月流量</strong>
-                    <p className='text-muted-foreground mt-1'>部分探针会返回月流量字段，如未返回则需要手动输入。单位GB</p>
+                    <strong>{t('probe.configSteps.step5Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('probe.configSteps.step5Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>6</span>
                   <div>
-                    <strong>绑定节点</strong>
-                    <p className='text-muted-foreground mt-1'>在节点管理页面为需要统计流量的节点绑定探针服务器</p>
+                    <strong>{t('probe.configSteps.step6Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('probe.configSteps.step6Desc')}</p>
                   </div>
                 </div>
               </div>
@@ -189,28 +192,28 @@ function ProbePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Activity className='size-5 text-primary' />
-          流量统计说明
+          {t('probe.trafficStats.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              节点绑定探针服务器后，系统的流量统计方式会发生变化：
+              {t('probe.trafficStats.desc')}
             </p>
             <div className='space-y-3'>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>未绑定</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('probe.trafficStats.unboundTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  统计用户探针配置页面配置的所有服务器的总流量，无论用户是否实际使用这些节点。
+                  {t('probe.trafficStats.unboundDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>绑定后</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('probe.trafficStats.boundTitle')}</h4>
                 <p className='text-xs text-muted-foreground mb-2'>
-                  仅统计用户实际使用的已绑定探针的节点流量，更加精确和公平。
+                  {t('probe.trafficStats.boundDesc')}
                 </p>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• 只有绑定了探针的节点才会被统计</li>
-                  <li>• 避免了用户从探针绑定了多台服务器仅使用一台服务器的节点的订阅导致流量错误</li>
+                  <li>• {t('probe.trafficStats.bound1')}</li>
+                  <li>• {t('probe.trafficStats.bound2')}</li>
                 </ul>
               </div>
             </div>
@@ -222,7 +225,7 @@ function ProbePage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-primary' />
-          注意事项
+          {t('probe.notes.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -230,19 +233,19 @@ function ProbePage() {
               <ul className='space-y-2 text-sm text-muted-foreground'>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>探针服务器要求</strong>：确保探针服务器稳定运行，网络连接正常</span>
+                  <span><strong>{t('probe.notes.requirementTitle')}</strong>{t('probe.notes.requirementDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>节点绑定</strong>：没有任何节点绑定探针服务器时，订阅时返回探针管理里所有服务器的流量</span>
+                  <span><strong>{t('probe.notes.bindingTitle')}</strong>{t('probe.notes.bindingDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>删除影响</strong>：删除探针服务器会解除所有绑定关系，相关节点将无法统计流量</span>
+                  <span><strong>{t('probe.notes.deleteTitle')}</strong>{t('probe.notes.deleteDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>安全性</strong>：使用公开接口访问探针，无需登录</span>
+                  <span><strong>{t('probe.notes.securityTitle')}</strong>{t('probe.notes.securityDesc')}</span>
                 </li>
               </ul>
             </div>

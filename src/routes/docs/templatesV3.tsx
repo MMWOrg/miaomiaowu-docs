@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -148,10 +149,12 @@ function CollapsibleCode({ title, code, language }: { title: string; code: strin
 }
 
 function TemplatesV3DocPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='模板管理 V3'
-      description='使用 mihomo 风格的高级模板系统管理订阅配置'
+      title={t('templatesV3.title')}
+      description={t('templatesV3.description')}
     >
       {/* 前置条件 */}
       <section className='mb-8'>
@@ -160,13 +163,13 @@ function TemplatesV3DocPage() {
             <div className='flex items-start gap-3'>
               <Settings className='size-5 text-primary mt-0.5' />
               <div>
-                <h4 className='font-semibold text-sm mb-1'>前置条件</h4>
+                <h4 className='font-semibold text-sm mb-1'>{t('templatesV3.prerequisite.title')}</h4>
                 <p className='text-sm text-muted-foreground'>
-                  需要在
+                  {t('templatesV3.prerequisite.desc1')}
                   <Link to='/docs/system-settings' className='text-primary hover:underline mx-1'>
-                    系统设置
+                    {t('templatesV3.prerequisite.settingsLink')}
                   </Link>
-                  中开启「使用新模板系统」并选择「V3 版本模板」，才会显示模板管理菜单。
+                  {t('templatesV3.prerequisite.desc2')}
                 </p>
               </div>
             </div>
@@ -179,15 +182,12 @@ function TemplatesV3DocPage() {
         <Card className='bg-muted/30'>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              模板管理 V3 是妙妙屋最新的模板系统，采用 mihomo 风格的代理组配置语法，
-              支持 <code className='bg-muted px-1 rounded'>include-all</code>、
-              <code className='bg-muted px-1 rounded'>filter</code> 等高级特性，
-              可以解决添加节点时需要手动编辑订阅的问题，现在可以根据模板自动添加节点到订阅。
+              {t('templatesV3.intro')}
             </p>
             <div className='flex gap-2 flex-wrap'>
-              <Badge variant='destructive'>管理员功能</Badge>
-              <Badge variant='secondary'>mihomo 兼容</Badge>
-              <Badge variant='outline'>可视化编辑</Badge>
+              <Badge variant='destructive'>{t('templatesV3.adminFeature')}</Badge>
+              <Badge variant='secondary'>{t('templatesV3.mihomoCompat')}</Badge>
+              <Badge variant='outline'>{t('templatesV3.visualEdit')}</Badge>
             </div>
           </CardContent>
         </Card>
@@ -197,47 +197,43 @@ function TemplatesV3DocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Layers className='size-5 text-primary' />
-          模板版本对比
+          {t('templatesV3.versionCompare.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              妙妙屋支持三种模板版本，可以在
+              {t('templatesV3.versionCompare.desc1')}
               <Link to='/docs/system-settings' className='text-primary hover:underline mx-1'>
-                系统设置
+                {t('templatesV3.versionCompare.settingsLink')}
               </Link>
-              中切换：
+              {t('templatesV3.versionCompare.desc2')}
             </p>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-gray-400'>
                 <div className='flex items-center gap-2 mb-2'>
                   <FolderOpen className='size-4 text-gray-500' />
-                  <h4 className='font-semibold text-sm'>旧版 (V1) - 文件模板</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.versionCompare.v1Title')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  使用 <code className='bg-muted px-1 rounded'>rule_templates</code> 目录下的 YAML 文件，
-                  是完整的 Clash 配置文件，节点在生成时自动填充到 proxies 字段。
+                  {t('templatesV3.versionCompare.v1Desc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-blue-500'>
                 <div className='flex items-center gap-2 mb-2'>
                   <Database className='size-4 text-blue-500' />
-                  <h4 className='font-semibold text-sm'>通用后端 (V2) - 数据库模板</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.versionCompare.v2Title')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  使用 INI 格式（subconverter 格式），通过 <code className='bg-muted px-1 rounded'>custom_proxy_group</code> 定义代理组，
-                  兼容 GitHub 上的各种订阅转换模板。
+                  {t('templatesV3.versionCompare.v2Desc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-green-500'>
                 <div className='flex items-center gap-2 mb-2'>
                   <Zap className='size-4 text-green-500' />
-                  <h4 className='font-semibold text-sm'>新版 (V3) - mihomo 风格模板（推荐）</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.versionCompare.v3Title')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  使用 YAML 格式，支持 mihomo 的 <code className='bg-muted px-1 rounded'>include-all</code>、
-                  <code className='bg-muted px-1 rounded'>filter</code> 等高级语法，
-                  提供可视化编辑界面，支持区域代理组自动生成。
+                  {t('templatesV3.versionCompare.v3Desc')}
                 </p>
               </div>
             </div>
@@ -249,29 +245,29 @@ function TemplatesV3DocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          核心概念
+          {t('templatesV3.coreConcepts.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              V3 模板基于 mihomo 的代理组语法，通过声明式配置自动匹配和分配节点：
+              {t('templatesV3.coreConcepts.desc')}
             </p>
             <div className='grid gap-4 md:grid-cols-2'>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>节点引入</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.coreConcepts.includeTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <code className='bg-muted px-1 rounded'>include-all</code> - 引入所有节点和代理集合</li>
-                  <li>• <code className='bg-muted px-1 rounded'>include-all-proxies</code> - 仅引入所有代理节点</li>
-                  <li>• <code className='bg-muted px-1 rounded'>include-all-providers</code> - 仅引入所有代理集合</li>
-                  <li>• <code className='bg-muted px-1 rounded'>include-type</code> - 按节点类型引入</li>
+                  <li>• <code className='bg-muted px-1 rounded'>include-all</code> - {t('templatesV3.coreConcepts.includeAll')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>include-all-proxies</code> - {t('templatesV3.coreConcepts.includeAllProxies')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>include-all-providers</code> - {t('templatesV3.coreConcepts.includeAllProviders')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>include-type</code> - {t('templatesV3.coreConcepts.includeType')}</li>
                 </ul>
               </div>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>节点筛选</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.coreConcepts.filterTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <code className='bg-muted px-1 rounded'>filter</code> - 筛选匹配关键词的节点</li>
-                  <li>• <code className='bg-muted px-1 rounded'>exclude-filter</code> - 排除匹配关键词的节点</li>
-                  <li>• <code className='bg-muted px-1 rounded'>exclude-type</code> - 按节点类型排除</li>
+                  <li>• <code className='bg-muted px-1 rounded'>filter</code> - {t('templatesV3.coreConcepts.filter')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>exclude-filter</code> - {t('templatesV3.coreConcepts.excludeFilter')}</li>
+                  <li>• <code className='bg-muted px-1 rounded'>exclude-type</code> - {t('templatesV3.coreConcepts.excludeType')}</li>
                 </ul>
               </div>
             </div>
@@ -283,48 +279,48 @@ function TemplatesV3DocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Filter className='size-5 text-primary' />
-          代理组配置属性
+          {t('templatesV3.configAttrs.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='space-y-6'>
               {/* 基础属性 */}
               <div>
-                <h4 className='font-semibold mb-3'>基础属性</h4>
+                <h4 className='font-semibold mb-3'>{t('templatesV3.configAttrs.basicTitle')}</h4>
                 <div className='overflow-x-auto'>
                   <table className='w-full text-sm'>
                     <thead>
                       <tr className='border-b'>
-                        <th className='text-left py-2 pr-4'>属性</th>
-                        <th className='text-left py-2 pr-4'>类型</th>
-                        <th className='text-left py-2'>说明</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.attrCol')}</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.typeCol')}</th>
+                        <th className='text-left py-2'>{t('templatesV3.configAttrs.descCol')}</th>
                       </tr>
                     </thead>
                     <tbody className='text-muted-foreground'>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>name</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>代理组名称</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.nameDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>type</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>代理组类型：select、url-test、fallback、load-balance、relay</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.typeDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>proxies</code></td>
                         <td className='py-2 pr-4'>array</td>
-                        <td className='py-2'>静态代理列表（其他代理组名称或 DIRECT/REJECT 或 __PROXY_NODES__ 等占位符）</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.proxiesDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>icon</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>代理组图标，可以是图片 URL 或 emoji</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.iconDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>hidden</code></td>
                         <td className='py-2 pr-4'>boolean</td>
-                        <td className='py-2'>是否在客户端中隐藏此代理组（默认 false）</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.hiddenDesc')}</td>
                       </tr>
                       </tbody>
                       </table>                </div>
@@ -332,41 +328,41 @@ function TemplatesV3DocPage() {
 
               {/* 引入属性 */}
               <div>
-                <h4 className='font-semibold mb-3'>节点引入属性</h4>
+                <h4 className='font-semibold mb-3'>{t('templatesV3.configAttrs.includeTitle')}</h4>
                 <div className='overflow-x-auto'>
                   <table className='w-full text-sm'>
                     <thead>
                       <tr className='border-b'>
-                        <th className='text-left py-2 pr-4'>属性</th>
-                        <th className='text-left py-2 pr-4'>类型</th>
-                        <th className='text-left py-2'>说明</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.attrCol')}</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.typeCol')}</th>
+                        <th className='text-left py-2'>{t('templatesV3.configAttrs.descCol')}</th>
                       </tr>
                     </thead>
                     <tbody className='text-muted-foreground'>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>include-all</code></td>
                         <td className='py-2 pr-4'>boolean</td>
-                        <td className='py-2'>引入所有出站代理和代理集合</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.includeAllDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>include-all-proxies</code></td>
                         <td className='py-2 pr-4'>boolean</td>
-                        <td className='py-2'>仅引入所有出站代理节点</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.includeAllProxiesDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>include-all-providers</code></td>
                         <td className='py-2 pr-4'>boolean</td>
-                        <td className='py-2'>仅引入所有代理集合</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.includeAllProvidersDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>include-type</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>按节点类型引入，用 | 分隔多个类型</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.includeTypeDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>include-region-proxy-groups</code></td>
                         <td className='py-2 pr-4'>boolean</td>
-                        <td className='py-2'>引入预置的区域代理组（妙妙屋扩展）</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.includeRegionDesc')}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -375,31 +371,31 @@ function TemplatesV3DocPage() {
 
               {/* 筛选属性 */}
               <div>
-                <h4 className='font-semibold mb-3'>节点筛选属性</h4>
+                <h4 className='font-semibold mb-3'>{t('templatesV3.configAttrs.filterAttrTitle')}</h4>
                 <div className='overflow-x-auto'>
                   <table className='w-full text-sm'>
                     <thead>
                       <tr className='border-b'>
-                        <th className='text-left py-2 pr-4'>属性</th>
-                        <th className='text-left py-2 pr-4'>类型</th>
-                        <th className='text-left py-2'>说明</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.attrCol')}</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.typeCol')}</th>
+                        <th className='text-left py-2'>{t('templatesV3.configAttrs.descCol')}</th>
                       </tr>
                     </thead>
                     <tbody className='text-muted-foreground'>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>filter</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>筛选匹配正则表达式的节点，多个用 ` 分隔</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.filterDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>exclude-filter</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>排除匹配正则表达式的节点，多个用 ` 分隔</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.excludeFilterDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>exclude-type</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>按节点类型排除，用 | 分隔多个类型</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.excludeTypeDesc')}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -408,61 +404,59 @@ function TemplatesV3DocPage() {
 
               {/* 中转代理组 */}
               <div>
-                <h4 className='font-semibold mb-3'>中转代理组属性</h4>
+                <h4 className='font-semibold mb-3'>{t('templatesV3.configAttrs.relayTitle')}</h4>
                 <div className='overflow-x-auto'>
                   <table className='w-full text-sm'>
                     <thead>
                       <tr className='border-b'>
-                        <th className='text-left py-2 pr-4'>属性</th>
-                        <th className='text-left py-2 pr-4'>类型</th>
-                        <th className='text-left py-2'>说明</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.attrCol')}</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.typeCol')}</th>
+                        <th className='text-left py-2'>{t('templatesV3.configAttrs.descCol')}</th>
                       </tr>
                     </thead>
                     <tbody className='text-muted-foreground'>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>dialer-proxy-group</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>指定中转代理组名称，流量经该组转发后再到达目标（链式代理）</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.dialerProxyDesc')}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 <div className='bg-muted/30 rounded-lg p-4 mt-3'>
                   <p className='text-xs text-muted-foreground'>
-                    设置中转代理组后，该代理组中的节点流量会先经过中转代理组选中的节点转发，实现
-                    <code className='bg-muted px-1 rounded mx-1'>客户端 → 中转节点 → 落地节点 → 目标</code>
-                    的链式代理效果。可在可视化编辑器中通过代理组右侧的链接图标快速设置。
+                    {t('templatesV3.configAttrs.dialerProxyNote')}
                   </p>
                 </div>
               </div>
 
               {/* 测速属性 */}
               <div>
-                <h4 className='font-semibold mb-3'>测速相关属性（url-test/fallback/load-balance）</h4>
+                <h4 className='font-semibold mb-3'>{t('templatesV3.configAttrs.speedTestTitle')}</h4>
                 <div className='overflow-x-auto'>
                   <table className='w-full text-sm'>
                     <thead>
                       <tr className='border-b'>
-                        <th className='text-left py-2 pr-4'>属性</th>
-                        <th className='text-left py-2 pr-4'>类型</th>
-                        <th className='text-left py-2'>说明</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.attrCol')}</th>
+                        <th className='text-left py-2 pr-4'>{t('templatesV3.configAttrs.typeCol')}</th>
+                        <th className='text-left py-2'>{t('templatesV3.configAttrs.descCol')}</th>
                       </tr>
                     </thead>
                     <tbody className='text-muted-foreground'>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>url</code></td>
                         <td className='py-2 pr-4'>string</td>
-                        <td className='py-2'>测速 URL，默认 https://www.gstatic.com/generate_204</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.urlDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>interval</code></td>
                         <td className='py-2 pr-4'>number</td>
-                        <td className='py-2'>测速间隔（秒），默认 300</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.intervalDesc')}</td>
                       </tr>
                       <tr className='border-b'>
                         <td className='py-2 pr-4'><code className='bg-muted px-1 rounded'>tolerance</code></td>
                         <td className='py-2 pr-4'>number</td>
-                        <td className='py-2'>容差（毫秒），默认 50</td>
+                        <td className='py-2'>{t('templatesV3.configAttrs.toleranceDesc')}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -471,18 +465,18 @@ function TemplatesV3DocPage() {
 
               {/* YAML 变量 */}
               <div>
-                <h4 className='font-semibold mb-3'>YAML 变量</h4>
+                <h4 className='font-semibold mb-3'>{t('templatesV3.configAttrs.yamlVarTitle')}</h4>
                 <div className='bg-muted/30 rounded-lg p-4'>
                   <p className='text-xs text-muted-foreground mb-3'>
-                    V3 模板支持在顶层定义自定义变量，避免在多个代理组中重复编写复杂的正则表达式：
+                    {t('templatesV3.configAttrs.yamlVarDesc')}
                   </p>
                   <ul className='text-xs text-muted-foreground space-y-1 mb-3'>
-                    <li>• 在 YAML 顶层定义非 Clash 标准字段的字符串即可作为变量</li>
-                    <li>• 代理组的 <code className='bg-muted px-1 rounded'>filter</code> 和 <code className='bg-muted px-1 rounded'>exclude-filter</code> 可以直接引用变量名</li>
-                    <li>• 最终生成的配置中会自动移除这些自定义变量</li>
+                    <li>• {t('templatesV3.configAttrs.yamlVar1')}</li>
+                    <li>• {t('templatesV3.configAttrs.yamlVar2')}</li>
+                    <li>• {t('templatesV3.configAttrs.yamlVar3')}</li>
                   </ul>
                   <CollapsibleCode
-                    title='点击查看 YAML 变量示例'
+                    title={t('templatesV3.configAttrs.yamlVarExample')}
                     code={`# 定义变量（顶层）
 FILTER_US: "美|US|United States|🇺🇸"
 FILTER_HK: "港|HK|Hong Kong|🇭🇰"
@@ -503,14 +497,14 @@ proxy-groups:
               </div>
 
               <CollapsibleCode
-                title='点击查看代理组配置示例'
+                title={t('templatesV3.configAttrs.proxyGroupExample')}
                 code={proxyGroupExample}
                 language='yaml'
               />
-              <p className='text-sm text-muted-foreground mt-4 mb-2'>等同于页面以下配置：</p>
-              <img src='/images/proxygroups_ui.png' alt='代理组示例配置' className='rounded-lg border' />
+              <p className='text-sm text-muted-foreground mt-4 mb-2'>{t('templatesV3.configAttrs.equivDesc')}</p>
+              <img src='/images/proxygroups_ui.png' alt={t('templatesV3.configAttrs.equivImgAlt')} className='rounded-lg border' />
               <CollapsibleCode
-                title='点击查看代理组订阅结果'
+                title={t('templatesV3.configAttrs.resultExample')}
                 code={proxyGroupExampleResult}
                 language='yaml'
               />
@@ -523,13 +517,12 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Globe className='size-5 text-primary' />
-          支持的节点类型
+          {t('templatesV3.nodeTypes.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              <code className='bg-muted px-1 rounded'>include-type</code> 和 
-              <code className='bg-muted px-1 rounded'>exclude-type</code> 支持以下节点类型（不区分大小写）：
+              {t('templatesV3.nodeTypes.desc')}
             </p>
             <div className='flex flex-wrap gap-2'>
               {['ss', 'ssr', 'vmess', 'vless', 'trojan', 'hysteria', 'hysteria2', 'tuic', 'wireguard', 'socks5', 'http', 'snell', 'anytls', 'ssh'].map(type => (
@@ -544,16 +537,15 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <MapPin className='size-5 text-primary' />
-          区域代理组
+          {t('templatesV3.regionGroups.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              妙妙屋 V3 模板支持自动生成区域代理组，在编辑模板时开启「区域代理组」开关即可。
-              系统会根据节点名称自动匹配地区，并创建对应的代理组。
+              {t('templatesV3.regionGroups.desc')}
             </p>
             <div className='bg-primary/5 rounded-lg p-4 border border-primary/20 mb-4'>
-              <h4 className='font-semibold text-sm mb-2'>预置区域代理组</h4>
+              <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.regionGroups.presetTitle')}</h4>
               <div className='grid grid-cols-2 md:grid-cols-4 gap-2 text-sm'>
                 <div className='flex items-center gap-1'>🇭🇰 香港节点</div>
                 <div className='flex items-center gap-1'>🇺🇸 美国节点</div>
@@ -571,12 +563,12 @@ proxy-groups:
               </div>
             </div>
             <div className='bg-muted/30 rounded-lg p-4'>
-              <h4 className='font-semibold text-sm mb-2'>使用方式</h4>
+              <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.regionGroups.usageTitle')}</h4>
               <ul className='text-xs text-muted-foreground space-y-1'>
-                <li>• 开启区域代理组开关后，可引入所有区域代理组</li>
-                <li>• 区域代理组会自动根据节点名称中的地区关键词进行匹配</li>
-                <li>• 「其他地区」组会包含所有未匹配到特定地区的节点</li>
-                <li>• 未匹配到任何节点的区域代理组会自动在订阅中移除，不需在模板删除不用的区域代理组</li>
+                <li>• {t('templatesV3.regionGroups.usage1')}</li>
+                <li>• {t('templatesV3.regionGroups.usage2')}</li>
+                <li>• {t('templatesV3.regionGroups.usage3')}</li>
+                <li>• {t('templatesV3.regionGroups.usage4')}</li>
               </ul>
             </div>
           </CardContent>
@@ -587,7 +579,7 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Plus className='size-5 text-primary' />
-          模板创建方式
+          {t('templatesV3.createMethods.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -595,48 +587,46 @@ proxy-groups:
               <div className='bg-muted/30 rounded-lg p-4'>
                 <div className='flex items-center gap-2 mb-2'>
                   <Upload className='size-4 text-primary' />
-                  <h4 className='font-semibold text-sm'>上传文件</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.createMethods.uploadTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  上传本地的 YAML 模板文件，文件名将作为模板名称。
+                  {t('templatesV3.createMethods.uploadDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
                 <div className='flex items-center gap-2 mb-2'>
                   <FileText className='size-4 text-primary' />
-                  <h4 className='font-semibold text-sm'>粘贴文本</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.createMethods.pasteTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  直接粘贴 YAML 格式的模板内容，输入模板名称后保存。
+                  {t('templatesV3.createMethods.pasteDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
                 <div className='flex items-center gap-2 mb-2'>
                   <RefreshCw className='size-4 text-primary' />
-                  <h4 className='font-semibold text-sm'>从 V2 模板转换</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.createMethods.convertTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  将现有的 V2（subconverter INI 格式）模板转换为 V3 格式，
-                  系统会自动解析 <code className='bg-muted px-1 rounded'>custom_proxy_group</code> 并生成对应的代理组配置。
+                  {t('templatesV3.createMethods.convertDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
                 <div className='flex items-center gap-2 mb-2'>
                   <Database className='size-4 text-primary' />
-                  <h4 className='font-semibold text-sm'>从现有订阅生成</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.createMethods.fromSubTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  分析现有订阅配置中的代理组，自动生成 filter 正则表达式和 include-all 配置，
-                  快速创建与现有订阅结构一致的模板。
+                  {t('templatesV3.createMethods.fromSubDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
                 <div className='flex items-center gap-2 mb-2'>
                   <FileCode className='size-4 text-primary' />
-                  <h4 className='font-semibold text-sm'>创建空白模板</h4>
+                  <h4 className='font-semibold text-sm'>{t('templatesV3.createMethods.blankTitle')}</h4>
                 </div>
                 <p className='text-xs text-muted-foreground'>
-                  创建一个包含基础配置的空白模板，然后通过可视化编辑器添加代理组。
+                  {t('templatesV3.createMethods.blankDesc')}
                 </p>
               </div>
             </div>
@@ -648,41 +638,41 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Pencil className='size-5 text-primary' />
-          可视化编辑器
+          {t('templatesV3.visualEditor.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              V3 模板提供可视化编辑界面，无需手动编写 YAML 代码即可配置代理组：
+              {t('templatesV3.visualEditor.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>编辑器布局</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.visualEditor.layoutTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <strong>桌面端</strong>：三列布局，左侧为代理组编辑器，右侧为配置预览</li>
-                  <li>• <strong>平板端</strong>：两列布局，编辑器和预览各占一半</li>
-                  <li>• <strong>手机端</strong>：单列布局，预览显示在保存按钮下方</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.desktopLabel')}</strong>{t('templatesV3.visualEditor.desktopDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.tabletLabel')}</strong>{t('templatesV3.visualEditor.tabletDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.mobileLabel')}</strong>{t('templatesV3.visualEditor.mobileDesc')}</li>
                 </ul>
               </div>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>代理组编辑功能</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.visualEditor.editFeaturesTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <strong>筛选关键词</strong>：输入关键词自动生成 filter 正则表达式</li>
-                  <li>• <strong>排除关键词</strong>：输入关键词自动生成 exclude-filter 正则表达式</li>
-                  <li>• <strong>节点类型选择</strong>：弹出气泡多选需要引入/排除的节点类型</li>
-                  <li>• <strong>引入选项</strong>：一键开启 include-all、include-all-proxies 等选项</li>
-                  <li>• <strong>图标与隐藏</strong>：可以配置代理组的图标以及设置隐藏该代理组</li>
-                  <li>• <strong>代理组引用</strong>：选择并拖动排序其他代理组</li>
-                  <li>• <strong>中转代理组</strong>：点击链接图标设置中转代理组，实现链式代理</li>
-                  <li>• <strong>实时预览</strong>：右侧实时显示生成的 YAML 配置</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.filterKeywordLabel')}</strong>{t('templatesV3.visualEditor.filterKeywordDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.excludeKeywordLabel')}</strong>{t('templatesV3.visualEditor.excludeKeywordDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.nodeTypeLabel')}</strong>{t('templatesV3.visualEditor.nodeTypeDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.includeOptionsLabel')}</strong>{t('templatesV3.visualEditor.includeOptionsDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.iconHiddenLabel')}</strong>{t('templatesV3.visualEditor.iconHiddenDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.groupRefLabel')}</strong>{t('templatesV3.visualEditor.groupRefDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.relayLabel')}</strong>{t('templatesV3.visualEditor.relayDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.previewLabel')}</strong>{t('templatesV3.visualEditor.previewDesc')}</li>
                 </ul>
               </div>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>双模式编辑</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.visualEditor.dualModeTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• <strong>可视化模式</strong>：通过表单配置代理组，适合快速编辑</li>
-                  <li>• <strong>YAML 模式</strong>：直接编辑 YAML 代码，适合高级用户</li>
-                  <li>• 两种模式可以随时切换，数据会自动同步</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.visualModeLabel')}</strong>{t('templatesV3.visualEditor.visualModeDesc')}</li>
+                  <li>• <strong>{t('templatesV3.visualEditor.yamlModeLabel')}</strong>{t('templatesV3.visualEditor.yamlModeDesc')}</li>
+                  <li>• {t('templatesV3.visualEditor.modeSyncDesc')}</li>
                 </ul>
               </div>
             </div>
@@ -694,47 +684,47 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Link2 className='size-5 text-primary' />
-          订阅绑定
+          {t('templatesV3.subBinding.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              V3 模板可以绑定到订阅，绑定后订阅配置将完全基于模板生成：
+              {t('templatesV3.subBinding.desc')}
             </p>
             <div className='space-y-4'>
               <div className='bg-green-500/10 rounded-lg p-4 border border-green-500/20'>
-                <h4 className='font-semibold text-sm mb-2 text-green-600'>绑定流程</h4>
+                <h4 className='font-semibold text-sm mb-2 text-green-600'>{t('templatesV3.subBinding.flowTitle')}</h4>
                 <ol className='space-y-2 text-sm'>
                   <li className='flex gap-3'>
                     <span className='flex-shrink-0 size-5 rounded-full bg-green-500/20 text-green-600 flex items-center justify-center text-xs font-semibold'>1</span>
-                    <span className='text-muted-foreground'>在订阅管理页面选择要绑定的订阅</span>
+                    <span className='text-muted-foreground'>{t('templatesV3.subBinding.flow1')}</span>
                   </li>
                   <li className='flex gap-3'>
                     <span className='flex-shrink-0 size-5 rounded-full bg-green-500/20 text-green-600 flex items-center justify-center text-xs font-semibold'>2</span>
-                    <span className='text-muted-foreground'>选择要绑定的 V3 模板</span>
+                    <span className='text-muted-foreground'>{t('templatesV3.subBinding.flow2')}</span>
                   </li>
                   <li className='flex gap-3'>
                     <span className='flex-shrink-0 size-5 rounded-full bg-green-500/20 text-green-600 flex items-center justify-center text-xs font-semibold'>3</span>
-                    <span className='text-muted-foreground'>系统自动根据模板规则重新生成订阅配置</span>
+                    <span className='text-muted-foreground'>{t('templatesV3.subBinding.flow3')}</span>
                   </li>
                 </ol>
               </div>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>绑定后的行为</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.subBinding.behaviorTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• 订阅配置完全基于模板生成，原有的规则配置将被忽略</li>
-                  <li>• 根据模板中代理组的 filter 规则匹配节点表中的所有节点</li>
-                  <li>• 匹配到的节点会添加到代理组的 proxies 列表和顶层 proxies 中</li>
-                  <li>• 模板中的 include-*、filter、exclude-* 等属性会在生成时被移除</li>
-                  <li>• 一个订阅只能绑定一个模板</li>
+                  <li>• {t('templatesV3.subBinding.behavior1')}</li>
+                  <li>• {t('templatesV3.subBinding.behavior2')}</li>
+                  <li>• {t('templatesV3.subBinding.behavior3')}</li>
+                  <li>• {t('templatesV3.subBinding.behavior4')}</li>
+                  <li>• {t('templatesV3.subBinding.behavior5')}</li>
                 </ul>
               </div>
               <div className='bg-primary/5 rounded-lg p-4 border border-primary/20'>
-                <h4 className='font-semibold text-sm mb-2'>自动更新触发</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('templatesV3.subBinding.autoUpdateTitle')}</h4>
                 <ul className='text-xs text-muted-foreground space-y-1'>
-                  <li>• 新增节点时，如果代理组规则匹配到新节点，会自动更新绑定的订阅</li>
-                  <li>• 删除节点时，会自动从绑定模板的订阅中移除该节点</li>
-                  <li>• 修改模板后，绑定该模板的订阅会自动重新生成</li>
+                  <li>• {t('templatesV3.subBinding.autoUpdate1')}</li>
+                  <li>• {t('templatesV3.subBinding.autoUpdate2')}</li>
+                  <li>• {t('templatesV3.subBinding.autoUpdate3')}</li>
                 </ul>
               </div>
             </div>
@@ -746,12 +736,12 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          完整模板示例
+          {t('templatesV3.fullExample.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <CollapsibleCode
-              title='点击查看完整 V3 模板示例'
+              title={t('templatesV3.fullExample.title')}
               code={v3TemplateExample}
               language='yaml'
             />
@@ -763,34 +753,34 @@ proxy-groups:
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-orange-500' />
-          注意事项
+          {t('templatesV3.notes.heading')}
         </h2>
         <Card className='border-orange-500/20'>
           <CardContent className='pt-6'>
             <ul className='space-y-2 text-sm text-muted-foreground'>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>模板格式</strong>：V3 模板使用 YAML 格式，与 V2（INI 格式）不兼容，但可以通过转换功能迁移</span>
+                <span><strong>{t('templatesV3.notes.formatTitle')}</strong>{t('templatesV3.notes.formatDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>节点过滤规则(filter)</strong>：默认会使用所有节点匹配，与显式开启代理集合+节点(include-all)结果一致</span>
+                <span><strong>{t('templatesV3.notes.filterRuleTitle')}</strong>{t('templatesV3.notes.filterRuleDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>正则表达式</strong>：filter 和 exclude-filter 使用正则表达式语法，特殊字符需要转义</span>
+                <span><strong>{t('templatesV3.notes.regexTitle')}</strong>{t('templatesV3.notes.regexDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>代理组顺序</strong>：代理组的顺序会影响最终配置，建议将常用的代理组放在前面</span>
+                <span><strong>{t('templatesV3.notes.orderTitle')}</strong>{t('templatesV3.notes.orderDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>空代理组</strong>：如果代理组的 filter 没有匹配到任何节点，该代理组会被自动移除</span>
+                <span><strong>{t('templatesV3.notes.emptyGroupTitle')}</strong>{t('templatesV3.notes.emptyGroupDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>绑定影响</strong>：绑定模板后，订阅的规则配置将被模板完全覆盖</span>
+                <span><strong>{t('templatesV3.notes.bindingTitle')}</strong>{t('templatesV3.notes.bindingDesc')}</span>
               </li>
             </ul>
           </CardContent>

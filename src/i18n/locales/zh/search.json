@@ -1,0 +1,12 @@
+{
+  "title": "搜索",
+  "description": "搜索文档和功能页面",
+  "placeholder": "搜索文档和功能...",
+  "empty": "没有找到相关结果",
+  "trigger": "搜索...",
+  "sections": {
+    "mmwDocs": "妙妙屋文档",
+    "mmwxDocs": "妙妙屋X文档",
+    "management": "管理功能"
+  }
+}

@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { FileCode, Lightbulb, Network } from 'lucide-react'
@@ -24,26 +25,28 @@ const CLIENT_TYPES = [
 ]
 
 function ImportSubscriptionPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='导入订阅'
-      description='了解订阅格式和支持的客户端'
+      title={t('importSubscription.title')}
+      description={t('importSubscription.description')}
     >
       {/* 订阅格式支持 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          订阅格式支持
+          {t('importSubscription.formatSupport.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-orange-500'>
               <h4 className='font-semibold mb-2 flex items-center gap-2'>
                 <FileCode className='size-4' />
-                Clash 格式
+                {t('importSubscription.formatSupport.clashFormat.title')}
               </h4>
               <p className='text-sm text-muted-foreground mb-3'>
-                妙妙屋生成的订阅文件为 Clash 格式，适用于 Clash 客户端，支持完整的代理组和规则配置。
+                {t('importSubscription.formatSupport.clashFormat.desc')}
               </p>
               <div className='flex gap-2 flex-wrap'>
                 <span className='px-2 py-1 bg-background rounded text-xs'>Clash Verge</span>
@@ -59,7 +62,7 @@ function ImportSubscriptionPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Network className='size-5 text-primary' />
-          支持的客户端
+          {t('importSubscription.supportedClients.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -67,7 +70,7 @@ function ImportSubscriptionPage() {
               <p className='text-sm flex items-start gap-2'>
                 <Lightbulb className='size-5 text-blue-500 flex-shrink-0 mt-0.5' />
                 <span>
-                  <strong>提示：</strong>以下客户端均支持导入妙妙屋的订阅节点配置，订阅链接支持自动转换为对应客户端格式。
+                  {t('importSubscription.supportedClients.tip')}
                 </span>
               </p>
             </div>
@@ -90,21 +93,21 @@ function ImportSubscriptionPage() {
 
       {/* 格式转换说明 */}
       <section className='mb-8'>
-        <h2 className='text-xl font-bold mb-4'>格式转换说明</h2>
+        <h2 className='text-xl font-bold mb-4'>{t('importSubscription.formatConversion.heading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              妙妙屋集成了 SubStore 格式转换服务，可以将 Clash 格式的订阅自动转换为其他客户端格式。
+              {t('importSubscription.formatConversion.desc')}
             </p>
             <div className='space-y-3'>
               <div className='bg-muted/30 rounded-lg p-3'>
-                <h4 className='font-semibold text-sm mb-1'>使用方式</h4>
+                <h4 className='font-semibold text-sm mb-1'>{t('importSubscription.formatConversion.usage.title')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  在订阅链接页面点击"复制"按钮时，选择对应的客户端格式即可获取转换后的订阅链接。
+                  {t('importSubscription.formatConversion.usage.desc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-3'>
-                <h4 className='font-semibold text-sm mb-1'>支持的协议</h4>
+                <h4 className='font-semibold text-sm mb-1'>{t('importSubscription.formatConversion.protocols.title')}</h4>
                 <div className='flex flex-wrap gap-1 mt-2'>
                   <span className='px-2 py-0.5 bg-background rounded text-xs'>VMess</span>
                   <span className='px-2 py-0.5 bg-background rounded text-xs'>VLESS</span>

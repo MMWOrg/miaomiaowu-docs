@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import Fuse from 'fuse.js'
 import { useNavigate } from '@tanstack/react-router'
-import { searchItems, type SearchItem } from '@/lib/search-data'
+import { useTranslation } from 'react-i18next'
+import { getSearchItems, type SearchItem } from '@/lib/search-data'
 import {
   Dialog,
   DialogContent,
@@ -18,8 +19,6 @@ import {
   CommandItem,
   CommandSeparator,
 } from '@/components/ui/command'
-
-const SECTIONS = ['妙妙屋文档', '妙妙屋X文档', '管理功能'] as const
 
 function getSnippet(content: string, query: string, maxLen = 60): string {
   if (!content || !query) return ''
@@ -39,10 +38,18 @@ export function SearchCommandDialog() {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
+  const { t, i18n } = useTranslation('search')
+
+  const items = useMemo(() => getSearchItems(), [i18n.language])
+
+  const sections = useMemo(
+    () => [t('sections.mmwDocs'), t('sections.mmwxDocs'), t('sections.management')],
+    [t]
+  )
 
   const fuse = useMemo(
     () =>
-      new Fuse(searchItems, {
+      new Fuse(items, {
         keys: [
           { name: 'title', weight: 3 },
           { name: 'description', weight: 1.5 },
@@ -53,22 +60,22 @@ export function SearchCommandDialog() {
         ignoreLocation: true,
         minMatchCharLength: 2,
       }),
-    []
+    [items]
   )
 
   const results = useMemo(() => {
-    if (!query.trim()) return searchItems
+    if (!query.trim()) return items
     return fuse.search(query).map((r) => r.item)
-  }, [query, fuse])
+  }, [query, fuse, items])
 
   const groupedResults = useMemo(() => {
     const groups: Record<string, SearchItem[]> = {}
-    for (const section of SECTIONS) {
-      const items = results.filter((r) => r.section === section)
-      if (items.length > 0) groups[section] = items
+    for (const section of sections) {
+      const sectionItems = results.filter((r) => r.section === section)
+      if (sectionItems.length > 0) groups[section] = sectionItems
     }
     return groups
-  }, [results])
+  }, [results, sections])
 
   const handleSelect = useCallback(
     (href: string) => {
@@ -106,23 +113,23 @@ export function SearchCommandDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogHeader className='sr-only'>
-        <DialogTitle>搜索</DialogTitle>
-        <DialogDescription>搜索文档和功能页面</DialogDescription>
+        <DialogTitle>{t('title')}</DialogTitle>
+        <DialogDescription>{t('description')}</DialogDescription>
       </DialogHeader>
       <DialogContent className='overflow-hidden p-0 sm:max-w-lg' showCloseButton={false}>
         <Command shouldFilter={false} className='[&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0'>
           <CommandInput
-            placeholder='搜索文档和功能...'
+            placeholder={t('placeholder')}
             value={query}
             onValueChange={setQuery}
           />
           <CommandList className='max-h-[360px]'>
-            <CommandEmpty>没有找到相关结果</CommandEmpty>
-            {Object.entries(groupedResults).map(([section, items], idx) => (
+            <CommandEmpty>{t('empty')}</CommandEmpty>
+            {Object.entries(groupedResults).map(([section, sectionItems], idx) => (
               <div key={section}>
                 {idx > 0 && <CommandSeparator />}
                 <CommandGroup heading={section}>
-                  {items.map((item) => {
+                  {sectionItems.map((item) => {
                     const snippet = trimmedQuery ? getSnippet(item.content, trimmedQuery) : ''
                     return (
                       <CommandItem

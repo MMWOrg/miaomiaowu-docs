@@ -5,8 +5,10 @@ import { DocBreadcrumb } from './doc-breadcrumb'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { AnimatedX } from '@/components/animated-x'
 import { ChevronUp, Menu, X, Github, List } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { cn } from '@/lib/utils'
 import { SearchTrigger } from '@/components/search/search-trigger'
+import { LanguageSwitch } from '@/components/language-switch'
 
 interface TocItem {
   id: string
@@ -21,6 +23,7 @@ interface XDocLayoutProps {
 }
 
 export function XDocLayout({ children, title, description }: XDocLayoutProps) {
+  const { t } = useTranslation('layout')
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [tocOpen, setTocOpen] = useState(false)
@@ -101,8 +104,8 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
             {sidebarOpen ? <X className='size-5' /> : <Menu className='size-5' />}
           </button>
           <Link to='/x' className='flex items-center gap-2 font-semibold'>
-            <img src='/images/logo.webp' alt='妙妙屋X' className='size-8' />
-            <span>妙妙屋 <AnimatedX size='sm' /> 文档</span>
+            <img src='/images/logo.webp' alt={t('common:brandX')} className='size-8' />
+            <span>{t('common:brand')} <AnimatedX size='sm' /> </span>
           </Link>
           <div className='flex-1' />
           <div className='flex items-center gap-2'>
@@ -111,13 +114,13 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
               to='/docs'
               className='inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors'
             >
-              妙妙屋文档
+              {t('xDocLayout.mmwDocs')}
             </Link>
             {tableOfContents.length > 0 && (
               <button
                 onClick={() => setTocOpen(!tocOpen)}
                 className='xl:hidden p-2 text-muted-foreground hover:text-foreground transition-colors'
-                aria-label='目录'
+                aria-label={t('docLayout.tocAria')}
               >
                 <List className='size-5' />
               </button>
@@ -131,6 +134,7 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
               <Github className='size-4' />
               <span className='hidden sm:inline'>GitHub</span>
             </a>
+            <LanguageSwitch />
             <ThemeSwitch />
           </div>
         </div>
@@ -172,7 +176,7 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
         {tableOfContents.length > 0 && (
           <aside className='hidden xl:block w-56 border-l bg-background/30 backdrop-blur h-[calc(100vh-3.5rem)] sticky top-14 overflow-y-auto'>
             <div className='p-4'>
-              <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>本页内容</h3>
+              <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>{t('docLayout.toc')}</h3>
               <nav className='space-y-1 text-sm'>
                 {tableOfContents.map((item) => (
                   <button
@@ -199,7 +203,7 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
             <div className='fixed inset-0 bg-background/80 backdrop-blur-sm' onClick={() => setTocOpen(false)} />
             <aside className='fixed right-0 top-14 h-[calc(100vh-3.5rem)] w-64 border-l bg-background overflow-y-auto'>
               <div className='p-4'>
-                <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>本页内容</h3>
+                <h3 className='text-sm font-semibold mb-3 text-muted-foreground'>{t('docLayout.toc')}</h3>
                 <nav className='space-y-1 text-sm'>
                   {tableOfContents.map((item) => (
                     <button
@@ -227,7 +231,7 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
         <button
           onClick={scrollToTop}
           className='fixed bottom-8 right-8 p-3 rounded-full bg-primary text-primary-foreground shadow-lg hover:bg-primary/90 transition-all z-40'
-          aria-label='返回顶部'
+          aria-label={t('docLayout.backToTop')}
         >
           <ChevronUp className='size-5' />
         </button>

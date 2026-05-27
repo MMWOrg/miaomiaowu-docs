@@ -13,60 +13,27 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { SearchTrigger } from '@/components/search/search-trigger'
-import { useState, useRef, useEffect, useCallback } from 'react'
+import { LanguageSwitch } from '@/components/language-switch'
+import { useTranslation } from 'react-i18next'
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 
-const baseNavLinks = [
-  {
-    title: '流量信息',
-    to: '/',
-    icon: Activity,
-  },
-  {
-    title: '订阅链接',
-    to: '/subscription',
-    icon: LinkIcon,
-  },
+const baseNavDefs = [
+  { titleKey: 'nav.trafficInfo', to: '/', icon: Activity },
+  { titleKey: 'nav.subscriptionLink', to: '/subscription', icon: LinkIcon },
 ]
 
-const adminNavLinks = [
-  {
-    title: '生成订阅',
-    to: '/generator',
-    icon: Zap,
-  },
-  {
-    title: '节点管理',
-    to: '/nodes',
-    icon: Network,
-  },
-  {
-    title: '订阅管理',
-    to: '/subscribe-files',
-    icon: Files,
-  },
-  {
-    title: '规则管理',
-    to: '/custom-rules',
-    icon: FileCode,
-  },
-  {
-    title: '探针管理',
-    to: '/probe',
-    icon: Radar,
-  },
-  {
-    title: '用户管理',
-    to: '/users',
-    icon: Users,
-  },
-  {
-    title: '系统设置',
-    to: '/system-settings',
-    icon: Settings,
-  },
+const adminNavDefs = [
+  { titleKey: 'nav.generateSubscription', to: '/generator', icon: Zap },
+  { titleKey: 'nav.nodeManagement', to: '/nodes', icon: Network },
+  { titleKey: 'nav.subscriptionManagement', to: '/subscribe-files', icon: Files },
+  { titleKey: 'nav.ruleManagement', to: '/custom-rules', icon: FileCode },
+  { titleKey: 'nav.probeManagement', to: '/probe', icon: Radar },
+  { titleKey: 'nav.userManagement', to: '/users', icon: Users },
+  { titleKey: 'nav.systemSettings', to: '/system-settings', icon: Settings },
 ]
 
 export function Topbar() {
+  const { t } = useTranslation('layout')
   const { auth } = useAuthStore()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
@@ -82,7 +49,8 @@ export function Topbar() {
 
   const isAdmin = Boolean(profile?.is_admin)
 
-  // 计算所有导航链接
+  const baseNavLinks = useMemo(() => baseNavDefs.map(d => ({ ...d, title: t(d.titleKey) })), [t])
+  const adminNavLinks = useMemo(() => adminNavDefs.map(d => ({ ...d, title: t(d.titleKey) })), [t])
   const allNavLinks = isAdmin ? [...baseNavLinks, ...adminNavLinks] : baseNavLinks
   const totalLinks = allNavLinks.length
 
@@ -158,10 +126,10 @@ export function Topbar() {
           >
             <img
               src='/images/logo.webp'
-              alt='妙妙屋 Logo'
+              alt={t('common:brand')}
               className='h-10 w-10 border-2 border-[color:rgba(241,140,110,0.4)] shadow-[4px_4px_0_rgba(0,0,0,0.2)] shrink-0'
             />
-            {!hideLogoText && <span className='hidden md:inline pixel-text text-primary text-base whitespace-nowrap'>妙妙屋</span>}
+            {!hideLogoText && <span className='hidden md:inline pixel-text text-primary text-base whitespace-nowrap'>{t('common:brand')}</span>}
           </Link>
 
           {/* Desktop Navigation - Base links + Admin links */}
@@ -217,7 +185,7 @@ export function Topbar() {
                   className='md:hidden pixel-button h-9 w-9 bg-background/75 border-[color:rgba(137,110,96,0.45)] hover:bg-accent/35 dark:bg-input/30 dark:border-[color:rgba(255,255,255,0.18)] dark:hover:bg-accent/45'
                 >
                   <Menu className='h-5 w-5' />
-                  <span className='sr-only'>打开菜单</span>
+                  <span className='sr-only'>{t('nav.openMenu')}</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align='start' className='w-48 pixel-border'>
@@ -244,8 +212,8 @@ export function Topbar() {
             href='https://t.me/miaomiaowux'
             target='_blank'
             rel='noopener noreferrer'
-            aria-label='Telegram 交流群组'
-            title='Telegram 交流群组'
+            aria-label={t('nav.telegram')}
+            title={t('nav.telegram')}
             className='pixel-button inline-flex items-center justify-center h-9 w-9 px-2 py-2 text-sm font-semibold bg-background/75 text-foreground border-[color:rgba(137,110,96,0.45)] hover:bg-accent/35 hover:text-accent-foreground dark:bg-input/30 dark:border-[color:rgba(255,255,255,0.18)] dark:hover:bg-accent/45 dark:hover:text-accent-foreground transition-all relative animate-pulse'
           >
             <Send className='size-[18px] animate-bounce' />
@@ -254,6 +222,7 @@ export function Topbar() {
               <span className='relative inline-flex rounded-full h-3 w-3 bg-primary'></span>
             </span>
           </a>
+          <LanguageSwitch />
           <ThemeSwitch />
           <UserMenu />
         </div>

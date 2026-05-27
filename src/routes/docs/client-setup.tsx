@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Settings, Lightbulb, CheckCircle } from 'lucide-react'
@@ -8,16 +9,18 @@ export const Route = createFileRoute('/docs/client-setup')({
 })
 
 function ClientSetupPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='客户端配置'
-      description='在代理客户端中配置妙妙屋订阅'
+      title={t('clientSetup.title')}
+      description={t('clientSetup.description')}
     >
       {/* 通用导入步骤 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Settings className='size-5 text-primary' />
-          通用导入步骤
+          {t('clientSetup.generalSteps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -27,43 +30,43 @@ function ClientSetupPage() {
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     1
                   </span>
-                  <span>登录妙妙屋，进入"订阅链接"页面</span>
+                  <span>{t('clientSetup.generalSteps.step1')}</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     2
                   </span>
-                  <span>复制您的订阅链接</span>
+                  <span>{t('clientSetup.generalSteps.step2')}</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     3
                   </span>
-                  <span>打开代理客户端</span>
+                  <span>{t('clientSetup.generalSteps.step3')}</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     4
                   </span>
-                  <span>找到"配置"或"订阅"设置</span>
+                  <span>{t('clientSetup.generalSteps.step4')}</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     5
                   </span>
-                  <span>添加订阅并粘贴链接</span>
+                  <span>{t('clientSetup.generalSteps.step5')}</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     6
                   </span>
-                  <span>更新订阅并选择节点</span>
+                  <span>{t('clientSetup.generalSteps.step6')}</span>
                 </li>
                 <li className='flex items-start gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>
                     7
                   </span>
-                  <span>开启系统代理即可使用</span>
+                  <span>{t('clientSetup.generalSteps.step7')}</span>
                 </li>
               </ol>
             </div>
@@ -79,7 +82,7 @@ function ClientSetupPage() {
               <p className='text-sm flex items-start gap-2'>
                 <Lightbulb className='size-5 text-yellow-500 flex-shrink-0 mt-0.5' />
                 <span>
-                  <strong>提示：</strong>部分客户端支持扫描二维码导入，您可以在订阅链接页面点击订阅图标生成二维码。
+                  {t('clientSetup.tip')}
                 </span>
               </p>
             </div>
@@ -89,7 +92,7 @@ function ClientSetupPage() {
 
       {/* 各客户端配置 */}
       <section className='mb-8'>
-        <h2 className='text-xl font-bold mb-4'>常用客户端配置</h2>
+        <h2 className='text-xl font-bold mb-4'>{t('clientSetup.clients.heading')}</h2>
         <div className='space-y-4'>
           {/* Clash Verge */}
           <Card>
@@ -98,23 +101,23 @@ function ClientSetupPage() {
               <ol className='space-y-2 text-sm text-muted-foreground'>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>打开 Clash Verge，点击左侧"配置"菜单</span>
+                  <span>{t('clientSetup.clients.clashVerge.step1')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>点击右上角"新建"按钮，选择"Remote"</span>
+                  <span>{t('clientSetup.clients.clashVerge.step2')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>粘贴订阅链接，点击"保存"</span>
+                  <span>{t('clientSetup.clients.clashVerge.step3')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>右键点击新添加的配置，选择"使用"</span>
+                  <span>{t('clientSetup.clients.clashVerge.step4')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>在左侧"代理"菜单中选择节点和代理模式</span>
+                  <span>{t('clientSetup.clients.clashVerge.step5')}</span>
                 </li>
               </ol>
             </CardContent>
@@ -127,23 +130,23 @@ function ClientSetupPage() {
               <ol className='space-y-2 text-sm text-muted-foreground'>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>在妙妙屋订阅链接页面，点击复制按钮选择"Shadowrocket"格式</span>
+                  <span>{t('clientSetup.clients.shadowrocket.step1')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>打开 Shadowrocket，点击右上角"+"</span>
+                  <span>{t('clientSetup.clients.shadowrocket.step2')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>选择"类型"为"Subscribe"</span>
+                  <span>{t('clientSetup.clients.shadowrocket.step3')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>粘贴订阅链接并保存</span>
+                  <span>{t('clientSetup.clients.shadowrocket.step4')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>选择节点后开启代理开关</span>
+                  <span>{t('clientSetup.clients.shadowrocket.step5')}</span>
                 </li>
               </ol>
             </CardContent>
@@ -156,23 +159,23 @@ function ClientSetupPage() {
               <ol className='space-y-2 text-sm text-muted-foreground'>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>打开 Clash Meta，点击"配置"</span>
+                  <span>{t('clientSetup.clients.clashMeta.step1')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>点击右上角"+"，选择"URL"</span>
+                  <span>{t('clientSetup.clients.clashMeta.step2')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>粘贴订阅链接，点击右上角保存</span>
+                  <span>{t('clientSetup.clients.clashMeta.step3')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>选中新添加的配置</span>
+                  <span>{t('clientSetup.clients.clashMeta.step4')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <CheckCircle className='size-4 text-green-500 mt-0.5 flex-shrink-0' />
-                  <span>返回主页点击"启动"开关</span>
+                  <span>{t('clientSetup.clients.clashMeta.step5')}</span>
                 </li>
               </ol>
             </CardContent>

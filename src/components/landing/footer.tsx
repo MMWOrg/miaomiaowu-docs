@@ -1,7 +1,10 @@
 import { Github, Send, Heart } from 'lucide-react'
 import { Link } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 export function Footer() {
+  const { t } = useTranslation('landing')
+
   return (
     <footer className="border-t border-[color:rgba(241,140,110,0.22)] bg-background/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
@@ -11,13 +14,13 @@ export function Footer() {
             <div className="flex items-center gap-3 mb-4">
               <img
                 src="/images/logo.webp"
-                alt="妙妙屋"
+                alt={t('common:brand')}
                 className="h-10 w-10 border-2 border-[color:rgba(241,140,110,0.4)] shadow-[4px_4px_0_rgba(0,0,0,0.2)]"
               />
-              <span className="pixel-text text-primary text-lg">妙妙屋</span>
+              <span className="pixel-text text-primary text-lg">{t('common:brand')}</span>
             </div>
             <p className="text-sm text-muted-foreground max-w-md mb-4">
-              简单高效的代理订阅管理平台，支持 12 种主流代理客户端，一键生成订阅链接。
+              {t('footer.brandDesc')}
             </p>
             <div className="flex items-center gap-3">
               <a
@@ -43,14 +46,14 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">快速链接</h3>
+            <h3 className="font-semibold mb-4">{t('footer.quickLinks')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   to="/docs/quick-start"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  快速开始
+                  {t('footer.quickStart')}
                 </Link>
               </li>
               <li>
@@ -58,7 +61,7 @@ export function Footer() {
                   to="/docs/install-docker"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  Docker 安装
+                  {t('footer.dockerInstall')}
                 </Link>
               </li>
               <li>
@@ -66,7 +69,7 @@ export function Footer() {
                   to="/docs/nodes"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  节点管理
+                  {t('footer.nodeManagement')}
                 </Link>
               </li>
               <li>
@@ -74,7 +77,7 @@ export function Footer() {
                   to="/docs/generator"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  生成订阅
+                  {t('footer.generateSub')}
                 </Link>
               </li>
             </ul>
@@ -82,14 +85,14 @@ export function Footer() {
 
           {/* More */}
           <div>
-            <h3 className="font-semibold mb-4">更多</h3>
+            <h3 className="font-semibold mb-4">{t('footer.more')}</h3>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   to="/docs/about"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  关于妙妙屋
+                  {t('footer.about')}
                 </Link>
               </li>
               <li>
@@ -97,7 +100,7 @@ export function Footer() {
                   to="/docs/faq"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  常见问题
+                  {t('footer.faq')}
                 </Link>
               </li>
               <li>
@@ -107,7 +110,7 @@ export function Footer() {
                   rel="noopener noreferrer"
                   className="text-muted-foreground hover:text-primary transition-colors"
                 >
-                  问题反馈
+                  {t('footer.feedback')}
                 </a>
               </li>
             </ul>

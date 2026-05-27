@@ -1,0 +1,12 @@
+{
+  "title": "Search",
+  "description": "Search documentation and feature pages",
+  "placeholder": "Search documentation and features...",
+  "empty": "No results found",
+  "trigger": "Search...",
+  "sections": {
+    "mmwDocs": "MiaoMiaoWu Docs",
+    "mmwxDocs": "MiaoMiaoWu X Docs",
+    "management": "Management"
+  }
+}

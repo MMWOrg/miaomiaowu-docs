@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Settings, Cpu, HardDrive, Wifi, Monitor } from 'lucide-react'
@@ -27,16 +28,18 @@ const platforms = [
 ]
 
 function SystemRequirementsPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='系统要求'
-      description='妙妙屋的服务器和客户端要求'
+      title={t('systemRequirements.title')}
+      description={t('systemRequirements.description')}
     >
       {/* 服务器要求 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Settings className='size-5 text-primary' />
-          服务器要求
+          {t('systemRequirements.server.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -46,34 +49,34 @@ function SystemRequirementsPage() {
                   <Cpu className='size-5 text-primary mt-0.5 flex-shrink-0' />
                   <div>
                     <h4 className='font-semibold'>CPU</h4>
-                    <p className='text-sm text-muted-foreground'>1核心以上</p>
+                    <p className='text-sm text-muted-foreground'>{t('systemRequirements.server.cpu')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <Monitor className='size-5 text-primary mt-0.5 flex-shrink-0' />
                   <div>
-                    <h4 className='font-semibold'>内存</h4>
-                    <p className='text-sm text-muted-foreground'>512MB 以上</p>
+                    <h4 className='font-semibold'>{t('systemRequirements.server.memoryLabel')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('systemRequirements.server.memory')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <HardDrive className='size-5 text-primary mt-0.5 flex-shrink-0' />
                   <div>
-                    <h4 className='font-semibold'>存储</h4>
-                    <p className='text-sm text-muted-foreground'>1GB 以上</p>
+                    <h4 className='font-semibold'>{t('systemRequirements.server.storageLabel')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('systemRequirements.server.storage')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <Wifi className='size-5 text-primary mt-0.5 flex-shrink-0' />
                   <div>
-                    <h4 className='font-semibold'>网络</h4>
-                    <p className='text-sm text-muted-foreground'>稳定的互联网连接</p>
+                    <h4 className='font-semibold'>{t('systemRequirements.server.networkLabel')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('systemRequirements.server.network')}</p>
                   </div>
                 </div>
               </div>
               <div className='mt-4 pt-4 border-t border-border/50'>
                 <p className='text-sm text-muted-foreground'>
-                  <strong>推荐系统：</strong>Linux (Debian 11+)
+                  {t('systemRequirements.server.recommended')}
                 </p>
               </div>
             </div>
@@ -85,7 +88,7 @@ function SystemRequirementsPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Monitor className='size-5 text-primary' />
-          客户端支持
+          {t('systemRequirements.clients.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -115,11 +118,11 @@ function SystemRequirementsPage() {
 
       {/* 浏览器要求 */}
       <section className='mb-8'>
-        <h2 className='text-xl font-bold mb-4'>浏览器要求</h2>
+        <h2 className='text-xl font-bold mb-4'>{t('systemRequirements.browser.heading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              妙妙屋管理面板支持所有现代浏览器：
+              {t('systemRequirements.browser.desc')}
             </p>
             <div className='flex flex-wrap gap-2'>
               <span className='px-3 py-1.5 bg-muted/50 rounded-md text-sm'>Chrome 90+</span>

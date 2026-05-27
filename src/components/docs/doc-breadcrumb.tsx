@@ -1,6 +1,7 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { ChevronRight, Home } from 'lucide-react'
-import { navItems } from './doc-sidebar'
+import { useTranslation } from 'react-i18next'
+import { useDocNavItems } from './doc-sidebar'
 
 interface DocBreadcrumbProps {
   className?: string
@@ -8,9 +9,10 @@ interface DocBreadcrumbProps {
 
 export function DocBreadcrumb({ className }: DocBreadcrumbProps) {
   const location = useLocation()
+  const { t } = useTranslation('layout')
+  const navItems = useDocNavItems()
   const currentPath = location.pathname
 
-  // Find the current page and its parent
   let parentItem: { id: string; label: string } | null = null
   let currentItem: { id: string; label: string; href: string } | null = null
 
@@ -32,7 +34,7 @@ export function DocBreadcrumb({ className }: DocBreadcrumbProps) {
             className='flex items-center gap-1 hover:text-foreground transition-colors'
           >
             <Home className='size-4' />
-            <span>文档</span>
+            <span>{t('breadcrumb.docs')}</span>
           </Link>
         </li>
         {parentItem && (

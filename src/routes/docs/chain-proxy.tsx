@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import {
@@ -25,13 +26,6 @@ export const Route = createFileRoute('/docs/chain-proxy')({
   component: ChainProxyPage,
 })
 
-const groupTypes = [
-  { value: 'select', label: '手动选择' },
-  { value: 'url-test', label: '自动选择' },
-  { value: 'fallback', label: '自动回退' },
-  { value: 'load-balance', label: '负载均衡' },
-]
-
 const relayGroupOptions = [
   '🌠 中转节点',
   '🇭🇰 香港中转',
@@ -40,40 +34,48 @@ const relayGroupOptions = [
 ]
 
 function ChainProxyPage() {
+  const { t } = useTranslation('docs')
   const [selectedType, setSelectedType] = useState('select')
   const [selectedRelayGroup, setSelectedRelayGroup] = useState('🌠 中转节点')
 
+  const groupTypes = [
+    { value: 'select', label: t('chainProxy.groupTypes.select') },
+    { value: 'url-test', label: t('chainProxy.groupTypes.urlTest') },
+    { value: 'fallback', label: t('chainProxy.groupTypes.fallback') },
+    { value: 'load-balance', label: t('chainProxy.groupTypes.loadBalance') },
+  ]
+
   return (
     <DocLayout
-      title='链式代理'
-      description='通过多层代理服务器转发流量'
+      title={t('chainProxy.title')}
+      description={t('chainProxy.description')}
     >
       {/* 什么是链式代理 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Network className='size-5 text-primary' />
-          什么是链式代理
+          {t('chainProxy.whatIs.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              链式代理（Chain Proxy）是一种通过多层代理服务器转发流量的技术，可以实现更复杂的网络路由策略。妙妙屋通过 dialer-proxy 技术实现链式代理，允许为节点指定前置节点，实现多级代理转发。
+              {t('chainProxy.whatIs.desc')}
             </p>
             <div className='bg-muted/30 rounded-lg p-4'>
               <p className='text-sm text-muted-foreground mb-3'>
-                链式代理是指将多个代理节点串联起来，让流量依次通过多个代理服务器再到达目标网站。例如：
+                {t('chainProxy.whatIs.example')}
               </p>
               <div className='bg-background rounded-lg p-4 font-mono text-sm flex items-center justify-center gap-2 flex-wrap'>
-                <span className='px-2 py-1 bg-primary/10 rounded'>客户端</span>
+                <span className='px-2 py-1 bg-primary/10 rounded'>{t('chainProxy.whatIs.client')}</span>
                 <ArrowRight className='size-4 text-muted-foreground' />
-                <span className='px-2 py-1 bg-blue-500/10 rounded'>中转节点</span>
+                <span className='px-2 py-1 bg-blue-500/10 rounded'>{t('chainProxy.whatIs.relay')}</span>
                 <ArrowRight className='size-4 text-muted-foreground' />
-                <span className='px-2 py-1 bg-green-500/10 rounded'>落地节点</span>
+                <span className='px-2 py-1 bg-green-500/10 rounded'>{t('chainProxy.whatIs.landing')}</span>
                 <ArrowRight className='size-4 text-muted-foreground' />
-                <span className='px-2 py-1 bg-orange-500/10 rounded'>目标网站</span>
+                <span className='px-2 py-1 bg-orange-500/10 rounded'>{t('chainProxy.whatIs.target')}</span>
               </div>
               <p className='text-xs text-muted-foreground mt-3'>
-                在妙妙屋中，这通过 Clash 的 <code className='bg-muted px-1.5 py-0.5 rounded'>dialer-proxy</code> 属性实现。源节点会将流量先转发到指定的目标节点（前置节点），再由目标节点转发到最终目的地。
+                {t('chainProxy.whatIs.techDesc')}
               </p>
             </div>
           </CardContent>
@@ -84,33 +86,33 @@ function ChainProxyPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          应用场景
+          {t('chainProxy.scenarios.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <div className='space-y-4'>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>场景一：中转加速</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('chainProxy.scenarios.accelerateTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  当落地节点距离用户较远时，可以通过距离用户较近的中转节点来加速连接。例如：国内用户 → 香港中转 → 美国落地节点。
+                  {t('chainProxy.scenarios.accelerateDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>场景二：隐藏真实IP</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('chainProxy.scenarios.hideIpTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  通过多层代理隐藏客户端的真实 IP 地址，增强隐私保护。目标网站只能看到最后一个落地节点的 IP。
+                  {t('chainProxy.scenarios.hideIpDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>场景三：绕过地区限制</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('chainProxy.scenarios.bypassTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  某些服务可能对特定 IP 段有限制，通过链式代理可以从不同地区的节点出口，绕过这些限制。
+                  {t('chainProxy.scenarios.bypassDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>场景四：流量负载分散</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('chainProxy.scenarios.loadBalanceTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  将流量分散到多个中转节点，降低单个节点的压力，提高整体稳定性。
+                  {t('chainProxy.scenarios.loadBalanceDesc')}
                 </p>
               </div>
             </div>
@@ -122,48 +124,48 @@ function ChainProxyPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          配置方法
+          {t('chainProxy.configMethod.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              在妙妙屋中配置链式代理非常简单，只需在节点管理页面操作：
+              {t('chainProxy.configMethod.desc')}
             </p>
             <div className='bg-muted/30 rounded-lg p-4 border-l-4 border-green-500'>
               <div className='space-y-4 text-sm'>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>1</span>
                   <div>
-                    <strong>进入节点管理页面</strong>
-                    <p className='text-muted-foreground mt-1'>在左侧菜单中点击"节点管理"</p>
+                    <strong>{t('chainProxy.configMethod.step1Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('chainProxy.configMethod.step1Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>2</span>
                   <div>
-                    <strong>找到目标节点</strong>
-                    <p className='text-muted-foreground mt-1'>在节点列表中找到需要配置链式代理的节点（落地节点）</p>
+                    <strong>{t('chainProxy.configMethod.step2Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('chainProxy.configMethod.step2Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>3</span>
                   <div>
-                    <strong>点击链式代理按钮</strong>
-                    <p className='text-muted-foreground mt-1'>点击节点操作栏中的链式代理图标（两个箭头交换图标）</p>
+                    <strong>{t('chainProxy.configMethod.step3Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('chainProxy.configMethod.step3Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>4</span>
                   <div>
-                    <strong>选择前置节点</strong>
-                    <p className='text-muted-foreground mt-1'>在弹出的对话框中选择作为中转的前置节点</p>
+                    <strong>{t('chainProxy.configMethod.step4Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('chainProxy.configMethod.step4Desc')}</p>
                   </div>
                 </div>
                 <div className='flex gap-3'>
                   <span className='flex-shrink-0 flex items-center justify-center size-6 rounded-full bg-primary/20 text-primary font-semibold text-xs'>5</span>
                   <div>
-                    <strong>保存配置</strong>
-                    <p className='text-muted-foreground mt-1'>确认后系统会自动创建一个新的链式代理节点，标签显示为"链式代理"</p>
+                    <strong>{t('chainProxy.configMethod.step5Title')}</strong>
+                    <p className='text-muted-foreground mt-1'>{t('chainProxy.configMethod.step5Desc')}</p>
                   </div>
                 </div>
               </div>
@@ -176,67 +178,67 @@ function ChainProxyPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Network className='size-5 text-primary' />
-          代理组配置
+          {t('chainProxy.groupConfig.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              在生成订阅时，妙妙屋支持配置专门的链式代理分组：
+              {t('chainProxy.groupConfig.desc')}
             </p>
             <div className='space-y-3'>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>🌄 落地节点</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('chainProxy.groupConfig.landingTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  用于存放最终的出口节点，这些节点的 IP 会被目标网站看到。
+                  {t('chainProxy.groupConfig.landingDesc')}
                 </p>
               </div>
               <div className='bg-muted/30 rounded-lg p-4'>
-                <h4 className='font-semibold text-sm mb-2'>🌠 中转节点</h4>
+                <h4 className='font-semibold text-sm mb-2'>{t('chainProxy.groupConfig.relayTitle')}</h4>
                 <p className='text-xs text-muted-foreground'>
-                  用于存放中转服务器节点，流量会先经过这些节点再转发到落地节点。
+                  {t('chainProxy.groupConfig.relayDesc')}
                 </p>
               </div>
             </div>
             <p className='text-xs text-muted-foreground mt-4'>
-              这种分组方式适合有多个落地节点和多个中转节点的用户，可以灵活组合不同的链路。
+              {t('chainProxy.groupConfig.note')}
             </p>
           </CardContent>
         </Card>
       </section>
-      
+
       {/* 节点管理配置 */}
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Network className='size-5 text-primary' />
-          单节点配置
+          {t('chainProxy.singleNode.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              在节点管理页面，点击
-              <img src={ExchangeIcon} alt='链式代理' className='h-4 w-4 inline [filter:invert(63%)_sepia(45%)_saturate(1068%)_hue-rotate(327deg)_brightness(95%)_contrast(88%)]' />
-              按钮支持给落地节点单独指定中转节点，指定后会在节点表创建一个新的链式代理节点。
+              {t('chainProxy.singleNode.desc1')}
+              <img src={ExchangeIcon} alt={t('chainProxy.title')} className='h-4 w-4 inline [filter:invert(63%)_sepia(45%)_saturate(1068%)_hue-rotate(327deg)_brightness(95%)_contrast(88%)]' />
+              {t('chainProxy.singleNode.desc2')}
             </p>
             <div className='rounded-xl border border-[#6d5954] bg-[linear-gradient(135deg,#0a1226,#111f38)] p-4 shadow-lg'>
               <div className='mb-4 flex items-start justify-between gap-3'>
                 <div>
-                  <p className='text-xl font-semibold text-white'>🌄 落地节点</p>
+                  <p className='text-xl font-semibold text-white'>{t('chainProxy.singleNode.demoLanding')}</p>
                   <p className='text-sm text-slate-300'>
-                    {groupTypes.find(item => item.value === selectedType)?.label} (6 个节点)
+                    {groupTypes.find(item => item.value === selectedType)?.label} ({t('chainProxy.singleNode.demoNodeCount', { count: 6 })})
                   </p>
                 </div>
                 <div className='flex items-center gap-2'>
                   <button
                     type='button'
                     className='inline-flex size-8 items-center justify-center rounded-md border border-[#6d5954] bg-black/25 text-slate-200'
-                    aria-label='切换代理组类型'
+                    aria-label={t('chainProxy.singleNode.switchTypeLabel')}
                   >
                     <Settings2 className='size-4' />
                   </button>
                   <button
                     type='button'
                     className='inline-flex size-8 items-center justify-center rounded-md border border-[#6d5954] bg-black/25 text-slate-200'
-                    aria-label='关闭'
+                    aria-label={t('chainProxy.singleNode.closeLabel')}
                   >
                     <X className='size-4' />
                   </button>
@@ -262,11 +264,11 @@ function ChainProxyPage() {
                 </div>
 
                 <div className='mt-3 border-t border-[#273047] pt-3'>
-                  <p className='mb-2 text-xs text-slate-400'>中转代理组</p>
+                  <p className='mb-2 text-xs text-slate-400'>{t('chainProxy.singleNode.relayGroupLabel')}</p>
                   <div className='rounded-md border border-[#2f3a53] bg-[#10192e] p-2'>
                     <Select value={selectedRelayGroup} onValueChange={setSelectedRelayGroup}>
                       <SelectTrigger className='h-9 border-[#3b4867] bg-[#18243f] text-slate-100'>
-                        <SelectValue placeholder='选择中转代理组' />
+                        <SelectValue placeholder={t('chainProxy.singleNode.selectRelayPlaceholder')} />
                       </SelectTrigger>
                       <SelectContent>
                         {relayGroupOptions.map(group => (
@@ -278,7 +280,7 @@ function ChainProxyPage() {
                     </Select>
                   </div>
                   <p className='mt-2 flex items-center gap-1 text-xs text-slate-400'>
-                    当前绑定
+                    {t('chainProxy.singleNode.currentBinding')}
                     <ChevronDown className='size-3 rotate-[-90deg]' />
                     <span className='text-slate-200'>{selectedRelayGroup}</span>
                   </p>
@@ -286,10 +288,7 @@ function ChainProxyPage() {
               </div>
             </div>
             <p className='text-xs text-muted-foreground mt-4'>
-              上方为页面内模拟数据演示，展示“代理组类型切换按钮”中的“中转代理组”下拉菜单（非图片）。
-              实际使用时，该配置会写入
-              <code className='bg-muted px-1.5 py-0.5 rounded ml-1'>dialer-proxy-group</code>
-              字段。
+              {t('chainProxy.singleNode.demoNote')}
             </p>
           </CardContent>
         </Card>
@@ -297,11 +296,11 @@ function ChainProxyPage() {
 
       {/* 技术原理 */}
       <section className='mb-8'>
-        <h2 className='text-xl font-bold mb-4'>技术原理</h2>
+        <h2 className='text-xl font-bold mb-4'>{t('chainProxy.techPrinciple.heading')}</h2>
         <Card>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              链式代理的实现基于 Clash 的 dialer-proxy 特性：
+              {t('chainProxy.techPrinciple.desc')}
             </p>
             <div className='bg-muted/30 rounded-lg p-4'>
               <div className='bg-background rounded p-3 font-mono text-xs space-y-1'>
@@ -313,7 +312,7 @@ function ChainProxyPage() {
                 <div className='text-primary'>  dialer-proxy: "香港中转节点"</div>
               </div>
               <p className='text-xs text-muted-foreground mt-3'>
-                <code className='bg-muted px-1.5 py-0.5 rounded'>dialer-proxy</code> 属性指定了前置代理节点的名称，Clash 会先连接到前置节点，再通过前置节点连接到目标节点。
+                {t('chainProxy.techPrinciple.explanation')}
               </p>
             </div>
           </CardContent>
@@ -324,7 +323,7 @@ function ChainProxyPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-primary' />
-          注意事项
+          {t('chainProxy.notes.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
@@ -332,23 +331,23 @@ function ChainProxyPage() {
               <ul className='space-y-2 text-sm text-muted-foreground'>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>延迟叠加</strong>：链式代理会增加网络延迟，因为流量需要经过多个节点</span>
+                  <span><strong>{t('chainProxy.notes.latencyTitle')}</strong>{t('chainProxy.notes.latencyDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>节点稳定性</strong>：链路中任何一个节点故障都会导致整个链路不可用</span>
+                  <span><strong>{t('chainProxy.notes.stabilityTitle')}</strong>{t('chainProxy.notes.stabilityDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>带宽限制</strong>：最终速度受限于链路中最慢的节点</span>
+                  <span><strong>{t('chainProxy.notes.bandwidthTitle')}</strong>{t('chainProxy.notes.bandwidthDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>避免循环</strong>：确保链式配置不会形成循环引用</span>
+                  <span><strong>{t('chainProxy.notes.loopTitle')}</strong>{t('chainProxy.notes.loopDesc')}</span>
                 </li>
                 <li className='flex items-start gap-2'>
                   <span className='text-orange-500 mt-1'>⚠</span>
-                  <span><strong>协议兼容</strong>：确保链路中的节点协议相互兼容</span>
+                  <span><strong>{t('chainProxy.notes.protocolTitle')}</strong>{t('chainProxy.notes.protocolDesc')}</span>
                 </li>
               </ul>
             </div>

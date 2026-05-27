@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 import { DocLayout } from '@/components/docs/doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -31,20 +32,22 @@ export const Route = createFileRoute('/docs/nodes')({
 })
 
 function NodesDocPage() {
+  const { t } = useTranslation('docs')
+
   return (
     <DocLayout
-      title='节点管理'
-      description='管理代理节点，支持添加、编辑、删除和导入节点'
+      title={t('nodes.title')}
+      description={t('nodes.description')}
     >
       {/* 功能介绍 */}
       <section className='mb-8'>
         <Card className='bg-muted/30'>
           <CardContent className='pt-6'>
             <p className='text-muted-foreground mb-4'>
-              节点管理页面是管理员专用功能，用于管理所有代理节点。支持添加、编辑、删除自建节点和外部订阅节点。
+              {t('nodes.intro')}
             </p>
             <div className='flex gap-2'>
-              <Badge variant='destructive'>管理员功能</Badge>
+              <Badge variant='destructive'>{t('nodes.adminFeature')}</Badge>
             </div>
           </CardContent>
         </Card>
@@ -54,7 +57,7 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          主要功能
+          {t('nodes.mainFeatures.heading')}
         </h2>
         <div className='grid gap-4 md:grid-cols-2'>
           <Card>
@@ -62,10 +65,8 @@ function NodesDocPage() {
               <div className='flex items-start gap-3'>
                 <Plus className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>添加节点</h4>
-                  <p className='text-sm text-muted-foreground'>
-                    手动输入 vless://、vmess:// 等链接添加节点
-                  </p>
+                  <h4 className='font-semibold'>{t('nodes.mainFeatures.addTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('nodes.mainFeatures.addDesc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -75,10 +76,8 @@ function NodesDocPage() {
               <div className='flex items-start gap-3'>
                 <Upload className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>导入节点</h4>
-                  <p className='text-sm text-muted-foreground'>
-                    从外部订阅链接批量导入节点
-                  </p>
+                  <h4 className='font-semibold'>{t('nodes.mainFeatures.importTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('nodes.mainFeatures.importDesc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -88,10 +87,8 @@ function NodesDocPage() {
               <div className='flex items-start gap-3'>
                 <img src={IpIcon} alt='IP' className='size-5 mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>解析为IP</h4>
-                  <p className='text-sm text-muted-foreground'>
-                    将节点域名解析为固定IP，支持IPv4和IPv6
-                  </p>
+                  <h4 className='font-semibold'>{t('nodes.mainFeatures.resolveIpTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('nodes.mainFeatures.resolveIpDesc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -101,10 +98,8 @@ function NodesDocPage() {
               <div className='flex items-start gap-3'>
                 <img src={ExchangeIcon} alt='Exchange' className='size-5 mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>创建链式代理</h4>
-                  <p className='text-sm text-muted-foreground'>
-                    为节点指定前置节点，生成链式代理节点
-                  </p>
+                  <h4 className='font-semibold'>{t('nodes.mainFeatures.chainProxyTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('nodes.mainFeatures.chainProxyDesc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -114,10 +109,8 @@ function NodesDocPage() {
               <div className='flex items-start gap-3'>
                 <ArrowUpDown className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>节点排序</h4>
-                  <p className='text-sm text-muted-foreground'>
-                    支持拖拽排序与快速排序模式，自由调整节点顺序
-                  </p>
+                  <h4 className='font-semibold'>{t('nodes.mainFeatures.sortTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('nodes.mainFeatures.sortDesc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -127,10 +120,8 @@ function NodesDocPage() {
               <div className='flex items-start gap-3'>
                 <Eye className='size-5 text-primary mt-0.5' />
                 <div>
-                  <h4 className='font-semibold'>查看配置</h4>
-                  <p className='text-sm text-muted-foreground'>
-                    显示节点的详细配置信息，支持 YAML 格式展示
-                  </p>
+                  <h4 className='font-semibold'>{t('nodes.mainFeatures.viewConfigTitle')}</h4>
+                  <p className='text-sm text-muted-foreground'>{t('nodes.mainFeatures.viewConfigDesc')}</p>
                 </div>
               </div>
             </CardContent>
@@ -142,20 +133,16 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Filter className='size-5 text-primary' />
-          筛选功能
+          {t('nodes.filter.heading')}
         </h2>
-        <p className='text-muted-foreground mb-4'>
-          节点列表支持多种筛选方式，帮助您快速找到所需节点。
-        </p>
+        <p className='text-muted-foreground mb-4'>{t('nodes.filter.desc')}</p>
         <div className='grid gap-4 md:grid-cols-2'>
           <Card>
             <CardContent className='pt-4'>
-              <h4 className='font-semibold mb-2'>按协议筛选</h4>
-              <p className='text-sm text-muted-foreground mb-3'>
-                点击协议标签可以筛选显示指定协议类型的节点。
-              </p>
+              <h4 className='font-semibold mb-2'>{t('nodes.filter.byProtocolTitle')}</h4>
+              <p className='text-sm text-muted-foreground mb-3'>{t('nodes.filter.byProtocolDesc')}</p>
               <div className='flex flex-wrap gap-2'>
-                <Badge variant='secondary'>全部</Badge>
+                <Badge variant='secondary'>{t('nodes.filter.all')}</Badge>
                 <Badge variant='secondary' className='bg-purple-500/20 text-purple-400'>VLESS</Badge>
                 <Badge variant='secondary' className='bg-blue-500/20 text-blue-400'>VMess</Badge>
                 <Badge variant='secondary' className='bg-green-500/20 text-green-400'>SS</Badge>
@@ -165,16 +152,14 @@ function NodesDocPage() {
           </Card>
           <Card>
             <CardContent className='pt-4'>
-              <h4 className='font-semibold mb-2'>按标签筛选</h4>
-              <p className='text-sm text-muted-foreground mb-3'>
-                节点支持自定义标签管理，点击标签可以筛选显示指定分类的节点。
-              </p>
+              <h4 className='font-semibold mb-2'>{t('nodes.filter.byTagTitle')}</h4>
+              <p className='text-sm text-muted-foreground mb-3'>{t('nodes.filter.byTagDesc')}</p>
               <div className='flex flex-wrap gap-2'>
-                <Badge variant='outline'>全部</Badge>
-                <Badge variant='outline'>手动输入</Badge>
-                <Badge variant='outline'>外部订阅</Badge>
-                <Badge variant='outline'>链式代理</Badge>
-                <Badge variant='outline' className='border-primary/50 text-primary'>自定义标签</Badge>
+                <Badge variant='outline'>{t('nodes.filter.all')}</Badge>
+                <Badge variant='outline'>{t('nodes.filter.manualInput')}</Badge>
+                <Badge variant='outline'>{t('nodes.filter.externalSub')}</Badge>
+                <Badge variant='outline'>{t('nodes.filter.chainProxy')}</Badge>
+                <Badge variant='outline' className='border-primary/50 text-primary'>{t('nodes.filter.customTag')}</Badge>
               </div>
             </CardContent>
           </Card>
@@ -185,10 +170,10 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <MousePointerClick className='size-5 text-primary' />
-          排序与批量操作
+          {t('nodes.batchOps.heading')}
         </h2>
         <p className='text-muted-foreground mb-4'>
-          开启<strong>排序模式</strong>或选中多个节点后，可以使用以下批量操作功能：
+          {t('nodes.batchOps.descPrefix')}<strong>{t('nodes.batchOps.sortMode')}</strong>{t('nodes.batchOps.descSuffix')}
         </p>
         <div className='grid gap-3'>
           <Card>
@@ -197,55 +182,43 @@ function NodesDocPage() {
                 <div className='flex items-start gap-3'>
                   <ArrowUpDown className='size-5 text-primary mt-0.5' />
                   <div>
-                    <h4 className='font-semibold'>快速排序</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      在排序模式下勾选节点，底部悬浮栏支持一键<strong>置顶、置底、上移、下移</strong>
-                    </p>
+                    <h4 className='font-semibold'>{t('nodes.batchOps.quickSortTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.quickSortDesc')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <RefreshCw className='size-5 text-primary mt-0.5' />
                   <div>
-                    <h4 className='font-semibold'>同步外部订阅</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      从外部订阅源同步更新节点，保持节点信息最新
-                    </p>
+                    <h4 className='font-semibold'>{t('nodes.batchOps.syncTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.syncDesc')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <Smile className='size-5 text-primary mt-0.5' />
                   <div>
-                    <h4 className='font-semibold'>添加 Emoji</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      为选中节点批量添加地区 emoji（如 🇭🇰、🇯🇵）
-                    </p>
+                    <h4 className='font-semibold'>{t('nodes.batchOps.emojiTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.emojiDesc')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <Pencil className='size-5 text-primary mt-0.5' />
                   <div>
-                    <h4 className='font-semibold'>修改名称</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      批量修改选中节点的名称，支持模板替换
-                    </p>
+                    <h4 className='font-semibold'>{t('nodes.batchOps.renameTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.renameDesc')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <Tag className='size-5 text-primary mt-0.5' />
                   <div>
-                    <h4 className='font-semibold'>修改标签</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      批量修改选中节点的标签分类
-                    </p>
+                    <h4 className='font-semibold'>{t('nodes.batchOps.tagTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.tagDesc')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <Trash2 className='size-5 text-destructive mt-0.5' />
                   <div>
-                    <h4 className='font-semibold'>批量删除</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      删除所有选中的节点
-                    </p>
+                    <h4 className='font-semibold'>{t('nodes.batchOps.batchDeleteTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.batchDeleteDesc')}</p>
                   </div>
                 </div>
               </div>
@@ -257,19 +230,15 @@ function NodesDocPage() {
                 <div className='flex items-start gap-3'>
                   <Trash2 className='size-5 text-orange-500 mt-0.5' />
                   <div>
-                    <h4 className='font-semibold text-orange-500'>清空所有</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      清空所有节点（危险操作，需二次确认）
-                    </p>
+                    <h4 className='font-semibold text-orange-500'>{t('nodes.batchOps.clearAllTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.clearAllDesc')}</p>
                   </div>
                 </div>
                 <div className='flex items-start gap-3'>
                   <RotateCcw className='size-5 text-orange-500 mt-0.5' />
                   <div>
-                    <h4 className='font-semibold text-orange-500'>删除重复</h4>
-                    <p className='text-sm text-muted-foreground'>
-                      自动检测并删除重复的节点
-                    </p>
+                    <h4 className='font-semibold text-orange-500'>{t('nodes.batchOps.removeDupTitle')}</h4>
+                    <p className='text-sm text-muted-foreground'>{t('nodes.batchOps.removeDupDesc')}</p>
                   </div>
                 </div>
               </div>
@@ -282,112 +251,70 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Sparkles className='size-5 text-primary' />
-          节点操作按钮详解
+          {t('nodes.nodeActions.heading')}
         </h2>
-        <p className='text-muted-foreground mb-4'>
-          每个节点行都有一系列操作图标按钮，用于快速操作单个节点：
-        </p>
+        <p className='text-muted-foreground mb-4'>{t('nodes.nodeActions.desc')}</p>
         <Card>
           <CardContent className='pt-4'>
             <div className='overflow-x-auto'>
               <table className='w-full text-sm'>
                 <thead>
                   <tr className='border-b'>
-                    <th className='p-3 text-left w-16'>图标</th>
-                    <th className='p-3 text-left w-32'>功能名称</th>
-                    <th className='p-3 text-left'>功能说明</th>
+                    <th className='p-3 text-left w-16'>{t('nodes.nodeActions.iconCol')}</th>
+                    <th className='p-3 text-left w-32'>{t('nodes.nodeActions.nameCol')}</th>
+                    <th className='p-3 text-left'>{t('nodes.nodeActions.descCol')}</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <Pencil className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>编辑节点名称</td>
-                    <td className='p-3 text-muted-foreground'>快速修改节点的显示名称</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><Pencil className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.editName')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.editNameDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <img src={ExchangeIcon} alt='Exchange' className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>创建链式代理</td>
-                    <td className='p-3 text-muted-foreground'>为节点指定前置代理，流量经过前置节点再转发</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><img src={ExchangeIcon} alt='Exchange' className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.chainProxy')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.chainProxyDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <Activity className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>绑定探针</td>
-                    <td className='p-3 text-muted-foreground'>绑定探针服务器，精确统计节点流量使用情况</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><Activity className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.bindProbe')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.bindProbeDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <Smile className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>添加地区 Emoji</td>
-                    <td className='p-3 text-muted-foreground'>根据节点 IP 自动识别地区并添加国旗 emoji</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><Smile className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.addEmoji')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.addEmojiDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <img src={IpIcon} alt='IP' className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>解析 IP 地址</td>
-                    <td className='p-3 text-muted-foreground'>将节点域名解析为 IP 地址，避免 DNS 泄露</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><img src={IpIcon} alt='IP' className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.resolveIp')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.resolveIpDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <RotateCcw className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>恢复原始域名</td>
-                    <td className='p-3 text-muted-foreground'>将已解析的 IP 恢复为原始域名</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><RotateCcw className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.restoreDomain')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.restoreDomainDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <Eye className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>查看/修改配置</td>
-                    <td className='p-3 text-muted-foreground'>查看或编辑节点的完整 YAML 配置信息</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><Eye className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.viewConfig')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.viewConfigDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <Copy className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>复制 URI</td>
-                    <td className='p-3 text-muted-foreground'>复制节点的分享链接（如 vless://...）</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><Copy className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.copyUri')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.copyUriDesc')}</td>
                   </tr>
                   <tr className='border-b'>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7'>
-                        <Clock className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>生成临时订阅</td>
-                    <td className='p-3 text-muted-foreground'>为单个节点生成临时订阅链接</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7'><Clock className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.tempSub')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.tempSubDesc')}</td>
                   </tr>
                   <tr>
-                    <td className='p-3'>
-                      <Button size='icon' variant='ghost' className='size-7 text-destructive'>
-                        <Trash2 className='size-3.5' />
-                      </Button>
-                    </td>
-                    <td className='p-3 font-medium'>删除节点</td>
-                    <td className='p-3 text-muted-foreground'>删除当前节点</td>
+                    <td className='p-3'><Button size='icon' variant='ghost' className='size-7 text-destructive'><Trash2 className='size-3.5' /></Button></td>
+                    <td className='p-3 font-medium'>{t('nodes.nodeActions.deleteNode')}</td>
+                    <td className='p-3 text-muted-foreground'>{t('nodes.nodeActions.deleteNodeDesc')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -400,7 +327,7 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-primary' />
-          支持的协议类型
+          {t('nodes.protocols.heading')}
         </h2>
         <div className='grid grid-cols-2 md:grid-cols-3 gap-3'>
           {['VMess', 'VLESS', 'Trojan', 'Shadowsocks', 'Hysteria', 'Hysteria2', 'TUIC', 'ShadowsocksR', 'Socks5', 'WireGuard'].map((protocol) => (
@@ -417,51 +344,37 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <FileCode className='size-5 text-primary' />
-          添加节点步骤
+          {t('nodes.addSteps.heading')}
         </h2>
         <Card>
           <CardContent className='pt-6'>
             <ol className='space-y-4 text-sm'>
               <li className='flex gap-3'>
-                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>
-                  1
-                </span>
+                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>1</span>
                 <div>
-                  <p className='font-medium'>点击"节点管理"菜单</p>
-                  <p className='text-muted-foreground'>选择添加方式：手动输入或订阅导入</p>
+                  <p className='font-medium'>{t('nodes.addSteps.step1Title')}</p>
+                  <p className='text-muted-foreground'>{t('nodes.addSteps.step1Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
-                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>
-                  2
-                </span>
+                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>2</span>
                 <div>
-                  <p className='font-medium'>输入节点信息</p>
-                  <p className='text-muted-foreground'>
-                    手动输入：类似 vless:// 的链接，一行一个<br/>
-                    订阅导入：输入机场提供的订阅链接<br/>
-                    标签输入框上方会显示已有标签，点击可快速选中；若当前节点列表已按标签筛选，添加弹窗会自动填入对应标签
-                  </p>
+                  <p className='font-medium'>{t('nodes.addSteps.step2Title')}</p>
+                  <p className='text-muted-foreground'>{t('nodes.addSteps.step2Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
-                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>
-                  3
-                </span>
+                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>3</span>
                 <div>
-                  <p className='font-medium'>查看解析结果</p>
-                  <p className='text-muted-foreground'>
-                    节点表格展示节点类型、名称、标签、服务器地址等信息
-                  </p>
+                  <p className='font-medium'>{t('nodes.addSteps.step3Title')}</p>
+                  <p className='text-muted-foreground'>{t('nodes.addSteps.step3Desc')}</p>
                 </div>
               </li>
               <li className='flex gap-3'>
-                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>
-                  4
-                </span>
+                <span className='flex-shrink-0 size-6 rounded-full bg-primary/20 text-primary flex items-center justify-center text-xs font-semibold'>4</span>
                 <div>
-                  <p className='font-medium'>保存节点</p>
-                  <p className='text-muted-foreground'>点击保存按钮，节点将添加到节点列表中</p>
+                  <p className='font-medium'>{t('nodes.addSteps.step4Title')}</p>
+                  <p className='text-muted-foreground'>{t('nodes.addSteps.step4Desc')}</p>
                 </div>
               </li>
             </ol>
@@ -473,22 +386,22 @@ function NodesDocPage() {
       <section className='mb-8'>
         <h2 className='text-xl font-bold mb-4 flex items-center gap-2'>
           <Shield className='size-5 text-orange-500' />
-          注意事项
+          {t('nodes.notes.heading')}
         </h2>
         <Card className='border-orange-500/20'>
           <CardContent className='pt-6'>
             <ul className='space-y-2 text-sm text-muted-foreground'>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>配置准确性：</strong>节点配置信息必须准确无误，错误的配置会导致节点无法连接</span>
+                <span><strong>{t('nodes.notes.accuracyTitle')}</strong>{t('nodes.notes.accuracyDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>删除影响：</strong>删除节点不会影响引用该节点的订阅配置</span>
+                <span><strong>{t('nodes.notes.deleteTitle')}</strong>{t('nodes.notes.deleteDesc')}</span>
               </li>
               <li className='flex items-start gap-2'>
                 <span className='text-orange-500 mt-1'>⚠</span>
-                <span><strong>订阅导入的节点更新：</strong>设置中打开开关后，每次获取订阅时根据过期时间同步外部订阅节点</span>
+                <span><strong>{t('nodes.notes.subUpdateTitle')}</strong>{t('nodes.notes.subUpdateDesc')}</span>
               </li>
             </ul>
           </CardContent>
