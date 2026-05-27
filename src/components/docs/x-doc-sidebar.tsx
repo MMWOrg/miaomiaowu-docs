@@ -116,7 +116,7 @@ const xNavStructure: XNavItemDef[] = [
     id: 'feature-guide',
     icon: Workflow,
     children: [
-      { id: 'routed-outbound', href: '/x/docs/routed-outbound', icon: Route, badgeKey: 'new' },
+      { id: 'routed-outbound', href: '/x/docs/routed-outbound', icon: ArrowRightLeft, badgeKey: 'new' },
       { id: 'system-settings-guide', href: '/x/docs/system-settings', icon: Settings },
     ],
   },
