@@ -101,6 +101,7 @@ import { Route as XDocsFeaturesRouteImport } from './routes/x/docs/features'
 import { Route as XDocsFaqRouteImport } from './routes/x/docs/faq'
 import { Route as XDocsEmbeddedXrayRouteImport } from './routes/x/docs/embedded-xray'
 import { Route as XDocsCustomRulesRouteImport } from './routes/x/docs/custom-rules'
+import { Route as XDocsComparisonRouteImport } from './routes/x/docs/comparison'
 import { Route as XDocsChangelogRouteImport } from './routes/x/docs/changelog'
 import { Route as XDocsCertificatesRouteImport } from './routes/x/docs/certificates'
 import { Route as XDocsAboutRouteImport } from './routes/x/docs/about'
@@ -568,6 +569,11 @@ const XDocsCustomRulesRoute = XDocsCustomRulesRouteImport.update({
   path: '/custom-rules',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsComparisonRoute = XDocsComparisonRouteImport.update({
+  id: '/comparison',
+  path: '/comparison',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsChangelogRoute = XDocsChangelogRouteImport.update({
   id: '/changelog',
   path: '/changelog',
@@ -643,6 +649,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/about': typeof XDocsAboutRoute
   '/x/docs/certificates': typeof XDocsCertificatesRoute
   '/x/docs/changelog': typeof XDocsChangelogRoute
+  '/x/docs/comparison': typeof XDocsComparisonRoute
   '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
   '/x/docs/embedded-xray': typeof XDocsEmbeddedXrayRoute
   '/x/docs/faq': typeof XDocsFaqRoute
@@ -732,6 +739,7 @@ export interface FileRoutesByTo {
   '/x/docs/about': typeof XDocsAboutRoute
   '/x/docs/certificates': typeof XDocsCertificatesRoute
   '/x/docs/changelog': typeof XDocsChangelogRoute
+  '/x/docs/comparison': typeof XDocsComparisonRoute
   '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
   '/x/docs/embedded-xray': typeof XDocsEmbeddedXrayRoute
   '/x/docs/faq': typeof XDocsFaqRoute
@@ -830,6 +838,7 @@ export interface FileRoutesById {
   '/x/docs/about': typeof XDocsAboutRoute
   '/x/docs/certificates': typeof XDocsCertificatesRoute
   '/x/docs/changelog': typeof XDocsChangelogRoute
+  '/x/docs/comparison': typeof XDocsComparisonRoute
   '/x/docs/custom-rules': typeof XDocsCustomRulesRoute
   '/x/docs/embedded-xray': typeof XDocsEmbeddedXrayRoute
   '/x/docs/faq': typeof XDocsFaqRoute
@@ -929,6 +938,7 @@ export interface FileRouteTypes {
     | '/x/docs/about'
     | '/x/docs/certificates'
     | '/x/docs/changelog'
+    | '/x/docs/comparison'
     | '/x/docs/custom-rules'
     | '/x/docs/embedded-xray'
     | '/x/docs/faq'
@@ -1018,6 +1028,7 @@ export interface FileRouteTypes {
     | '/x/docs/about'
     | '/x/docs/certificates'
     | '/x/docs/changelog'
+    | '/x/docs/comparison'
     | '/x/docs/custom-rules'
     | '/x/docs/embedded-xray'
     | '/x/docs/faq'
@@ -1115,6 +1126,7 @@ export interface FileRouteTypes {
     | '/x/docs/about'
     | '/x/docs/certificates'
     | '/x/docs/changelog'
+    | '/x/docs/comparison'
     | '/x/docs/custom-rules'
     | '/x/docs/embedded-xray'
     | '/x/docs/faq'
@@ -1820,6 +1832,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsCustomRulesRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/comparison': {
+      id: '/x/docs/comparison'
+      path: '/comparison'
+      fullPath: '/x/docs/comparison'
+      preLoaderRoute: typeof XDocsComparisonRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/changelog': {
       id: '/x/docs/changelog'
       path: '/changelog'
@@ -1976,6 +1995,7 @@ interface XDocsRouteChildren {
   XDocsAboutRoute: typeof XDocsAboutRoute
   XDocsCertificatesRoute: typeof XDocsCertificatesRoute
   XDocsChangelogRoute: typeof XDocsChangelogRoute
+  XDocsComparisonRoute: typeof XDocsComparisonRoute
   XDocsCustomRulesRoute: typeof XDocsCustomRulesRoute
   XDocsEmbeddedXrayRoute: typeof XDocsEmbeddedXrayRoute
   XDocsFaqRoute: typeof XDocsFaqRoute
@@ -2019,6 +2039,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsAboutRoute: XDocsAboutRoute,
   XDocsCertificatesRoute: XDocsCertificatesRoute,
   XDocsChangelogRoute: XDocsChangelogRoute,
+  XDocsComparisonRoute: XDocsComparisonRoute,
   XDocsCustomRulesRoute: XDocsCustomRulesRoute,
   XDocsEmbeddedXrayRoute: XDocsEmbeddedXrayRoute,
   XDocsFaqRoute: XDocsFaqRoute,

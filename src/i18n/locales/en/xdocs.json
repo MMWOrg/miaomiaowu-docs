@@ -2030,5 +2030,193 @@
     "agentEnvSpeedInterval": "Speed report interval (e.g., 3s, 5s)",
     "agentEnvRestartMethod": "Xray restart method",
     "agentEnvRestartCommand": "Custom Xray restart command"
+  },
+  "comparison": {
+    "title": "MMW vs MMW-X",
+    "description": "Detailed comparison of similarities and differences between MiaoMiaoWu and MiaoMiaoWu X",
+    "overview": {
+      "text1": "MiaoMiaoWu X is an enhanced version of MiaoMiaoWu, inheriting all core features (subscription generation, template system, custom rules, etc.) while adding enterprise-grade capabilities like remote server management, full Xray management, certificate management, and package management.",
+      "text2": "In short: MiaoMiaoWu is a subscription management platform, while MiaoMiaoWu X is a complete proxy service management platform. Below is a detailed feature comparison."
+    },
+    "table": {
+      "heading": "Feature Comparison Overview",
+      "feature": "Feature",
+      "mmw": "MiaoMiaoWu",
+      "mmwx": "MiaoMiaoWu X",
+      "rows": {
+        "trafficManagement": {
+          "feature": "Traffic Management",
+          "mmw": "Probe-based, imprecise stats",
+          "mmwx": "Agent-based, precise + auto-expiry"
+        },
+        "nodeManagement": {
+          "feature": "Node Management",
+          "mmw": "Manual import / external sub sync",
+          "mmwx": "UI creation + steal-self / routed outbound / tunnel"
+        },
+        "userManagement": {
+          "feature": "User Management",
+          "mmw": "Basic, local config still works after expiry",
+          "mmwx": "Package-bound, auto-revoke on expiry"
+        },
+        "serverManagement": {
+          "feature": "Server Management",
+          "mmw": "Not supported",
+          "mmwx": "Master-Agent remote management"
+        },
+        "certificateManagement": {
+          "feature": "Certificate Management",
+          "mmw": "Not supported",
+          "mmwx": "ACME auto-apply / renew / deploy"
+        },
+        "packageManagement": {
+          "feature": "Package Management",
+          "mmw": "Not supported",
+          "mmwx": "Traffic quota / validity / rate limit"
+        },
+        "monitoring": {
+          "feature": "Monitoring",
+          "mmw": "Probe traffic collection, node-level",
+          "mmwx": "Precise stats + real-time online tracking"
+        },
+        "subscriptionGeneration": {
+          "feature": "Subscription Generation",
+          "mmw": "12+ client formats",
+          "mmwx": "12+ client formats (inherited)"
+        },
+        "templates": {
+          "feature": "Template System",
+          "mmw": "V3 template engine",
+          "mmwx": "V3 template engine (inherited)"
+        },
+        "customRules": {
+          "feature": "Custom Rules",
+          "mmw": "DNS / routing / rule sets",
+          "mmwx": "DNS / routing / rule sets (inherited)"
+        },
+        "security": {
+          "feature": "Security",
+          "mmw": "Silent mode / TOTP 2FA",
+          "mmwx": "Silent mode / TOTP 2FA (inherited)"
+        },
+        "deployment": {
+          "feature": "Deployment",
+          "mmw": "Docker / binary",
+          "mmwx": "Docker / binary (Master + Agent)"
+        }
+      }
+    },
+    "detail": {
+      "mmwLabel": "MiaoMiaoWu",
+      "mmwxLabel": "MiaoMiaoWu X",
+      "traffic": {
+        "heading": "Traffic Management",
+        "mmw": {
+          "item1": "Reads node traffic data through the probe system",
+          "item2": "Can only track node-level traffic, not per-user",
+          "item3": "After user expiry, local subscription configs still work since node info hasn't changed"
+        },
+        "mmwx": {
+          "item1": "Install MMW-Agent on servers to directly manage Xray service users and traffic",
+          "item2": "Precise traffic statistics per user and per node",
+          "item3": "Auto-revokes node access on user expiry, subscription credentials become invalid immediately",
+          "item4": "Supports traffic quotas, rate limiting, device limits, and auto-ban on expiry"
+        }
+      },
+      "nodes": {
+        "heading": "Node Management",
+        "mmw": {
+          "item1": "Manual node addition (fill in node info)",
+          "item2": "Sync nodes via external subscription links",
+          "item3": "Chain proxy, node grouping, sorting and basic management",
+          "item4": "To add nodes on a server, you must manually log in to configure, then import to MiaoMiaoWu"
+        },
+        "mmwx": {
+          "item1": "Create nodes for all protocols (VLESS/VMess/Trojan/SS/Hysteria2) via UI, 17 protocol combos with one click",
+          "item2": "Steal-self: reuse existing inbound configs to quickly create new nodes",
+          "item3": "Routed Outbound: transit node reuse for traffic splitting and multi-layer forwarding",
+          "item4": "Port Forwarding Tunnel (dokodemo-door): create outbounds on existing servers, designate nodes as outbound targets",
+          "item5": "Most Xray configuration needs can be done through the UI without logging into the server"
+        }
+      },
+      "users": {
+        "heading": "User Management",
+        "mmw": {
+          "item1": "Create users, assign subscription files, manage user status",
+          "item2": "Supports setting user expiry, but requires manual handling after expiry",
+          "item3": "Local configs still work after user expiry (node info unchanged)"
+        },
+        "mmwx": {
+          "item1": "Users bound to packages with traffic quota, validity period, and accessible nodes",
+          "item2": "Auto-revokes node access on expiry, credentials invalidated instantly",
+          "item3": "Rate limiting and device count limits, auto-throttle on excess",
+          "item4": "Precise traffic statistics and online user tracking"
+        }
+      },
+      "server": {
+        "heading": "Server Management",
+        "mmw": {
+          "text": "MiaoMiaoWu does not provide server management. All node configuration must be done manually on the server, then imported into the system."
+        },
+        "mmwx": {
+          "item1": "Master-Agent architecture: control panel manages remote servers via WebSocket/HTTP/Pull",
+          "item2": "Remote install/uninstall Xray and Nginx with SSE streaming progress",
+          "item3": "Visual management of Xray inbounds, outbounds, and routing configuration",
+          "item4": "Remote online Agent upgrade and uninstall without server login",
+          "item5": "Share Server: encrypted communication (HTTPS + ECDH) for multi-user collaboration"
+        }
+      }
+    },
+    "exclusive": {
+      "heading": "MMW-X Exclusive Features",
+      "embeddedXray": {
+        "title": "Embedded Xray (PRO)",
+        "desc": "Built-in Xray core with rate limiting, device limits, auto-throttle, online tracking, and more. No separate Xray installation needed, with hot-update capability."
+      },
+      "routedOutbound": {
+        "title": "Routed Outbound",
+        "desc": "Node-level and per-user outbound routing. Landing node and transit node concepts for flexible traffic forwarding strategies."
+      },
+      "shareServer": {
+        "title": "Share Server",
+        "desc": "Owner-Consumer model with encrypted communication (HTTPS + ECDH). Consumers have limited permissions (add inbounds, manage nodes, but cannot start/stop services or edit server settings)."
+      },
+      "certManagement": {
+        "title": "Certificate Management",
+        "desc": "ACME auto-apply and renew TLS certificates. Supports Cloudflare/Alibaba Cloud/Tencent Cloud/Namesilo DNS providers with auto-deployment to remote servers."
+      },
+      "packageManagement": {
+        "title": "Package Management",
+        "desc": "Create traffic packages with quota, validity, accessible nodes, and rate limit policies. Auto-managed once assigned to users."
+      },
+      "nginxManagement": {
+        "title": "Nginx Management",
+        "desc": "Remote install/uninstall Nginx, manage config files, deploy SSL certificates, and manage Stream ports."
+      }
+    },
+    "shared": {
+      "heading": "Shared Features",
+      "intro": "MiaoMiaoWu X inherits all core features from MiaoMiaoWu. The following features are identical in both versions:",
+      "item1": "Subscription generation for 12+ client formats (Clash/Surge/Shadowrocket/Loon/QX, etc.)",
+      "item2": "V3 template engine with flexible subscription config templates",
+      "item3": "Custom DNS, routing rules, and rule set management",
+      "item4": "External subscription sync (scheduled auto-updates)",
+      "item5": "Chain proxy (multi-layer transit acceleration)",
+      "item6": "Silent mode and TOTP two-factor authentication",
+      "item7": "Telegram push notifications and daily reports",
+      "item8": "Backup and restore functionality",
+      "item9": "Override scripts (JavaScript Hooks)",
+      "item10": "Docker and binary deployment options"
+    },
+    "summary": {
+      "heading": "Summary",
+      "text1": "If you only need subscription management and node import, MiaoMiaoWu is sufficient. It's simple, lightweight, and great for personal use.",
+      "text2": "If you need to manage multiple remote servers, precisely control user traffic and permissions, automate certificate management, or configure Xray through a UI without logging into servers, MiaoMiaoWu X is the better choice. Most of MMW-X's features are inherited from MMW, making the upgrade migration very straightforward."
+    },
+    "nav": {
+      "features": "→ View Core Features",
+      "quickStart": "→ Quick Start",
+      "upgrade": "→ Upgrade from MMW"
+    }
   }
 }

@@ -60,6 +60,7 @@ const xNavStructure: XNavItemDef[] = [
     icon: Home,
     children: [
       { id: 'about', href: '/x/docs/about', icon: BookOpen },
+      { id: 'comparison', href: '/x/docs/comparison', icon: ArrowRightLeft },
       { id: 'features', href: '/x/docs/features', icon: Sparkles },
       { id: 'quick-start', href: '/x/docs/quick-start', icon: Zap },
       { id: 'tutorial', href: '/x/docs/tutorial', icon: GraduationCap },
