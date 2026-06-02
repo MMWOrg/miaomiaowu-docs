@@ -70,6 +70,7 @@
     "protocol-trojan": "Trojan",
     "protocol-shadowsocks": "Shadowsocks",
     "protocol-hysteria2": "Hysteria2",
+    "protocol-anytls": "AnyTLS",
     "nodes-subscription": "Nodes & Subscriptions",
     "nodes": "Node Management",
     "generator": "Generate Subscription",

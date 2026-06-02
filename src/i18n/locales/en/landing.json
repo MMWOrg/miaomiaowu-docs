@@ -30,7 +30,7 @@
       },
       "nodeManagement": {
         "title": "Node Management",
-        "desc": "Supports multiple protocols like SS, SSR, VMess, VLESS, Trojan, Hysteria2, with batch import/export."
+        "desc": "Supports multiple protocols like SS, SSR, VMess, VLESS, Trojan, Hysteria2, AnyTLS, with batch import/export."
       },
       "subscriptionGen": {
         "title": "Subscription Generation",
@@ -79,7 +79,7 @@
     "description": "One subscription, compatible with all mainstream proxy clients — no tedious conversion",
     "crossPlatform": "Cross-Platform",
     "universalLink": "Universal Link",
-    "protocols": "Supports SS, SSR, VMess, VLESS, Trojan, Hysteria, Hysteria2, TUIC, WireGuard and more"
+    "protocols": "Supports SS, SSR, VMess, VLESS, Trojan, Hysteria, Hysteria2, AnyTLS, TUIC, WireGuard and more"
   },
   "demo": {
     "title": "Feature Demo",
@@ -141,7 +141,7 @@
     "navChangelog": "Log",
     "advancedBadge": "The advanced version of MiaoMiaoWu",
     "slogan": "Multi-Server Xray Management & Subscription Platform",
-    "description": "Master-Agent architecture for centralized remote server management. Visual Xray inbound configuration,\n17 protocol combinations, automated certificate management, and automatic node sync.",
+    "description": "Master-Agent architecture for centralized remote server management. Visual Xray inbound configuration,\n19 protocol combinations (now including AnyTLS), automated certificate management, and automatic node sync.",
     "quickStart": "Quick Start",
     "viewDocs": "View Docs",
     "stats": {
@@ -154,7 +154,7 @@
     "coreCapabilitiesDesc": "Building on MiaoMiaoWu with complete remote server management and Xray configuration capabilities",
     "features": {
       "remoteServer": { "title": "Remote Server Management", "desc": "Master-Agent architecture with WebSocket/HTTP/Pull modes for managing remote servers. Auto-reconnect, token rotation, and status monitoring." },
-      "xrayInbound": { "title": "Xray Inbound Management", "desc": "Visual inbound wizard supporting VLESS/VMess/Trojan/SS/Hysteria2, 17 protocol combinations with one-click configuration" },
+      "xrayInbound": { "title": "Xray Inbound Management", "desc": "Visual inbound wizard supporting VLESS/VMess/Trojan/SS/Hysteria2/AnyTLS, 19 protocol combinations with one-click configuration" },
       "reality": { "title": "REALITY Support", "desc": "No domain or certificate needed, auto-generates X25519 key pairs, strongest anti-detection capability" },
       "certificates": { "title": "Certificate Management", "desc": "ACME auto-apply and renew TLS certificates, supports Cloudflare/Alibaba Cloud/Tencent Cloud DNS providers" },
       "trafficMonitor": { "title": "Traffic Monitoring", "desc": "Real-time Xray traffic data collection, per-user/node statistics, visual chart display" },
@@ -179,7 +179,7 @@
     "quickLinks": {
       "quickStart": { "title": "Quick Start", "desc": "Deploy MiaoMiaoWu X in 5 minutes" },
       "install": { "title": "Installation", "desc": "Docker / Binary install" },
-      "protocols": { "title": "Protocol Reference", "desc": "17 protocol combinations explained" },
+      "protocols": { "title": "Protocol Reference", "desc": "19 protocol combinations (now including AnyTLS)" },
       "fullDocs": { "title": "Full Documentation", "desc": "View all documentation" }
     },
     "footerDesc": "MiaoMiaoWu X — Multi-Server Xray Management & Subscription Platform"

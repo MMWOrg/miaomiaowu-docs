@@ -88,6 +88,7 @@ import { Route as XDocsProtocolTrojanRouteImport } from './routes/x/docs/protoco
 import { Route as XDocsProtocolShadowsocksRouteImport } from './routes/x/docs/protocol-shadowsocks'
 import { Route as XDocsProtocolMatrixRouteImport } from './routes/x/docs/protocol-matrix'
 import { Route as XDocsProtocolHysteria2RouteImport } from './routes/x/docs/protocol-hysteria2'
+import { Route as XDocsProtocolAnytlsRouteImport } from './routes/x/docs/protocol-anytls'
 import { Route as XDocsPackagesRouteImport } from './routes/x/docs/packages'
 import { Route as XDocsNodesRouteImport } from './routes/x/docs/nodes'
 import { Route as XDocsNodeSpeedtestRouteImport } from './routes/x/docs/node-speedtest'
@@ -504,6 +505,11 @@ const XDocsProtocolHysteria2Route = XDocsProtocolHysteria2RouteImport.update({
   path: '/protocol-hysteria2',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsProtocolAnytlsRoute = XDocsProtocolAnytlsRouteImport.update({
+  id: '/protocol-anytls',
+  path: '/protocol-anytls',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsPackagesRoute = XDocsPackagesRouteImport.update({
   id: '/packages',
   path: '/packages',
@@ -663,6 +669,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
+  '/x/docs/protocol-anytls': typeof XDocsProtocolAnytlsRoute
   '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
   '/x/docs/protocol-matrix': typeof XDocsProtocolMatrixRoute
   '/x/docs/protocol-shadowsocks': typeof XDocsProtocolShadowsocksRoute
@@ -753,6 +760,7 @@ export interface FileRoutesByTo {
   '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
+  '/x/docs/protocol-anytls': typeof XDocsProtocolAnytlsRoute
   '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
   '/x/docs/protocol-matrix': typeof XDocsProtocolMatrixRoute
   '/x/docs/protocol-shadowsocks': typeof XDocsProtocolShadowsocksRoute
@@ -852,6 +860,7 @@ export interface FileRoutesById {
   '/x/docs/node-speedtest': typeof XDocsNodeSpeedtestRoute
   '/x/docs/nodes': typeof XDocsNodesRoute
   '/x/docs/packages': typeof XDocsPackagesRoute
+  '/x/docs/protocol-anytls': typeof XDocsProtocolAnytlsRoute
   '/x/docs/protocol-hysteria2': typeof XDocsProtocolHysteria2Route
   '/x/docs/protocol-matrix': typeof XDocsProtocolMatrixRoute
   '/x/docs/protocol-shadowsocks': typeof XDocsProtocolShadowsocksRoute
@@ -952,6 +961,7 @@ export interface FileRouteTypes {
     | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
+    | '/x/docs/protocol-anytls'
     | '/x/docs/protocol-hysteria2'
     | '/x/docs/protocol-matrix'
     | '/x/docs/protocol-shadowsocks'
@@ -1042,6 +1052,7 @@ export interface FileRouteTypes {
     | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
+    | '/x/docs/protocol-anytls'
     | '/x/docs/protocol-hysteria2'
     | '/x/docs/protocol-matrix'
     | '/x/docs/protocol-shadowsocks'
@@ -1140,6 +1151,7 @@ export interface FileRouteTypes {
     | '/x/docs/node-speedtest'
     | '/x/docs/nodes'
     | '/x/docs/packages'
+    | '/x/docs/protocol-anytls'
     | '/x/docs/protocol-hysteria2'
     | '/x/docs/protocol-matrix'
     | '/x/docs/protocol-shadowsocks'
@@ -1741,6 +1753,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsProtocolHysteria2RouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/protocol-anytls': {
+      id: '/x/docs/protocol-anytls'
+      path: '/protocol-anytls'
+      fullPath: '/x/docs/protocol-anytls'
+      preLoaderRoute: typeof XDocsProtocolAnytlsRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/packages': {
       id: '/x/docs/packages'
       path: '/packages'
@@ -2009,6 +2028,7 @@ interface XDocsRouteChildren {
   XDocsNodeSpeedtestRoute: typeof XDocsNodeSpeedtestRoute
   XDocsNodesRoute: typeof XDocsNodesRoute
   XDocsPackagesRoute: typeof XDocsPackagesRoute
+  XDocsProtocolAnytlsRoute: typeof XDocsProtocolAnytlsRoute
   XDocsProtocolHysteria2Route: typeof XDocsProtocolHysteria2Route
   XDocsProtocolMatrixRoute: typeof XDocsProtocolMatrixRoute
   XDocsProtocolShadowsocksRoute: typeof XDocsProtocolShadowsocksRoute
@@ -2053,6 +2073,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsNodeSpeedtestRoute: XDocsNodeSpeedtestRoute,
   XDocsNodesRoute: XDocsNodesRoute,
   XDocsPackagesRoute: XDocsPackagesRoute,
+  XDocsProtocolAnytlsRoute: XDocsProtocolAnytlsRoute,
   XDocsProtocolHysteria2Route: XDocsProtocolHysteria2Route,
   XDocsProtocolMatrixRoute: XDocsProtocolMatrixRoute,
   XDocsProtocolShadowsocksRoute: XDocsProtocolShadowsocksRoute,

@@ -101,6 +101,7 @@ const xNavStructure: XNavItemDef[] = [
       { id: 'protocol-trojan', href: '/x/docs/protocol-trojan', icon: Lock },
       { id: 'protocol-shadowsocks', href: '/x/docs/protocol-shadowsocks', icon: Lock },
       { id: 'protocol-hysteria2', href: '/x/docs/protocol-hysteria2', icon: Lock },
+      { id: 'protocol-anytls', href: '/x/docs/protocol-anytls', icon: Lock, badgeKey: 'new' },
     ],
   },
   {

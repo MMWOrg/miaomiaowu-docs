@@ -27,6 +27,8 @@ function ProtocolMatrixPage() {
     { protocol: 'Shadowsocks', transport: 'TCP', security: 'None', note: 'AEAD: aes-256-gcm' },
     { protocol: 'Shadowsocks', transport: 'TCP', security: 'None', note: 'SS2022: 2022-blake3-aes-256-gcm' },
     { protocol: 'Hysteria2', transport: 'UDP', security: 'TLS', note: t('protocolMatrix.noteNeedsCert') },
+    { protocol: 'AnyTLS', transport: 'TCP', security: 'TLS', note: t('protocolMatrix.noteAnytlsTls') },
+    { protocol: 'AnyTLS', transport: 'TCP', security: 'REALITY', note: t('protocolMatrix.noteAnytlsReality') },
   ]
 
   return (

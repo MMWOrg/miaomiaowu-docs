@@ -70,6 +70,7 @@
     "protocol-trojan": "Trojan",
     "protocol-shadowsocks": "Shadowsocks",
     "protocol-hysteria2": "Hysteria2",
+    "protocol-anytls": "AnyTLS",
     "nodes-subscription": "节点与订阅",
     "nodes": "节点管理",
     "generator": "生成订阅",
