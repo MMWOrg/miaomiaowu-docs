@@ -113,6 +113,11 @@ export function DocLayout({
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // SPA 内路由切换时同步 document.title:`妙妙屋 - 当前页`
+  useEffect(() => {
+    if (title) document.title = `妙妙屋 - ${title}`
+  }, [title])
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }

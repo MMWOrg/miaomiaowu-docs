@@ -55,7 +55,9 @@ for (const entry of entries) {
   // 跳过根路径 / 和 /docs /x/docs(它们是 docs 落地页,跟模板 index.html 重叠就不动)
   if (entry.href === '/' || entry.href === '/docs' || entry.href === '/x/docs') continue
 
-  const title = `${entry.pageTitle} | ${siteName}`
+  // 按路径前缀决定品牌:/x/* → 妙妙屋X,其他(/docs/* 等) → 妙妙屋
+  const brand = entry.href.startsWith('/x/') ? '妙妙屋X' : '妙妙屋'
+  const title = `${brand} - ${entry.pageTitle}`
   const description = (entry.description || siteName).slice(0, 200).trim() || siteName
   const fullUrl = baseUrl + entry.href
 

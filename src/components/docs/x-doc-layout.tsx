@@ -79,6 +79,11 @@ export function XDocLayout({ children, title, description }: XDocLayoutProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // SPA 内路由切换时同步 document.title:`妙妙屋X - 当前页`
+  useEffect(() => {
+    if (title) document.title = `妙妙屋X - ${title}`
+  }, [title])
+
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 
   const scrollToSection = (id: string) => {
