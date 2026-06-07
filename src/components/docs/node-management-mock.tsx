@@ -53,15 +53,16 @@ export function NodeManagementMock() {
 
   return (
     <>
-      <Card className='border-dashed'>
+      {/* lg+ 突破文档容器宽度,让节点表格 6 列完整展示不重叠 */}
+      <Card className='border-dashed lg:-mx-8 xl:-mx-20 2xl:-mx-32'>
         <CardContent className='pt-6 space-y-4'>
           <div className='flex items-center gap-2 flex-wrap'>
             <Badge variant='outline' className='text-xs'>{t('faqNodeMgmt.badge')}</Badge>
             <span className='text-xs text-muted-foreground'>{t('faqNodeMgmt.intro')}</span>
           </div>
 
-          {/* 主面板 */}
-          <div className='rounded-lg border bg-card p-4 space-y-3'>
+          {/* 主面板:内部表格用 overflow-x-auto + min-width 兜底,小屏可滚 */}
+          <div className='rounded-lg border bg-card p-4 space-y-3 overflow-x-auto'>
             {/* 顶部:节点列表 + 4 个关键按钮 */}
             <div className='flex items-start justify-between flex-wrap gap-3'>
               <div>
@@ -107,7 +108,7 @@ export function NodeManagementMock() {
             </div>
 
             {/* 表头 */}
-            <div className='border-t pt-2 grid grid-cols-[60px_1fr_auto_120px_auto_auto] gap-2 text-[11px] font-medium text-muted-foreground'>
+            <div className='border-t pt-2 grid grid-cols-[60px_minmax(180px,1fr)_auto_120px_auto_auto] gap-3 min-w-[860px] text-[11px] font-medium text-muted-foreground'>
               <span>{t('faqNodeMgmt.mock.col.protocol')}</span>
               <span>{t('faqNodeMgmt.mock.col.name')}</span>
               <span>{t('faqNodeMgmt.mock.col.actions')}</span>
@@ -119,7 +120,7 @@ export function NodeManagementMock() {
             {MOCK_NODES.map((n, idx) => (
               <div
                 key={n.id}
-                className={`grid grid-cols-[60px_1fr_auto_120px_auto_auto] gap-2 items-center py-2 px-1 rounded ${
+                className={`grid grid-cols-[60px_minmax(180px,1fr)_auto_120px_auto_auto] gap-3 min-w-[860px] items-center py-2 px-1 rounded ${
                   idx === 0 ? 'bg-orange-50 dark:bg-orange-950/20' : ''
                 }`}
               >
@@ -317,73 +318,210 @@ function AddInboundDialog({ open, onClose }: { open: boolean; onClose: () => voi
                 </div>
               </div>
 
-              {/* 节点名称 Card(全宽) */}
-              <div className='rounded-lg border p-5 space-y-3'>
-                <div>
-                  <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.nodeName')}</Label>
-                  <p className='text-xs text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.nodeNameHint')}</p>
-                </div>
-                <div className='flex items-center gap-3'>
-                  <span className='rounded border px-3 py-2 text-sm font-semibold bg-orange-50 dark:bg-orange-950/20 shrink-0'>🇭🇰</span>
-                  <Input
-                    value={nodeName}
-                    onChange={(e) => setNodeName(e.target.value)}
-                    placeholder={t('faqNodeMgmt.dialog.addInbound.nodeNamePlaceholder')}
-                    className='flex-1'
-                  />
-                </div>
-              </div>
-
-              {/* REALITY 域名 Card(全宽,条件渲染) */}
-              {showReality && (
-                <div className='rounded-lg border p-5 space-y-3'>
-                  <div>
-                    <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.realityDomain')}</Label>
-                    <p className='text-xs text-muted-foreground mt-1 inline-flex items-center gap-1.5'>
-                      <span className='inline-block size-3 border-2 border-muted-foreground/30 border-t-foreground rounded-full animate-spin' />
-                      {t('faqNodeMgmt.dialog.addInbound.realityDetecting')}
-                    </p>
-                  </div>
-                  <div>
-                    <Label className='text-sm font-medium mb-1.5 block'>{t('faqNodeMgmt.dialog.addInbound.realityCustom')}</Label>
-                    <div className='flex gap-2'>
+              {/* 简易模式:节点名/REALITY/用户管理 三张全宽 Card */}
+              {mode === 'simple' && (
+                <>
+                  <div className='rounded-lg border p-5 space-y-3'>
+                    <div>
+                      <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.nodeName')}</Label>
+                      <p className='text-xs text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.nodeNameHint')}</p>
+                    </div>
+                    <div className='flex items-center gap-3'>
+                      <span className='rounded border px-3 py-2 text-sm font-semibold bg-orange-50 dark:bg-orange-950/20 shrink-0'>🇭🇰</span>
                       <Input
-                        value={reality}
-                        onChange={(e) => setReality(e.target.value)}
-                        placeholder={t('faqNodeMgmt.dialog.addInbound.realityPlaceholder')}
+                        value={nodeName}
+                        onChange={(e) => setNodeName(e.target.value)}
+                        placeholder={t('faqNodeMgmt.dialog.addInbound.nodeNamePlaceholder')}
                         className='flex-1'
                       />
-                      <Button variant='outline' onClick={() => toast.info(t('faqNodeMgmt.dialog.addInbound.probingToast'))}>
-                        {t('faqNodeMgmt.dialog.addInbound.detect')}
-                      </Button>
+                    </div>
+                  </div>
+
+                  {showReality && (
+                    <div className='rounded-lg border p-5 space-y-3'>
+                      <div>
+                        <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.realityDomain')}</Label>
+                        <p className='text-xs text-muted-foreground mt-1 inline-flex items-center gap-1.5'>
+                          <span className='inline-block size-3 border-2 border-muted-foreground/30 border-t-foreground rounded-full animate-spin' />
+                          {t('faqNodeMgmt.dialog.addInbound.realityDetecting')}
+                        </p>
+                      </div>
+                      <div>
+                        <Label className='text-sm font-medium mb-1.5 block'>{t('faqNodeMgmt.dialog.addInbound.realityCustom')}</Label>
+                        <div className='flex gap-2'>
+                          <Input
+                            value={reality}
+                            onChange={(e) => setReality(e.target.value)}
+                            placeholder={t('faqNodeMgmt.dialog.addInbound.realityPlaceholder')}
+                            className='flex-1'
+                          />
+                          <Button variant='outline' onClick={() => toast.info(t('faqNodeMgmt.dialog.addInbound.probingToast'))}>
+                            {t('faqNodeMgmt.dialog.addInbound.detect')}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className='rounded-lg border p-5 space-y-3'>
+                    <div>
+                      <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.userMgmt')}</Label>
+                      <p className='text-xs text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.clientConfig')}</p>
+                    </div>
+                    <Label className='text-sm font-medium'>
+                      {t('faqNodeMgmt.dialog.addInbound.user')} <span className='text-destructive'>*</span>
+                    </Label>
+                    <div className='rounded-md border bg-muted/20 p-4 space-y-3'>
+                      <div className='text-sm font-semibold'>{t('faqNodeMgmt.dialog.addInbound.user')} #1</div>
+                      <div>
+                        <Label className='text-xs font-medium'>UUID <span className='text-destructive'>*</span></Label>
+                        <Input value={uuid} onChange={(e) => setUuid(e.target.value)} className='mt-1 font-mono text-xs' />
+                        <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.uuidHint')}</p>
+                      </div>
+                      <div>
+                        <Label className='text-xs font-medium'>{t('faqNodeMgmt.dialog.addInbound.emailLabel')}</Label>
+                        <Input value={email} onChange={(e) => setEmail(e.target.value)} className='mt-1' />
+                        <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.emailHint')}</p>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* 专家模式:1:1 复刻截图的多 Card 网格 — 通用配置 / 用户管理 / 安全协议 / 协议特定 */}
+              {mode === 'expert' && (
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+                  {/* 通用配置 Card */}
+                  <div className='rounded-lg border p-4 space-y-3'>
+                    <div>
+                      <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.expert.common', { defaultValue: '通用配置' })}</Label>
+                      <p className='text-xs text-muted-foreground mt-0.5'>{t('faqNodeMgmt.dialog.addInbound.expert.commonDesc', { defaultValue: '适用于所有入站的基础配置' })}</p>
+                    </div>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.nodeName')}</Label>
+                      <div className='flex items-center gap-2 mt-1'>
+                        <span className='rounded border px-2 py-1.5 text-sm bg-orange-50 dark:bg-orange-950/20 shrink-0'>🇭🇰</span>
+                        <Input value={nodeName} onChange={(e) => setNodeName(e.target.value)} placeholder={t('faqNodeMgmt.dialog.addInbound.nodeNamePlaceholder')} className='flex-1' />
+                      </div>
+                    </div>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.port', { defaultValue: '端口' })} <span className='text-destructive'>*</span></Label>
+                      <Input defaultValue='35546' className='mt-1' />
+                      <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.portHint', { defaultValue: '监听端口号' })}</p>
+                    </div>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.listen', { defaultValue: '监听地址' })}</Label>
+                      <Input defaultValue='0.0.0.0' className='mt-1' />
+                      <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.listenHint', { defaultValue: '0.0.0.0 表示监听所有网卡' })}</p>
+                    </div>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.tag', { defaultValue: '入站标识' })}</Label>
+                      <Input value={`${protocol.toLowerCase()}-${transport.toLowerCase()}-${security.toLowerCase()}-35546`} readOnly className='mt-1 font-mono text-xs' />
+                      <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.tagHint', { defaultValue: '会根据协议-传输-安全-端口自动生成' })}</p>
+                    </div>
+                    <label className='flex items-start gap-2 rounded-md bg-orange-50/60 dark:bg-orange-950/20 p-2 cursor-pointer'>
+                      <input type='checkbox' defaultChecked className='mt-0.5 accent-orange-500' />
+                      <div>
+                        <div className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.sniff', { defaultValue: '启用流量嗅探' })}</div>
+                        <div className='text-[11px] text-muted-foreground'>{t('faqNodeMgmt.dialog.addInbound.expert.sniffHint', { defaultValue: '自动识别并覆盖目标地址' })}</div>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* 用户管理 Card */}
+                  <div className='rounded-lg border p-4 space-y-3'>
+                    <div>
+                      <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.userMgmt')}</Label>
+                      <p className='text-xs text-muted-foreground mt-0.5'>{t('faqNodeMgmt.dialog.addInbound.clientConfig')}</p>
+                    </div>
+                    <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.user')} <span className='text-destructive'>*</span></Label>
+                    <div className='rounded-md border bg-muted/20 p-3 space-y-3'>
+                      <div className='text-sm font-semibold'>{t('faqNodeMgmt.dialog.addInbound.user')} #1</div>
+                      <div>
+                        <Label className='text-xs font-medium'>UUID <span className='text-destructive'>*</span></Label>
+                        <Input value={uuid} onChange={(e) => setUuid(e.target.value)} className='mt-1 font-mono text-xs' />
+                        <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.uuidHint')}</p>
+                      </div>
+                      <div>
+                        <Label className='text-xs font-medium'>{t('faqNodeMgmt.dialog.addInbound.emailLabel')}</Label>
+                        <Input value={email} onChange={(e) => setEmail(e.target.value)} className='mt-1' />
+                        <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.emailHint')}</p>
+                      </div>
+                      <div>
+                        <Label className='text-xs font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.userLevel', { defaultValue: '用户等级' })}</Label>
+                        <Input defaultValue='' placeholder='0' className='mt-1' />
+                      </div>
+                      <div>
+                        <Label className='text-xs font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.flow', { defaultValue: '流控' })}</Label>
+                        <select className='mt-1 w-full rounded-md border bg-card px-3 py-2 text-sm'>
+                          <option value='xtls-rprx-vision'>xtls-rprx-vision</option>
+                          <option value=''>{t('faqNodeMgmt.dialog.addInbound.expert.flowNone', { defaultValue: '无' })}</option>
+                        </select>
+                        <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.flowHint', { defaultValue: 'XTLS流控模式' })}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 安全协议配置 Card */}
+                  <div className='rounded-lg border p-4 space-y-3'>
+                    <div>
+                      <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.expert.security', { defaultValue: '安全协议配置' })}</Label>
+                      <p className='text-xs text-muted-foreground mt-0.5'>{security} {t('faqNodeMgmt.dialog.addInbound.expert.securityDesc', { defaultValue: '安全设置' })}</p>
+                    </div>
+                    <div className='flex items-center gap-3'>
+                      <Button variant='outline' size='sm'>{t('faqNodeMgmt.dialog.addInbound.expert.stealMyself', { defaultValue: '我要偷自己' })}</Button>
+                      <span className='text-[11px] text-muted-foreground'>{t('faqNodeMgmt.dialog.addInbound.expert.stealHint', { defaultValue: '读取所有服务器配置域名,并由当前服务器探测延迟' })}</span>
+                    </div>
+                    <select className='w-full rounded-md border bg-card px-3 py-2 text-sm'>
+                      <option>www.lovelive-anime.jp (2ms)</option>
+                      <option>www.microsoft.com</option>
+                    </select>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.realityCustom')}</Label>
+                      <div className='flex gap-2 mt-1'>
+                        <Input value={reality} onChange={(e) => setReality(e.target.value)} placeholder={t('faqNodeMgmt.dialog.addInbound.realityPlaceholder')} className='flex-1' />
+                        <Button variant='outline'>{t('faqNodeMgmt.dialog.addInbound.detect')}</Button>
+                      </div>
+                    </div>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.targetSite', { defaultValue: '目标网站' })} <span className='text-destructive'>*</span></Label>
+                      <div className='flex gap-2 mt-1'>
+                        <Input defaultValue='www.lovelive-anime.jp' className='flex-1' />
+                        <Input defaultValue='443' className='w-20' />
+                      </div>
+                      <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.targetHint', { defaultValue: '支持 TLS 1.3 和 H2 的目标网站' })}</p>
+                    </div>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.serverNames', { defaultValue: '服务器名称列表' })}</Label>
+                      <Input defaultValue='www.lovelive-anime.jp' className='mt-1' />
+                      <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.serverNamesHint', { defaultValue: '目标网站证书中的服务器名称,逗号分隔' })}</p>
+                    </div>
+                  </div>
+
+                  {/* 协议特定配置 Card */}
+                  <div className='rounded-lg border p-4 space-y-3'>
+                    <div>
+                      <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.expert.protocolSpecific', { defaultValue: '协议特定配置' })}</Label>
+                      <p className='text-xs text-muted-foreground mt-0.5'>{protocol} {t('faqNodeMgmt.dialog.addInbound.expert.protocolSpecificDesc', { defaultValue: '协议设置' })}</p>
+                    </div>
+                    <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.decryption', { defaultValue: '解密方式' })}</Label>
+                    <div className='grid grid-cols-2 gap-2'>
+                      <button className='py-2 text-sm font-medium rounded-md border bg-orange-500 text-white border-orange-500'>
+                        none ({t('faqNodeMgmt.dialog.addInbound.expert.noEncryption', { defaultValue: '无加密' })})
+                      </button>
+                      <button className='py-2 text-sm font-medium rounded-md border bg-card hover:bg-muted'>
+                        {t('faqNodeMgmt.dialog.addInbound.expert.encrypted', { defaultValue: '加密' })}
+                      </button>
+                    </div>
+                    <p className='text-[11px] text-muted-foreground'>{t('faqNodeMgmt.dialog.addInbound.expert.vlessDecHint', { defaultValue: 'VLESS解密方式,支持后量子加密' })}</p>
+                    <div>
+                      <Label className='text-sm font-medium'>{t('faqNodeMgmt.dialog.addInbound.expert.decValue', { defaultValue: 'Decryption 配置值' })}</Label>
+                      <Input defaultValue='none' className='mt-1' />
+                      <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.expert.noEncryptHint', { defaultValue: '无加密配置' })}</p>
                     </div>
                   </div>
                 </div>
               )}
-
-              {/* 用户管理 Card(全宽,新增) */}
-              <div className='rounded-lg border p-5 space-y-3'>
-                <div>
-                  <Label className='text-base font-bold'>{t('faqNodeMgmt.dialog.addInbound.userMgmt')}</Label>
-                  <p className='text-xs text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.clientConfig')}</p>
-                </div>
-                <Label className='text-sm font-medium'>
-                  {t('faqNodeMgmt.dialog.addInbound.user')} <span className='text-destructive'>*</span>
-                </Label>
-                <div className='rounded-md border bg-muted/20 p-4 space-y-3'>
-                  <div className='text-sm font-semibold'>{t('faqNodeMgmt.dialog.addInbound.user')} #1</div>
-                  <div>
-                    <Label className='text-xs font-medium'>UUID <span className='text-destructive'>*</span></Label>
-                    <Input value={uuid} onChange={(e) => setUuid(e.target.value)} className='mt-1 font-mono text-xs' />
-                    <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.uuidHint')}</p>
-                  </div>
-                  <div>
-                    <Label className='text-xs font-medium'>{t('faqNodeMgmt.dialog.addInbound.emailLabel')}</Label>
-                    <Input value={email} onChange={(e) => setEmail(e.target.value)} className='mt-1' />
-                    <p className='text-[11px] text-muted-foreground mt-1'>{t('faqNodeMgmt.dialog.addInbound.emailHint')}</p>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* 右栏:JSON 预览 — sticky */}
