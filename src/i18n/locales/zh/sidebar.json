@@ -102,6 +102,7 @@
     "faq-common-ops": "常见操作",
     "faq-server-management": "服务器管理",
     "faq-protocol-inbound": "协议与入站",
-    "faq-sub-client": "订阅与客户端"
+    "faq-sub-client": "订阅与客户端",
+    "faq-node-management": "节点的创建与使用"
   }
 }

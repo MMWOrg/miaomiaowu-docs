@@ -94,6 +94,52 @@
       "certimateText": "Certimate webhook 部署器支持 ${CERTIMATE_DEPLOYER_*} 模板变量替换为实际证书内容（裸 PEM，无 base64）。妙妙屋X 接口自动嗅探 -----BEGIN 开头识别 PEM，与原 base64 上传两路兼容。",
       "curlHeading": "curl 验证（PEM 直传）",
       "curlText": "用文件内容直接 POST，无需 base64 转码。文件路径替换成实际证书位置。"
+    },
+    "demo": {
+      "heading": "在线演示:证书管理",
+      "description": "4 个 mock 域名,可以申请新证书、续期、下载、删除。完全本地。",
+      "badge": "Mock 演示",
+      "intro": "4 张证书 · 一键申请 / 续期 / 删除 · 多 DNS provider",
+      "statActive": "正常",
+      "statExpiring": "即将到期",
+      "statExpired": "已过期",
+      "requestBtn": "申请新证书",
+      "renewing": "续期中…",
+      "renewedToast": "已续期 1 年",
+      "deletedToast": "证书已删除",
+      "downloadedToast": "已下载 {{domain}} 的证书包",
+      "issuedToast": "证书 {{domain}} 申请成功(mock)",
+      "daysLeft": "天后到期",
+      "daysAgo": "天前到期",
+      "noServers": "未关联服务器",
+      "statusActive": "正常",
+      "statusExpiring": "即将到期",
+      "statusExpired": "已过期",
+      "opDownload": "下载证书",
+      "opRenew": "续期",
+      "opDelete": "删除",
+      "col": {
+        "domain": "域名",
+        "provider": "DNS 提供商",
+        "servers": "关联服务器",
+        "expires": "到期时间",
+        "status": "状态",
+        "actions": "操作"
+      },
+      "dialog": {
+        "title": "申请新证书(ACME)",
+        "desc": "主控通过 DNS-01 challenge 自动向 Let's Encrypt 申请证书,需要域名所在 DNS 提供商的 API 密钥。",
+        "domainLabel": "域名",
+        "wildcardLabel": "同时申请泛域名 *.{domain}",
+        "providerLabel": "DNS 提供商",
+        "apiKeyLabel": "{{provider}} API 密钥",
+        "apiKeyPlaceholder": "粘贴 API 密钥…",
+        "apiKeyHint": "需要拥有\"修改 DNS 记录\"权限。{{provider}} 在控制台→API 密钥处生成。",
+        "submitBtn": "申请",
+        "submitting": "申请中…",
+        "cancelBtn": "取消",
+        "errorRequired": "请填写域名 + API 密钥"
+      }
     }
   },
   "changelog": {
@@ -232,7 +278,32 @@
     "noteFixedPath": "内嵌模式的配置路径固定为 /usr/local/etc/xray/config.json，不会像外置模式那样自动检测多路径。请确保该路径可访问。",
     "noteLimiterLicense": "限速推送需要 PRO 许可证包含 limiter 特性。未授权时 Agent 会忽略主控推送的限速配置。",
     "noteNoInstall": "内嵌模式无需单独安装 Xray，Agent 自身即包含完整的 Xray 内核。切换后不会影响已有的入站配置。",
-    "noteBadge": "主控 UI 中，内嵌模式的服务器会显示蓝色「内置」标识，外置模式显示灰色「外置」标识，便于区分。"
+    "noteBadge": "主控 UI 中，内嵌模式的服务器会显示蓝色「内置」标识，外置模式显示灰色「外置」标识，便于区分。",
+    "demo": {
+      "heading": "在线演示:外置 vs 内嵌 Xray",
+      "description": "切换上方模式按钮,下面 3 台服务器的「进程关系图」会实时变化:外置模式下 mmw-agent + xray 是两个独立进程,内嵌模式下 xray-core 嵌进 mmw-agent 进程内,共进退、共享内存。",
+      "badge": "Mock 演示",
+      "intro": "切换模式 → 进程图实时变 + 对比表对应高亮",
+      "modeSwitchLabel": "Xray 运行模式",
+      "externalLabel": "外置 Xray",
+      "externalDesc": "独立 xray 进程,Agent 通过 gRPC 控制。免费、官方标准布局。",
+      "embeddedLabel": "内嵌 Xray",
+      "embeddedDesc": "xray-core 编进 Agent 二进制,同进程运行。占用少、升级方便。",
+      "switchedToast": "已切换到 {{mode}} 模式",
+      "processView": "各服务器进程视图",
+      "currentLabel": "当前模式:",
+      "statusExternal": "mmw-agent ↔ xray 两个进程独立运行",
+      "statusEmbedded": "mmw-agent 单进程,xray-core 在其中嵌入运行",
+      "proc": {
+        "agentRole": "主控通信 + Xray gRPC 控制端",
+        "agentEmbeddedRole": "主控通信 + 嵌入式 Xray 自管",
+        "xrayRole": "独立 xray 进程,处理代理流量",
+        "embeddedXrayLabel": "内嵌 xray-core(同进程)"
+      },
+      "compare": {
+        "aspect": "对比项"
+      }
+    }
   },
   "faq": {
     "title": "常见问题",
@@ -809,7 +880,74 @@
     "notesHeading": "注意事项",
     "noteEmbeddedOnly": "限速仅在内嵌 Xray 模式的服务器上生效。外置 Xray 模式的服务器不会接收限速推送，用户在这些服务器上不受速度限制。",
     "noteReconnect": "修改套餐限速参数后需要等待下次推送时机（如服务器重连）才能在已连接的 Agent 上生效。建议修改后手动重启 Agent 或等待心跳自动推送。",
-    "noteDeviceTracking": "设备数限制通过跟踪每个用户的活跃连接数实现。当连接数达到上限时，新连接会被拒绝，已有连接不受影响。"
+    "noteDeviceTracking": "设备数限制通过跟踪每个用户的活跃连接数实现。当连接数达到上限时，新连接会被拒绝，已有连接不受影响。",
+    "demo": {
+      "heading": "在线演示:节点限速(套餐 + 用户两层)",
+      "description": "点击下方两个按钮分别体验「套餐限速」和「用户限速」对话框。所有修改在演示器内本地保存,实时反映到下方「当前生效一览」。",
+      "badge": "Mock 演示",
+      "intro": "套餐设默认 + 用户覆盖 → 生效一览实时变化 · 全本地",
+      "openPkgBtn": "编辑套餐限速",
+      "openPkgHint": "套餐右侧节点表每行内嵌 限速 + 客户端数 两列",
+      "openUserBtn": "编辑用户限速",
+      "openUserHint": "统一 Dialog 含「全局覆盖」+「每节点覆盖」两段",
+      "cancelBtn": "取消",
+      "saveBtn": "保存",
+      "concept": {
+        "heading": "两层限速 + 节点级精细控制",
+        "text": "套餐通用值作用于「套餐内所有节点 × 所有绑定该套餐的用户」;套餐每节点 / 用户全局 / 用户每节点 在其之上层层覆盖。每层用「输入是否为空」判断,非空(含 0)即视为显式设置。",
+        "formula": "生效 = 用户每节点 ?? 用户全局 ?? 套餐每节点 ?? 套餐通用 ?? 不限速"
+      },
+      "summary": {
+        "heading": "当前生效一览(按 fallback 链推导)",
+        "colNode": "节点",
+        "colSpeed": "限速",
+        "colDevice": "客户端数",
+        "colSource": "来源",
+        "fromUserNode": "用户每节点",
+        "fromUserGlobal": "用户全局",
+        "fromPkgNode": "套餐每节点",
+        "fromPkgGlobal": "套餐通用"
+      },
+      "pkgDialog": {
+        "title": "编辑套餐模板",
+        "desc": "左侧填基本参数 + 套餐通用限速;右侧节点表为每个勾选的节点单独设 限速 + 客户端数(留空 = 沿用套餐通用值)。",
+        "name": "套餐名称 *",
+        "description": "描述",
+        "descPlaceholder": "套餐说明(可选)",
+        "trafficGB": "流量额度 (GB) *",
+        "cycleDays": "计量周期 (天) *",
+        "speedLimit": "限速 (Mbps)",
+        "deviceLimit": "设备数限制",
+        "speedHint": "套餐通用限速。0 = 不限速。",
+        "deviceHint": "套餐通用客户端数。0 = 不限。",
+        "relatedNodes": "关联节点",
+        "internal": "内部",
+        "external": "外部",
+        "colNode": "节点",
+        "colMult": "倍率",
+        "colSpeed": "限速 Mbps",
+        "colDevice": "客户端数",
+        "nodesHint": "勾选节点 = 该节点可被套餐使用。每节点限速 / 客户端数留空 = 沿用左侧通用值;填 0 = 显式不限速。",
+        "savedToast": "套餐已保存"
+      },
+      "userDialog": {
+        "title": "编辑限速覆写 — alice",
+        "desc": "全局覆盖作用于该用户的所有节点;每节点覆盖优先级最高。打开 dialog 时输入框预填套餐当前值,改后保存才生效。",
+        "globalHeader": "全局覆盖(对所有节点生效)",
+        "globalSpeed": "限速覆写 (Mbps)",
+        "globalSpeedHint": "覆盖套餐限速设置(用户覆写 > 套餐限速)。0 = 显式不限速;留空 = 沿用套餐默认。",
+        "globalDevice": "设备数覆写",
+        "globalDeviceHint": "覆写套餐的设备数限制。留空则使用套餐默认值。",
+        "perNodeHeader": "每节点覆盖(优先级最高)",
+        "colNode": "节点",
+        "colSpeed": "限速 Mbps",
+        "colDevice": "客户端数",
+        "followPkg": "留空使用套餐默认值",
+        "fallbackHint": "默认从套餐继承。修改后该值覆盖套餐。0 = 显式不限速;留空 = 沿用上一层。",
+        "confirmSave": "确认保存",
+        "savedToast": "用户限速已保存"
+      }
+    }
   },
   "nodeSpeedtest": {
     "title": "节点测速",
@@ -875,7 +1013,35 @@
     "note4": "• 节点测速是 PRO 功能,需要有效的",
     "license": "许可证",
     "note4Suffix": "。",
-    "note5": "• 历史记录按节点累积,可在节点行内点 History 查看;支持按速度/延迟/时间排序。"
+    "note5": "• 历史记录按节点累积,可在节点行内点 History 查看;支持按速度/延迟/时间排序。",
+    "demo": {
+      "heading": "在线演示:节点测速",
+      "description": "7 个 mock 节点 — 选若干 → 开始测速 → 延迟/速度结果实时填表。本地 mock,不发任何网络请求。",
+      "badge": "Mock 演示",
+      "intro": "勾选节点 → 开始测速 · 真实延迟 + 下载速度结果即时填表",
+      "selectAll": "全选",
+      "deselectAll": "取消全选",
+      "modeLatencyOnly": "仅测延迟(快)",
+      "modeFull": "延迟 + 下载速度(慢)",
+      "startBtn": "开始测速({{count}})",
+      "cancelBtn": "取消",
+      "resetBtn": "清除结果",
+      "errorNoSelection": "请先勾选要测的节点",
+      "doneToast": "测速完成,{{count}} 个节点",
+      "cancelledToast": "已取消测速",
+      "runningHint": "测速中 {{done}}/{{total}}…",
+      "col": {
+        "node": "节点",
+        "latency": "真实延迟",
+        "speed": "下载速度",
+        "egress": "出口 IP",
+        "status": "状态"
+      },
+      "summary": {
+        "heading": "测速完成",
+        "text": "{{ok}} 个节点正常,{{failed}} 个失败。延迟 < 80ms 绿色,80-200ms 黄色,> 200ms 红色;速度 ≥ 150Mbps 绿色,50-150 黄色,< 50 红色。"
+      }
+    }
   },
   "nodes": {
     "title": "节点管理",
@@ -974,6 +1140,43 @@
       "item3": "- 计费流量 = 裸流量(上行+下行) × 倍率;是否超额按计费流量判断",
       "item4": "- 流量按自然月重置;管理员可手动重置用户流量",
       "displayNote": "首页与用户列表展示的\"已用流量\"对管理员是各服务器计费口径(不限流量服务器单独标注),对用户是按其套餐倍率换算后的计费流量。"
+    },
+    "demo": {
+      "heading": "在线演示:套餐管理",
+      "description": "4 个 mock 套餐,可以创建、编辑、删除;每个套餐选关联节点 / 流量额度 / 计费周期 / 单/双向计量。",
+      "badge": "Mock 演示",
+      "intro": "套餐网格 · 创建/编辑 dialog 含节点多选 · 完全本地",
+      "createBtn": "创建套餐",
+      "userCount": "{{count}} 个用户",
+      "quotaLabel": "流量",
+      "cycleLabel": "周期",
+      "modeLabel": "计量",
+      "nodesLabel": "关联节点({{count}})",
+      "days": "天",
+      "modeTwoway": "双向",
+      "modeDownOnly": "仅下行",
+      "modeUpOnly": "仅上行",
+      "opEdit": "编辑",
+      "opDelete": "删除",
+      "savedToast": "已保存修改",
+      "createdToast": "套餐已创建",
+      "deletedToast": "套餐已删除",
+      "cannotDeleteWithUsers": "该套餐还有 {{count}} 个用户在用,请先解绑",
+      "dialog": {
+        "titleCreate": "创建套餐",
+        "titleEdit": "编辑套餐",
+        "desc": "左侧填基本参数,右侧勾选这个套餐能用哪些节点(不勾默认全选)。",
+        "nameLabel": "套餐名",
+        "quotaLabel": "流量(GB)",
+        "cycleLabel": "周期(天)",
+        "modeLabel": "流量计量模式",
+        "nodesLabel": "关联节点",
+        "nodesHint": "已选 {{count}} 个;勾选的节点是该套餐用户可见的。留空 = 默认全部节点都可见。",
+        "cancelBtn": "取消",
+        "createBtn": "创建",
+        "saveBtn": "保存",
+        "errorRequired": "请填写名称 + 流量 + 周期"
+      }
     }
   },
   "protocolHysteria2": {
@@ -1203,11 +1406,61 @@
   "routedOutbound": {
     "title": "路由出站",
     "description": "用户级路由出站：在同一个入站上实现\"不同用户走不同出口\"的精细化分流",
+    "demo": {
+      "heading": "在线演示:节点管理 + 路由出站",
+      "description": "下面是节点管理表的本地 mock 复刻 — 启停 / 复制订阅 / 路由出站 / 编辑 / 删除全可点;点节点行的「路由出站」按钮(右侧表格里那个紫色路径图标)即可打开「新增落地节点」对话框,跟主控里完全一致。",
+      "badge": "Mock 演示",
+      "intro": "5 个 mock 节点 · 所有操作即点即响应 · 不发任何网络请求",
+      "nodeList": "节点管理",
+      "addBtn": "添加节点",
+      "hint": "提示:点击节点行最右侧的紫色路径图标(「路由出站」按钮)即可创建落地节点 — 落地节点会作为绿色 Badge 显示在源节点的名称下方。",
+      "online": "在线",
+      "offline": "离线",
+      "disabled": "已禁用",
+      "col": {
+        "name": "节点名称",
+        "server": "服务器",
+        "protocol": "协议",
+        "traffic": "流量",
+        "status": "状态",
+        "actions": "操作"
+      },
+      "opEnable": "启用",
+      "opDisable": "禁用",
+      "opCopy": "复制订阅链接",
+      "opRouted": "路由出站(新增落地节点)",
+      "opEdit": "编辑",
+      "opDelete": "删除",
+      "removeChildTitle": "删除该落地节点",
+      "cancelBtn": "取消",
+      "saveBtn": "保存",
+      "edit": {
+        "title": "编辑节点",
+        "desc": "修改节点显示名 / 服务器 / 协议。这是简版 mock,真实编辑会含完整字段。"
+      },
+      "createDialog": {
+        "title": "新增落地节点",
+        "desc": "把「{{source}}」当作入口,从另一个节点出口落地。客户端连入口,流量经入口转到另一节点的出口出去。",
+        "scopeLabel": "作用范围",
+        "scopePublic": "公开 — 主端创建,所有用户可见",
+        "scopePublicDesc": "主端管理员创建,会在订阅里给所有可见该节点的用户分发。适合机场场景。",
+        "scopePrivate": "私有 — 仅自己可用",
+        "scopePrivateDesc": "用户私有路由,只对自己生效;不影响其他用户。",
+        "sourceLabel": "入站节点(中转源)",
+        "targetLabel": "目标节点(落地出口)",
+        "targetHint": "选择从哪个节点出口出去。客户端流量将经入口节点转发到这里再访问外网。",
+        "nameLabel": "落地节点名称",
+        "nameHint": "默认为「入口 → 出口」格式,可自定义;客户端订阅中以这个名字显示。",
+        "submitBtn": "创建",
+        "errorRequired": "请填写名称并选择目标节点",
+        "success": "已创建落地节点 {{name}}(mock)"
+      }
+    },
     "twoModesHeading": "出站的两种配置方式",
-    "twoModesText": "在节点管理页面，每个节点行右侧的 🛣 按钮可以打开「新增落地节点」对话框。对话框顶部「作用范围」提供两种完全不同的能力：",
+    "twoModesText": "在节点管理页面，每个节点行右侧的 「路由出站」按钮可以打开「新增落地节点」对话框。对话框顶部「作用范围」提供两种完全不同的能力：",
     "prerequisiteLabel": "使用前提（普通用户）",
     "prerequisiteText": "：路由出站对普通用户是一个需要管理员开启的功能。管理员在「系统设置 → 妙妙屋功能设置」找到「允许用户创建路由出站」开关。开关右侧可配置 数量上限（默认 2）和 每日操作次数（默认 5），未开启时两个输入框都被禁用。",
-    "prerequisiteDisabledText": "未开启时，普通用户的节点行不会出现 🛣 按钮；如果通过其他途径调用接口：",
+    "prerequisiteDisabledText": "未开启时，普通用户的节点行不会出现 「路由出站」按钮；如果通过其他途径调用接口：",
     "prerequisiteErr1": "功能未启用 → 后端返回 403「路由出站功能未开放，请联系管理员开启」",
     "prerequisiteErr2": "数量达上限 → 403「已达到路由出站数量上限 (N/M)」",
     "prerequisiteErr3": "今日操作次数达上限 → 429「今日操作次数已达上限 (N/M)，请明天再试」",
@@ -1243,7 +1496,7 @@
     "solutionText": "妙妙屋X 为每个用户在父 inbound 里注册一个专属 client（独立 email），对应的 routing 规则带上 user 字段限定。不同用户的 email 不同，所以可以并存多条「同 inbound、不同 outbound」的规则。",
     "solutionAdminNote": "⚠ 当前路由出站只能由管理员创建（接口 POST /api/admin/routed-outbound）。文档中\"用户 A 走 Seednet\"是指管理员为用户 A 创建一个路由出站子节点，并把 A 在套餐里分配到该节点，而不是用户自助配置 routing。",
     "stepsHeading": "具体步骤",
-    "step1": "在节点管理页面，找到中转节点 HK直连，点击行尾的 🛣 按钮",
+    "step1": "在节点管理页面，找到中转节点 HK直连，点击行尾的 「路由出站」按钮",
     "step2": "「作用范围」选择 按用户（路由出站）",
     "step3": "填写 Label（仅允许 [a-zA-Z0-9-]，长度 2-32），例如 rout-hinet",
     "step4": "选择目标落地节点（如 HINET），点击「创建路由出站」",
@@ -1256,14 +1509,14 @@
     "userViewText": "管理员在「系统设置」开启「允许用户创建路由出站」后，普通用户可以为自己创建专属出口，不依赖套餐分配，创建即生效。与管理员路径的差异：跳过 admin 占位，rule.user 创建时直接是用户本人的子账号 email；节点 routed_owner = 'user'，仅创建者可见可删。",
     "switchQuotaHeading": "开关与配额",
     "switchQuotaLocation": "位置：管理员账号登录 → 「系统设置」 → 「妙妙屋功能设置」卡片 → 「允许用户创建路由出站」一行。",
-    "switchOff": "关闭（默认）：普通用户节点行不显示 🛣 按钮；接口 POST 返回 403。",
+    "switchOff": "关闭（默认）：普通用户节点行不显示 「路由出站」按钮；接口 POST 返回 403。",
     "switchOn": "开启：右侧 Switch 打开后，「数量」「每日次数」两个输入框启用。",
     "switchQuantity": "数量：当前持有的路由出站上限。默认 2；可调到任意 ≥1 的整数。不支持\"不限\"（每条路由出站都会在 xray 上新增 outbound + routing rule，无限制可能导致配置膨胀）。",
     "switchDaily": "每日次数：今日内 create + delete 操作次数总和上限。默认 5；可调到任意 ≥1 的整数。不支持\"不限\"。设计原因：xray routing 不支持 gRPC 动态加载，每次新增 / 删除路由出站后 agent 都会自动重启 xray。频繁触发重启会影响其他用户连接，所以\"按操作次数限速\"。",
     "switchWindow": "计数窗口：按主控服务器本地时区当日 0:00 起算，到 24:00 重置；不滚动。",
     "switchSaveImmediate": "修改即生效：Switch 切换 / 输入框失焦时立即保存到 system_settings 表。",
     "userCreateStepsHeading": "创建步骤",
-    "userStep1": "普通用户在节点管理页面，找到自己可见的中转节点（套餐分配的节点或自己导入的），点击行尾 🛣 按钮",
+    "userStep1": "普通用户在节点管理页面，找到自己可见的中转节点（套餐分配的节点或自己导入的），点击行尾 「路由出站」按钮",
     "userStep2": "对话框只显示「路由出站（按用户）」模式（管理员的「整个节点」radio + 服务器 Tab 都不显示）",
     "userStep3": "从「从已有节点选」Tab 选一个落地节点",
     "userStep4": "Label 自动填 rout-<目标 slug>，可手动改",
@@ -1443,7 +1696,68 @@
     "noteBothPro": "拥有方和消费方都需要持有包含 server_share 功能的 PRO 许可证。",
     "notePrefix": "建议消费方在接入时设置入站前缀，避免标签与拥有方的入站冲突。前缀设置后固定复用，后续无法修改。",
     "noteRevokeCleanup": "拥有方吊销令牌后，消费方创建的入站仍保留在 Xray 配置中，但消费方将无法再管理或删除它们。建议在吊销前通知消费方清理入站。",
-    "noteLatency": "消费方的操作延迟取决于消费方→拥有方→Agent 的网络链路。如果拥有方与 Agent 之间网络良好，额外延迟通常可忽略。"
+    "noteLatency": "消费方的操作延迟取决于消费方→拥有方→Agent 的网络链路。如果拥有方与 Agent 之间网络良好，额外延迟通常可忽略。",
+    "demo": {
+      "heading": "在线演示:分享服务器(左:拥有方 / 右:消费方)",
+      "description": "左侧是拥有方妙妙屋X 实例 — 服务管理里有几台服务器,通过「分享」按钮把整台服务器分享出去;右侧是消费方妙妙屋X 实例 — 用拿到的分享令牌接入后,这台服务器**以同样的卡片形式**出现在消费方的服务管理里,头部带紫色「分享」标签,但受限的操作(启停/安装/编辑/再分享/Agent)按钮锁定。",
+      "badge": "Mock 演示",
+      "intro": "点拥有方卡片的「分享」图标 → 消费方立即以紫色「分享」服务器形式出现;受限操作图标灰显锁定",
+      "lockedTip": "该操作仅限拥有方,消费方不可执行",
+      "host": {
+        "title": "拥有方 mmwx"
+      },
+      "guest": {
+        "title": "消费方 mmwx",
+        "empty": "当前没有接入的分享服务器。点击左侧服务器的「分享」按钮即可。",
+        "borrowedBadge": "分享",
+        "borrowedFrom": "拥有方",
+        "inboundPrefix": "入站前缀",
+        "inboundPrefixHint": "消费方在此服务器新增入站时,标签自动加该前缀,避免与拥有方的入站标签冲突",
+        "addInbound": "添加入站"
+      },
+      "card": {
+        "online": "在线",
+        "offline": "离线",
+        "defaultGroup": "默认",
+        "embeddedXray": "内联 Xray",
+        "externalXray": "外置 Xray",
+        "auto": "自动",
+        "realtimeSpeed": "实时网速",
+        "trafficStats": "流量统计",
+        "reset": "重置",
+        "everyMonthDay": "每月 {{day}} 日",
+        "lastHeartbeat": "最后心跳",
+        "xrayConfig": "Xray 配置",
+        "shareTip": "分享 / 撤回分享",
+        "searchTip": "查看共享出去的",
+        "editTip": "编辑服务器"
+      },
+      "permissions": {
+        "heading": "消费方权限与限制(参见文档原文)",
+        "canHeading": "能做",
+        "canViewStatus": "查看连接状态、流量、网速、Xray/Nginx 版本",
+        "canAddInbound": "在该服务器新增入站(标签自动加前缀)",
+        "canManageInbound": "编辑/删除自己创建的入站",
+        "canAddNode": "基于该服务器入站创建节点,分配给自己的用户",
+        "cantHeading": "不能做",
+        "cantXrayControl": "启停 Xray / Nginx 服务",
+        "cantInstall": "安装/卸载 Xray 或 Nginx",
+        "cantEditServer": "编辑服务器(名称、地址、流量限制)",
+        "cantReshare": "将该服务器再次分享给第三方(链式分享)"
+      },
+      "shareDialog": {
+        "title": "分享服务器",
+        "desc": "为「{{name}}」生成分享令牌。把「拥有方地址 + 分享令牌」提供给消费方,他在自己的妙妙屋X 服务管理里粘贴即可接入。",
+        "ownerAddress": "拥有方地址",
+        "shareToken": "分享令牌",
+        "copy": "复制",
+        "copiedToast": "已复制",
+        "tokenOnceWarning": "令牌仅在生成时显示一次,请立即复制保存。",
+        "hashStorageHeading": "Token 哈希存储",
+        "hashStorageText": "分享令牌以 SHA256 哈希形式存储在数据库中,拥有方也无法再次查看明文,需要时只能撤销并重新生成。",
+        "close": "关闭"
+      }
+    }
   },
   "subscribeFiles": {
     "title": "订阅文件",
@@ -1944,6 +2258,50 @@
       "item1": "- 登录后获取 JWT Token",
       "item2": "- 请求头 MM-Authorization 携带 Token",
       "item3": "- Token 过期后需重新登录"
+    },
+    "demo": {
+      "heading2": "在线演示:用户管理",
+      "description": "6 个 mock 用户,可以创建、绑定套餐、调整启停、复制订阅、删除。流量进度条按当前用量动态变色。",
+      "badge": "Mock 演示",
+      "heading": "用户列表",
+      "intro": "6 个用户 · 创建/绑定套餐/复制订阅/启停 · 全本地",
+      "searchPlaceholder": "搜索用户名/邮箱",
+      "createBtn": "创建用户",
+      "noPackage": "未绑定",
+      "enabledToast": "已启用 {{user}}",
+      "disabledToast": "已禁用 {{user}}",
+      "deletedToast": "用户已删除",
+      "subCopiedToast": "订阅链接已复制",
+      "createdToast": "用户已创建",
+      "boundToast": "套餐已绑定",
+      "emptyHint": "没有匹配的用户",
+      "col": {
+        "user": "用户",
+        "package": "套餐",
+        "usage": "流量用量",
+        "expires": "到期",
+        "status": "启用",
+        "actions": "操作"
+      },
+      "opCopySub": "复制订阅链接",
+      "opBindPackage": "管理套餐",
+      "opDelete": "删除",
+      "dialog": {
+        "titleCreate": "创建用户",
+        "descCreate": "填写用户名 + 邮箱(可选)+ 可选立即绑定一个套餐。",
+        "titleBind": "管理 {{user}} 的套餐",
+        "descBind": "选择套餐与到期时间。改套餐会清零当前已用流量。",
+        "usernameLabel": "用户名 *",
+        "emailLabel": "邮箱(可选)",
+        "packageLabel": "套餐",
+        "packageNone": "不绑定",
+        "expiresLabel": "到期时间",
+        "expiresHint": "到期后该用户的订阅将不再返回有效节点;手动续期或绑定新套餐即可恢复。",
+        "cancelBtn": "取消",
+        "createBtn": "创建",
+        "bindBtn": "保存绑定",
+        "errorUsername": "请填写用户名"
+      }
     }
   },
   "xrayInbounds": {
@@ -2320,6 +2678,119 @@
     "screenshot": {
       "alt": "系统设置完整页面截图",
       "caption": "系统设置完整页面 — 按 Card 划分各功能区(订阅同步 / 系统设置 / 安全阈值 / Turnstile / 定时配置 / 主控地址 / API Token / 许可证)"
+    },
+    "demo": {
+      "heading": "在线演示:系统设置",
+      "description": "主控 /system-settings 页面的本地 mock 复刻 — 8 个 Card 一字排开,所有 toggle/input/radio 都可点,「保存」按钮模拟落盘;全部本地状态,不发任何请求。",
+      "badge": "Mock 演示",
+      "intro": "所有开关 / 输入框即点即响应 · 「保存」会出 toast",
+      "saveBtn": "保存",
+      "saved": "已保存(mock)",
+      "sync": {
+        "title": "订阅同步",
+        "desc": "订阅刷新策略、流量同步、节点过滤等。",
+        "syncTraffic": "同步流量统计",
+        "syncTrafficHint": "从远程服务器拉流量,允许按用户精细统计。关掉则只在主控本地累计。",
+        "nodeNameFilter": "节点名过滤(用 | 分隔关键字)",
+        "nodeNameFilterHint": "订阅同步时按节点名做关键字过滤,命中关键字的节点会被跳过/隐藏。",
+        "nodeNameFilterDesc": "常用于剔除上游订阅里的「剩余流量 X GB」「官网 example.com」「套餐到期 yyyy-mm-dd」之类公告节点。",
+        "appendSubInfo": "订阅追加流量与到期信息",
+        "appendSubInfoHint": "客户端拉订阅时,把当前已用 / 剩余流量 + 套餐到期写到响应头,客户端能据此显示。",
+        "forceSyncExternal": "强制从外部订阅同步",
+        "forceSyncExternalHint": "即使缓存未过期也强制重新拉取外部订阅。一般用于排障。",
+        "matchRule": "节点匹配规则",
+        "matchByName": "按节点名",
+        "matchByServerPort": "按服务器:端口",
+        "matchByTypeServerPort": "按协议+服务器:端口",
+        "matchRuleHint": "订阅同步识别\"同一个节点\"用的字段。默认按协议+服务器+端口,准确率最高。",
+        "syncScope": "同步范围",
+        "scopeSavedOnly": "仅同步已保存的节点",
+        "scopeAll": "同步所有节点(含新增)",
+        "keepNodeName": "保留本地修改过的节点名",
+        "keepNodeNameHint": "即使上游名字变了,本地手改过的名字也不会被覆盖。",
+        "cacheExpire": "订阅缓存过期(分钟)",
+        "cacheExpireHint": "主控对外部订阅的缓存有效期;越短越实时,越长越省 CPU/流量。"
+      },
+      "system": {
+        "title": "系统选项",
+        "desc": "短链、覆写脚本、妙妙屋兼容、节点倍率等系统级开关。",
+        "shortLink": "启用短链生成",
+        "shortLinkHint": "订阅链接以 /x/{code} 形式分发,免暴露用户名 token。",
+        "overrideScripts": "启用覆写脚本",
+        "overrideScriptsHint": "允许在订阅生成最后阶段跑用户编写的 JS/Lua 脚本对节点做最终修改。",
+        "mmwFeatures": "兼容妙妙屋(老版本)特性",
+        "mmwFeaturesHint": "开启后会同时支持 mmw 的旧 API 形态与字段,方便迁移用户。",
+        "mmwShortLinkCompat": "妙妙屋短链兼容(/x/{file}{user})",
+        "mmwShortLinkCompatHint": "让老 mmw 用户的双段短链 URL 在 mmwx 里也能用,无须改客户端。",
+        "nodeMultPrefix": "节点名添加倍率前缀",
+        "nodeMultPrefixHint": "订阅输出时给倍率不为 1 的节点加前缀,例如 [×2] 香港节点。",
+        "leftSep": "左分隔符",
+        "rightSep": "右分隔符"
+      },
+      "security": {
+        "title": "安全阈值",
+        "desc": "登录失败锁定、Token 寿命、二步验证。",
+        "maxAttempts": "允许最大失败次数",
+        "maxAttemptsHint": "连续登录失败超过此数会触发锁定;数字越小越严。",
+        "lockMinutes": "账户锁定时长(分钟)",
+        "lockMinutesHint": "触发锁定后多少分钟内禁止登录。",
+        "tokenTtl": "会话 Token 有效期(小时)",
+        "tokenTtlHint": "登录后生成的会话凭据有效时间;到期需重新登录。默认 168(7天)。",
+        "require2fa": "强制管理员开启 2FA",
+        "require2faHint": "开启后管理员必须配置 TOTP 才能继续登录,提升账户安全。"
+      },
+      "turnstile": {
+        "title": "Cloudflare Turnstile 验证码",
+        "desc": "登录页接入 CF Turnstile 免交互验证,无需 reCAPTCHA。",
+        "enable": "启用 Turnstile 验证",
+        "enableHint": "开启后登录页会插入 Turnstile widget;关闭等于无验证码。",
+        "siteKey": "Site Key",
+        "siteKeyHint": "在 Cloudflare Dashboard → Turnstile 申请,公开可见的 key。",
+        "secret": "Secret Key",
+        "secretHint": "保密 key,主控用它向 CF 验证 token。请勿泄露。"
+      },
+      "schedule": {
+        "title": "定时任务",
+        "desc": "流量重置 / 缓存清理 / 节点自动同步的 cron 配置。",
+        "trafficReset": "流量重置 cron",
+        "trafficResetHint": "何时触发 reset_day 到期的用户流量清零。默认每月 1 号零点。",
+        "cleanup": "缓存清理 cron",
+        "cleanupHint": "清理过期会话、日志、订阅缓存。默认每天 03:00。",
+        "nodeSync": "节点自动同步 cron",
+        "nodeSyncHint": "主动触发 Agent 同步节点状态;默认每 30 分钟一次。"
+      },
+      "masterUrl": {
+        "title": "主控对外 URL",
+        "desc": "订阅链接 / 通知 / Mini App 使用的对外地址。",
+        "label": "主控 URL",
+        "hint": "订阅链接前缀 + Telegram MiniApp 入口都基于此地址。务必填 HTTPS 且确保所有用户都能访问。"
+      },
+      "apiToken": {
+        "title": "API Token(管理员)",
+        "desc": "管理员用于调用 /api/admin/* 接口的长期令牌,MCP / TG Bot 等也用这个。",
+        "token": "Bearer Token",
+        "hint": "请妥善保存,谁拿到这个 token 谁就是管理员。点 👁 查看,📋 复制。",
+        "regenBtn": "重新生成",
+        "regenerated": "Token 已重新生成(原 token 失效)",
+        "copied": "已复制到剪贴板"
+      },
+      "license": {
+        "title": "PRO 许可证",
+        "desc": "激活后解锁节点测速、节点限速、分享服务器、内嵌 Xray 等 PRO 功能。",
+        "proActive": "PRO 已激活",
+        "machineId": "机器 ID",
+        "status": "状态",
+        "statusActive": "已激活",
+        "expires": "到期",
+        "licenseKey": "许可证",
+        "licenseKeyHint": "在 mmwxlicense.com 用机器 ID 申请;粘贴到此处后点激活。",
+        "proFeaturesHeading": "已解锁 PRO 功能",
+        "feat1": "节点测速 — mihomo 真实延迟 + 速度测试",
+        "feat2": "节点限速 — 按节点设置 Mbps 上下行限速",
+        "feat3": "分享服务器 — 把节点开放给别的 mmwx 实例使用",
+        "feat4": "内嵌 Xray — Agent 自身嵌入 xray-core,无须独立 xray 二进制",
+        "activateBtn": "激活 / 续期"
+      }
     }
   },
   "comparison": {
@@ -2699,6 +3170,206 @@
       "turnstileFilledAlt": "Turnstile 卡片已配置截图",
       "loginWidget": "妙妙屋X 登录页,表单底部出现 Cloudflare Turnstile widget(此处用 CF 测试 key 演示,自动判定通过显示「成功」)",
       "loginWidgetAlt": "登录页 Turnstile widget 截图"
+    }
+  },
+  "faqNodeMgmt": {
+    "title": "节点的创建与使用(入站与出站)",
+    "description": "妙妙屋X 节点管理页面的 5 个关键按钮及其作用,带交互气泡演示。",
+    "overview": {
+      "heading": "快速理解",
+      "text": "节点管理页面把「入站(添加节点)」、「出站(链式/路由)」、「Tunnel 转发」、「路由出站统一管理」5 个能力放在同一页面。下面的 mock 还原顶部按钮区,把鼠标悬停在带颜色 ring 高亮的按钮上,会弹出该功能的子界面预览。"
+    },
+    "badge": "Mock 演示",
+    "intro": "5 个关键按钮上的色环匹配下方说明卡;hover 可看子界面气泡。",
+    "mock": {
+      "listHeading": "节点列表",
+      "listSyncWarn": "注意!!! 节点的修改与删除均会同步更新所有订阅",
+      "addNodeBtn": "添加节点",
+      "tunnelBtn": "Tunnel 管理",
+      "routedAllBtn": "路由出站",
+      "speedtestBtn": "节点测速",
+      "manualTag": "手动输入",
+      "col": {
+        "protocol": "协议",
+        "name": "节点名称",
+        "actions": "快捷操作",
+        "tag": "标签",
+        "config": "配置",
+        "ops": "操作"
+      },
+      "speedtestComing": "节点测速对话框(暂不展示;PRO 功能,请见节点测速文档)",
+      "editComing": "编辑节点名称(mock)",
+      "tooltipAddRouted": "新增落地节点",
+      "tooltipViewRouting": "查看该节点的路由规则"
+    },
+    "legend": {
+      "add": "红框 = 添加节点(创建入站)",
+      "tunnel": "黑框 = Tunnel 管理(端口转发)",
+      "routedAll": "黄框 = 路由出站管理(所有 routed)",
+      "routedRow": "蓝框 = 行内「创建链式出站/落地节点」",
+      "viewRow": "绿框 = 行内「查看节点路由」",
+      "hint": "把鼠标悬停在带色环的按钮上,即可看到该按钮打开的子界面"
+    },
+    "preview": {
+      "addInbound": {
+        "title": "添加节点 — 入站向导",
+        "desc": "配置入站参数:协议 / 传输 / 安全;支持简易与专家两种模式,右侧实时生成 JSON。",
+        "protocol": "选择协议",
+        "transport": "传输协议",
+        "security": "安全协议",
+        "simpleMode": "简易模式 / 专家模式 切换",
+        "hint": "主控会自动同步该入站到所有订阅。"
+      },
+      "routed": {
+        "title": "新增落地节点",
+        "desc": "为该节点选择落地出口,流量从源 inbound 进入,从目标节点出去。",
+        "scope": "作用范围",
+        "scopeAll": "整个节点",
+        "scopeAllDesc": "源 inbound 的所有用户共享此落地(现有行为)",
+        "scopeUser": "按用户(路由出站)",
+        "scopeUserDesc": "创建一个路由出站子节点;套餐里加入该子节点,绑定用户自动开子账号走此落地",
+        "tabRouted": "选择落地节点",
+        "tabServer": "选择服务器",
+        "tabLB": "选择负载均衡器",
+        "hint": "可在 3 个标签页之间切换:挑落地节点 / 直接挑服务器 / 用负载均衡器分流。"
+      },
+      "routing": {
+        "title": "节点路由",
+        "desc": "查看该入站的专属规则 + 全局规则的合并视图;不能编辑全局规则,需要去自定义规则页面修改。",
+        "exclusive": "专属路由规则",
+        "noExclusive": "无专属规则,流量将按全局规则处理",
+        "global": "全局路由规则 对所有入站生效",
+        "default": "默认出站"
+      },
+      "tunnel": {
+        "title": "Tunnel 管理",
+        "desc": "管理所有服务器上的 tunnel(任意门转发)入站。tunnel 不进节点列表,在这里删除。",
+        "hint": "场景:把某地的入口直接转发到另一台服务器的端口,等同于一条 inbound→outbound 直通管线。"
+      },
+      "routedMgr": {
+        "title": "路由出站管理",
+        "desc": "列出所有 routed 子节点,统一查看 / 删除。",
+        "descHint": "路由出站是挂在物理节点下的虚拟节点 — 共用父节点 inbound,但流量被路由到独立的出站。把该 routed 节点加入套餐 → 用户绑套餐时自动开子账号 + 加入 rule.user;退订时下线但凭据保留可续费恢复。",
+        "addBtn": "新增路由出站",
+        "colParent": "父节点",
+        "colLabel": "Label / 节点名",
+        "colServer": "Server",
+        "colTag": "Outbound Tag",
+        "colActions": "操作"
+      }
+    },
+    "detail": {
+      "add": {
+        "heading": "红框 — 添加节点(入站)",
+        "text": "打开入站向导对话框。先挑协议(VLESS / Trojan / Shadowsocks / VMess / Hysteria2 / AnyTLS / Tunnel / Socks),再选传输与安全协议组合,简易模式会带你直奔关键字段(REALITY 域名/证书路径等),专家模式右侧实时显示生成的 Xray JSON。"
+      },
+      "routedRow": {
+        "heading": "蓝框 — 行内「新增落地节点」",
+        "text": "在节点行里点这个按钮,弹出「新增落地节点」对话框:支持三种添加方式 — 直接选另一个节点作落地 / 直接选服务器(自动选其默认 outbound)/ 选负载均衡器(把多个出口打包成一组)。作用范围可选「整个节点共享」或「按用户隔离」。"
+      },
+      "viewRow": {
+        "heading": "绿框 — 行内「查看节点路由」",
+        "text": "查看该 inbound 当前生效的路由规则。包含两部分:针对此入站的「专属规则」,以及对所有入站生效的「全局规则」。不能在这里编辑全局规则;需要到「自定义规则」页统一管理。"
+      },
+      "tunnel": {
+        "heading": "黑框 — Tunnel 管理",
+        "text": "集中管理所有服务器上的 tunnel 入站(任意门转发)。tunnel 类型的 inbound 不会出现在节点列表里,删除入口只在这里。常用于把一台机器的某个端口透明地转发到另一台机器的端口,绕过中间网络限制。"
+      },
+      "routedAll": {
+        "heading": "黄框 — 路由出站管理(全局)",
+        "text": "列出系统中所有「路由出站子节点」,统一查看 / 删除 / 新增。这些 routed 子节点跟物理父节点共用同一个 inbound 凭据,但流量分流到独立的 outbound — 一加入套餐,绑定用户会自动开子账号 + 写 rule.user,实现\"按用户路由出站\"的高级能力。"
+      }
+    },
+    "dialog": {
+      "cancel": "取消",
+      "save": "保存",
+      "close": "关闭",
+      "addInbound": {
+        "title": "添加节点",
+        "desc": "配置入站参数",
+        "protocol": "选择协议",
+        "transport": "传输协议",
+        "security": "安全协议",
+        "configMode": "配置模式",
+        "simple": "简易模式",
+        "expert": "专家模式",
+        "nodeName": "节点名称",
+        "nodeNameHint": "自定义节点显示名称,国旗根据服务器 IP 自动选择",
+        "nodeNamePlaceholder": "输入节点名称",
+        "realityDomain": "REALITY 域名",
+        "realityDetecting": "正在探测域名延迟…",
+        "realityCustom": "自定义域名",
+        "detect": "探测",
+        "jsonPreview": "JSON 预览",
+        "jsonPreviewHint": "实时生成的入站配置",
+        "savedToast": "节点已添加(mock)",
+        "realityPlaceholder": "输入域名,如 www.microsoft.com",
+        "probingToast": "探测域名中…(mock)",
+        "userMgmt": "用户管理",
+        "clientConfig": "客户端配置",
+        "user": "用户",
+        "uuidHint": "用户 UUID,使用 xray uuid 命令生成",
+        "emailLabel": "邮箱(用于流量统计)",
+        "emailHint": "用户邮箱标识,留空时使用 UUID 前缀"
+      },
+      "routed": {
+        "title": "新增落地节点",
+        "desc": "为 \"{{name}}\" 选择落地节点或服务器",
+        "scope": "作用范围",
+        "scopeAll": "整个节点",
+        "scopeAllDesc": "源 inbound 的所有用户共享此落地(现有行为)",
+        "scopeUser": "按用户(路由出站)",
+        "scopeUserDesc": "创建一个路由出站子节点;套餐里加入该子节点,绑定用户自动开子账号走此落地",
+        "tabNode": "选择落地节点",
+        "tabServer": "选择服务器",
+        "tabLB": "选择负载均衡器",
+        "tabServerHint": "直接选另一台服务器,使用其默认出站(mock 演示)",
+        "tabLBHint": "把多个出口组合为一个负载均衡器,流量按权重 / 随机分流(mock 演示)",
+        "searchPlaceholder": "搜索节点名称、协议或标签…",
+        "filterAll": "全部",
+        "filterDirect": "直连节点",
+        "filterRouted": "落地节点",
+        "autoExclude": "自动排除链式代理节点和源节点自身",
+        "routedBadge": "落地节点",
+        "pickedToast": "已选择 {{name}}(mock)"
+      },
+      "routing": {
+        "title": "节点路由",
+        "nodeName": "香港 GOMAMI",
+        "serverLabel": "服务器",
+        "inboundLabel": "入站",
+        "exclusive": "专属路由规则",
+        "forThisInbound": "针对此入站",
+        "noExclusive": "无专属规则,流量将按全局规则处理",
+        "global": "全局路由规则",
+        "forAllInbounds": "对所有入站生效",
+        "default": "默认出站",
+        "noRuleMatch": "无规则匹配时",
+        "quickAdd": "快捷添加",
+        "custom": "自定义规则",
+        "balancer": "负载均衡"
+      },
+      "tunnel": {
+        "title": "Tunnel 管理",
+        "desc": "管理所有服务器上的 tunnel(任意门转发)入站。tunnel 不进节点列表,在这里删除。",
+        "empty": "当前没有 tunnel 入站。",
+        "deletedToast": "已删除该 tunnel(mock)"
+      },
+      "routedMgr": {
+        "title": "路由出站管理",
+        "addBtn": "新增路由出站",
+        "explainHeading": "说明",
+        "explainP1": "路由出站是挂在物理节点下的虚拟节点 — 共用父节点 inbound,但流量被路由到独立的出站。",
+        "explainP2": "把该 routed 节点加入套餐 → 用户绑套餐时自动开子账号 + 加入 rule.user;退订时下线但凭据保留可续费恢复。",
+        "colParent": "父节点",
+        "colLabel": "Label / 节点名",
+        "colCred": "Admin 凭据",
+        "colOps": "操作",
+        "viewBtn": "查看",
+        "deleteBtn": "删除",
+        "empty": "当前没有路由出站子节点。",
+        "deletedToast": "已删除(mock)"
+      }
     }
   }
 }

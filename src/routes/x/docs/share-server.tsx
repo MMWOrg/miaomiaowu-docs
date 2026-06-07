@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { AlertTriangle, Info } from 'lucide-react'
+import { ShareServerDemo } from '@/components/docs/share-server-demo'
 
 export const Route = createFileRoute('/x/docs/share-server')({
   component: ShareServerPage,
@@ -13,6 +14,13 @@ function ShareServerPage() {
 
   return (
     <XDocLayout title={t('shareServer.title')} description={t('shareServer.description')}>
+
+      {/* mock 左右双视图演示 */}
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('shareServer.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('shareServer.demo.description')}</p>
+        <ShareServerDemo />
+      </section>
 
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('shareServer.overview')}</h2>

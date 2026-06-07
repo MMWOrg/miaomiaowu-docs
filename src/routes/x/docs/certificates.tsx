@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
+import { CertificatesDemo } from '@/components/docs/certificates-demo'
 
 export const Route = createFileRoute('/x/docs/certificates')({
   component: CertificatesPage,
@@ -12,6 +13,12 @@ function CertificatesPage() {
 
   return (
     <XDocLayout title={t('certificates.title')} description={t('certificates.description')}>
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('certificates.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('certificates.demo.description')}</p>
+        <CertificatesDemo />
+      </section>
+
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('certificates.overview.heading')}</h2>
         <p className='text-muted-foreground'>{t('certificates.overview.text')}</p>

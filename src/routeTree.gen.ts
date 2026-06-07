@@ -104,6 +104,7 @@ import { Route as XDocsFeaturesRouteImport } from './routes/x/docs/features'
 import { Route as XDocsFaqSubClientRouteImport } from './routes/x/docs/faq-sub-client'
 import { Route as XDocsFaqServerManagementRouteImport } from './routes/x/docs/faq-server-management'
 import { Route as XDocsFaqProtocolInboundRouteImport } from './routes/x/docs/faq-protocol-inbound'
+import { Route as XDocsFaqNodeManagementRouteImport } from './routes/x/docs/faq-node-management'
 import { Route as XDocsFaqInstallDeployRouteImport } from './routes/x/docs/faq-install-deploy'
 import { Route as XDocsFaqCommonOpsRouteImport } from './routes/x/docs/faq-common-ops'
 import { Route as XDocsFaqCarpoolRouteImport } from './routes/x/docs/faq-carpool'
@@ -595,6 +596,11 @@ const XDocsFaqProtocolInboundRoute = XDocsFaqProtocolInboundRouteImport.update({
   path: '/faq-protocol-inbound',
   getParentRoute: () => XDocsRoute,
 } as any)
+const XDocsFaqNodeManagementRoute = XDocsFaqNodeManagementRouteImport.update({
+  id: '/faq-node-management',
+  path: '/faq-node-management',
+  getParentRoute: () => XDocsRoute,
+} as any)
 const XDocsFaqInstallDeployRoute = XDocsFaqInstallDeployRouteImport.update({
   id: '/faq-install-deploy',
   path: '/faq-install-deploy',
@@ -712,6 +718,7 @@ export interface FileRoutesByFullPath {
   '/x/docs/faq-carpool': typeof XDocsFaqCarpoolRoute
   '/x/docs/faq-common-ops': typeof XDocsFaqCommonOpsRoute
   '/x/docs/faq-install-deploy': typeof XDocsFaqInstallDeployRoute
+  '/x/docs/faq-node-management': typeof XDocsFaqNodeManagementRoute
   '/x/docs/faq-protocol-inbound': typeof XDocsFaqProtocolInboundRoute
   '/x/docs/faq-server-management': typeof XDocsFaqServerManagementRoute
   '/x/docs/faq-sub-client': typeof XDocsFaqSubClientRoute
@@ -811,6 +818,7 @@ export interface FileRoutesByTo {
   '/x/docs/faq-carpool': typeof XDocsFaqCarpoolRoute
   '/x/docs/faq-common-ops': typeof XDocsFaqCommonOpsRoute
   '/x/docs/faq-install-deploy': typeof XDocsFaqInstallDeployRoute
+  '/x/docs/faq-node-management': typeof XDocsFaqNodeManagementRoute
   '/x/docs/faq-protocol-inbound': typeof XDocsFaqProtocolInboundRoute
   '/x/docs/faq-server-management': typeof XDocsFaqServerManagementRoute
   '/x/docs/faq-sub-client': typeof XDocsFaqSubClientRoute
@@ -919,6 +927,7 @@ export interface FileRoutesById {
   '/x/docs/faq-carpool': typeof XDocsFaqCarpoolRoute
   '/x/docs/faq-common-ops': typeof XDocsFaqCommonOpsRoute
   '/x/docs/faq-install-deploy': typeof XDocsFaqInstallDeployRoute
+  '/x/docs/faq-node-management': typeof XDocsFaqNodeManagementRoute
   '/x/docs/faq-protocol-inbound': typeof XDocsFaqProtocolInboundRoute
   '/x/docs/faq-server-management': typeof XDocsFaqServerManagementRoute
   '/x/docs/faq-sub-client': typeof XDocsFaqSubClientRoute
@@ -1028,6 +1037,7 @@ export interface FileRouteTypes {
     | '/x/docs/faq-carpool'
     | '/x/docs/faq-common-ops'
     | '/x/docs/faq-install-deploy'
+    | '/x/docs/faq-node-management'
     | '/x/docs/faq-protocol-inbound'
     | '/x/docs/faq-server-management'
     | '/x/docs/faq-sub-client'
@@ -1127,6 +1137,7 @@ export interface FileRouteTypes {
     | '/x/docs/faq-carpool'
     | '/x/docs/faq-common-ops'
     | '/x/docs/faq-install-deploy'
+    | '/x/docs/faq-node-management'
     | '/x/docs/faq-protocol-inbound'
     | '/x/docs/faq-server-management'
     | '/x/docs/faq-sub-client'
@@ -1234,6 +1245,7 @@ export interface FileRouteTypes {
     | '/x/docs/faq-carpool'
     | '/x/docs/faq-common-ops'
     | '/x/docs/faq-install-deploy'
+    | '/x/docs/faq-node-management'
     | '/x/docs/faq-protocol-inbound'
     | '/x/docs/faq-server-management'
     | '/x/docs/faq-sub-client'
@@ -1963,6 +1975,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof XDocsFaqProtocolInboundRouteImport
       parentRoute: typeof XDocsRoute
     }
+    '/x/docs/faq-node-management': {
+      id: '/x/docs/faq-node-management'
+      path: '/faq-node-management'
+      fullPath: '/x/docs/faq-node-management'
+      preLoaderRoute: typeof XDocsFaqNodeManagementRouteImport
+      parentRoute: typeof XDocsRoute
+    }
     '/x/docs/faq-install-deploy': {
       id: '/x/docs/faq-install-deploy'
       path: '/faq-install-deploy'
@@ -2175,6 +2194,7 @@ interface XDocsRouteChildren {
   XDocsFaqCarpoolRoute: typeof XDocsFaqCarpoolRoute
   XDocsFaqCommonOpsRoute: typeof XDocsFaqCommonOpsRoute
   XDocsFaqInstallDeployRoute: typeof XDocsFaqInstallDeployRoute
+  XDocsFaqNodeManagementRoute: typeof XDocsFaqNodeManagementRoute
   XDocsFaqProtocolInboundRoute: typeof XDocsFaqProtocolInboundRoute
   XDocsFaqServerManagementRoute: typeof XDocsFaqServerManagementRoute
   XDocsFaqSubClientRoute: typeof XDocsFaqSubClientRoute
@@ -2228,6 +2248,7 @@ const XDocsRouteChildren: XDocsRouteChildren = {
   XDocsFaqCarpoolRoute: XDocsFaqCarpoolRoute,
   XDocsFaqCommonOpsRoute: XDocsFaqCommonOpsRoute,
   XDocsFaqInstallDeployRoute: XDocsFaqInstallDeployRoute,
+  XDocsFaqNodeManagementRoute: XDocsFaqNodeManagementRoute,
   XDocsFaqProtocolInboundRoute: XDocsFaqProtocolInboundRoute,
   XDocsFaqServerManagementRoute: XDocsFaqServerManagementRoute,
   XDocsFaqSubClientRoute: XDocsFaqSubClientRoute,

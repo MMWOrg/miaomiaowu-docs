@@ -4,6 +4,7 @@ import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Screenshot } from '@/components/docs/screenshot'
 import { Card, CardContent } from '@/components/ui/card'
 import { AlertTriangle, Info } from 'lucide-react'
+import { SystemSettingsDemo } from '@/components/docs/system-settings-demo'
 
 export const Route = createFileRoute('/x/docs/system-settings')({
   component: SystemSettingsPage,
@@ -19,6 +20,13 @@ function SystemSettingsPage() {
         alt={t('systemSettings.screenshot.alt')}
         caption={t('systemSettings.screenshot.caption')}
       />
+
+      {/* 系统设置 mock 演示 */}
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('systemSettings.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('systemSettings.demo.description')}</p>
+        <SystemSettingsDemo />
+      </section>
 
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('systemSettings.overview')}</h2>

@@ -102,6 +102,7 @@
     "faq-common-ops": "Common operations",
     "faq-server-management": "Server management",
     "faq-protocol-inbound": "Protocol & inbound",
-    "faq-sub-client": "Subscription & client"
+    "faq-sub-client": "Subscription & client",
+    "faq-node-management": "Node creation & usage"
   }
 }

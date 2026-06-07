@@ -94,6 +94,52 @@
       "certimateText": "Certimate's webhook deployer substitutes ${CERTIMATE_DEPLOYER_*} template variables with the actual cert content (raw PEM, no base64). MiaomiaowuX auto-detects the -----BEGIN prefix and accepts both raw PEM and the legacy base64 upload paths.",
       "curlHeading": "curl verification (raw PEM)",
       "curlText": "POST the file contents directly without base64 transcoding. Replace the paths with your actual cert locations."
+    },
+    "demo": {
+      "heading": "Try it: certificate management",
+      "description": "4 mock domains — request, renew, download, delete. All local.",
+      "badge": "Mock demo",
+      "intro": "4 certificates · request / renew / delete · multiple DNS providers",
+      "statActive": "active",
+      "statExpiring": "expiring",
+      "statExpired": "expired",
+      "requestBtn": "Request new certificate",
+      "renewing": "Renewing…",
+      "renewedToast": "Renewed for 1 year",
+      "deletedToast": "Certificate deleted",
+      "downloadedToast": "Downloaded bundle for {{domain}}",
+      "issuedToast": "Certificate {{domain}} issued (mock)",
+      "daysLeft": "days left",
+      "daysAgo": "days overdue",
+      "noServers": "no servers linked",
+      "statusActive": "Active",
+      "statusExpiring": "Expiring",
+      "statusExpired": "Expired",
+      "opDownload": "Download",
+      "opRenew": "Renew",
+      "opDelete": "Delete",
+      "col": {
+        "domain": "Domain",
+        "provider": "DNS provider",
+        "servers": "Linked servers",
+        "expires": "Expires",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "dialog": {
+        "title": "Request new certificate (ACME)",
+        "desc": "The master uses DNS-01 challenge to issue a Let's Encrypt cert — it needs the API key for the DNS provider hosting your domain.",
+        "domainLabel": "Domain",
+        "wildcardLabel": "Also request wildcard *.{domain}",
+        "providerLabel": "DNS provider",
+        "apiKeyLabel": "{{provider}} API key",
+        "apiKeyPlaceholder": "Paste API key…",
+        "apiKeyHint": "Needs «modify DNS records» permission. Get from your {{provider}} dashboard → API keys.",
+        "submitBtn": "Request",
+        "submitting": "Issuing…",
+        "cancelBtn": "Cancel",
+        "errorRequired": "Fill domain + API key"
+      }
     }
   },
   "changelog": {
@@ -232,7 +278,32 @@
     "noteFixedPath": "The embedded mode config path is fixed at /usr/local/etc/xray/config.json and does not auto-detect multiple paths like external mode. Ensure this path is accessible.",
     "noteLimiterLicense": "Rate limit push requires a PRO license with the limiter feature. Without authorization, the Agent ignores rate limit configs pushed by the master.",
     "noteNoInstall": "Embedded mode does not require separate Xray installation - the Agent includes the complete Xray core. Switching modes does not affect existing inbound configurations.",
-    "noteBadge": "In the master UI, servers in embedded mode display a blue \"Embedded\" badge, while external mode shows a gray \"External\" badge for easy identification."
+    "noteBadge": "In the master UI, servers in embedded mode display a blue \"Embedded\" badge, while external mode shows a gray \"External\" badge for easy identification.",
+    "demo": {
+      "heading": "Try it: external vs embedded Xray",
+      "description": "Toggle the mode above and watch the «process view» of the 3 servers update live: in external mode mmw-agent and xray are two separate processes; in embedded mode xray-core is baked into mmw-agent, sharing memory and lifecycle.",
+      "badge": "Mock demo",
+      "intro": "Switch mode → process diagram updates + compare table highlights match",
+      "modeSwitchLabel": "Xray runtime mode",
+      "externalLabel": "External Xray",
+      "externalDesc": "Standalone xray process, controlled by Agent via gRPC. Free, official layout.",
+      "embeddedLabel": "Embedded Xray",
+      "embeddedDesc": "xray-core baked into Agent binary, single process. Smaller footprint, easier upgrades.",
+      "switchedToast": "Switched to {{mode}}",
+      "processView": "Per-server process view",
+      "currentLabel": "Current mode:",
+      "statusExternal": "mmw-agent ↔ xray run as two separate processes",
+      "statusEmbedded": "mmw-agent is a single process with xray-core embedded",
+      "proc": {
+        "agentRole": "Talks to master + gRPC-controls Xray",
+        "agentEmbeddedRole": "Talks to master + self-manages embedded Xray",
+        "xrayRole": "Standalone xray process, proxies traffic",
+        "embeddedXrayLabel": "Embedded xray-core (same process)"
+      },
+      "compare": {
+        "aspect": "Aspect"
+      }
+    }
   },
   "faq": {
     "title": "FAQ",
@@ -809,7 +880,74 @@
     "notesHeading": "Notes",
     "noteEmbeddedOnly": "Rate limiting only works on servers in embedded Xray mode. Servers in external Xray mode will not receive rate limit push, and users on those servers are not speed-limited.",
     "noteReconnect": "After modifying package rate limit parameters, you need to wait for the next push opportunity (e.g. server reconnect) for changes to take effect on already-connected Agents. It's recommended to manually restart the Agent or wait for heartbeat auto-push.",
-    "noteDeviceTracking": "Device limiting works by tracking each user's active connection count. When the connection count reaches the limit, new connections are rejected while existing connections are not affected."
+    "noteDeviceTracking": "Device limiting works by tracking each user's active connection count. When the connection count reaches the limit, new connections are rejected while existing connections are not affected.",
+    "demo": {
+      "heading": "Try it: rate limiting (package + user, two layers)",
+      "description": "Click either button below to open the «package limits» or «user limits» dialog. All changes are saved locally in the demo and reflected in the «effective view» table below.",
+      "badge": "Mock demo",
+      "intro": "Edit package or user overrides → effective table updates in real time · all local",
+      "openPkgBtn": "Edit package limits",
+      "openPkgHint": "Package edit's right node table embeds speed + device columns per row",
+      "openUserBtn": "Edit user limits",
+      "openUserHint": "Unified dialog with «global override» and «per-node override» sections",
+      "cancelBtn": "Cancel",
+      "saveBtn": "Save",
+      "concept": {
+        "heading": "Two-layer limits + per-node fine-grained control",
+        "text": "Package general applies to «every node × every user bound to it»; package per-node / user global / user per-node override it in layers. Each layer is detected by «is the input empty»; non-empty (including 0) counts as explicitly set.",
+        "formula": "effective = userNode ?? userGlobal ?? packageNode ?? packageGlobal ?? unlimited"
+      },
+      "summary": {
+        "heading": "Effective view (via fallback chain)",
+        "colNode": "Node",
+        "colSpeed": "Speed",
+        "colDevice": "Devices",
+        "colSource": "Source",
+        "fromUserNode": "user per-node",
+        "fromUserGlobal": "user global",
+        "fromPkgNode": "pkg per-node",
+        "fromPkgGlobal": "pkg general"
+      },
+      "pkgDialog": {
+        "title": "Edit package template",
+        "desc": "Left: basic params + package general limits. Right: node table — for each ticked node, set per-node speed + device count (empty = inherit general).",
+        "name": "Package name *",
+        "description": "Description",
+        "descPlaceholder": "Optional description",
+        "trafficGB": "Traffic quota (GB) *",
+        "cycleDays": "Cycle (days) *",
+        "speedLimit": "Speed limit (Mbps)",
+        "deviceLimit": "Device limit",
+        "speedHint": "Package general speed cap. 0 = unlimited.",
+        "deviceHint": "Package general device count. 0 = unlimited.",
+        "relatedNodes": "Bound nodes",
+        "internal": "internal",
+        "external": "external",
+        "colNode": "Node",
+        "colMult": "Mult",
+        "colSpeed": "Mbps",
+        "colDevice": "Devices",
+        "nodesHint": "Tick a node = package can use it. Per-node speed / device empty = inherit general; 0 = explicitly unlimited.",
+        "savedToast": "Package saved"
+      },
+      "userDialog": {
+        "title": "Edit limit overrides — alice",
+        "desc": "Global override applies to all nodes for this user; per-node override has the highest priority. Dialog opens with values pre-filled from the package; changes take effect on save.",
+        "globalHeader": "Global override (applies to all nodes)",
+        "globalSpeed": "Speed override (Mbps)",
+        "globalSpeedHint": "Overrides package speed limit (user override > package). 0 = explicitly unlimited; empty = inherit package.",
+        "globalDevice": "Device override",
+        "globalDeviceHint": "Overrides package device limit. Empty = inherit package.",
+        "perNodeHeader": "Per-node override (highest priority)",
+        "colNode": "Node",
+        "colSpeed": "Mbps",
+        "colDevice": "Devices",
+        "followPkg": "empty = follow package",
+        "fallbackHint": "Inherits from package by default. Set a value to override; 0 = explicit unlimited; empty = inherit upper layer.",
+        "confirmSave": "Confirm save",
+        "savedToast": "User limits saved"
+      }
+    }
   },
   "nodeSpeedtest": {
     "title": "Node Speed Test",
@@ -875,7 +1013,35 @@
     "note4": "Node speed testing is a PRO feature that requires a valid",
     "license": "license",
     "note4Suffix": ".",
-    "note5": "History records accumulate per node; click History in the node row to view; supports sorting by speed/latency/time."
+    "note5": "History records accumulate per node; click History in the node row to view; supports sorting by speed/latency/time.",
+    "demo": {
+      "heading": "Try it: node speed test",
+      "description": "7 mock nodes — select any → start test → latency / speed fills in live. All local, no network calls.",
+      "badge": "Mock demo",
+      "intro": "Tick nodes → start test · latency + download speed populate instantly",
+      "selectAll": "Select all",
+      "deselectAll": "Deselect all",
+      "modeLatencyOnly": "Latency only (fast)",
+      "modeFull": "Latency + download (slow)",
+      "startBtn": "Start ({{count}})",
+      "cancelBtn": "Cancel",
+      "resetBtn": "Clear results",
+      "errorNoSelection": "Pick at least one node first",
+      "doneToast": "Done — {{count}} nodes tested",
+      "cancelledToast": "Test cancelled",
+      "runningHint": "Testing {{done}}/{{total}}…",
+      "col": {
+        "node": "Node",
+        "latency": "Real latency",
+        "speed": "Download",
+        "egress": "Egress IP",
+        "status": "Status"
+      },
+      "summary": {
+        "heading": "Test complete",
+        "text": "{{ok}} nodes ok, {{failed}} failed. Latency < 80ms green, 80-200ms amber, > 200ms red; speed ≥ 150 Mbps green, 50-150 amber, < 50 red."
+      }
+    }
   },
   "nodes": {
     "title": "Node Management",
@@ -974,6 +1140,43 @@
       "item3": "- Billed traffic = raw traffic (upload + download) x multiplier; quota exceedance is judged by billed traffic",
       "item4": "- Traffic resets monthly; administrators can manually reset user traffic",
       "displayNote": "The \"Used Traffic\" shown on the homepage and user list shows per-server billing figures for admins (unlimited servers are marked separately), and for users shows billed traffic converted by their package multiplier."
+    },
+    "demo": {
+      "heading": "Try it: package management",
+      "description": "4 mock packages — create, edit, delete; each picks bound nodes / quota / cycle / direction-based metering.",
+      "badge": "Mock demo",
+      "intro": "Package grid · create/edit dialog with node multi-select · fully local",
+      "createBtn": "Create package",
+      "userCount": "{{count}} users",
+      "quotaLabel": "Quota",
+      "cycleLabel": "Cycle",
+      "modeLabel": "Metering",
+      "nodesLabel": "Bound nodes ({{count}})",
+      "days": "days",
+      "modeTwoway": "Two-way",
+      "modeDownOnly": "Download only",
+      "modeUpOnly": "Upload only",
+      "opEdit": "Edit",
+      "opDelete": "Delete",
+      "savedToast": "Changes saved",
+      "createdToast": "Package created",
+      "deletedToast": "Package deleted",
+      "cannotDeleteWithUsers": "Package still has {{count}} users — unbind first",
+      "dialog": {
+        "titleCreate": "Create package",
+        "titleEdit": "Edit package",
+        "desc": "Basic params on the left, node multi-select on the right (none ticked = all visible).",
+        "nameLabel": "Name",
+        "quotaLabel": "Quota (GB)",
+        "cycleLabel": "Cycle (days)",
+        "modeLabel": "Metering mode",
+        "nodesLabel": "Bound nodes",
+        "nodesHint": "{{count}} ticked. Ticked nodes are what package users can see. Empty = all nodes visible.",
+        "cancelBtn": "Cancel",
+        "createBtn": "Create",
+        "saveBtn": "Save",
+        "errorRequired": "Fill name + quota + cycle"
+      }
     }
   },
   "protocolHysteria2": {
@@ -1203,6 +1406,56 @@
   "routedOutbound": {
     "title": "Routed Outbound",
     "description": "User-level routed outbound: achieve per-user traffic routing on a single inbound",
+    "demo": {
+      "heading": "Try it: nodes + routed outbound",
+      "description": "Below is a local mock of the Node Management table — every action (enable/disable, copy link, routed outbound, edit, delete) is clickable. Click the purple Route icon (the «routed outbound» button) on any row to open the «Create Routed Node» dialog, identical to what's in the master.",
+      "badge": "Mock demo",
+      "intro": "5 mock nodes · every action is instant · no network calls",
+      "nodeList": "Node Management",
+      "addBtn": "Add node",
+      "hint": "Tip: click the purple Route icon (the «routed outbound» button) on a row to create a routed-outbound child node — children appear as green badges under the source node's name.",
+      "online": "Online",
+      "offline": "Offline",
+      "disabled": "Disabled",
+      "col": {
+        "name": "Node name",
+        "server": "Server",
+        "protocol": "Protocol",
+        "traffic": "Traffic",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "opEnable": "Enable",
+      "opDisable": "Disable",
+      "opCopy": "Copy subscription link",
+      "opRouted": "Routed outbound (add child)",
+      "opEdit": "Edit",
+      "opDelete": "Delete",
+      "removeChildTitle": "Remove this routed child",
+      "cancelBtn": "Cancel",
+      "saveBtn": "Save",
+      "edit": {
+        "title": "Edit node",
+        "desc": "Edit display name / server / protocol. This is a simplified mock — the real dialog has all fields."
+      },
+      "createDialog": {
+        "title": "Create routed node",
+        "desc": "Use «{{source}}» as the inbound entrypoint and have the traffic egress through another node. Clients connect to the entrypoint and traffic exits via the chosen node.",
+        "scopeLabel": "Scope",
+        "scopePublic": "Public — master, visible to all users",
+        "scopePublicDesc": "Created by the master admin and pushed in subscriptions to every user that can see this node. For shared-server (carpool) scenarios.",
+        "scopePrivate": "Private — only for me",
+        "scopePrivateDesc": "A personal routing rule that only affects you; other users are unaffected.",
+        "sourceLabel": "Inbound node (entrypoint)",
+        "targetLabel": "Target node (egress)",
+        "targetHint": "Pick the egress node — client traffic enters the entrypoint, then re-egresses via this node to the internet.",
+        "nameLabel": "Routed node name",
+        "nameHint": "Defaults to «entry → egress»; customizable. This name appears in client subscriptions.",
+        "submitBtn": "Create",
+        "errorRequired": "Please fill in the name and pick a target node",
+        "success": "Routed node {{name}} created (mock)"
+      }
+    },
     "twoModesHeading": "Two Outbound Configuration Methods",
     "twoModesText": "On the node management page, the button on the right side of each node row opens the Add Landing Node dialog. The Scope selector at the top provides two distinct capabilities:",
     "prerequisiteLabel": "Prerequisites (Regular Users)",
@@ -1443,7 +1696,68 @@
     "noteBothPro": "Both owner and consumer must hold PRO licenses with the server_share feature.",
     "notePrefix": "Consumers are recommended to set an inbound prefix when joining to avoid tag conflicts with the owner's inbounds. Once set, the prefix is fixed and cannot be changed later.",
     "noteRevokeCleanup": "After the owner revokes a token, inbounds created by the consumer remain in the Xray configuration, but the consumer can no longer manage or delete them. It's recommended to notify the consumer to clean up inbounds before revocation.",
-    "noteLatency": "Consumer operation latency depends on the consumer -> owner -> Agent network path. If the network between owner and Agent is good, the additional latency is usually negligible."
+    "noteLatency": "Consumer operation latency depends on the consumer -> owner -> Agent network path. If the network between owner and Agent is good, the additional latency is usually negligible.",
+    "demo": {
+      "heading": "Try it: server sharing (left: owner / right: consumer)",
+      "description": "Left is the owner mmwx instance — Server Management lists several servers; click the «share» button to share one. Right is the consumer mmwx instance — once the share token is plugged in, that server appears in its Server Management **with the same card layout** and a purple «Shared» tag in the header, while restricted actions (start/stop, install, edit, reshare, Agent) are locked.",
+      "badge": "Mock demo",
+      "intro": "Click «share» on an owner card → the server appears on the consumer side with a purple «Shared» tag; restricted actions stay greyed/locked",
+      "lockedTip": "This action is owner-only; consumer cannot perform it",
+      "host": {
+        "title": "Owner mmwx"
+      },
+      "guest": {
+        "title": "Consumer mmwx",
+        "empty": "No imported shared server yet. Click the «share» icon on a left-side server card.",
+        "borrowedBadge": "Shared",
+        "borrowedFrom": "Owner",
+        "inboundPrefix": "Inbound prefix",
+        "inboundPrefixHint": "New inbounds created on this server get this prefix added to their tag to avoid colliding with the owner",
+        "addInbound": "Add inbound"
+      },
+      "card": {
+        "online": "Online",
+        "offline": "Offline",
+        "defaultGroup": "default",
+        "embeddedXray": "Embedded Xray",
+        "externalXray": "External Xray",
+        "auto": "Auto",
+        "realtimeSpeed": "Live speed",
+        "trafficStats": "Traffic",
+        "reset": "Reset",
+        "everyMonthDay": "day {{day}} of month",
+        "lastHeartbeat": "Last heartbeat",
+        "xrayConfig": "Xray config",
+        "shareTip": "Share / revoke share",
+        "searchTip": "View consumers",
+        "editTip": "Edit server"
+      },
+      "permissions": {
+        "heading": "Consumer permissions & restrictions (per the doc)",
+        "canHeading": "Can",
+        "canViewStatus": "View status, traffic, speed, Xray/Nginx version",
+        "canAddInbound": "Add an inbound on the server (tag auto-prefixed)",
+        "canManageInbound": "Edit / delete inbounds they created",
+        "canAddNode": "Build nodes off those inbounds for their own users",
+        "cantHeading": "Cannot",
+        "cantXrayControl": "Start/stop Xray or Nginx",
+        "cantInstall": "Install or uninstall Xray / Nginx",
+        "cantEditServer": "Edit server (name, address, traffic limit)",
+        "cantReshare": "Reshare this server to a third party (chained sharing)"
+      },
+      "shareDialog": {
+        "title": "Share server",
+        "desc": "Generate a share token for «{{name}}». Hand «owner address + share token» to the consumer, who pastes them in their own mmwx Server Management to connect.",
+        "ownerAddress": "Owner address",
+        "shareToken": "Share token",
+        "copy": "Copy",
+        "copiedToast": "Copied",
+        "tokenOnceWarning": "The token is shown only once at generation — copy and save it immediately.",
+        "hashStorageHeading": "Token is hash-stored",
+        "hashStorageText": "The share token is stored as a SHA256 hash; even the owner can't see the plain text again — revoke and regenerate if lost.",
+        "close": "Close"
+      }
+    }
   },
   "subscribeFiles": {
     "title": "Subscription Files",
@@ -1944,6 +2258,50 @@
       "item1": "- Obtain JWT Token after login",
       "item2": "- Send Token in MM-Authorization header",
       "item3": "- Re-login required when Token expires"
+    },
+    "demo": {
+      "heading2": "Try it: user management",
+      "description": "6 mock users — create, bind a package, toggle on/off, copy subscription, delete. Usage bar shifts color with consumption.",
+      "badge": "Mock demo",
+      "heading": "User list",
+      "intro": "6 users · create / bind / copy sub / toggle · all local",
+      "searchPlaceholder": "Search username/email",
+      "createBtn": "Create user",
+      "noPackage": "unbound",
+      "enabledToast": "Enabled {{user}}",
+      "disabledToast": "Disabled {{user}}",
+      "deletedToast": "User deleted",
+      "subCopiedToast": "Subscription URL copied",
+      "createdToast": "User created",
+      "boundToast": "Package bound",
+      "emptyHint": "No matching users",
+      "col": {
+        "user": "User",
+        "package": "Package",
+        "usage": "Usage",
+        "expires": "Expires",
+        "status": "Enabled",
+        "actions": "Actions"
+      },
+      "opCopySub": "Copy subscription URL",
+      "opBindPackage": "Manage package",
+      "opDelete": "Delete",
+      "dialog": {
+        "titleCreate": "Create user",
+        "descCreate": "Provide username + optional email + optionally bind a package now.",
+        "titleBind": "Manage {{user}}'s package",
+        "descBind": "Pick package and expiry. Changing package resets the user's current usage.",
+        "usernameLabel": "Username *",
+        "emailLabel": "Email (optional)",
+        "packageLabel": "Package",
+        "packageNone": "No package",
+        "expiresLabel": "Expiry",
+        "expiresHint": "After expiry the subscription will return no valid nodes; renew or bind a new package to restore.",
+        "cancelBtn": "Cancel",
+        "createBtn": "Create",
+        "bindBtn": "Save binding",
+        "errorUsername": "Username is required"
+      }
     }
   },
   "xrayInbounds": {
@@ -2320,6 +2678,119 @@
     "screenshot": {
       "alt": "System Settings page screenshot",
       "caption": "System Settings full page — function areas grouped as Cards (sync / system / security / Turnstile / scheduling / master URL / API token / license)"
+    },
+    "demo": {
+      "heading": "Try it: System Settings",
+      "description": "Local mock of the master /system-settings page — 8 Cards stacked, every toggle/input/radio is clickable, the Save button simulates persistence; all local state, no network calls.",
+      "badge": "Mock demo",
+      "intro": "Every toggle / field is interactive · «Save» fires a toast",
+      "saveBtn": "Save",
+      "saved": "Saved (mock)",
+      "sync": {
+        "title": "Subscription sync",
+        "desc": "Refresh strategy, traffic accounting, node filtering, etc.",
+        "syncTraffic": "Sync traffic stats",
+        "syncTrafficHint": "Pull per-user traffic from remote servers; off = accounted locally only.",
+        "nodeNameFilter": "Node-name filter (separate keywords with |)",
+        "nodeNameFilterHint": "Skip / hide upstream nodes whose name matches any of these keywords.",
+        "nodeNameFilterDesc": "Typically used to strip announcement nodes like 'Remaining X GB' / 'site example.com' / 'Expires yyyy-mm-dd'.",
+        "appendSubInfo": "Append traffic & expiry info to subscription",
+        "appendSubInfoHint": "Add used/remaining quota + expiry to the HTTP response header when serving subscriptions, so clients can display them.",
+        "forceSyncExternal": "Force-sync external subscriptions",
+        "forceSyncExternalHint": "Pull external subs even if the cache is still warm. Mostly for troubleshooting.",
+        "matchRule": "Node matching rule",
+        "matchByName": "By name",
+        "matchByServerPort": "By server:port",
+        "matchByTypeServerPort": "By protocol + server:port",
+        "matchRuleHint": "Which fields define «the same node» during sync. Default is protocol+server+port (most reliable).",
+        "syncScope": "Sync scope",
+        "scopeSavedOnly": "Only saved nodes",
+        "scopeAll": "All nodes (including new ones)",
+        "keepNodeName": "Keep locally renamed nodes",
+        "keepNodeNameHint": "Even if upstream renames a node, names you edited locally are preserved.",
+        "cacheExpire": "Subscription cache TTL (minutes)",
+        "cacheExpireHint": "How long the master caches external subscriptions. Shorter = more real-time, longer = lighter load."
+      },
+      "system": {
+        "title": "System options",
+        "desc": "Short links, override scripts, mmw compat, node multiplier prefix, etc.",
+        "shortLink": "Enable short-link generation",
+        "shortLinkHint": "Distribute subscription URLs as /x/{code} so the user's token isn't exposed.",
+        "overrideScripts": "Enable override scripts",
+        "overrideScriptsHint": "Run user-provided JS/Lua scripts as the last stage of subscription rendering.",
+        "mmwFeatures": "Compat with miaomiaowu (legacy)",
+        "mmwFeaturesHint": "Also support the older mmw API shape and fields — helps migrating users.",
+        "mmwShortLinkCompat": "mmw short-link compatibility (/x/{file}{user})",
+        "mmwShortLinkCompatHint": "Make legacy mmw two-segment short links work on mmwx so clients do not have to switch.",
+        "nodeMultPrefix": "Add multiplier prefix to node names",
+        "nodeMultPrefixHint": "Tag nodes whose multiplier ≠ 1 in subscription output, e.g. [×2] HK Node.",
+        "leftSep": "Left separator",
+        "rightSep": "Right separator"
+      },
+      "security": {
+        "title": "Security thresholds",
+        "desc": "Login-attempt lockout, token lifetime, 2FA.",
+        "maxAttempts": "Max failed login attempts",
+        "maxAttemptsHint": "Consecutive failures past this trigger a lockout. Lower = stricter.",
+        "lockMinutes": "Lockout duration (minutes)",
+        "lockMinutesHint": "How long the account is locked once it trips the limit.",
+        "tokenTtl": "Session token TTL (hours)",
+        "tokenTtlHint": "How long a session credential lasts; expires → re-login. Default 168 (7 days).",
+        "require2fa": "Require 2FA for admins",
+        "require2faHint": "When on, admins must configure TOTP before they can finish login."
+      },
+      "turnstile": {
+        "title": "Cloudflare Turnstile",
+        "desc": "Add CF Turnstile (frictionless CAPTCHA) to the login page.",
+        "enable": "Enable Turnstile",
+        "enableHint": "When on, the login page mounts the Turnstile widget; off = no CAPTCHA.",
+        "siteKey": "Site Key",
+        "siteKeyHint": "Get from Cloudflare Dashboard → Turnstile. Public key, safe to expose.",
+        "secret": "Secret Key",
+        "secretHint": "Secret key — the master uses it to verify tokens against CF. Keep private."
+      },
+      "schedule": {
+        "title": "Scheduled jobs",
+        "desc": "Cron for traffic reset / cache cleanup / node sync.",
+        "trafficReset": "Traffic reset cron",
+        "trafficResetHint": "When to zero users whose reset_day matures. Default: 00:00 on the 1st of each month.",
+        "cleanup": "Cleanup cron",
+        "cleanupHint": "Clear expired sessions, logs, subscription cache. Default: 03:00 daily.",
+        "nodeSync": "Node auto-sync cron",
+        "nodeSyncHint": "Actively poll agents for node status. Default: every 30 minutes."
+      },
+      "masterUrl": {
+        "title": "Master public URL",
+        "desc": "URL used by subscription links, notifications, Mini App, etc.",
+        "label": "Master URL",
+        "hint": "Prefix for subscription links and entry point for the Telegram Mini App. Use HTTPS and make sure every user can reach it."
+      },
+      "apiToken": {
+        "title": "API Token (admin)",
+        "desc": "Long-lived token for /api/admin/* calls — used by MCP / TG Bot etc.",
+        "token": "Bearer token",
+        "hint": "Treat as a password — anyone with this token is admin. 👁 to reveal, 📋 to copy.",
+        "regenBtn": "Regenerate",
+        "regenerated": "Token regenerated (old one invalidated)",
+        "copied": "Copied to clipboard"
+      },
+      "license": {
+        "title": "PRO license",
+        "desc": "Activate to unlock node speed-test / rate-limit / server sharing / embedded Xray and more.",
+        "proActive": "PRO active",
+        "machineId": "Machine ID",
+        "status": "Status",
+        "statusActive": "Active",
+        "expires": "Expires",
+        "licenseKey": "License key",
+        "licenseKeyHint": "Apply at mmwxlicense.com with your machine ID, paste the key here, then click Activate.",
+        "proFeaturesHeading": "Unlocked PRO features",
+        "feat1": "Node speed test — mihomo real latency + throughput",
+        "feat2": "Node rate limit — per-node Mbps caps for upload/download",
+        "feat3": "Server sharing — expose nodes to other mmwx instances",
+        "feat4": "Embedded Xray — Agent embeds xray-core, no standalone binary",
+        "activateBtn": "Activate / renew"
+      }
     }
   },
   "comparison": {
@@ -2699,6 +3170,206 @@
       "turnstileFilledAlt": "Filled Turnstile card screenshot",
       "loginWidget": "MiaomiaowuX login page with the Turnstile widget at the bottom (CF test key shown — auto-passes with the 'Success' badge)",
       "loginWidgetAlt": "Login page with Turnstile widget screenshot"
+    }
+  },
+  "faqNodeMgmt": {
+    "title": "Node creation & usage (inbound + outbound)",
+    "description": "Five key buttons on the Node Management page, with an interactive mock that reveals each sub-UI on hover.",
+    "overview": {
+      "heading": "Quick orientation",
+      "text": "Node Management groups five capabilities on one page: «add inbound», «chained / routed outbound», «tunnel forwarding» and the global «routed outbound manager». The mock below recreates the top button strip — hover any color-ringed button to preview the sub-UI that opens."
+    },
+    "badge": "Mock demo",
+    "intro": "Each button's color ring matches the legend below; hover to see the sub-UI bubble.",
+    "mock": {
+      "listHeading": "Node list",
+      "listSyncWarn": "Heads up: edits & deletions on nodes propagate to all subscriptions",
+      "addNodeBtn": "Add node",
+      "tunnelBtn": "Tunnel mgr",
+      "routedAllBtn": "Routed outbound",
+      "speedtestBtn": "Speed test",
+      "manualTag": "manual",
+      "col": {
+        "protocol": "Proto",
+        "name": "Name",
+        "actions": "Actions",
+        "tag": "Tag",
+        "config": "Config",
+        "ops": "Ops"
+      },
+      "speedtestComing": "Speed-test dialog (not shown here; PRO feature, see Node Speed Test doc)",
+      "editComing": "Edit node name (mock)",
+      "tooltipAddRouted": "Add routed node",
+      "tooltipViewRouting": "View routing of this node"
+    },
+    "legend": {
+      "add": "Red = Add node (create inbound)",
+      "tunnel": "Black = Tunnel manager (port forwarding)",
+      "routedAll": "Yellow = All routed outbounds (global)",
+      "routedRow": "Blue = Add routed child on a row",
+      "viewRow": "Green = View routing of a node",
+      "hint": "Hover a ringed button to preview the sub-UI it opens"
+    },
+    "preview": {
+      "addInbound": {
+        "title": "Add node — Inbound wizard",
+        "desc": "Configure inbound: protocol / transport / security. Simple mode walks you through the key fields; expert mode shows the live Xray JSON.",
+        "protocol": "Protocol",
+        "transport": "Transport",
+        "security": "Security",
+        "simpleMode": "Simple / Expert mode toggle",
+        "hint": "The master auto-syncs this inbound to every subscription."
+      },
+      "routed": {
+        "title": "Add routed node",
+        "desc": "Pick where traffic egresses; ingress is the source inbound, egress is the chosen node.",
+        "scope": "Scope",
+        "scopeAll": "Whole node",
+        "scopeAllDesc": "All users of the source inbound share this egress (current behaviour)",
+        "scopeUser": "Per user (routed outbound)",
+        "scopeUserDesc": "Creates a routed child node; once added to a package, subscribed users get a sub-account + rule.user automatically",
+        "tabRouted": "Pick a node",
+        "tabServer": "Pick a server",
+        "tabLB": "Pick a load balancer",
+        "hint": "Three tabs: pick another node, pick a server's default outbound, or pick a load balancer to fan out across egresses."
+      },
+      "routing": {
+        "title": "Node routing",
+        "desc": "View the inbound's exclusive rules + global rules. Global rules can't be edited here — head to Custom Rules.",
+        "exclusive": "Exclusive rules",
+        "noExclusive": "No exclusive rules — traffic follows the global ruleset",
+        "global": "Global rules (apply to all inbounds)",
+        "default": "Default outbound"
+      },
+      "tunnel": {
+        "title": "Tunnel manager",
+        "desc": "Manage every tunnel inbound (port-forward) across all servers. Tunnels are not listed in Nodes; delete them here.",
+        "hint": "Use case: transparently forward a port on one box to a port on another — bypassing in-between network restrictions."
+      },
+      "routedMgr": {
+        "title": "Routed outbound manager",
+        "desc": "Lists every routed child node for unified view / delete.",
+        "descHint": "A routed child shares its parent inbound but its traffic egresses through a separate outbound. Adding it to a package auto-provisions sub-accounts + rule.user when a user binds; unsubscribing offlines but keeps credentials for renewal.",
+        "addBtn": "New routed outbound",
+        "colParent": "Parent",
+        "colLabel": "Label / Name",
+        "colServer": "Server",
+        "colTag": "Outbound tag",
+        "colActions": "Ops"
+      }
+    },
+    "detail": {
+      "add": {
+        "heading": "Red — Add node (inbound)",
+        "text": "Opens the inbound wizard. Pick a protocol (VLESS / Trojan / SS / VMess / Hysteria2 / AnyTLS / Tunnel / Socks), then transport + security. Simple mode jumps straight to the must-fill fields (REALITY domain / cert path…); expert mode shows the generated Xray JSON live."
+      },
+      "routedRow": {
+        "heading": "Blue — Add routed child (inline)",
+        "text": "Inline button on a node row. Opens «Add routed node» with three add modes: pick another node as the egress / pick a server (its default outbound) / pick a load balancer (bundles multiple egresses). Scope can be «whole-node share» or «per-user isolation»."
+      },
+      "viewRow": {
+        "heading": "Green — View node routing (inline)",
+        "text": "Shows the effective routing for this inbound: «exclusive rules» plus the global rules (read-only here; edit them in Custom Rules)."
+      },
+      "tunnel": {
+        "heading": "Black — Tunnel manager",
+        "text": "Central manager for every tunnel inbound (xray «dokodemo-door»). Tunnel-type inbounds never appear in the Node list — this is the only place to delete them. Common use: transparently forward a port on box A to a port on box B."
+      },
+      "routedAll": {
+        "heading": "Yellow — Routed outbound manager (global)",
+        "text": "Global view of every routed child node — review / delete / add. Each routed child shares its parent inbound credential but routes traffic through its own outbound. Add it to a package → bound users auto-provision a sub-account + rule.user, achieving «per-user routed egress» at scale."
+      }
+    },
+    "dialog": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "close": "Close",
+      "addInbound": {
+        "title": "Add node",
+        "desc": "Configure inbound parameters",
+        "protocol": "Protocol",
+        "transport": "Transport",
+        "security": "Security",
+        "configMode": "Mode",
+        "simple": "Simple",
+        "expert": "Expert",
+        "nodeName": "Node name",
+        "nodeNameHint": "Display name; the flag emoji is picked automatically from the server IP",
+        "nodeNamePlaceholder": "Enter node name",
+        "realityDomain": "REALITY domain",
+        "realityDetecting": "Probing latency…",
+        "realityCustom": "Custom domain",
+        "detect": "Probe",
+        "jsonPreview": "JSON preview",
+        "jsonPreviewHint": "Live inbound config",
+        "savedToast": "Node added (mock)",
+        "realityPlaceholder": "Enter domain, e.g. www.microsoft.com",
+        "probingToast": "Probing domain… (mock)",
+        "userMgmt": "User management",
+        "clientConfig": "Client configuration",
+        "user": "User",
+        "uuidHint": "User UUID — generate with `xray uuid`",
+        "emailLabel": "Email (for traffic accounting)",
+        "emailHint": "User email identifier; empty falls back to UUID prefix"
+      },
+      "routed": {
+        "title": "Add routed node",
+        "desc": "Pick an egress node or server for \"{{name}}\"",
+        "scope": "Scope",
+        "scopeAll": "Whole node",
+        "scopeAllDesc": "All users of the source inbound share this egress (current behaviour)",
+        "scopeUser": "Per user (routed outbound)",
+        "scopeUserDesc": "Creates a routed child; once added to a package, bound users get a sub-account + rule.user automatically",
+        "tabNode": "Pick a node",
+        "tabServer": "Pick a server",
+        "tabLB": "Pick a load balancer",
+        "tabServerHint": "Pick another server and use its default outbound (mock demo)",
+        "tabLBHint": "Bundle multiple egresses into a load balancer; traffic is split by weight / random (mock demo)",
+        "searchPlaceholder": "Search node name, protocol, or tag…",
+        "filterAll": "All",
+        "filterDirect": "Direct",
+        "filterRouted": "Routed",
+        "autoExclude": "Chained-proxy nodes and the source node itself are auto-excluded",
+        "routedBadge": "Routed",
+        "pickedToast": "Picked {{name}} (mock)"
+      },
+      "routing": {
+        "title": "Node routing",
+        "nodeName": "HK GOMAMI",
+        "serverLabel": "Server",
+        "inboundLabel": "Inbound",
+        "exclusive": "Exclusive rules",
+        "forThisInbound": "for this inbound only",
+        "noExclusive": "No exclusive rules — global rules apply",
+        "global": "Global rules",
+        "forAllInbounds": "apply to all inbounds",
+        "default": "Default outbound",
+        "noRuleMatch": "when no rule matches",
+        "quickAdd": "Quick add",
+        "custom": "Custom rule",
+        "balancer": "Load balancer"
+      },
+      "tunnel": {
+        "title": "Tunnel manager",
+        "desc": "Manage every tunnel (dokodemo-door) inbound across all servers. Tunnels do not appear in the node list — delete them here.",
+        "empty": "No tunnel inbounds.",
+        "deletedToast": "Tunnel deleted (mock)"
+      },
+      "routedMgr": {
+        "title": "Routed outbound manager",
+        "addBtn": "New routed outbound",
+        "explainHeading": "About",
+        "explainP1": "A routed outbound is a virtual node attached under a physical node — it shares the parent inbound but its traffic egresses through a separate outbound.",
+        "explainP2": "Add this routed node to a package → users binding the package get a sub-account + rule.user automatically; unsubscribing offlines but keeps credentials for renewal.",
+        "colParent": "Parent",
+        "colLabel": "Label / Name",
+        "colCred": "Admin cred",
+        "colOps": "Ops",
+        "viewBtn": "View",
+        "deleteBtn": "Delete",
+        "empty": "No routed outbound children.",
+        "deletedToast": "Deleted (mock)"
+      }
     }
   }
 }

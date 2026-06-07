@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
+import { RoutedOutboundDemo } from '@/components/docs/routed-outbound-demo'
 
 export const Route = createFileRoute('/x/docs/routed-outbound')({
   component: RoutedOutboundPage,
@@ -15,6 +16,13 @@ function RoutedOutboundPage() {
       title={t('routedOutbound.title')}
       description={t('routedOutbound.description')}
     >
+      {/* mock 节点管理表 + 创建落地节点 Dialog */}
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('routedOutbound.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('routedOutbound.demo.description')}</p>
+        <RoutedOutboundDemo />
+      </section>
+
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('routedOutbound.twoModesHeading')}</h2>
         <p className='text-muted-foreground mb-4'>{t('routedOutbound.twoModesText')}</p>

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { AlertTriangle, Info } from 'lucide-react'
+import { RatelimitDemo } from '@/components/docs/ratelimit-demo'
 
 export const Route = createFileRoute('/x/docs/node-ratelimit')({
   component: NodeRateLimitPage,
@@ -13,6 +14,12 @@ function NodeRateLimitPage() {
 
   return (
     <XDocLayout title={t('nodeRatelimit.title')} description={t('nodeRatelimit.description')}>
+
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('nodeRatelimit.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('nodeRatelimit.demo.description')}</p>
+        <RatelimitDemo />
+      </section>
 
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('nodeRatelimit.overview')}</h2>

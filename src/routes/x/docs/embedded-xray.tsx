@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
 import { AlertTriangle, Info } from 'lucide-react'
+import { EmbeddedXrayDemo } from '@/components/docs/embedded-xray-demo'
 
 export const Route = createFileRoute('/x/docs/embedded-xray')({
   component: EmbeddedXrayPage,
@@ -13,6 +14,12 @@ function EmbeddedXrayPage() {
 
   return (
     <XDocLayout title={t('embeddedXray.title')} description={t('embeddedXray.description')}>
+
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('embeddedXray.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('embeddedXray.demo.description')}</p>
+        <EmbeddedXrayDemo />
+      </section>
 
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('embeddedXray.overview')}</h2>

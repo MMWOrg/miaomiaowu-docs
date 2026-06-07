@@ -177,6 +177,7 @@ const xNavStructure: XNavItemDef[] = [
     icon: HelpCircle,
     children: [
       { id: 'faq-carpool',             href: '/x/docs/faq-carpool',             icon: HelpCircle },
+      { id: 'faq-node-management',     href: '/x/docs/faq-node-management',     icon: HelpCircle },
       { id: 'faq-install-deploy',      href: '/x/docs/faq-install-deploy',      icon: HelpCircle },
       { id: 'faq-common-ops',          href: '/x/docs/faq-common-ops',          icon: HelpCircle },
       { id: 'faq-server-management',   href: '/x/docs/faq-server-management',   icon: HelpCircle },

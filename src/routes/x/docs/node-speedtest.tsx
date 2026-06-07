@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { XDocLayout } from '@/components/docs/x-doc-layout'
 import { Card, CardContent } from '@/components/ui/card'
+import { SpeedtestDemo } from '@/components/docs/speedtest-demo'
 
 export const Route = createFileRoute('/x/docs/node-speedtest')({
   component: NodeSpeedtestPage,
@@ -15,6 +16,13 @@ function NodeSpeedtestPage() {
       title={t('nodeSpeedtest.title')}
       description={t('nodeSpeedtest.description')}
     >
+      {/* 节点测速 mock 演示 */}
+      <section className='mb-10'>
+        <h2 className='text-2xl font-bold mb-4'>{t('nodeSpeedtest.demo.heading')}</h2>
+        <p className='text-muted-foreground mb-4'>{t('nodeSpeedtest.demo.description')}</p>
+        <SpeedtestDemo />
+      </section>
+
       <section className='mb-10'>
         <h2 className='text-2xl font-bold mb-4'>{t('nodeSpeedtest.overview')}</h2>
         <p className='text-muted-foreground mb-4'>{t('nodeSpeedtest.overviewText')}</p>
