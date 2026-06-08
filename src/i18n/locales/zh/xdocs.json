@@ -386,6 +386,14 @@
       "a3p4": "超额时按套餐配置自动停止返回节点或自动限速(看你怎么配)。",
       "q4": "我从妙妙屋(mmw)迁移过来,怎么看不到妙妙屋的原有功能?",
       "a4": "需要在「系统设置」里把「妙妙屋功能开关」打开。开启后顶部会出现妙妙屋相关菜单(订阅探针、订阅生成等),与妙妙屋X 的服务器管理 / 套餐 / 模板等功能并存。",
+      "q5": "管理员密码忘记了怎么办?",
+      "a5p1": "管理员密码不能通过任何 API 重置(包括 admin 自己调 reset-password 接口也会被拒绝),这是设计上的安全约束 — 防止 admin 互相改密码导致权限被夺。",
+      "a5p2": "唯一办法是 SSH 上服务器,直接改 SQLite 数据库的 password_hash 字段。完整步骤(以新密码 Mmwx@2026 为例):",
+      "a5p3": "1) 备份数据库:cd 到 mmwx 工作目录,执行 cp data/mmwx.db data/mmwx.db.bak-$(date +%s)",
+      "a5p4": "2) 生成 bcrypt hash(任选一种):a) Python: python3 -c \"import bcrypt; print(bcrypt.hashpw(b'Mmwx@2026', bcrypt.gensalt(10)).decode())\"  b) htpasswd(需装 apache2-utils): htpasswd -bnBC 10 '' 'Mmwx@2026' | tr -d ':\\n' | sed 's/\\$2y/\\$2a/'",
+      "a5p5": "3) 更新 SQL: sqlite3 data/mmwx.db \"UPDATE users SET password_hash='生成的hash', updated_at=CURRENT_TIMESTAMP WHERE username='admin' AND role='admin';\"",
+      "a5p6": "4) 如果同时丢了 TOTP 设备,顺手禁掉 2FA: sqlite3 data/mmwx.db \"UPDATE users SET totp_enabled=0, totp_secret='' WHERE username='admin' AND role='admin';\"",
+      "a5p7": "改完无需重启 mmwx — 登录校验每次现读 password_hash,下次登录立刻生效。登录后到「系统设置 → 修改密码」自己再改一次(SQL 里用过的 hash 不算严格私有),并到「用户管理」新建第二个 admin 账号作为备份,防止再发生此事。",
       "description": "日常操作中最常碰到的问题(订阅、节点、限额等)。"
     },
     "serverManagement": {

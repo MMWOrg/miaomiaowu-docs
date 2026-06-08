@@ -39,6 +39,15 @@ function Page() {
         <FaqItem q={t('faq.commonOps.q4')}>
           <p>{t('faq.commonOps.a4')}</p>
         </FaqItem>
+        <FaqItem q={t('faq.commonOps.q5')}>
+          <p>{t('faq.commonOps.a5p1')}</p>
+          <p>{t('faq.commonOps.a5p2')}</p>
+          <p>{t('faq.commonOps.a5p3')}</p>
+          <p>{t('faq.commonOps.a5p4')}</p>
+          <p>{t('faq.commonOps.a5p5')}</p>
+          <p>{t('faq.commonOps.a5p6')}</p>
+          <p>{t('faq.commonOps.a5p7')}</p>
+        </FaqItem>
       </section>
     </XDocLayout>
   )

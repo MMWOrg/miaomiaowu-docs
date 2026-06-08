@@ -386,6 +386,14 @@
       "a3p4": "When quota is exceeded, nodes are automatically removed from subscription or speed is limited based on your package configuration.",
       "q4": "I migrated from MiaoMiaoWu (mmw), why can't I see the original features?",
       "a4": "You need to enable the \"MiaoMiaoWu Features Toggle\" in \"System Settings\". Once enabled, MiaoMiaoWu-related menus (subscription probe, subscription generation, etc.) will appear in the top bar, coexisting with MiaoMiaoWu X features like server management, packages, and templates.",
+      "q5": "I forgot the admin password — how do I reset it?",
+      "a5p1": "The admin password cannot be reset via any API (even an admin calling the reset-password endpoint is rejected). This is an intentional safety constraint — preventing admins from changing each other's passwords and hijacking access.",
+      "a5p2": "The only way is to SSH into the server and update the password_hash field directly in the SQLite database. Full procedure (using Mmwx@2026 as the new password):",
+      "a5p3": "1) Back up the database: cd to the mmwx working directory, run cp data/mmwx.db data/mmwx.db.bak-$(date +%s)",
+      "a5p4": "2) Generate a bcrypt hash (pick one): a) Python: python3 -c \"import bcrypt; print(bcrypt.hashpw(b'Mmwx@2026', bcrypt.gensalt(10)).decode())\"  b) htpasswd (requires apache2-utils): htpasswd -bnBC 10 '' 'Mmwx@2026' | tr -d ':\\n' | sed 's/\\$2y/\\$2a/'",
+      "a5p5": "3) Update via SQL: sqlite3 data/mmwx.db \"UPDATE users SET password_hash='<generated hash>', updated_at=CURRENT_TIMESTAMP WHERE username='admin' AND role='admin';\"",
+      "a5p6": "4) If you also lost your TOTP device, disable 2FA at the same time: sqlite3 data/mmwx.db \"UPDATE users SET totp_enabled=0, totp_secret='' WHERE username='admin' AND role='admin';\"",
+      "a5p7": "No mmwx restart required — login verification re-reads password_hash on every attempt, so the new password takes effect immediately. After logging in, go to \"System Settings → Change Password\" and set a new password yourself (the hash you used via SQL is not strictly private), and create a second admin in \"User Management\" as a backup to prevent this happening again.",
       "description": "Everyday operations — subscriptions, nodes, quotas, etc."
     },
     "serverManagement": {
